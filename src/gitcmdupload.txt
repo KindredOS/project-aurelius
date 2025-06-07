@@ -1,0 +1,6 @@
+cmd /C "echo protocol=https&echo host=github.com" | git credential-manager erase
+git push origin main
+git status
+git add . 
+git commit -m "Update: [brief description of changes]"
+git push

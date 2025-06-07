@@ -1,0 +1,100 @@
+body.login-page {
+  margin: 0;
+  padding: 0;
+  background-image: url('../../assets/images/Login.png');
+  background-size: cover;
+  background-position: center;
+  font-family: Arial, sans-serif;
+  animation: fadeIn 2s ease-in;
+}
+
+.login-container {
+  max-width: 400px;
+  margin: 200px 0 0 50px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  text-align: left;
+  position: relative;
+  animation: slideIn 1.5s ease-in-out;
+}
+
+h1 {
+  text-align: left;
+  margin-bottom: 20px;
+  animation: fadeInText 1.5s ease-in-out;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  animation: fadeInText 1.5s ease-in-out;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  animation: fadeInButton 1.5s ease-in-out;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInText {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInButton {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+

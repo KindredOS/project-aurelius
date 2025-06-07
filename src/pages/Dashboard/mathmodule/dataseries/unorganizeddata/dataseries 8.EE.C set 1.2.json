@@ -1,0 +1,184 @@
+[
+  {
+    "id": "solving-equations-9",
+    "question": "Solve and verify: 3(x+ 10) + 5 = 11",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["solving-equations-10"]
+  },
+  {
+    "id": "solving-equations-10",
+    "question": "Solve and verify: 3t− 2 +t − 5 = −1",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["solving-equations-11"]
+  },
+  {
+    "id": "solving-equations-11",
+    "question": "Solve and verify: −24 = 2(1 − 5x) + 4",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-12"]
+  },
+  {
+    "id": "solving-equations-12",
+    "question": "Solve and verify: −2(a+ 3) + 4a= 18",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-13"]
+  },
+  {
+    "id": "solving-equations-13",
+    "question": "Solve and verify: 28 = 5x+ 3(x+ 4)",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-14"]
+  },
+  {
+    "id": "solving-equations-14",
+    "question": "Solve and verify: 4x− 3(x− 2) = 21",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-15"]
+  },
+  {
+    "id": "solving-equations-15",
+    "question": "Solve and verify: 0 = −2(x+ 5) + 3x",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-16"]
+  },
+  {
+    "id": "solving-equations-16",
+    "question": "Solve and verify: x = ?",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["solving-equations-17"]
+  },
+  {
+    "id": "solving-equations-17",
+    "question": "Solve and verify: 5 − 4(2b− 5) + 3b= 15",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-18"]
+  },
+  {
+    "id": "solving-equations-18",
+    "question": "Solve and verify: 10 = 3(x− 2) − 2(5x− 1)",
+    "answer": null,
+    "difficulty": "hard",
+    "next": ["solving-equations-19"]
+  },
+  {
+    "id": "solving-equations-19",
+    "question": "Solve and verify: 0.2(10t− 4) −t = 1.2",
+    "answer": null,
+    "difficulty": "hard",
+    "next": ["solving-equations-20"]
+  },
+  {
+    "id": "solving-equations-20",
+    "question": "Solve and verify: x = ?",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["solving-equations-21"]
+  },
+  {
+    "id": "solving-equations-21",
+    "question": "Solve and verify: x = ?",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["solving-equations-22"]
+  },
+  {
+    "id": "solving-equations-22",
+    "question": "Solve and verify: x = ?",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["solving-equations-23"]
+  },
+  {
+    "id": "solving-equations-23",
+    "question": "Solve and verify: −(x− 5) + 2 −x = 3",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["application-1"]
+  },
+  {
+    "id": "application-1",
+    "question": "Mia scored 75% and 82% on two quizzes. What must she score on a third quiz to average 80%?",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["application-2"]
+  },
+  {
+    "id": "application-2",
+    "question": "How should the emcee divide 100 $1 bills among 7 envelopes to pay any prize from $1 to $100 without redistributing?",
+    "answer": null,
+    "difficulty": "hard",
+    "next": ["conceptual-1"]
+  },
+  {
+    "id": "conceptual-1",
+    "question": "How could you change the number of shapes on a balanced hanger to keep it in balance?",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-24"]
+  },
+  {
+    "id": "solving-equations-24",
+    "question": "Solve and verify: x + 3x = 9 + x",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["solving-equations-25"]
+  },
+  {
+    "id": "solving-equations-25",
+    "question": "Solve and verify: 4c + 4 = c + 10",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["solving-equations-26"]
+  },
+  {
+    "id": "solving-equations-26",
+    "question": "Solve and verify: 3(4x − 1) = 2(5x − 7)",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-27"]
+  },
+  {
+    "id": "solving-equations-27",
+    "question": "Solve and verify: 3x + 10 + 2x = 2(x + 8)",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-28"]
+  },
+  {
+    "id": "solving-equations-28",
+    "question": "Solve and verify: 2(x + 8) = 2(2x + 1)",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-29"]
+  },
+  {
+    "id": "solving-equations-29",
+    "question": "Solve and verify: 4(x + 3) = x + 26 + x",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-30"]
+  },
+  {
+    "id": "solving-equations-30",
+    "question": "Solve and verify: 3a + 5(a − 2) = 6(a + 4)",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-31"]
+  },
+  {
+    "id": "solving-equations-31",
+    "question": "Solve and verify: 13 − (2c + 2) = 2(c + 2) + 3c",
+    "answer": null,
+    "difficulty": "medium",
+    "next": []
+  }
+]

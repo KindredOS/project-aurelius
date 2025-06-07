@@ -1,0 +1,21 @@
+.card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .section {
+    padding-top: 1rem;
+  }
+  
+  ul {
+    padding-left: 1.25rem;
+    line-height: 1.6;
+  }
+  
+  li {
+    margin-bottom: 0.5rem;
+    color: #333;
+  }

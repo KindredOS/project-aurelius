@@ -1,0 +1,231 @@
+{
+    "title": "Geometry Connections with Algebra - 25 Problem Sets",
+    "problems": [
+      {
+        "id": "GA1",
+        "question": "The length of a rectangle is 3 more than twice its width. If the area of the rectangle is 54 square units, what is its width?",
+        "answer": "Width = 3 units",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Area and Algebraic Expressions",
+        "next": ["GA2"]
+      },
+      {
+        "id": "GA2",
+        "question": "The base of a triangle is x cm and the height is (x + 4) cm. Write an expression for the area of the triangle in terms of x.",
+        "answer": "Area = 1/2 * x * (x + 4)",
+        "difficulty": "easy",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Area Expressions",
+        "next": ["GA3"]
+      },
+      {
+        "id": "GA3",
+        "question": "A right triangle has legs of lengths x and x + 2. Write an expression for the hypotenuse using the Pythagorean Theorem.",
+        "answer": "Hypotenuse = √(x^2 + (x + 2)^2)",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Pythagorean Theorem Expressions",
+        "next": ["GA4"]
+      },
+      {
+        "id": "GA4",
+        "question": "A square has a perimeter of 4x. Write an expression for the area of the square in terms of x.",
+        "answer": "Area = x^2",
+        "difficulty": "easy",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Perimeter and Area Relationships",
+        "next": ["GA5"]
+      },
+      {
+        "id": "GA5",
+        "question": "The sum of the interior angles of a polygon is 1260°. How many sides does the polygon have?",
+        "answer": "n = 9",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Interior Angle Formula",
+        "next": ["GA6"]
+      },
+      {
+        "id": "GA6",
+        "question": "The volume of a rectangular prism is given by V = lwh. If l = 2x, w = 3, and h = x, write an expression for the volume.",
+        "answer": "Volume = 6x^2",
+        "difficulty": "easy",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Volume Expressions",
+        "next": ["GA7"]
+      },
+      {
+        "id": "GA7",
+        "question": "The circumference of a circle is 2πx. Write an expression for the area of the circle in terms of x.",
+        "answer": "Area = πx^2",
+        "difficulty": "easy",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Circle Formulas",
+        "next": ["GA8"]
+      },
+      {
+        "id": "GA8",
+        "question": "A cylinder has a radius of r and a height of 2r. Write an expression for the volume in terms of r.",
+        "answer": "Volume = 2πr^3",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Volume of Solids",
+        "next": ["GA9"]
+      },
+      {
+        "id": "GA9",
+        "question": "The diagonals of a rhombus intersect at right angles. If one diagonal is x and the other is 2x, what is the area?",
+        "answer": "Area = x * x = x^2",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Area of Rhombus",
+        "next": ["GA10"]
+      },
+      {
+        "id": "GA10",
+        "question": "A cone has a height of x and a radius of 2x. Write an expression for the volume.",
+        "answer": "Volume = (4/3)πx^3",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Volume of Solids",
+        "next": ["GA11"]
+      },
+      {
+        "id": "GA11",
+        "question": "Two angles are complementary. One angle is 5x and the other is 2x. Find the value of x.",
+        "answer": "x = 10°",
+        "difficulty": "easy",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Angle Relationships",
+        "next": ["GA12"]
+      },
+      {
+        "id": "GA12",
+        "question": "Find the length of the diagonal of a square with side length x.",
+        "answer": "Diagonal = x√2",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Pythagorean Theorem",
+        "next": ["GA13"]
+      },
+      {
+        "id": "GA13",
+        "question": "The area of a trapezoid is given by A = 1/2(b1 + b2)h. If b1 = x, b2 = 2x, and h = 3, write an expression for the area.",
+        "answer": "Area = 1/2(x + 2x)(3) = (3/2)(3x) = (9/2)x",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Area of Trapezoids",
+        "next": ["GA14"]
+      },
+      {
+        "id": "GA14",
+        "question": "A cube has a surface area of 6x^2. What is the length of one edge?",
+        "answer": "Edge = x",
+        "difficulty": "easy",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Surface Area",
+        "next": ["GA15"]
+      },
+      {
+        "id": "GA15",
+        "question": "The volume of a sphere is 36π. Use the formula V = 4/3πr^3 to find r.",
+        "answer": "r = 3",
+        "difficulty": "hard",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Volume of a Sphere",
+        "next": ["GA16"]
+      },
+      {
+        "id": "GA16",
+        "question": "Find the area of a sector with central angle θ = 90° and radius x.",
+        "answer": "Area = (1/4)πx^2",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Area of Sector",
+        "next": ["GA17"]
+      },
+      {
+        "id": "GA17",
+        "question": "A triangle has side lengths of x, x + 1, and x + 2. If the perimeter is 18, find x.",
+        "answer": "x = 5",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Perimeter and Equations",
+        "next": ["GA18"]
+      },
+      {
+        "id": "GA18",
+        "question": "The angle of elevation from a point to the top of a pole is 45°. If the pole is x meters tall, express the horizontal distance to the base.",
+        "answer": "Distance = x meters",
+        "difficulty": "hard",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Trigonometry",
+        "next": ["GA19"]
+      },
+      {
+        "id": "GA19",
+        "question": "The base and height of a triangle are consecutive integers. If the area is 30, find the base and height.",
+        "answer": "Base = 5, Height = 6 or vice versa",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Area and Integer Solutions",
+        "next": ["GA20"]
+      },
+      {
+        "id": "GA20",
+        "question": "A rectangle has a length of x and a diagonal of (x + 4). Use the Pythagorean Theorem to express the width.",
+        "answer": "Width = √((x + 4)^2 − x^2)",
+        "difficulty": "hard",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Diagonal and Right Triangles",
+        "next": ["GA21"]
+      },
+      {
+        "id": "GA21",
+        "question": "If the circumference of a circle is 10π, what is the diameter?",
+        "answer": "Diameter = 10",
+        "difficulty": "easy",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Circumference Relationships",
+        "next": ["GA22"]
+      },
+      {
+        "id": "GA22",
+        "question": "A triangle has side lengths of 3x, 4x, and 5x. Prove it is a right triangle.",
+        "answer": "(3x)^2 + (4x)^2 = (5x)^2",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Pythagorean Triples",
+        "next": ["GA23"]
+      },
+      {
+        "id": "GA23",
+        "question": "Find the area of a triangle with vertices at (0,0), (x,0), and (0,x).",
+        "answer": "Area = 1/2 * x * x = x^2 / 2",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Coordinate Geometry",
+        "next": ["GA24"]
+      },
+      {
+        "id": "GA24",
+        "question": "The sum of the lengths of two sides of a triangle is 15, and the third side is x. Write an inequality for a valid triangle.",
+        "answer": "x < 15",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Triangle Inequality",
+        "next": ["GA25"]
+      },
+      {
+        "id": "GA25",
+        "question": "The diameter of a circle is x. Write an expression for the area of the circle.",
+        "answer": "Area = π(x/2)^2 = (πx^2)/4",
+        "difficulty": "medium",
+        "concept": "Geometry & Algebra",
+        "subconcept": "Circle Formulas",
+        "next": []
+      }
+    ]
+  }
+  

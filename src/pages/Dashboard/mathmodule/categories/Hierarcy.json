@@ -1,0 +1,106 @@
+{
+    "concepts": {
+      "Expressions & Equations": {
+        "subcategories": [
+          "Simplifying Expressions",
+          "Solving One-Step Equations",
+          "Solving Multi-Step Equations",
+          "Translating Words to Algebra"
+        ],
+        "prerequisites": [],
+        "next": ["Linear Functions", "Inequalities"]
+      },
+      "Ratios & Proportional Relationships": {
+        "subcategories": [
+          "Unit Rates",
+          "Proportions",
+          "Percent Problems"
+        ],
+        "prerequisites": [],
+        "next": ["Linear Functions"]
+      },
+      "Linear Functions": {
+        "subcategories": [
+          "Understanding Slope",
+          "Interpreting Y-Intercept",
+          "Graphing Linear Equations",
+          "Writing Linear Equations from Context"
+        ],
+        "prerequisites": ["Expressions & Equations", "Ratios & Proportional Relationships"],
+        "next": ["Functions", "Systems of Equations"]
+      },
+      "Inequalities": {
+        "subcategories": [
+          "Solving Inequalities",
+          "Graphing Solutions on a Number Line",
+          "Real-World Inequality Applications"
+        ],
+        "prerequisites": ["Expressions & Equations"],
+        "next": ["Functions"]
+      },
+      "Functions": {
+        "subcategories": [
+          "Identifying Functions",
+          "Function Notation",
+          "Input-Output Tables"
+        ],
+        "prerequisites": ["Linear Functions", "Inequalities"],
+        "next": ["Statistics & Data Representations"]
+      },
+      "Systems of Equations": {
+        "subcategories": [
+          "Solving by Graphing",
+          "Solving by Substitution",
+          "Solving by Elimination"
+        ],
+        "prerequisites": ["Expressions & Equations", "Linear Functions"],
+        "next": []
+      },
+      "Factoring": {
+        "subcategories": [
+          "Distributive Property",
+          "Finding Greatest Common Factor",
+          "Factoring Basic Expressions"
+        ],
+        "prerequisites": ["Expressions & Equations"],
+        "next": ["Rational Expressions"]
+      },
+      "Exponents & Powers": {
+        "subcategories": [
+          "Laws of Exponents",
+          "Scientific Notation",
+          "Square and Cube Roots"
+        ],
+        "prerequisites": [],
+        "next": ["Rational Expressions"]
+      },
+      "Rational Expressions": {
+        "subcategories": [
+          "Simplifying Rational Expressions",
+          "Adding/Subtracting Rational Expressions",
+          "Multiplying/Dividing Rational Expressions"
+        ],
+        "prerequisites": ["Factoring", "Exponents & Powers"],
+        "next": []
+      },
+      "Geometry Connections with Algebra": {
+        "subcategories": [
+          "Solving for Unknown Angles",
+          "Area and Perimeter with Variables",
+          "Volume Formulas with Expressions"
+        ],
+        "prerequisites": ["Expressions & Equations"],
+        "next": []
+      },
+      "Statistics & Data Representations": {
+        "subcategories": [
+          "Scatter Plots",
+          "Line of Best Fit",
+          "Interpreting Graphical Data"
+        ],
+        "prerequisites": ["Functions"],
+        "next": []
+      }
+    }
+  }
+  

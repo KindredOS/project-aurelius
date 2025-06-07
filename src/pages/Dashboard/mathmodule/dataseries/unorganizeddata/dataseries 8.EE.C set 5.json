@@ -1,0 +1,205 @@
+{
+  "title": "Foundations for Algebra - 50 Problem Sets (Extension)",
+  "problems": [
+    {
+      "number": 201,
+      "question": "Mai was trying to solve an inequality. She skipped the step of testing points, which led to an error. She reasoned, 'Because the problem has a greater than sign, I wrote...'. Help Mai test points to determine the correct solution to the inequality. Show your work below."
+    },
+    {
+      "number": 202,
+      "question": "Explain to Mai what went wrong with her reasoning."
+    },
+    {
+      "number": 203,
+      "question": "You forward an e-card to three friends. They forward it to four friends, who do the same. The total number of people who see the card is shown below:\nS1 = 3\nS2 = 3 + 3×4\nS3 = 3 + 3×4 + 3×4^2\nS4 = 3 + 3×4 + 3×4^2 + 3×4^3\nFind and write out the pattern in the equations."
+    },
+    {
+      "number": 204,
+      "question": "Assuming the trend continues, how many people will have seen the e-card after 10 steps? Do not include units in your answer."
+    },
+    {
+      "number": 205,
+      "question": "How many people will have seen the e-card after n steps? Do not include units in your answer."
+    },
+    {
+      "number": 206,
+      "question": "The following is a model of an equation. Write the symbolic representation (equation) for this model."
+    },
+    {
+      "number": 207,
+      "question": "Solve the equation. x = ___"
+    },
+    {
+      "number": 208,
+      "question": "To own and operate a printer, it costs $100 plus $0.05 per page. At a store, it costs $0.25 per page. What does the equation 100 + 0.05p = 0.25p represent?"
+    },
+    {
+      "number": 209,
+      "question": "The solution to that equation is p = 500. What does this mean?"
+    },
+    {
+      "number": 210,
+      "question": "In this problem, a mistake has been made. Identify the line with the mistake:\n7 + 2(3x + 4) = 3\n7 + 6x + 4 = 3\n11 + 6x = 3\n6x = -8\nx = -8/6\nx = -4/3"
+    },
+    {
+      "number": 211,
+      "question": "Explain the mistake."
+    },
+    {
+      "number": 212,
+      "question": "Solve the problem correctly. x = ___"
+    },
+    {
+      "number": 213,
+      "question": "A mistake has been made. Identify the line with the mistake:\n−2(y − 3) + 5 = 3\n−2y − 6 + 5 = 3\n−2y − 1 = 3\n−2y = 4\ny = −2"
+    },
+    {
+      "number": 214,
+      "question": "Explain the mistake."
+    },
+    {
+      "number": 215,
+      "question": "Solve the problem correctly. y = ___"
+    },
+    {
+      "number": 216,
+      "question": "This is a model of an equation. Write the symbolic representation."
+    },
+    {
+      "number": 217,
+      "question": "Solve the equation. x = ___"
+    },
+    {
+      "number": 218,
+      "question": "A mistake has been made. Identify the line with the mistake:\n5 − (2x − 7) = 14\n5 − 2x − 7 = 14\n−2 − 2x = 14\n−2x = 16\nx = −8"
+    },
+    {
+      "number": 219,
+      "question": "Explain the mistake."
+    },
+    {
+      "number": 220,
+      "question": "Solve the problem correctly. x = ___"
+    },
+    {
+      "number": 221,
+      "question": "A mistake has been made. Identify the line with the mistake:\n(x + 15) = 11\nx + 5 = 11\nx = 6\nx = 2"
+    },
+    {
+      "number": 222,
+      "question": "Explain the mistake."
+    },
+    {
+      "number": 223,
+      "question": "Solve the problem correctly. x = ___"
+    },
+    {
+      "number": 224,
+      "question": "The expressions below show the grams of fat in sandwiches at a fast food restaurant. Use these expressions and the equation to write a story:\n3f + 2(f + 11) + 4(2f) = 204"
+    },
+    {
+      "number": 225,
+      "question": "Use the expressions to determine the fat grams in a Crispy Chicken."
+    },
+    {
+      "number": 226,
+      "question": "Use the expressions to determine the fat grams in a single burger with cheese."
+    },
+    {
+      "number": 227,
+      "question": "Use the expressions to determine the fat grams in a double burger with cheese."
+    },
+    {
+      "number": 228,
+      "question": "Solve the following equation for y. y = ___. Use x as your variable."
+    },
+    {
+      "number": 229,
+      "question": "Based on your transformed equation, what is the slope of the linear equation?"
+    },
+    {
+      "number": 230,
+      "question": "Complete the table to find solutions to the linear equation."
+    },
+    {
+      "number": 231,
+      "question": "Graph the points on the coordinate plane."
+    },
+    {
+      "number": 232,
+      "question": "Find the slope between any two points."
+    },
+    {
+      "number": 233,
+      "question": "Confirm that the slope you found matches the one from part (a) and draw the line."
+    },
+    {
+      "number": 234,
+      "question": "Note the ordered pair where the line intersects the y-axis."
+    },
+    {
+      "number": 235,
+      "question": "Solve the following equation for y. y = ___. Use x as your variable."
+    },
+    {
+      "number": 236,
+      "question": "Based on your transformed equation, what is the slope of the linear equation?"
+    },
+    {
+      "number": 237,
+      "question": "Complete the table to find solutions to the linear equation."
+    },
+    {
+      "number": 238,
+      "question": "Graph the points on the coordinate plane."
+    },
+    {
+      "number": 239,
+      "question": "Find the slope between any two points."
+    },
+    {
+      "number": 240,
+      "question": "Confirm that the slope you found matches the one from part (a) and draw the line."
+    },
+    {
+      "number": 241,
+      "question": "Note the ordered pair where the line intersects the y-axis."
+    },
+    {
+      "number": 242,
+      "question": "Solve the following equation for y. y = ___. Use x as your variable."
+    },
+    {
+      "number": 243,
+      "question": "Based on your transformed equation, what is the slope of the linear equation?"
+    },
+    {
+      "number": 244,
+      "question": "Complete the table to find solutions to the linear equation."
+    },
+    {
+      "number": 245,
+      "question": "Graph the points on the coordinate plane."
+    },
+    {
+      "number": 246,
+      "question": "Find the slope between any two points."
+    },
+    {
+      "number": 247,
+      "question": "Confirm that the slope you found matches the one from part (a) and draw the line."
+    },
+    {
+      "number": 248,
+      "question": "Note the ordered pair where the line intersects the y-axis."
+    },
+    {
+      "number": 249,
+      "question": "Solve the following equation for y. y = ___. Use x as your variable."
+    },
+    {
+      "number": 250,
+      "question": "Based on your transformed equation, what is the slope of the linear equation?"
+    }
+  ]
+}

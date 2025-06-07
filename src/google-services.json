@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "188323388671",
+    "project_id": "storybook-87da3",
+    "storage_bucket": "storybook-87da3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188323388671:android:5a951a4ca18733828f00ca",
+        "android_client_info": {
+          "package_name": "com.kindredOS.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCawkL3ts7yXIHQh4QGSoeu6f8RoMfAnpg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

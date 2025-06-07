@@ -1,0 +1,231 @@
+{
+    "title": "Statistics and Data Representations - 25 Problem Sets",
+    "problems": [
+      {
+        "id": "SD1",
+        "question": "Find the mean of the data set: 4, 7, 6, 9, 10",
+        "answer": "Mean = 7.2",
+        "difficulty": "easy",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Measures of Center",
+        "next": ["SD2"]
+      },
+      {
+        "id": "SD2",
+        "question": "Find the median of the data set: 3, 5, 7, 9, 11",
+        "answer": "Median = 7",
+        "difficulty": "easy",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Measures of Center",
+        "next": ["SD3"]
+      },
+      {
+        "id": "SD3",
+        "question": "Find the mode of the data set: 2, 4, 4, 5, 6",
+        "answer": "Mode = 4",
+        "difficulty": "easy",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Measures of Center",
+        "next": ["SD4"]
+      },
+      {
+        "id": "SD4",
+        "question": "Find the range of the data set: 8, 3, 5, 7, 10",
+        "answer": "Range = 7",
+        "difficulty": "easy",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Measures of Variation",
+        "next": ["SD5"]
+      },
+      {
+        "id": "SD5",
+        "question": "What is the mean of 12, 15, 11, 14, 13?",
+        "answer": "Mean = 13",
+        "difficulty": "easy",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Measures of Center",
+        "next": ["SD6"]
+      },
+      {
+        "id": "SD6",
+        "question": "Create a bar graph for the number of pets: Dogs = 5, Cats = 3, Fish = 2",
+        "answer": "Bar graph with three bars at heights 5, 3, and 2 respectively",
+        "difficulty": "medium",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Bar Graphs",
+        "next": ["SD7"]
+      },
+      {
+        "id": "SD7",
+        "question": "Identify the outlier: 4, 5, 6, 100, 7, 5",
+        "answer": "Outlier = 100",
+        "difficulty": "medium",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Outliers",
+        "next": ["SD8"]
+      },
+      {
+        "id": "SD8",
+        "question": "How does an outlier affect the mean?",
+        "answer": "It can increase or decrease the mean significantly",
+        "difficulty": "medium",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Effect of Outliers",
+        "next": ["SD9"]
+      },
+      {
+        "id": "SD9",
+        "question": "Find the interquartile range (IQR) of: 2, 4, 6, 8, 10, 12, 14",
+        "answer": "IQR = 8",
+        "difficulty": "medium",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "IQR",
+        "next": ["SD10"]
+      },
+      {
+        "id": "SD10",
+        "question": "What is the median of: 22, 25, 29, 32, 34, 35, 36, 40, 45?",
+        "answer": "Median = 34",
+        "difficulty": "easy",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Measures of Center",
+        "next": ["SD11"]
+      },
+      {
+        "id": "SD11",
+        "question": "What is the range of: 100, 101, 105, 107, 108?",
+        "answer": "Range = 8",
+        "difficulty": "easy",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Measures of Variation",
+        "next": ["SD12"]
+      },
+      {
+        "id": "SD12",
+        "question": "Which measure of center is best for a skewed distribution?",
+        "answer": "Median",
+        "difficulty": "medium",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Choosing Measures of Center",
+        "next": ["SD13"]
+      },
+      {
+        "id": "SD13",
+        "question": "How many data points are above the median in: 5, 6, 7, 8, 9, 10, 11?",
+        "answer": "3",
+        "difficulty": "easy",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Understanding Medians",
+        "next": ["SD14"]
+      },
+      {
+        "id": "SD14",
+        "question": "Create a line plot for the following: 2, 2, 3, 3, 3, 4, 5",
+        "answer": "Line plot with appropriate frequencies marked for each value",
+        "difficulty": "medium",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Line Plots",
+        "next": ["SD15"]
+      },
+      {
+        "id": "SD15",
+        "question": "What is the mode of: 1, 2, 2, 3, 4, 4, 4, 5?",
+        "answer": "Mode = 4",
+        "difficulty": "easy",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Measures of Center",
+        "next": ["SD16"]
+      },
+      {
+        "id": "SD16",
+        "question": "Construct a histogram from: 1–10: 5, 11–20: 8, 21–30: 3",
+        "answer": "Histogram with bars of heights 5, 8, and 3",
+        "difficulty": "medium",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Histograms",
+        "next": ["SD17"]
+      },
+      {
+        "id": "SD17",
+        "question": "Identify which data display is best for showing change over time",
+        "answer": "Line graph",
+        "difficulty": "medium",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Choosing Data Displays",
+        "next": ["SD18"]
+      },
+      {
+        "id": "SD18",
+        "question": "What does the height of a bar in a bar graph represent?",
+        "answer": "The frequency or quantity of the category",
+        "difficulty": "easy",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Bar Graphs",
+        "next": ["SD19"]
+      },
+      {
+        "id": "SD19",
+        "question": "Which graph is best to compare parts of a whole?",
+        "answer": "Pie chart",
+        "difficulty": "medium",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Choosing Data Displays",
+        "next": ["SD20"]
+      },
+      {
+        "id": "SD20",
+        "question": "Find the mean absolute deviation (MAD) of: 2, 4, 6, 8, 10",
+        "answer": "MAD = 2.4",
+        "difficulty": "hard",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Mean Absolute Deviation",
+        "next": ["SD21"]
+      },
+      {
+        "id": "SD21",
+        "question": "Identify the median in a box plot",
+        "answer": "The line inside the box",
+        "difficulty": "easy",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Box Plots",
+        "next": ["SD22"]
+      },
+      {
+        "id": "SD22",
+        "question": "What does the length of the box in a box plot represent?",
+        "answer": "Interquartile range (IQR)",
+        "difficulty": "medium",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Box Plots",
+        "next": ["SD23"]
+      },
+      {
+        "id": "SD23",
+        "question": "Identify the mode in a dot plot",
+        "answer": "The number with the most dots",
+        "difficulty": "easy",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Dot Plots",
+        "next": ["SD24"]
+      },
+      {
+        "id": "SD24",
+        "question": "When is a histogram preferred over a bar graph?",
+        "answer": "When data is continuous and numerical",
+        "difficulty": "medium",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Choosing Data Displays",
+        "next": ["SD25"]
+      },
+      {
+        "id": "SD25",
+        "question": "Create a stem-and-leaf plot from: 12, 15, 22, 24, 25",
+        "answer": "1 | 2 5; 2 | 2 4 5",
+        "difficulty": "medium",
+        "concept": "Statistics and Data Representations",
+        "subconcept": "Stem-and-Leaf Plots",
+        "next": []
+      }
+    ]
+  }
+  

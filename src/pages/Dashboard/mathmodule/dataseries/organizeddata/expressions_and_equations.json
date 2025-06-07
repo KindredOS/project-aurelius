@@ -1,0 +1,231 @@
+{
+    "title": "Expressions and Equations - 25 Problem Sets",
+    "problems": [
+      {
+        "id": "EE1",
+        "question": "Simplify the expression: 4x + 3 − 2x + 5",
+        "answer": "2x + 8",
+        "difficulty": "easy",
+        "concept": "Expressions & Equations",
+        "subconcept": "Combining Like Terms",
+        "next": ["EE2"]
+      },
+      {
+        "id": "EE2",
+        "question": "Solve for x: 3x − 5 = 16",
+        "answer": "x = 7",
+        "difficulty": "easy",
+        "concept": "Expressions & Equations",
+        "subconcept": "Solving One-Step Equations",
+        "next": ["EE3"]
+      },
+      {
+        "id": "EE3",
+        "question": "Factor the expression: x^2 + 5x + 6",
+        "answer": "(x + 2)(x + 3)",
+        "difficulty": "medium",
+        "concept": "Expressions & Equations",
+        "subconcept": "Factoring Trinomials",
+        "next": ["EE4"]
+      },
+      {
+        "id": "EE4",
+        "question": "Simplify: 2(x + 3) + 4(x − 1)",
+        "answer": "6x + 2",
+        "difficulty": "easy",
+        "concept": "Expressions & Equations",
+        "subconcept": "Distributive Property",
+        "next": ["EE5"]
+      },
+      {
+        "id": "EE5",
+        "question": "Solve for x: 2x + 3 = 7",
+        "answer": "x = 2",
+        "difficulty": "easy",
+        "concept": "Expressions & Equations",
+        "subconcept": "Solving One-Step Equations",
+        "next": ["EE6"]
+      },
+      {
+        "id": "EE6",
+        "question": "Solve: x/3 + 5 = 9",
+        "answer": "x = 12",
+        "difficulty": "easy",
+        "concept": "Expressions & Equations",
+        "subconcept": "Solving Two-Step Equations",
+        "next": ["EE7"]
+      },
+      {
+        "id": "EE7",
+        "question": "Factor completely: x^2 − 9",
+        "answer": "(x + 3)(x − 3)",
+        "difficulty": "medium",
+        "concept": "Expressions & Equations",
+        "subconcept": "Difference of Squares",
+        "next": ["EE8"]
+      },
+      {
+        "id": "EE8",
+        "question": "Evaluate when x = 2: 3x^2 − x + 4",
+        "answer": "14",
+        "difficulty": "easy",
+        "concept": "Expressions & Equations",
+        "subconcept": "Substitution",
+        "next": ["EE9"]
+      },
+      {
+        "id": "EE9",
+        "question": "Simplify: 5a − 2(a − 3)",
+        "answer": "3a + 6",
+        "difficulty": "easy",
+        "concept": "Expressions & Equations",
+        "subconcept": "Distributive Property and Combining Like Terms",
+        "next": ["EE10"]
+      },
+      {
+        "id": "EE10",
+        "question": "Solve: 4x − 7 = 2x + 5",
+        "answer": "x = 6",
+        "difficulty": "medium",
+        "concept": "Expressions & Equations",
+        "subconcept": "Solving Multi-Step Equations",
+        "next": ["EE11"]
+      },
+      {
+        "id": "EE11",
+        "question": "Solve: 2(x − 4) = x + 3",
+        "answer": "x = 11",
+        "difficulty": "medium",
+        "concept": "Expressions & Equations",
+        "subconcept": "Solving Equations with Parentheses",
+        "next": ["EE12"]
+      },
+      {
+        "id": "EE12",
+        "question": "Factor: x^2 + 4x",
+        "answer": "x(x + 4)",
+        "difficulty": "easy",
+        "concept": "Expressions & Equations",
+        "subconcept": "Factoring Common Factors",
+        "next": ["EE13"]
+      },
+      {
+        "id": "EE13",
+        "question": "Simplify: 2(x + 5) − 3(x − 2)",
+        "answer": "−x + 16",
+        "difficulty": "medium",
+        "concept": "Expressions & Equations",
+        "subconcept": "Distributive Property and Combining Like Terms",
+        "next": ["EE14"]
+      },
+      {
+        "id": "EE14",
+        "question": "Solve: 3(x + 2) = 2x + 15",
+        "answer": "x = 9",
+        "difficulty": "medium",
+        "concept": "Expressions & Equations",
+        "subconcept": "Solving Multi-Step Equations",
+        "next": ["EE15"]
+      },
+      {
+        "id": "EE15",
+        "question": "Factor the expression: x^2 − 2x − 8",
+        "answer": "(x − 4)(x + 2)",
+        "difficulty": "medium",
+        "concept": "Expressions & Equations",
+        "subconcept": "Factoring Trinomials",
+        "next": ["EE16"]
+      },
+      {
+        "id": "EE16",
+        "question": "Evaluate: 2x^2 + 3x − 1 when x = −2",
+        "answer": "3",
+        "difficulty": "easy",
+        "concept": "Expressions & Equations",
+        "subconcept": "Substitution",
+        "next": ["EE17"]
+      },
+      {
+        "id": "EE17",
+        "question": "Solve: −5x + 2 = 3x − 6",
+        "answer": "x = 1",
+        "difficulty": "medium",
+        "concept": "Expressions & Equations",
+        "subconcept": "Solving Equations with Variables on Both Sides",
+        "next": ["EE18"]
+      },
+      {
+        "id": "EE18",
+        "question": "Factor: x^2 − 25",
+        "answer": "(x + 5)(x − 5)",
+        "difficulty": "easy",
+        "concept": "Expressions & Equations",
+        "subconcept": "Difference of Squares",
+        "next": ["EE19"]
+      },
+      {
+        "id": "EE19",
+        "question": "Simplify: (x + 2)^2 − x^2",
+        "answer": "4x + 4",
+        "difficulty": "hard",
+        "concept": "Expressions & Equations",
+        "subconcept": "Expanding Binomials",
+        "next": ["EE20"]
+      },
+      {
+        "id": "EE20",
+        "question": "Solve: 5(x − 2) = 3x + 6",
+        "answer": "x = 8",
+        "difficulty": "medium",
+        "concept": "Expressions & Equations",
+        "subconcept": "Solving Multi-Step Equations",
+        "next": ["EE21"]
+      },
+      {
+        "id": "EE21",
+        "question": "Factor the trinomial: x^2 − x − 12",
+        "answer": "(x − 4)(x + 3)",
+        "difficulty": "medium",
+        "concept": "Expressions & Equations",
+        "subconcept": "Factoring Trinomials",
+        "next": ["EE22"]
+      },
+      {
+        "id": "EE22",
+        "question": "Evaluate the expression: 3x^2 − 2x + 1 when x = 3",
+        "answer": "22",
+        "difficulty": "easy",
+        "concept": "Expressions & Equations",
+        "subconcept": "Substitution",
+        "next": ["EE23"]
+      },
+      {
+        "id": "EE23",
+        "question": "Solve: x/4 − 2 = 3",
+        "answer": "x = 20",
+        "difficulty": "easy",
+        "concept": "Expressions & Equations",
+        "subconcept": "Solving Rational Equations",
+        "next": ["EE24"]
+      },
+      {
+        "id": "EE24",
+        "question": "Simplify the expression: 7(x − 1) − 2(x + 3)",
+        "answer": "5x − 13",
+        "difficulty": "medium",
+        "concept": "Expressions & Equations",
+        "subconcept": "Distributive Property and Combining Like Terms",
+        "next": ["EE25"]
+      },
+      {
+        "id": "EE25",
+        "question": "Solve: 3(x + 4) − 2 = x + 10",
+        "answer": "x = 2",
+        "difficulty": "medium",
+        "concept": "Expressions & Equations",
+        "subconcept": "Solving Equations with Parentheses",
+        "next": []
+      }
+    ]
+  }
+  

@@ -1,0 +1,205 @@
+{
+  "title": "Foundations for Algebra - 50 Problem Sets (Extension)",
+  "problems": [
+    {
+      "number": 151,
+      "question": "You have a coupon worth $18 off the purchase of a scientific calculator. The calculator is also being offered at a discount of 15% off. You can only use either the coupon or the discount, but not both. Write a linear equation to represent using the coupon. Use x for the cost of the calculator and y for the cost after the coupon. Complete the equation below y = _______________"
+    },
+    {
+      "number": 152,
+      "question": "Write a linear equation to represent using the discount. Use x for the cost of the calculator and y for the cost after the discount."
+    },
+    {
+      "number": 153,
+      "question": "For what tag price on the calculator would you pay the same amount with either the discount or the coupon?"
+    },
+    {
+      "number": 154,
+      "question": "Complete the equation so that it is true for all values of x: 3x = 6 = 3(x + __)"
+    },
+    {
+      "number": 155,
+      "question": "Complete the equation so that it is true for all values of x: x − 2 = −( −x)"
+    },
+    {
+      "number": 156,
+      "question": "Complete the equation so that it is true for all values of x: (15x − 10)/5 = −2. Use x as your variable."
+    },
+    {
+      "number": 157,
+      "question": "Complete the equation so that it is true for no values of x: 3x + 6 = 3(x + __)"
+    },
+    {
+      "number": 158,
+      "question": "Complete the equation so that it is true for no values of x: x − 2 = −(__ − x)"
+    },
+    {
+      "number": 159,
+      "question": "Complete the equation so that it is true for no values of x: (15x − 10)/5 = __ − 2"
+    },
+    {
+      "number": 160,
+      "question": "Describe how you know whether an equation will be true for all values of x or true for no values of x."
+    },
+    {
+      "number": 161,
+      "question": "The solution below has something wrong. Identify the place that it is wrong."
+    },
+    {
+      "number": 162,
+      "question": "What is the correct answer?"
+    },
+    {
+      "number": 163,
+      "question": "The solution below has something wrong. Identify the place that it is wrong."
+    },
+    {
+      "number": 164,
+      "question": "What is the correct answer?"
+    },
+    {
+      "number": 165,
+      "question": "The solution below has something wrong. Identify the place that it is wrong."
+    },
+    {
+      "number": 166,
+      "question": "What is the correct answer?"
+    },
+    {
+      "number": 167,
+      "question": "Write the following statement as a mathematical expression. Let x be a number. The sum of thirteen and twice a number."
+    },
+    {
+      "number": 168,
+      "question": "Is the expression linear or non-linear?"
+    },
+    {
+      "number": 169,
+      "question": "The solution below has something wrong. Identify the place that it is wrong."
+    },
+    {
+      "number": 170,
+      "question": "What is the correct answer?"
+    },
+    {
+      "number": 171,
+      "question": "In the diagram below, △ABC ~ △A′B′C′. Determine the lengths of AC and A′C′. What is the length of AC? Do not include units (cm) in your answer."
+    },
+    {
+      "number": 172,
+      "question": "In the diagram below, △ABC ~ △A′B′C′. Determine the lengths of BC and B′C′. What is the length of BC? Do not include units (cm) in your answer."
+    },
+    {
+      "number": 173,
+      "question": "Three consecutive odd integers have a sum of 3. What are the numbers? Write an equation that you could use to solve this problem."
+    },
+    {
+      "number": 174,
+      "question": "What is the smallest number?"
+    },
+    {
+      "number": 175,
+      "question": "What is the middle number (neither the least nor greatest)?"
+    },
+    {
+      "number": 176,
+      "question": "What is the largest number?"
+    },
+    {
+      "number": 177,
+      "question": "The solution below has something wrong. Identify the place that it is wrong."
+    },
+    {
+      "number": 178,
+      "question": "What is the correct answer?"
+    },
+    {
+      "number": 179,
+      "question": "Without solving them, say whether each of these equations has a positive solution, a negative solution, a zero solution, or no solution. Explain your answers. (a) 3x = 5"
+    },
+    {
+      "number": 180,
+      "question": "(b) 5z + 7 = 3"
+    },
+    {
+      "number": 181,
+      "question": "(c) 7 − 5w = 3"
+    },
+    {
+      "number": 182,
+      "question": "(d) 4a = 9a"
+    },
+    {
+      "number": 183,
+      "question": "(e) y = y + 1"
+    },
+    {
+      "number": 184,
+      "question": "Solve each equation mentally. x = _____"
+    },
+    {
+      "number": 185,
+      "question": "Solve each equation mentally. x = _____"
+    },
+    {
+      "number": 186,
+      "question": "Solve each equation mentally. x = _____"
+    },
+    {
+      "number": 187,
+      "question": "Solve each equation mentally. x = _____"
+    },
+    {
+      "number": 188,
+      "question": "Each month, Liz pays $35 to her phone company just to use the phone. Each text she sends costs her an additional $0.05. In March, her phone bill was $72.60. In April, her phone bill was $65.85. How many texts did she send each month? Write an equation that you could use to solve this problem."
+    },
+    {
+      "number": 189,
+      "question": "How many texts in March? Do not include units (texts) in your answer."
+    },
+    {
+      "number": 190,
+      "question": "How many texts in April? Do not include units (texts) in your answer."
+    },
+    {
+      "number": 191,
+      "question": "The sum of four consecutive integers is 74. Write an equation that represents the problem."
+    },
+    {
+      "number": 192,
+      "question": "What are the numbers? Enter the numbers in the format 1,2,3,4 in ascending order, with no spaces between the commas"
+    },
+    {
+      "number": 193,
+      "question": "Write the following statement as a mathematical expression. Let x be a number. The quotient of two and a number, subtracted from seventeen."
+    },
+    {
+      "number": 194,
+      "question": "Is the expression linear or non-linear?"
+    },
+    {
+      "number": 195,
+      "question": "Explain."
+    },
+    {
+      "number": 196,
+      "question": "The solution below has something wrong. Identify the place that it is wrong."
+    },
+    {
+      "number": 197,
+      "question": "What is the correct answer?"
+    },
+    {
+      "number": 198,
+      "question": "Write the following statement as a mathematical expression. Let x be a number. A number decreased by three squared. Use the ^ symbol to represent an exponent. For example: 5 squared should be typed as 5^2"
+    },
+    {
+      "number": 199,
+      "question": "Is the expression linear or non-linear?"
+    },
+    {
+      "number": 200,
+      "question": "Andre is frustrated with how much computation he had to do. What advice would you give him about how many numbers to test and which ones to test?"
+    }
+  ]
+}

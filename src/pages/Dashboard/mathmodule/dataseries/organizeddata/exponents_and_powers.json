@@ -1,0 +1,231 @@
+{
+    "title": "Exponents and Powers - 25 Problem Sets",
+    "problems": [
+      {
+        "id": "E1",
+        "question": "Simplify: 3^2 × 3^4",
+        "answer": "3^6",
+        "difficulty": "easy",
+        "concept": "Exponents & Powers",
+        "subconcept": "Product of Powers Rule",
+        "next": ["E2"]
+      },
+      {
+        "id": "E2",
+        "question": "Simplify: (2^3)^2",
+        "answer": "2^6",
+        "difficulty": "easy",
+        "concept": "Exponents & Powers",
+        "subconcept": "Power of a Power Rule",
+        "next": ["E3"]
+      },
+      {
+        "id": "E3",
+        "question": "Evaluate: 5^0",
+        "answer": "1",
+        "difficulty": "easy",
+        "concept": "Exponents & Powers",
+        "subconcept": "Zero Exponent Rule",
+        "next": ["E4"]
+      },
+      {
+        "id": "E4",
+        "question": "Simplify: (x^4) × (x^3)",
+        "answer": "x^7",
+        "difficulty": "medium",
+        "concept": "Exponents & Powers",
+        "subconcept": "Product of Powers Rule",
+        "next": ["E5"]
+      },
+      {
+        "id": "E5",
+        "question": "Simplify: (2x^2)^3",
+        "answer": "8x^6",
+        "difficulty": "medium",
+        "concept": "Exponents & Powers",
+        "subconcept": "Power of a Product Rule",
+        "next": ["E6"]
+      },
+      {
+        "id": "E6",
+        "question": "Simplify: x^7 / x^2",
+        "answer": "x^5",
+        "difficulty": "easy",
+        "concept": "Exponents & Powers",
+        "subconcept": "Quotient of Powers Rule",
+        "next": ["E7"]
+      },
+      {
+        "id": "E7",
+        "question": "Evaluate: (−3)^2",
+        "answer": "9",
+        "difficulty": "easy",
+        "concept": "Exponents & Powers",
+        "subconcept": "Evaluating Exponents",
+        "next": ["E8"]
+      },
+      {
+        "id": "E8",
+        "question": "Evaluate: −3^2",
+        "answer": "−9",
+        "difficulty": "medium",
+        "concept": "Exponents & Powers",
+        "subconcept": "Evaluating Exponents",
+        "next": ["E9"]
+      },
+      {
+        "id": "E9",
+        "question": "Simplify: (x^3 y^2)^2",
+        "answer": "x^6 y^4",
+        "difficulty": "medium",
+        "concept": "Exponents & Powers",
+        "subconcept": "Power of a Product Rule",
+        "next": ["E10"]
+      },
+      {
+        "id": "E10",
+        "question": "Simplify: (2x^2 y)^3",
+        "answer": "8x^6 y^3",
+        "difficulty": "medium",
+        "concept": "Exponents & Powers",
+        "subconcept": "Power of a Product Rule",
+        "next": ["E11"]
+      },
+      {
+        "id": "E11",
+        "question": "Simplify: x^0 + x^2",
+        "answer": "1 + x^2",
+        "difficulty": "easy",
+        "concept": "Exponents & Powers",
+        "subconcept": "Zero Exponent Rule",
+        "next": ["E12"]
+      },
+      {
+        "id": "E12",
+        "question": "Evaluate: 10^−2",
+        "answer": "0.01",
+        "difficulty": "medium",
+        "concept": "Exponents & Powers",
+        "subconcept": "Negative Exponents",
+        "next": ["E13"]
+      },
+      {
+        "id": "E13",
+        "question": "Simplify: x^3 / x^5",
+        "answer": "x^−2",
+        "difficulty": "medium",
+        "concept": "Exponents & Powers",
+        "subconcept": "Quotient of Powers Rule",
+        "next": ["E14"]
+      },
+      {
+        "id": "E14",
+        "question": "Write 4.3 × 10^6 in standard form",
+        "answer": "4,300,000",
+        "difficulty": "easy",
+        "concept": "Exponents & Powers",
+        "subconcept": "Scientific Notation",
+        "next": ["E15"]
+      },
+      {
+        "id": "E15",
+        "question": "Write 0.00052 in scientific notation",
+        "answer": "5.2 × 10^−4",
+        "difficulty": "medium",
+        "concept": "Exponents & Powers",
+        "subconcept": "Scientific Notation",
+        "next": ["E16"]
+      },
+      {
+        "id": "E16",
+        "question": "Simplify: (3^2)^3",
+        "answer": "3^6 = 729",
+        "difficulty": "medium",
+        "concept": "Exponents & Powers",
+        "subconcept": "Power of a Power Rule",
+        "next": ["E17"]
+      },
+      {
+        "id": "E17",
+        "question": "Simplify: (x^2 / y)^3",
+        "answer": "x^6 / y^3",
+        "difficulty": "medium",
+        "concept": "Exponents & Powers",
+        "subconcept": "Power of a Quotient Rule",
+        "next": ["E18"]
+      },
+      {
+        "id": "E18",
+        "question": "Evaluate: (1/2)^3",
+        "answer": "1/8",
+        "difficulty": "easy",
+        "concept": "Exponents & Powers",
+        "subconcept": "Evaluating Exponents",
+        "next": ["E19"]
+      },
+      {
+        "id": "E19",
+        "question": "Simplify: (a^3 b^−1)^2",
+        "answer": "a^6 / b^2",
+        "difficulty": "medium",
+        "concept": "Exponents & Powers",
+        "subconcept": "Negative Exponents",
+        "next": ["E20"]
+      },
+      {
+        "id": "E20",
+        "question": "Simplify: (x^2 y^3)^0",
+        "answer": "1",
+        "difficulty": "easy",
+        "concept": "Exponents & Powers",
+        "subconcept": "Zero Exponent Rule",
+        "next": ["E21"]
+      },
+      {
+        "id": "E21",
+        "question": "Simplify and express using only positive exponents: (x^−2 y)^3",
+        "answer": "y^3 / x^6",
+        "difficulty": "hard",
+        "concept": "Exponents & Powers",
+        "subconcept": "Negative Exponents",
+        "next": ["E22"]
+      },
+      {
+        "id": "E22",
+        "question": "Convert 7,500,000 into scientific notation",
+        "answer": "7.5 × 10^6",
+        "difficulty": "easy",
+        "concept": "Exponents & Powers",
+        "subconcept": "Scientific Notation",
+        "next": ["E23"]
+      },
+      {
+        "id": "E23",
+        "question": "Simplify: (5^3 × 5^2) / 5^4",
+        "answer": "5^1 = 5",
+        "difficulty": "medium",
+        "concept": "Exponents & Powers",
+        "subconcept": "Combining Power Rules",
+        "next": ["E24"]
+      },
+      {
+        "id": "E24",
+        "question": "Simplify: [(x^2)^3]^2",
+        "answer": "x^{12}",
+        "difficulty": "medium",
+        "concept": "Exponents & Powers",
+        "subconcept": "Power of a Power Rule",
+        "next": ["E25"]
+      },
+      {
+        "id": "E25",
+        "question": "Real-world: A bacteria culture triples in size every hour. If there are 2 bacteria at the start, how many will there be after 5 hours?",
+        "answer": "2 × 3^5 = 486",
+        "difficulty": "hard",
+        "concept": "Exponents & Powers",
+        "subconcept": "Exponential Growth",
+        "next": []
+      }
+    ]
+  }
+  

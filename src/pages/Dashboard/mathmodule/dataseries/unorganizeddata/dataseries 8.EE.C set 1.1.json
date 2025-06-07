@@ -1,0 +1,177 @@
+[
+  {
+    "id": "solving-linear-equations-1",
+    "question": "Which statement is true about the equation below? 3(2 − k) = −3k + 2",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["identity-infinite-solutions-1"]
+  },
+  {
+    "id": "identity-infinite-solutions-1",
+    "question": "Which of the following equations has infinitely many solutions?",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["consecutive-integer-sums-1"]
+  },
+  {
+    "id": "consecutive-integer-sums-1",
+    "question": "How many sets of two or more consecutive positive integers can be added to obtain a sum of 100?",
+    "answer": null,
+    "difficulty": "hard",
+    "next": ["perimeter-expressions-1"]
+  },
+  {
+    "id": "perimeter-expressions-1",
+    "question": "The perimeter of a rectangle is 40 units. One side of the rectangle is 7 and the other is x+2. What is the value of x?",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["budgeting-1"]
+  },
+  {
+    "id": "budgeting-1",
+    "question": "A family of five people has $200 to spend on fishing rods and fishing licenses. They spend a total of $20 on licenses. Assuming they buy 5 identical rods, what is the maximum amount they can spend on each rod?",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["rational-equations-1"]
+  },
+  {
+    "id": "rational-equations-1",
+    "question": "Solve the following equations of rational expressions, if possible. If an equation cannot be solved, explain why. If there is no solution, type \"ns\" as your answer.",
+    "answer": null,
+    "difficulty": "hard",
+    "next": ["rational-equations-2"]
+  },
+  {
+    "id": "rational-equations-2",
+    "question": "Solve the following rational equation. If it cannot be solved, type \"ns\" as your answer.",
+    "answer": null,
+    "difficulty": "hard",
+    "next": ["rational-equations-3"]
+  },
+  {
+    "id": "rational-equations-3",
+    "question": "Solve the following rational equation. If it cannot be solved, type \"ns\" as your answer.",
+    "answer": null,
+    "difficulty": "hard",
+    "next": ["rational-equations-4"]
+  },
+  {
+    "id": "rational-equations-4",
+    "question": "Solve the following rational equation. If it cannot be solved, type \"ns\" as your answer.",
+    "answer": null,
+    "difficulty": "hard",
+    "next": ["rational-equations-5"]
+  },
+  {
+    "id": "rational-equations-5",
+    "question": "Solve the following rational equation. If it cannot be solved, type \"ns\" as your answer.",
+    "answer": null,
+    "difficulty": "hard",
+    "next": ["rational-equations-6"]
+  },
+  {
+    "id": "rational-equations-6",
+    "question": "Solve the following rational equation. If it cannot be solved, type \"ns\" as your answer.",
+    "answer": null,
+    "difficulty": "hard",
+    "next": ["rational-equations-7"]
+  },
+  {
+    "id": "rational-equations-7",
+    "question": "Solve the following rational equation. If it cannot be solved, type \"ns\" as your answer.",
+    "answer": null,
+    "difficulty": "hard",
+    "next": ["rational-equations-8"]
+  },
+  {
+    "id": "rational-equations-8",
+    "question": "Solve the following rational equation. If it cannot be solved, type \"ns\" as your answer.",
+    "answer": null,
+    "difficulty": "hard",
+    "next": ["rational-equations-9"]
+  },
+  {
+    "id": "rational-equations-9",
+    "question": "Solve the following rational equation. If it cannot be solved, type \"ns\" as your answer.",
+    "answer": null,
+    "difficulty": "hard",
+    "next": ["no-solution-equations-1"]
+  },
+  {
+    "id": "no-solution-equations-1",
+    "question": "Select all the equations that have no solution.",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["expression-rewriting-1"]
+  },
+  {
+    "id": "expression-rewriting-1",
+    "question": "Rewrite the equation that would represent the sum in the fifth step of the Facebook problem: 7 + 7 ⋅ 5+ 7 ⋅ 5 +7 ⋅ 5 + 7 ⋅ 5.",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["properties-equality-1"]
+  },
+  {
+    "id": "properties-equality-1",
+    "question": "Elena began solving: 12x + 6(4x + 3) = 2(6x + 4) −2. How could Elena tell that the equation is true for all values of x?",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-1"]
+  },
+  {
+    "id": "solving-equations-1",
+    "question": "Solve the following equation for x. x = ?",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["solving-equations-2"]
+  },
+  {
+    "id": "solving-equations-2",
+    "question": "Solve the following equation for x. x = ?",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["solving-equations-3"]
+  },
+  {
+    "id": "solving-equations-3",
+    "question": "Solve the following equation. Verify your solution. 3(4x− 2) = 30",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-4"]
+  },
+  {
+    "id": "solving-equations-4",
+    "question": "Solve for n: 5 −2(8 + 3n) = 1",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-5"]
+  },
+  {
+    "id": "solving-equations-5",
+    "question": "Solve for y: 3y + 5 = −3−2y",
+    "answer": null,
+    "difficulty": "medium",
+    "next": ["solving-equations-6"]
+  },
+  {
+    "id": "solving-equations-6",
+    "question": "Solve and verify: −24 = 4(2 + 2x)",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["solving-equations-7"]
+  },
+  {
+    "id": "solving-equations-7",
+    "question": "Solve and verify: −16 = 2(4x+ 8)",
+    "answer": null,
+    "difficulty": "easy",
+    "next": ["solving-equations-8"]
+  },
+  {
+    "id": "solving-equations-8",
+    "question": "Solve and verify: 3(x+ 10) + 5 = 11",
+    "answer": null,
+    "difficulty": "easy",
+    "next": []
+  }
+]

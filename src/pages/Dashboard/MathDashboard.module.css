@@ -1,0 +1,139 @@
+/* mathDashboard.module.css */
+
+.container {
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 800px;
+  margin: auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.header {
+  font-size: 2.5rem;
+  color: #2a2a2a;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.buttonGrid {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.button {
+  padding: 1rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #388e3c;
+}
+
+.rewardButton {
+  margin-top: 1rem;
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.rewardButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.jokeBox {
+  margin-top: 2.5rem;
+  padding: 1rem 1.5rem;
+  background-color: #f0f8ff;
+  border-left: 6px solid #4caf50;
+  border-radius: 12px;
+  font-style: italic;
+  font-size: 1rem;
+  color: #333;
+  position: relative;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.jokeBox::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 40px;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 20px solid #f0f8ff;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.analyticsSection {
+  margin-top: 3rem;
+  text-align: left;
+}
+
+.card {
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  margin-bottom: 1rem;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.01);
+}
+
+.cardHeader {
+  background-color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.cardBody {
+  background-color: #fff3e0;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.cardBody p {
+  margin: 0.25rem 0;
+}
+
+.cardHeader span {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.cardHeader:hover span {
+  transform: rotate(90deg);
+}

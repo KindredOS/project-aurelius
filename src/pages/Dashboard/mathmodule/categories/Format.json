@@ -1,0 +1,172 @@
+{
+    "concepts": {
+      "Expressions & Equations": {
+        "subcategories": [
+          "Simplifying Expressions",
+          "Solving One-Step Equations",
+          "Solving Multi-Step Equations",
+          "Translating Words to Algebra"
+        ],
+        "difficulty": {
+          "easy": ["Simplifying Expressions", "Solving One-Step Equations"],
+          "medium": ["Translating Words to Algebra"],
+          "hard": ["Solving Multi-Step Equations"]
+        },
+        "formats": ["Multiple Choice", "Open-Ended", "Real-World Application", "Numeric Response"],
+        "prerequisites": [],
+        "next": ["Linear Functions", "Inequalities"]
+      },
+      "Ratios & Proportional Relationships": {
+        "subcategories": [
+          "Unit Rates",
+          "Proportions",
+          "Percent Problems"
+        ],
+        "difficulty": {
+          "easy": ["Unit Rates"],
+          "medium": ["Proportions"],
+          "hard": ["Percent Problems"]
+        },
+        "formats": ["Tables", "Graphs", "Real-World Application"],
+        "prerequisites": [],
+        "next": ["Linear Functions"]
+      },
+      "Linear Functions": {
+        "subcategories": [
+          "Understanding Slope",
+          "Interpreting Y-Intercept",
+          "Graphing Linear Equations",
+          "Writing Linear Equations from Context"
+        ],
+        "difficulty": {
+          "easy": ["Understanding Slope"],
+          "medium": ["Interpreting Y-Intercept", "Graphing Linear Equations"],
+          "hard": ["Writing Linear Equations from Context"]
+        },
+        "formats": ["Graph Interpretation", "Real-World Scenario", "Equation Modeling"],
+        "prerequisites": ["Expressions & Equations", "Ratios & Proportional Relationships"],
+        "next": ["Functions", "Systems of Equations"]
+      },
+      "Inequalities": {
+        "subcategories": [
+          "Solving Inequalities",
+          "Graphing Solutions on a Number Line",
+          "Real-World Inequality Applications"
+        ],
+        "difficulty": {
+          "easy": ["Solving Inequalities"],
+          "medium": ["Graphing Solutions on a Number Line"],
+          "hard": ["Real-World Inequality Applications"]
+        },
+        "formats": ["Symbolic Representation", "Number Line", "Scenario-Based"],
+        "prerequisites": ["Expressions & Equations"],
+        "next": ["Functions"]
+      },
+      "Functions": {
+        "subcategories": [
+          "Identifying Functions",
+          "Function Notation",
+          "Input-Output Tables"
+        ],
+        "difficulty": {
+          "easy": ["Input-Output Tables"],
+          "medium": ["Identifying Functions"],
+          "hard": ["Function Notation"]
+        },
+        "formats": ["Tables", "Graph Matching", "Symbolic Rules"],
+        "prerequisites": ["Linear Functions", "Inequalities"],
+        "next": ["Statistics & Data Representations"]
+      },
+      "Systems of Equations": {
+        "subcategories": [
+          "Solving by Graphing",
+          "Solving by Substitution",
+          "Solving by Elimination"
+        ],
+        "difficulty": {
+          "easy": ["Solving by Graphing"],
+          "medium": ["Solving by Substitution"],
+          "hard": ["Solving by Elimination"]
+        },
+        "formats": ["Graph Comparison", "Algebraic Substitution", "Problem Solving"],
+        "prerequisites": ["Expressions & Equations", "Linear Functions"],
+        "next": []
+      },
+      "Factoring": {
+        "subcategories": [
+          "Distributive Property",
+          "Finding Greatest Common Factor",
+          "Factoring Basic Expressions"
+        ],
+        "difficulty": {
+          "easy": ["Distributive Property"],
+          "medium": ["Finding Greatest Common Factor"],
+          "hard": ["Factoring Basic Expressions"]
+        },
+        "formats": ["Numeric Expression Simplification", "Symbolic Factoring"],
+        "prerequisites": ["Expressions & Equations"],
+        "next": ["Rational Expressions"]
+      },
+      "Exponents & Powers": {
+        "subcategories": [
+          "Laws of Exponents",
+          "Scientific Notation",
+          "Square and Cube Roots"
+        ],
+        "difficulty": {
+          "easy": ["Square and Cube Roots"],
+          "medium": ["Laws of Exponents"],
+          "hard": ["Scientific Notation"]
+        },
+        "formats": ["Symbolic Computation", "Scientific Application"],
+        "prerequisites": [],
+        "next": ["Rational Expressions"]
+      },
+      "Rational Expressions": {
+        "subcategories": [
+          "Simplifying Rational Expressions",
+          "Adding/Subtracting Rational Expressions",
+          "Multiplying/Dividing Rational Expressions"
+        ],
+        "difficulty": {
+          "easy": ["Simplifying Rational Expressions"],
+          "medium": ["Multiplying/Dividing Rational Expressions"],
+          "hard": ["Adding/Subtracting Rational Expressions"]
+        },
+        "formats": ["Symbolic Expression", "Applied Contexts"],
+        "prerequisites": ["Factoring", "Exponents & Powers"],
+        "next": []
+      },
+      "Geometry Connections with Algebra": {
+        "subcategories": [
+          "Solving for Unknown Angles",
+          "Area and Perimeter with Variables",
+          "Volume Formulas with Expressions"
+        ],
+        "difficulty": {
+          "easy": ["Solving for Unknown Angles"],
+          "medium": ["Area and Perimeter with Variables"],
+          "hard": ["Volume Formulas with Expressions"]
+        },
+        "formats": ["Diagram-Based", "Formula Substitution", "Real-World Shapes"],
+        "prerequisites": ["Expressions & Equations"],
+        "next": []
+      },
+      "Statistics & Data Representations": {
+        "subcategories": [
+          "Scatter Plots",
+          "Line of Best Fit",
+          "Interpreting Graphical Data"
+        ],
+        "difficulty": {
+          "easy": ["Scatter Plots"],
+          "medium": ["Interpreting Graphical Data"],
+          "hard": ["Line of Best Fit"]
+        },
+        "formats": ["Graph Interpretation", "Trend Analysis", "Data Tables"],
+        "prerequisites": ["Functions"],
+        "next": []
+      }
+    }
+  }
+  

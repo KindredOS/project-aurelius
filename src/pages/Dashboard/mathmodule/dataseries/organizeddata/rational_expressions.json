@@ -1,0 +1,230 @@
+{
+    "title": "Rational Expressions - 25 Problem Sets",
+    "problems": [
+      {
+        "id": "RE1",
+        "question": "Simplify the rational expression: (x^2 − 9)/(x + 3)",
+        "answer": "x − 3",
+        "difficulty": "easy",
+        "concept": "Rational Expressions",
+        "subconcept": "Simplifying Expressions",
+        "next": ["RE2"]
+      },
+      {
+        "id": "RE2",
+        "question": "Factor and simplify: (x^2 + 5x + 6)/(x + 2)",
+        "answer": "x + 3",
+        "difficulty": "easy",
+        "concept": "Rational Expressions",
+        "subconcept": "Factoring and Simplifying",
+        "next": ["RE3"]
+      },
+      {
+        "id": "RE3",
+        "question": "Multiply and simplify: (x/3) * (6/x^2)",
+        "answer": "2/x",
+        "difficulty": "easy",
+        "concept": "Rational Expressions",
+        "subconcept": "Multiplying Expressions",
+        "next": ["RE4"]
+      },
+      {
+        "id": "RE4",
+        "question": "Divide and simplify: (x^2 − 1)/(x + 1) ÷ (x − 1)/(x + 1)",
+        "answer": "x + 1",
+        "difficulty": "medium",
+        "concept": "Rational Expressions",
+        "subconcept": "Dividing Expressions",
+        "next": ["RE5"]
+      },
+      {
+        "id": "RE5",
+        "question": "Add and simplify: (2/x) + (3/x)",
+        "answer": "5/x",
+        "difficulty": "easy",
+        "concept": "Rational Expressions",
+        "subconcept": "Adding with Like Denominators",
+        "next": ["RE6"]
+      },
+      {
+        "id": "RE6",
+        "question": "Subtract and simplify: (4/x) − (1/x)",
+        "answer": "3/x",
+        "difficulty": "easy",
+        "concept": "Rational Expressions",
+        "subconcept": "Subtracting with Like Denominators",
+        "next": ["RE7"]
+      },
+      {
+        "id": "RE7",
+        "question": "Simplify: (x^2 − 4)/(x^2 + 2x)",
+        "answer": "(x − 2)/x",
+        "difficulty": "medium",
+        "concept": "Rational Expressions",
+        "subconcept": "Factoring and Reducing",
+        "next": ["RE8"]
+      },
+      {
+        "id": "RE8",
+        "question": "Multiply and simplify: (x + 2)/(x − 3) * (x − 3)/(x + 1)",
+        "answer": "(x + 2)/(x + 1)",
+        "difficulty": "medium",
+        "concept": "Rational Expressions",
+        "subconcept": "Multiplying Expressions",
+        "next": ["RE9"]
+      },
+      {
+        "id": "RE9",
+        "question": "Simplify the complex fraction: (1/x + 1)/(1/x)",
+        "answer": "x + 1",
+        "difficulty": "hard",
+        "concept": "Rational Expressions",
+        "subconcept": "Complex Fractions",
+        "next": ["RE10"]
+      },
+      {
+        "id": "RE10",
+        "question": "Find the excluded values for: (x + 5)/(x^2 − 9)",
+        "answer": "x ≠ 3, −3",
+        "difficulty": "medium",
+        "concept": "Rational Expressions",
+        "subconcept": "Domain Restrictions",
+        "next": ["RE11"]
+      },
+      {
+        "id": "RE11",
+        "question": "Subtract and simplify: (x + 1)/(x^2 − 1) − (x − 1)/(x^2 − 1)",
+        "answer": "2/(x^2 − 1)",
+        "difficulty": "medium",
+        "concept": "Rational Expressions",
+        "subconcept": "Subtracting Rational Expressions",
+        "next": ["RE12"]
+      },
+      {
+        "id": "RE12",
+        "question": "Add and simplify: 1/(x + 2) + 1/(x − 2)",
+        "answer": "(2x)/(x^2 − 4)",
+        "difficulty": "hard",
+        "concept": "Rational Expressions",
+        "subconcept": "Adding with Unlike Denominators",
+        "next": ["RE13"]
+      },
+      {
+        "id": "RE13",
+        "question": "Simplify: (x^2 − x − 6)/(x^2 − 9)",
+        "answer": "(x − 3)/(x + 3)",
+        "difficulty": "medium",
+        "concept": "Rational Expressions",
+        "subconcept": "Factoring Trinomials",
+        "next": ["RE14"]
+      },
+      {
+        "id": "RE14",
+        "question": "Simplify: (x^2 − 4x + 4)/(x^2 − 2x)",
+        "answer": "(x − 2)/x",
+        "difficulty": "medium",
+        "concept": "Rational Expressions",
+        "subconcept": "Factoring and Reducing",
+        "next": ["RE15"]
+      },
+      {
+        "id": "RE15",
+        "question": "Divide and simplify: (x^2 − 1)/(x + 1) ÷ (x − 1)/(x + 2)",
+        "answer": "(x + 2)",
+        "difficulty": "medium",
+        "concept": "Rational Expressions",
+        "subconcept": "Dividing Expressions",
+        "next": ["RE16"]
+      },
+      {
+        "id": "RE16",
+        "question": "Simplify: (x + 1)^2 / (x^2 − 1)",
+        "answer": "(x + 1)/(x − 1)",
+        "difficulty": "medium",
+        "concept": "Rational Expressions",
+        "subconcept": "Factoring and Simplifying",
+        "next": ["RE17"]
+      },
+      {
+        "id": "RE17",
+        "question": "Find the domain of: (x + 4)/(x^2 + x − 6)",
+        "answer": "x ≠ −3, 2",
+        "difficulty": "medium",
+        "concept": "Rational Expressions",
+        "subconcept": "Domain Restrictions",
+        "next": ["RE18"]
+      },
+      {
+        "id": "RE18",
+        "question": "Multiply and simplify: (x^2 − 4x)/(x^2 − 2x) * (x − 2)/(x − 4)",
+        "answer": "x/(x − 4)",
+        "difficulty": "hard",
+        "concept": "Rational Expressions",
+        "subconcept": "Multiplying Complex Expressions",
+        "next": ["RE19"]
+      },
+      {
+        "id": "RE19",
+        "question": "Simplify the complex fraction: (1/x − 1)/(1/x)",
+        "answer": "1 − x",
+        "difficulty": "hard",
+        "concept": "Rational Expressions",
+        "subconcept": "Complex Fractions",
+        "next": ["RE20"]
+      },
+      {
+        "id": "RE20",
+        "question": "Add and simplify: (2x)/(x^2 − 4) + (x)/(x + 2)",
+        "answer": "(3x)/(x^2 − 4)",
+        "difficulty": "hard",
+        "concept": "Rational Expressions",
+        "subconcept": "Adding Rational Expressions",
+        "next": ["RE21"]
+      },
+      {
+        "id": "RE21",
+        "question": "Find the excluded values for: (x + 2)/(x^2 − 5x + 6)",
+        "answer": "x ≠ 2, 3",
+        "difficulty": "medium",
+        "concept": "Rational Expressions",
+        "subconcept": "Domain Restrictions",
+        "next": ["RE22"]
+      },
+      {
+        "id": "RE22",
+        "question": "Simplify: (2x^2 − 8)/(4x)",
+        "answer": "(x − 2)/2",
+        "difficulty": "easy",
+        "concept": "Rational Expressions",
+        "subconcept": "Simplifying Expressions",
+        "next": ["RE23"]
+      },
+      {
+        "id": "RE23",
+        "question": "Multiply and simplify: (x − 1)/(x + 2) * (x + 2)/(x + 3)",
+        "answer": "(x − 1)/(x + 3)",
+        "difficulty": "medium",
+        "concept": "Rational Expressions",
+        "subconcept": "Multiplying Expressions",
+        "next": ["RE24"]
+      },
+      {
+        "id": "RE24",
+        "question": "Divide and simplify: (x^2 + 3x)/(x^2 − 9) ÷ (x + 3)/(x − 3)",
+        "answer": "(x)/(x − 3)",
+        "difficulty": "hard",
+        "concept": "Rational Expressions",
+        "subconcept": "Dividing Expressions",
+        "next": ["RE25"]
+      },
+      {
+        "id": "RE25",
+        "question": "Add and simplify: (1/x) + (1/(x + 1))",
+        "answer": "(2x + 1)/(x(x + 1))",
+        "difficulty": "hard",
+        "concept": "Rational Expressions",
+        "subconcept": "Adding with Unlike Denominators",
+        "next": []
+      }
+    ]
+  }

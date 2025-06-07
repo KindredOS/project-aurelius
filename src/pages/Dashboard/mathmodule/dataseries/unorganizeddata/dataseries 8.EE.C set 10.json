@@ -1,0 +1,205 @@
+{
+  "title": "Foundations for Algebra - 50 Problem Sets (Extension)",
+  "problems": [
+    {
+      "number": 451,
+      "question": "Choose 4 systems to solve. At least one should be from your 'least difficult' list and one should be from your 'most difficult' list."
+    },
+    {
+      "number": 452,
+      "question": "Given the equation 3x + 9y = -8, write a second linear equation to create a system that: Has exactly one solution. Explain your reasoning."
+    },
+    {
+      "number": 453,
+      "question": "Given the equation 3x + 9y = -8, write a second linear equation to create a system that: Has no solution. Explain your reasoning."
+    },
+    {
+      "number": 454,
+      "question": "Given the equation 3x + 9y = -8, write a second linear equation to create a system that: Has infinitely many solutions. Explain your reasoning."
+    },
+    {
+      "number": 455,
+      "question": "Interpret the meaning of the solution, if it exists, in the context of the graph of the following system of equations."
+    },
+    {
+      "number": 456,
+      "question": "Choose the method you feel is easiest for the given problem (graphing, substitution, or elimination). y = x − 1; y = −x + 3"
+    },
+    {
+      "number": 457,
+      "question": "Solve the system of equations. If there is no solution, write 'no solution'. If there are infinitely many solutions, write 'infinitely many solutions'. If there is one solution, write your answer in the following format: (x,y) with no spaces."
+    },
+    {
+      "number": 458,
+      "question": "Indicate whether each system of equations has no solution, one solution or infinitely many solutions."
+    },
+    {
+      "number": 459,
+      "question": "Indicate whether each system of equations has no solution, one solution or infinitely many solutions."
+    },
+    {
+      "number": 460,
+      "question": "Choose the method you feel is easiest for the given problem (graphing, substitution, or elimination). x = −4y; 3x + 2y = 20"
+    },
+    {
+      "number": 461,
+      "question": "Solve the system of equations. If there is no solution, write 'no solution'. If there are infinitely many solutions, write 'infinitely many solutions'. If there is one solution, write your answer in the following format: (x,y) with no spaces."
+    },
+    {
+      "number": 462,
+      "question": "Consider the equation 5x − 2. (a) Exactly 1 solution."
+    },
+    {
+      "number": 463,
+      "question": "y = 3. If possible, write a second linear equation to create a system of equations that has, and for each case, how many equations are possible: (b) Exactly 2 solutions."
+    },
+    {
+      "number": 464,
+      "question": "(c) No solutions."
+    },
+    {
+      "number": 465,
+      "question": "(d) Infinitely many solutions."
+    },
+    {
+      "number": 466,
+      "question": "Determine the equation of the line connecting the points (0, -1) and (2, 3). Complete the equation below y = _______________ Use x as your variable."
+    },
+    {
+      "number": 467,
+      "question": "Will the line described by the equation in part (a) intersect the line passing through the points (−2, 4) and (−3, 3)?"
+    },
+    {
+      "number": 468,
+      "question": "Explain why or why not."
+    },
+    {
+      "number": 469,
+      "question": "A cable company charges $70 per month for cable service to existing customers. Find a linear equation representing the relationship between the number of months of service and the total amount paid in dollars by an existing customer."
+    },
+    {
+      "number": 470,
+      "question": "A cable company charges $70 per month for cable service to existing customers. For new customers, there is an additional one-time $100 service fee. Repeat the previous problem for new customers."
+    },
+    {
+      "number": 471,
+      "question": "When the two equations are graphed in the coordinate plane, how are they related to each other geometrically?"
+    },
+    {
+      "number": 472,
+      "question": "Choose the method you feel is easiest for the given problem (graphing, substitution, or elimination). x + 5y = 4; 3x + y = −2"
+    },
+    {
+      "number": 473,
+      "question": "Solve the system of equations. If there is no solution, write 'no solution'. If there are infinitely many solutions, write 'infinitely many solutions'. If there is one solution, write your answer in the following format: (x,y) with no spaces."
+    },
+    {
+      "number": 474,
+      "question": "Choose the method you feel is easiest for the given problem (graphing, substitution, or elimination). 3x − y = 4; 2x − 3y = −9"
+    },
+    {
+      "number": 475,
+      "question": "Solve the system of equations. If there is no solution, write 'no solution'. If there are infinitely many solutions, write 'infinitely many solutions'. If there is one solution, write your answer in the following format: (x,y) with no spaces."
+    },
+    {
+      "number": 476,
+      "question": "Here are a lot of systems of equations: A through L. Without solving, identify 3 systems that you think would be the least difficult to solve and 3 systems that you think would be the most difficult to solve. Be prepared to explain your reasoning."
+    },
+    {
+      "number": 477,
+      "question": "Choose 4 systems to solve. At least one should be from your 'least difficult' list and one should be from your 'most difficult' list."
+    },
+    {
+      "number": 478,
+      "question": "Choose the method you feel is easiest for the given problem (graphing, substitution, or elimination). y = 2x − 5; 4x − y = 7"
+    },
+    {
+      "number": 479,
+      "question": "Solve the system of equations. If there is no solution, write 'no solution'. If there are infinitely many solutions, write 'infinitely many solutions'. If there is one solution, write your answer in the following format: (x,y) with no spaces."
+    },
+    {
+      "number": 480,
+      "question": "Find the value of each shape. Give the value of the circle."
+    },
+    {
+      "number": 481,
+      "question": "Give the value of the square."
+    },
+    {
+      "number": 482,
+      "question": "Explain how you determined each."
+    },
+    {
+      "number": 483,
+      "question": "Verify your answers."
+    },
+    {
+      "number": 484,
+      "question": "Here are two equations: 6x + 4y = 34; 5x − 2y = 15. Decide whether (3, 4) is a solution to one equation, both equations, or neither."
+    },
+    {
+      "number": 485,
+      "question": "Decide whether (4, 2.5) is a solution to one equation, both equations, or neither."
+    },
+    {
+      "number": 486,
+      "question": "Decide whether (5, 5) is a solution to one equation, both equations, or neither."
+    },
+    {
+      "number": 487,
+      "question": "Decide whether (3, 2) is a solution to one equation, both equations, or neither."
+    },
+    {
+      "number": 488,
+      "question": "Is it possible to have more than one pair that is a solution to both equations? Explain or show your reasoning."
+    },
+    {
+      "number": 489,
+      "question": "The amount of water in two tanks every 5 minutes is shown in the table. Describe what is happening in each tank. Either draw a picture, say it verbally, or write a few sentences."
+    },
+    {
+      "number": 490,
+      "question": "Use the table to estimate when the tanks will have the same amount of water."
+    },
+    {
+      "number": 491,
+      "question": "The amount of water in tank 1 after t minutes is 30t + 25. The amount of water in tank 2 after t minutes is −20t + 1000. Find the time when the amount of water will be equal."
+    },
+    {
+      "number": 492,
+      "question": "Three boxes of gaming machines and a box of DVDs weigh 48 pounds. Three boxes of gaming machines and five boxes of DVDs weigh 72 pounds. How much does each box weigh? Enter the weight of a small box."
+    },
+    {
+      "number": 493,
+      "question": "Enter the weight of a large box."
+    },
+    {
+      "number": 494,
+      "question": "Kiran and his cousin work during the summer for a landscaping company. Kiran's cousin earns 30% more than Kiran. Last week his cousin worked 27 hours and Kiran worked 23 hours. Together, they earned $493.85. What is Kiran's hourly pay?"
+    },
+    {
+      "number": 495,
+      "question": "Explain or show your reasoning."
+    },
+    {
+      "number": 496,
+      "question": "A language arts test is worth 100 points. There are 26 questions: spelling questions worth 2 points and vocabulary questions worth 5 points. How many of each type? Enter the number of spelling questions."
+    },
+    {
+      "number": 497,
+      "question": "Enter the number of vocabulary questions."
+    },
+    {
+      "number": 498,
+      "question": "Tickets for a matinee are $5 for children and $8 for adults. The theater sold 142 tickets and made $890. How many of each type of ticket were sold? Define your unknowns."
+    },
+    {
+      "number": 499,
+      "question": "Write the system of equations."
+    },
+    {
+      "number": 500,
+      "question": "Solve. Write the solution in a complete sentence."
+    }
+  ]
+}

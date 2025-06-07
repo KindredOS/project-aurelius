@@ -1,0 +1,231 @@
+{
+    "title": "Ratios and Proportional Relationships - 25 Problem Sets",
+    "problems": [
+      {
+        "id": "RP1",
+        "question": "Write the ratio of 6 to 8 in simplest form.",
+        "answer": "3:4",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Simplifying Ratios",
+        "next": ["RP2"]
+      },
+      {
+        "id": "RP2",
+        "question": "If a car travels 180 miles in 3 hours, what is the unit rate?",
+        "answer": "60 miles per hour",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Unit Rates",
+        "next": ["RP3"]
+      },
+      {
+        "id": "RP3",
+        "question": "Two quantities are proportional. If x = 4 when y = 10, find y when x = 6.",
+        "answer": "y = 15",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Solving Proportions",
+        "next": ["RP4"]
+      },
+      {
+        "id": "RP4",
+        "question": "Write the ratio 12:16 as a fraction in simplest form.",
+        "answer": "3/4",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Simplifying Ratios",
+        "next": ["RP5"]
+      },
+      {
+        "id": "RP5",
+        "question": "A recipe uses 2 cups of sugar for every 5 cups of flour. How many cups of sugar are needed for 15 cups of flour?",
+        "answer": "6 cups",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Solving Proportions",
+        "next": ["RP6"]
+      },
+      {
+        "id": "RP6",
+        "question": "A map has a scale of 1 inch : 20 miles. How many miles are represented by 3.5 inches?",
+        "answer": "70 miles",
+        "difficulty": "medium",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Scale and Proportions",
+        "next": ["RP7"]
+      },
+      {
+        "id": "RP7",
+        "question": "If 5 notebooks cost $12.50, what is the cost of one notebook?",
+        "answer": "$2.50",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Unit Rates",
+        "next": ["RP8"]
+      },
+      {
+        "id": "RP8",
+        "question": "Determine if the following pair is proportional: 2/3 and 6/9",
+        "answer": "Yes, both simplify to 2/3",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Determining Proportionality",
+        "next": ["RP9"]
+      },
+      {
+        "id": "RP9",
+        "question": "A car uses 4 gallons of gas to drive 120 miles. How far can it travel on 10 gallons?",
+        "answer": "300 miles",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Solving Proportions",
+        "next": ["RP10"]
+      },
+      {
+        "id": "RP10",
+        "question": "A painter uses 1 gallon of paint for every 400 square feet. How many gallons are needed for 1,200 square feet?",
+        "answer": "3 gallons",
+        "difficulty": "medium",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Proportional Reasoning",
+        "next": ["RP11"]
+      },
+      {
+        "id": "RP11",
+        "question": "If y is directly proportional to x, and y = 10 when x = 2, find y when x = 5.",
+        "answer": "y = 25",
+        "difficulty": "medium",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Direct Proportion",
+        "next": ["RP12"]
+      },
+      {
+        "id": "RP12",
+        "question": "Graph the relationship: y = 3x. What is the slope?",
+        "answer": "Slope = 3",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Graphing Proportions",
+        "next": ["RP13"]
+      },
+      {
+        "id": "RP13",
+        "question": "Write a proportion to solve: 7/x = 14/28",
+        "answer": "x = 14",
+        "difficulty": "medium",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Solving Proportions",
+        "next": ["RP14"]
+      },
+      {
+        "id": "RP14",
+        "question": "Simplify the ratio: 100:250",
+        "answer": "2:5",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Simplifying Ratios",
+        "next": ["RP15"]
+      },
+      {
+        "id": "RP15",
+        "question": "Is the relationship y = 4x a proportional relationship?",
+        "answer": "Yes",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Identifying Proportionality",
+        "next": ["RP16"]
+      },
+      {
+        "id": "RP16",
+        "question": "Is the relationship y = 3x + 2 a proportional relationship?",
+        "answer": "No",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Identifying Proportionality",
+        "next": ["RP17"]
+      },
+      {
+        "id": "RP17",
+        "question": "A 16-ounce bottle of juice costs $2. What is the cost per ounce?",
+        "answer": "$0.125 per ounce",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Unit Rates",
+        "next": ["RP18"]
+      },
+      {
+        "id": "RP18",
+        "question": "What is the constant of proportionality in the equation y = 5x?",
+        "answer": "5",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Constant of Proportionality",
+        "next": ["RP19"]
+      },
+      {
+        "id": "RP19",
+        "question": "Solve the proportion: x/12 = 3/4",
+        "answer": "x = 9",
+        "difficulty": "medium",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Solving Proportions",
+        "next": ["RP20"]
+      },
+      {
+        "id": "RP20",
+        "question": "A car drives 150 miles using 5 gallons of gas. What is the miles per gallon?",
+        "answer": "30 mpg",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Unit Rates",
+        "next": ["RP21"]
+      },
+      {
+        "id": "RP21",
+        "question": "Compare the ratios 2:3 and 4:6. Are they equivalent?",
+        "answer": "Yes",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Equivalent Ratios",
+        "next": ["RP22"]
+      },
+      {
+        "id": "RP22",
+        "question": "Write the ratio of boys to girls if there are 12 boys and 16 girls.",
+        "answer": "3:4",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Simplifying Ratios",
+        "next": ["RP23"]
+      },
+      {
+        "id": "RP23",
+        "question": "A factory produces 120 items in 6 hours. How many items per hour?",
+        "answer": "20 items per hour",
+        "difficulty": "easy",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Unit Rates",
+        "next": ["RP24"]
+      },
+      {
+        "id": "RP24",
+        "question": "If y is proportional to x and y = 6 when x = 2, what is the equation?",
+        "answer": "y = 3x",
+        "difficulty": "medium",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Writing Proportional Equations",
+        "next": ["RP25"]
+      },
+      {
+        "id": "RP25",
+        "question": "The table shows x: 1, 2, 3, 4 and y: 2, 4, 6, 8. Is y proportional to x?",
+        "answer": "Yes, y = 2x",
+        "difficulty": "medium",
+        "concept": "Ratios and Proportional Relationships",
+        "subconcept": "Tables and Proportionality",
+        "next": []
+      }
+    ]
+  }
+  

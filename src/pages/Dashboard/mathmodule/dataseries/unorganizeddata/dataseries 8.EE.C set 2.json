@@ -1,0 +1,205 @@
+{
+  "title": "Foundations for Algebra - 50 Problem Sets (Extension)",
+  "problems": [
+    {
+      "number": 51,
+      "question": "Solve the following equation. Verify your solution. 2 − (2x + 2) = 2(x + 3) + x"
+    },
+    {
+      "number": 52,
+      "question": "Solve the following equation. Verify your solution. 3(y + 7) = 2(y + 9) − y"
+    },
+    {
+      "number": 53,
+      "question": "Solve the following equation. Verify your solution. 1/2 x = (12 − 2x) − 4 = 5x + 2(x − 7)"
+    },
+    {
+      "number": 54,
+      "question": "Solve the following equation. Verify your solution. 1/2 (12n − 4) = 14 − 10n"
+    },
+    {
+      "number": 55,
+      "question": "Solve for x."
+    },
+    {
+      "number": 56,
+      "question": "Linenis shown on the grid below.  Lineqwill be graphed on the same grid. The only solution to the system of linear equations formed by lines 󰄰 A y= 3x 2 nandqoccurs when  x= 3 2 and  y=0 q? . Which equation could represent line 󰄰 󰄰 󰄰 B y= 4x 3 −2 C y= −5x 2 +1 3 D y = −2x 3 + 2"
+    },
+    {
+      "number": 57,
+      "question": "The system of equations represented by lines p and q is shown on the graph below. Based on the graph, what is the solution of the system of equations? 󰄰 󰄰 󰄰 󰄰 A (0,0) B (0,3) C (2,1) D (4,2)"
+    },
+    {
+      "number": 58,
+      "question": "What do you notice? What do you wonder?"
+    },
+    {
+      "number": 59,
+      "question": "Sean was given a system of equations to solve and decided to graph the two equations.  What is the solution of this system of equations? ( , )"
+    },
+    {
+      "number": 60,
+      "question": "Here is the graph for one of the equations in a system of two equations. The solution to the system is (6, 2). Select all the equations that could be the other equation in the system. 󰄱 󰄱 󰄱 󰄱 󰄱 󰄱 A y=−3x − B y= 3 2 x+6 − C y= 1 6 x+3 2 D y= 3 x−1 1 E y= 2 x−1 F y=4x−2"
+    },
+    {
+      "number": 61,
+      "question": "Which of the following represents the solution to a system of linear equations on graphs? 󰄰 󰄰 󰄰 󰄰 The slopes of the lines The x-intercepts of the lines The y-intercepts of the lines The point at which the lines intersect"
+    },
+    {
+      "number": 62,
+      "question": "Graph a system of two linear equations in the grid below so that the system has a single solution of (−2, −3). Submit your graph using the tools below."
+    },
+    {
+      "number": 63,
+      "question": "In a system of two linear equations, the lines represented by each equation have the same slope. Which could be the total number of solutions to the system of each equation? Selectallthat apply. 󰄱 󰄱 󰄱 󰄱 󰄱 No solutions 1 solution 2 solutions 3 solutions Infinitely many solutions"
+    },
+    {
+      "number": 64,
+      "question": "Without sketching the graph, name the ordered pair where the graphs of the two linear equations intersect.  Write your answer in the format: (x,y)with no spaces."
+    },
+    {
+      "number": 65,
+      "question": "What do you notice? What do you wonder?"
+    },
+    {
+      "number": 66,
+      "question": "Which statement explains why the point (-2,2) is the solution to the system of linear equations shown below? 󰄰 󰄰 󰄰 󰄰 A It lies on the graph of only one of the equations. B It lies in the second quadrant of the coordinate plane. C It is the only point that satisfies both equations simultaneously. D It is one of many points that satisfies both equations simultaneously."
+    },
+    {
+      "number": 67,
+      "question": "Which one doesn’t belong? Explain your reasoning."
+    },
+    {
+      "number": 68,
+      "question": "Determine the nature of the solution to the given system of linear equations. Does the system above have a solution? 󰄰 󰄰 󰄰 Yes (one solution) No Yes (Infinitely many solutions)"
+    },
+    {
+      "number": 69,
+      "question": "Determine the nature of the solution to the given system of linear equations. Does the system above have a solution? 󰄰 󰄰 󰄰 Yes (one solution) No Yes (Infinitely many solutions)"
+    },
+    {
+      "number": 70,
+      "question": "Determine the nature of the solution to the given system of linear equations. Does the system above have a solution? 󰄰 󰄰 󰄰 Yes (one solution) No Yes (Infinitely many solutions)"
+    },
+    {
+      "number": 71,
+      "question": "Determine the nature of the solution to the given system of linear equations. Does the system above have a solution? 󰄰 󰄰 󰄰 Yes (one solution) No Yes (Infinitely many solutions)"
+    },
+    {
+      "number": 72,
+      "question": "The system of equations represented by lines p and q is shown in the graph below. Based on the graph, what is the solution of the system of equations? 󰄰 󰄰 󰄰 󰄰 (0, 0) (0, 3) (2, 1) (4, 2)"
+    },
+    {
+      "number": 73,
+      "question": "Lucy graphed a system of linear equations. What is the solution to the system of equations? 󰄰 󰄰 󰄰 󰄰 (−4, 2) (−1, 3) (0, 2) (2, 4)"
+    },
+    {
+      "number": 74,
+      "question": "Graph a system of two equations that has a single solution of (-2, -3). Submit your graph using the tools below."
+    },
+    {
+      "number": 75,
+      "question": "The population growth of two towns over a period of five years is represented by the system of equations below, both algebraically and graphically. 󰄰 (2, 6) Which ordered pair is the solution to the system of equations? 󰄰 󰄰 󰄰 (4, 10) (6, 2) (10, 4)"
+    },
+    {
+    "number": 76,
+    "question": "y = 1 x +2 Graph and label the given system of equations on the coordinate grid shown below. ( , 2 y = x−1 What is the solution to the system of equations? )"
+    },
+    {
+    "number": 77,
+    "question": "Two lines are graphed on the same coordinate plane. The lines only intersect at the point (3,6). Which of these systems of linear equations could represent two lines?  Select all that apply."
+    },
+    {
+    "number": 78,
+    "question": "Consider the system of equations. y = 2x + 2, y = 6x + 2. Which statements are true about the system of equations? The graph of the system consists of lines that have no points of intersection. The graph of the system consists of lines that have exactly one point of intersection. The graph of the system consists of lines that have more than one point of intersection. The system has no solution. The system has exactly one solution. The system has more than one solution."
+    },
+    {
+    "number": 79,
+    "question": "Solve the system of linear equations graphically. If there is one solution, verify that your solution satisfies both equations. y = 3x + 1 and x + y = 5. If there is no solution, write 'no solution'. If there are infinitely many solutions, write 'infinitely many solutions'. If there is one solution, write your answer in the format: (x,y) with no spaces."
+    },
+    {
+    "number": 80,
+    "question": "Solve the system of linear equations graphically. If there is one solution, verify that your solution satisfies both equations. y = −5 and 2x + y = −3."
+    },
+    {
+    "number": 81,
+    "question": "Solve the system of linear equations graphically. If there is one solution, verify that your solution satisfies both equations. y = −3x + 4 and y = 2."
+    },
+    {
+    "number": 82,
+    "question": "Solve the system of linear equations graphically. If there is one solution, verify that your solution satisfies both equations. x − 2 and y = x + 4."
+    },
+    {
+    "number": 83,
+    "question": "Solve the system of linear equations graphically. If there is one solution, verify that your solution satisfies both equations. y = 6x − 6 and y = 3x − 6."
+    },
+    {
+    "number": 84,
+    "question": "Solve the system of linear equations graphically. If there is one solution, verify that your solution satisfies both equations. 2x + y = −4 and y + 2x = 3."
+    },
+    {
+    "number": 85,
+    "question": "How many solutions does the system of linear equations graphed below have? How do you know?"
+    },
+    {
+    "number": 86,
+    "question": "The graph of a system of linear equations is shown below. What system of linear equations is represented by the graph?"
+    },
+    {
+    "number": 87,
+    "question": "The graph of x + y = -9 is shown. Graph the equation y = 2x + 3 on the same coordinate plane and plot the solution to this system of linear equations."
+    },
+    {
+    "number": 88,
+    "question": "x = 3 and y = 0. Line n is shown on the grid below. Line q will be graphed on the same grid. The only solution to the system of linear equations formed by lines n and q occurs when x = 3/2. Which equation could represent line q?"
+    },
+    {
+    "number": 89,
+    "question": "Determine the solution to the system of linear equations. Write the answer in the following format: (x,y) with no spaces."
+    },
+    {
+    "number": 90,
+    "question": "Solve the system of equations by graphing. y = −5x + 4 and y = 3x − 12."
+    },
+    {
+    "number": 91,
+    "question": "Solve the system of equations by graphing. y = −2x − 8 and y = 3x + 7."
+    },
+    {
+    "number": 92,
+    "question": "The graph of a system of linear equations is shown below. Write an ordered pair for the solution of the system."
+    },
+    {
+    "number": 93,
+    "question": "What is the solution to the system of linear equations shown below? A. y = -(1/3)x + 2, B. (1,4), C. y = (1/2)x - 1, D. (4,1)"
+    },
+    {
+    "number": 94,
+    "question": "The equation of line s is y = 3x − 3. The equation of line t is y = −x + 5. The equations of lines s and t form a system of equations. The solution to the system of equations is located at point P. Draw and plot."
+    },
+    {
+    "number": 95,
+    "question": "If the system of equations has infinitely many solutions, which statement must be true? A. No shared points. B. One shared point. C. No common values. D. All common values."
+    },
+    {
+    "number": 96,
+    "question": "Use a graph to find x and y values that make both y = −(1/3)x + 3 and y = 2x − 5 true."
+    },
+    {
+    "number": 97,
+    "question": "Solve these without writing anything down: x = 5, y = x − 7, y = 4, y = x + 3, x = 8, y = −11."
+    },
+    {
+    "number": 98,
+    "question": "Use the lines to decide whether each statement is true or false. 1. 8 = −x + 10, 2. 2 = 2x + 4, 3. −x + 10 = 2x + 4, 4. No values satisfy both y = −x + 10 and y = 2x + 4."
+    },
+    {
+    "number": 99,
+    "question": "Clare and Andre made signs. Based on the graph, mark the statements as true or false about how many signs they made at various times."
+    },
+    {
+    "number": 100,
+    "question": "Does the graph of the line for 3x − y = −6 pass through the points (−2, 0) and (0, −6)? Explain your reasoning."
+    }
+  ]
+}

@@ -1,0 +1,231 @@
+{
+    "title": "Systems of Equations - 25 Problem Sets",
+    "problems": [
+      {
+        "id": "SE1",
+        "question": "Solve the system by substitution: y = 2x and x + y = 6",
+        "answer": "x = 2, y = 4",
+        "difficulty": "easy",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Substitution",
+        "next": ["SE2"]
+      },
+      {
+        "id": "SE2",
+        "question": "Solve the system by elimination: 2x + y = 7 and −2x + y = 3",
+        "answer": "x = 1, y = 5",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Elimination",
+        "next": ["SE3"]
+      },
+      {
+        "id": "SE3",
+        "question": "Graph the system and estimate the solution: y = x + 2 and y = −x + 4",
+        "answer": "x = 1, y = 3",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Graphing",
+        "next": ["SE4"]
+      },
+      {
+        "id": "SE4",
+        "question": "Solve the system: y = −3x + 5 and y = x + 1",
+        "answer": "x = 1, y = 2",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Substitution",
+        "next": ["SE5"]
+      },
+      {
+        "id": "SE5",
+        "question": "Solve the system by elimination: x − 2y = 4 and 3x + 2y = 12",
+        "answer": "x = 4, y = 0",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Elimination",
+        "next": ["SE6"]
+      },
+      {
+        "id": "SE6",
+        "question": "Solve: y = 3x − 1 and y = −x + 7",
+        "answer": "x = 2, y = 5",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Substitution",
+        "next": ["SE7"]
+      },
+      {
+        "id": "SE7",
+        "question": "Determine the number of solutions for: y = 2x + 3 and 2y = 4x + 6",
+        "answer": "Infinitely many solutions",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Identifying Solution Types",
+        "next": ["SE8"]
+      },
+      {
+        "id": "SE8",
+        "question": "Solve by elimination: x + y = 10 and x − y = 2",
+        "answer": "x = 6, y = 4",
+        "difficulty": "easy",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Elimination",
+        "next": ["SE9"]
+      },
+      {
+        "id": "SE9",
+        "question": "Graph to find the solution of: y = 2x − 1 and y = −x + 5",
+        "answer": "x = 2, y = 3",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Graphing",
+        "next": ["SE10"]
+      },
+      {
+        "id": "SE10",
+        "question": "Solve: y = 4x and y = −2x + 18",
+        "answer": "x = 3, y = 12",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Substitution",
+        "next": ["SE11"]
+      },
+      {
+        "id": "SE11",
+        "question": "Identify the solution: x + 2y = 8 and 3x − y = 5",
+        "answer": "x = 2, y = 3",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Elimination",
+        "next": ["SE12"]
+      },
+      {
+        "id": "SE12",
+        "question": "What type of system is: y = 2x + 1 and y = 2x − 3?",
+        "answer": "No solution (parallel lines)",
+        "difficulty": "easy",
+        "concept": "Systems of Equations",
+        "subconcept": "Identifying Solution Types",
+        "next": ["SE13"]
+      },
+      {
+        "id": "SE13",
+        "question": "Solve: 4x − y = 7 and x + y = 3",
+        "answer": "x = 2, y = 1",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Elimination",
+        "next": ["SE14"]
+      },
+      {
+        "id": "SE14",
+        "question": "Solve the word problem: A total of $7,200 is invested in two accounts, one at 5% and one at 7%. If the total interest earned is $440, how much was invested at each rate?",
+        "answer": "$4,000 at 5% and $3,200 at 7%",
+        "difficulty": "hard",
+        "concept": "Systems of Equations",
+        "subconcept": "Word Problems",
+        "next": ["SE15"]
+      },
+      {
+        "id": "SE15",
+        "question": "Solve: 3x + 2y = 12 and 2x − y = 1",
+        "answer": "x = 2, y = 3",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Elimination",
+        "next": ["SE16"]
+      },
+      {
+        "id": "SE16",
+        "question": "Determine if (3, 2) is a solution to the system: y = x − 1 and y = −x + 5",
+        "answer": "Yes",
+        "difficulty": "easy",
+        "concept": "Systems of Equations",
+        "subconcept": "Testing Solutions",
+        "next": ["SE17"]
+      },
+      {
+        "id": "SE17",
+        "question": "Solve: 5x − 2y = 0 and x + y = 6",
+        "answer": "x = 2, y = 4",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Elimination",
+        "next": ["SE18"]
+      },
+      {
+        "id": "SE18",
+        "question": "Find the solution to: y = −x + 3 and y = 2x − 6",
+        "answer": "x = 3, y = 0",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Substitution",
+        "next": ["SE19"]
+      },
+      {
+        "id": "SE19",
+        "question": "Find the solution to the system: 2x + 3y = 12 and 4x − y = 5",
+        "answer": "x = 2, y = 2",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Elimination",
+        "next": ["SE20"]
+      },
+      {
+        "id": "SE20",
+        "question": "Solve: x − y = 2 and 2x + y = 11",
+        "answer": "x = 3, y = 1",
+        "difficulty": "easy",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Elimination",
+        "next": ["SE21"]
+      },
+      {
+        "id": "SE21",
+        "question": "Solve: 3x + y = 13 and −x + y = 1",
+        "answer": "x = 3, y = 4",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Elimination",
+        "next": ["SE22"]
+      },
+      {
+        "id": "SE22",
+        "question": "A store sells 2 shirts and 3 pants for $75. Another customer buys 1 shirt and 2 pants for $45. What is the cost of one shirt and one pair of pants?",
+        "answer": "Shirt = $15, Pants = $15",
+        "difficulty": "hard",
+        "concept": "Systems of Equations",
+        "subconcept": "Word Problems",
+        "next": ["SE23"]
+      },
+      {
+        "id": "SE23",
+        "question": "Find the point of intersection for: y = −2x + 6 and y = 4x − 6",
+        "answer": "x = 2, y = 2",
+        "difficulty": "medium",
+        "concept": "Systems of Equations",
+        "subconcept": "Solving by Substitution",
+        "next": ["SE24"]
+      },
+      {
+        "id": "SE24",
+        "question": "Is the system consistent, inconsistent, or dependent: y = 3x − 2 and 6x − 2y = 4?",
+        "answer": "Dependent (infinitely many solutions)",
+        "difficulty": "hard",
+        "concept": "Systems of Equations",
+        "subconcept": "Classifying Systems",
+        "next": ["SE25"]
+      },
+      {
+        "id": "SE25",
+        "question": "Find the solution to the system: y = x^2 and y = 3x − 2",
+        "answer": "x = 1, y = 1 and x = 2, y = 4",
+        "difficulty": "hard",
+        "concept": "Systems of Equations",
+        "subconcept": "Linear and Nonlinear Systems",
+        "next": []
+      }
+    ]
+  }
+  

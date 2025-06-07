@@ -1,0 +1,653 @@
+/* RoboticsLearning.module.css */
+
+/* Root Variables for Consistent Theming */
+:root {
+  --primary-blue: #4F46E5;
+  --primary-blue-light: #8B5CF6;
+  --secondary-purple: #7C3AED;
+  --accent-green: #10B981;
+  --accent-yellow: #F59E0B;
+  --accent-red: #EF4444;
+  --accent-pink: #EC4899;
+  --accent-cyan: #06B6D4;
+  
+  --gray-50: #F9FAFB;
+  --gray-100: #F3F4F6;
+  --gray-200: #E5E7EB;
+  --gray-300: #D1D5DB;
+  --gray-400: #9CA3AF;
+  --gray-500: #6B7280;
+  --gray-600: #4B5563;
+  --gray-700: #374151;
+  --gray-800: #1F2937;
+  --gray-900: #111827;
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  --border-radius-sm: 0.375rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 0.75rem;
+  --border-radius-xl: 1rem;
+  
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 250ms ease-in-out;
+  --transition-slow: 350ms ease-in-out;
+}
+
+/* Global Container */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #EBF8FF 0%, #F3E8FF 100%);
+  padding: 1rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.maxWidth {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+/* Header Styles */
+.header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.headerTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--gray-800);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.headerSubtitle {
+  font-size: 1.125rem;
+  color: var(--gray-600);
+  font-weight: 500;
+}
+
+/* Progress Bar */
+.progressCard {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200);
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.progressLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+.progressCount {
+  font-size: 0.875rem;
+  color: var(--gray-500);
+}
+
+.progressBarContainer {
+  width: 100%;
+  background-color: var(--gray-200);
+  border-radius: 9999px;
+  height: 0.5rem;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-green), #34D399);
+  border-radius: 9999px;
+  transition: width var(--transition-slow);
+  position: relative;
+}
+
+.progressBar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Grid Layout */
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .gridContainer {
+    grid-template-columns: 1fr 1fr 2fr;
+  }
+}
+
+/* Lesson Panel */
+.lessonPanel {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  height: fit-content;
+  border: 1px solid var(--gray-200);
+}
+
+.lessonHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.lessonTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gray-800);
+}
+
+.hintButton {
+  padding: 0.5rem;
+  color: var(--primary-blue);
+  background: transparent;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.hintButton:hover {
+  background-color: #EBF8FF;
+}
+
+.lessonList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.lessonItem {
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem;
+  border-radius: var(--border-radius-lg);
+  transition: all var(--transition-fast);
+  border: 2px solid transparent;
+  background: var(--gray-50);
+  cursor: pointer;
+}
+
+.lessonItem:hover {
+  background: var(--gray-100);
+  transform: translateY(-1px);
+}
+
+.lessonItemActive {
+  background: #EBF8FF;
+  border-color: #BFDBFE;
+}
+
+.lessonItemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lessonItemTitle {
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+.completedIcon {
+  color: var(--accent-yellow);
+}
+
+/* Current Lesson Info */
+.currentLessonCard {
+  background: linear-gradient(135deg, #F3E8FF, #FCE7F3);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem;
+}
+
+.currentLessonTitle {
+  font-weight: 700;
+  color: var(--gray-800);
+  margin-bottom: 0.5rem;
+}
+
+.currentLessonDescription {
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  margin-bottom: 0.75rem;
+}
+
+.goalCard {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.goalHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.goalIcon {
+  color: var(--accent-yellow);
+  margin-right: 0.5rem;
+}
+
+.goalLabel {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.goalText {
+  font-size: 0.875rem;
+  color: var(--gray-700);
+}
+
+.hintCard {
+  background: #EBF8FF;
+  border-radius: var(--border-radius-lg);
+  padding: 0.75rem;
+}
+
+.hintText {
+  font-size: 0.875rem;
+  color: #1E40AF;
+}
+
+.funFact {
+  font-size: 0.75rem;
+  color: #1D4ED8;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Component Toolbox */
+.toolbox {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  height: fit-content;
+  border: 1px solid var(--gray-200);
+}
+
+.toolboxTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gray-800);
+  margin-bottom: 1rem;
+}
+
+.componentList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.componentItem {
+  border: 2px dashed var(--gray-300);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  text-align: center;
+  background: white;
+}
+
+.componentItem:hover {
+  border-color: var(--primary-blue);
+  background: #EBF8FF;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.componentIcon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.componentName {
+  font-weight: 600;
+  color: var(--gray-800);
+  font-size: 0.875rem;
+}
+
+.componentDescription {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  margin-top: 0.25rem;
+}
+
+/* Workspace */
+.workspace {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200);
+}
+
+.workspaceHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.workspaceTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gray-800);
+}
+
+.workspaceControls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.resetButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--gray-500);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-lg);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.resetButton:hover {
+  background: var(--gray-600);
+  transform: translateY(-1px);
+}
+
+.simulateButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--accent-green);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-lg);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.simulateButton:hover:not(:disabled) {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.simulateButton:disabled {
+  background: var(--gray-400);
+  cursor: not-allowed;
+}
+
+/* Build Area */
+.buildArea {
+  position: relative;
+  background: linear-gradient(135deg, var(--gray-50), var(--gray-100));
+  border-radius: var(--border-radius-lg);
+  border: 2px dashed var(--gray-300);
+  min-height: 24rem;
+  overflow: hidden;
+}
+
+.emptyState {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-400);
+  text-align: center;
+}
+
+.emptyStateIcon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Robot Components */
+.robotComponent {
+  position: absolute;
+  cursor: grab;
+  transition: all var(--transition-fast);
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 0.625rem;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  user-select: none;
+}
+
+.robotComponent:active {
+  cursor: grabbing;
+}
+
+.robotComponent.pulsing {
+  animation: pulse 1s infinite;
+}
+
+.robotComponent.spinning {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.componentIcon {
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Completion Celebration */
+.completionBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--accent-green);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-lg);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: bounce 1s infinite;
+  box-shadow: var(--shadow-lg);
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+  40%, 43% { transform: translate3d(0,-30px,0); }
+  70% { transform: translate3d(0,-15px,0); }
+  90% { transform: translate3d(0,-4px,0); }
+}
+
+/* Robot Status */
+.statusGrid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.statusCard {
+  text-align: center;
+  padding: 0.75rem;
+  border-radius: var(--border-radius-lg);
+  transition: all var(--transition-fast);
+}
+
+.statusCardActive {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+.statusCardPower.statusCardActive {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.statusCardSensing.statusCardActive {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.statusCardMovement.statusCardActive {
+  background: #D1FAE5;
+  color: #065F46;
+}
+
+.statusCardInactive {
+  background: var(--gray-100);
+  color: var(--gray-500);
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 5px rgba(59, 130, 246, 0.3); }
+  to { box-shadow: 0 0 20px rgba(59, 130, 246, 0.6); }
+}
+
+.statusIcon {
+  margin: 0 auto 0.25rem;
+}
+
+.statusLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: block;
+}
+
+.statusValue {
+  font-size: 0.75rem;
+  display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 1023px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+  }
+  
+  .headerTitle {
+    font-size: 2rem;
+  }
+  
+  .workspaceHeader {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .workspaceControls {
+    justify-content: center;
+  }
+  
+  .statusGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0.5rem;
+  }
+  
+  .headerTitle {
+    font-size: 1.75rem;
+  }
+  
+  .lessonPanel,
+  .toolbox,
+  .workspace {
+    padding: 1rem;
+  }
+  
+  .robotComponent {
+    width: 4rem;
+    height: 4rem;
+    font-size: 0.5rem;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .progressBar::after {
+    display: none;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+.lessonItem:focus,
+.componentItem:focus,
+.resetButton:focus,
+.simulateButton:focus,
+.hintButton:focus {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .buildArea {
+    border-width: 3px;
+    border-color: var(--gray-800);
+  }
+  
+  .robotComponent {
+    border: 2px solid var(--gray-800);
+  }
+}

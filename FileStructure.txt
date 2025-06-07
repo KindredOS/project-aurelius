@@ -1,0 +1,60 @@
+Echo_AiA/
+├── node_modules/              # Project dependencies
+├── public/                    # Public assets for the app
+├── src/                       # Source code
+│   ├── assets/                # Static assets like images
+│   │   └── images/
+│   │       ├── Background.png
+│   │       └── Login.png
+│   ├── components/            # React components
+│   │   ├── layout/
+│   │   │   ├── globalnavigation/
+│   │   │   │   ├── GlobalNavigation.jsx
+│   │   │   │   └── GlobalNavigation.module.css
+│   │   │   ├── Layout.js
+│   │   │   └── SomeComponent.jsx
+│   ├── config/                # Configuration files
+│   │   └── ApiConfig.jsx
+│   ├── pages/                 # Application pages
+│   │   ├── Dashboard/
+│   │   │   ├── Dashboard.jsx
+│   │   │   └── Dashboard.module.css
+│   │   ├── Login/
+│   │   │   ├── Login.css
+│   │   │   └── Login.js
+│   │   └── UserProfile/
+│   │       ├── UserProfile.jsx
+│   │       └── UserProfile.module.css
+│   ├── utils/                 # Utility functions and helpers
+│   │   ├── AiConfig.js
+│   │   └── networkStatus.js
+│   ├── App.css                # Global styles
+│   └── App.js                 # Main React app component
+
+Testbed/
+├── Echo_AiA/
+│   ├── src/
+│   │   ├── pages/             # Application pages
+│   │   │   ├── Login/
+│   │   │   │   ├── Login.css
+│   │   │   │   └── Login.js
+│   │   │   └── UserProfile/
+│   │   │       ├── UserProfile.jsx
+│   │   │       └── UserProfile.module.css
+│   │   ├── utils/             # Utility functions and helpers
+│   │   │   ├── AiConfig.js
+│   │   │   └── networkStatus.js
+│   │   ├── App.css            # Global styles
+│   │   ├── App.js             # Main React app component
+│   │   ├── App.test.js        # Test file
+│   │   ├── google-services.json # Firebase configuration
+│   │   ├── index.css          # Entry point styles
+│   │   ├── index.js           # App entry point
+│   │   ├── logo.svg           # Logo asset
+│   │   ├── reportWebVitals.js # Performance tracking
+│   │   ├── routes.js          # Route definitions
+│   │   └── setupTests.js      # Test setup
+│   ├── .gitignore             # Git ignore file
+│   ├── package-lock.json      # Dependency lock file
+│   ├── package.json           # Project metadata
+│   └── README.md              # Project documentation

@@ -1,0 +1,205 @@
+{
+  "title": "Foundations for Algebra - 50 Problem Sets (Extension)",
+  "problems": [
+    {
+      "number": 401,
+      "question": "Determine the solution for the given system of linear equations. Express any non-integer values as fractions. Write your answer in the format: (x,y) with no spaces."
+    },
+    {
+      "number": 402,
+      "question": "Verify your solution on the coordinate plane. Draw your graph on paper, take a picture, and upload it using the image upload icon. If you do not have the ability to upload an image of your work type \"Graph is on paper.\""
+    },
+    {
+      "number": 403,
+      "question": "Given the graphs of a system of linear equations below, is there a solution to the system that we cannot see on this portion of the coordinate plane? That is, will the lines intersect somewhere on the plane not represented in the picture?"
+    },
+    {
+      "number": 404,
+      "question": "Explain."
+    },
+    {
+      "number": 405,
+      "question": "Given the graphs of a system of linear equations below, is there a solution to the system that we cannot see on this portion of the coordinate plane? That is, will the lines intersect somewhere on the plane not represented in the picture?"
+    },
+    {
+      "number": 406,
+      "question": "Explain."
+    },
+    {
+      "number": 407,
+      "question": "Given the graphs of a system of linear equations below, is there a solution to the system that we cannot see on this portion of the coordinate plane? That is, will the lines intersect somewhere on the plane not represented in the picture?"
+    },
+    {
+      "number": 408,
+      "question": "Explain."
+    },
+    {
+      "number": 409,
+      "question": "Given the graphs of a system of linear equations below, is there a solution to the system that we cannot see on this portion of the coordinate plane? That is, will the lines intersect somewhere on the plane not represented in the picture?"
+    },
+    {
+      "number": 410,
+      "question": "Explain."
+    },
+    {
+      "number": 411,
+      "question": "Given the graphs of a system of linear equations below, is there a solution to the system that we cannot see on this portion of the coordinate plane? That is, will the lines intersect somewhere on the plane not represented in the picture?"
+    },
+    {
+      "number": 412,
+      "question": "Explain."
+    },
+    {
+      "number": 413,
+      "question": "Does the system below have a solution?"
+    },
+    {
+      "number": 414,
+      "question": "Verify your solution on the coordinate plane. Draw your graph on paper, take a picture, and upload it using the image upload icon. If you do not have the ability to upload an image of your work type \"Graph is on paper.\""
+    },
+    {
+      "number": 415,
+      "question": "Determine the nature of the solution to the given system of linear equations. Does the system above have a solution?"
+    },
+    {
+      "number": 416,
+      "question": "Find the solution to the system algebraically. Write your answer in the format: (x,y)with no spaces."
+    },
+    {
+      "number": 417,
+      "question": "Verify that your solution is correct by graphing. Draw your graph on paper, take a picture, and upload it using the image upload icon. If you do not have the ability to upload an image of your work type \"Graph is on paper.\""
+    },
+    {
+      "number": 418,
+      "question": "Determine the nature of the solution to the given system of linear equations. Does the system above have a solution?"
+    },
+    {
+      "number": 419,
+      "question": "Find the solution to the system algebraically. Write your answer in the format: (x,y)with no spaces."
+    },
+    {
+      "number": 420,
+      "question": "Verify that your solution is correct by graphing. Draw your graph on paper, take a picture, and upload it using the image upload icon. If you do not have the ability to upload an image of your work type \"Graph is on paper.\""
+    },
+    {
+      "number": 421,
+      "question": "Determine the nature of the solution to the given system of linear equations. Does the system above have a solution?"
+    },
+    {
+      "number": 422,
+      "question": "Find the solution to the system algebraically. Write your answer in the format: (x,y)with no spaces. Express any non-integer values as fractions."
+    },
+    {
+      "number": 423,
+      "question": "Verify that your solution is correct by graphing. Draw your graph on paper, take a picture, and upload it using the image upload icon. If you do not have the ability to upload an image of your work type \"Graph is on paper.\""
+    },
+    {
+      "number": 424,
+      "question": "Determine the nature of the solution to the given system of linear equations. Does the system above have a solution?"
+    },
+    {
+      "number": 425,
+      "question": "Find the solution to the system algebraically. Write your answer in the format: (x,y) with no spaces. Express any non-integer values as fractions."
+    },
+    {
+      "number": 426,
+      "question": "Verify that your solution is correct by graphing. Draw your graph on paper, take a picture, and upload it using the image upload icon. If you do not have the ability to upload an image of your work type \"Graph is on paper.\""
+    },
+    {
+      "number": 427,
+      "question": "Determine the nature of the solution to the given system of linear equations. Does the system above have a solution?"
+    },
+    {
+      "number": 428,
+      "question": "Find the solution to the system algebraically. Write your answer in the format: (x,y)with no spaces. Express any non-integer values as fractions."
+    },
+    {
+      "number": 429,
+      "question": "Verify that your solution is correct by graphing. Draw your graph on paper, take a picture, and upload it using the image upload icon. If you do not have the ability to upload an image of your work type \"Graph is on paper.\""
+    },
+    {
+      "number": 430,
+      "question": "Determine the nature of the solution to the given system of linear equations. Does the system above have a solution?"
+    },
+    {
+      "number": 431,
+      "question": "Find the solution to the system algebraically. Write your answer in the format: (x,y) with no spaces. Express any non-integer values as fractions."
+    },
+    {
+      "number": 432,
+      "question": "Verify that your solution is correct by graphing. Draw your graph on paper, take a picture, and upload it using the image upload icon. If you do not have the ability to upload an image of your work type \"Graph is on paper.\""
+    },
+    {
+      "number": 433,
+      "question": "Jeremy and Gerardo run at constant speeds. Jeremy can run 1 mile in 8 minutes, and Gerardo can run 3 miles in 33 minutes. Jeremy started running 10 minutes after Gerardo. Assuming they run the same path, when will Jeremy catch up to Gerardo? Write the linear equation that represents Jeremy’s constant speed. Complete the equation below y = _______________ Use x as your variable."
+    },
+    {
+      "number": 434,
+      "question": "Write the linear equation that represents Gerardo’s constant speed. Make sure to include in your equation the extra time that Gerardo was able to run. Complete the equation below y = _______________ Use x as your variable."
+    },
+    {
+      "number": 435,
+      "question": "Write the system of linear equations that represents this situation. Write the system of equations using the \"WIRIS editor\" button"
+    },
+    {
+      "number": 436,
+      "question": "Sketch the graphs of the two equations. Draw your graph on paper, take a picture, and upload it using the image upload icon. If you do not have the ability to upload an image of your work type \"Graph is on paper.\""
+    },
+    {
+      "number": 437,
+      "question": "Will Jeremy ever catch up to Gerardo?"
+    },
+    {
+      "number": 438,
+      "question": "Approximately when? Around _____ minutes later"
+    },
+    {
+      "number": 439,
+      "question": "At approximately what point do the graphs of the lines intersect? Write your answer in the format: (x,y)with no spaces."
+    },
+    {
+      "number": 440,
+      "question": "Choose the method you feel is easiest for the given problem (graphing, substitution, or elimination). y = 4x x + y = 5"
+    },
+    {
+      "number": 441,
+      "question": "Solve the system of equations. If there is no solution, write \"no solution\". If there are infinitely many solutions, write \"infinitely many solutions\". If there is one solution, write your answer in the following format: (x,y) with no spaces."
+    },
+    {
+      "number": 442,
+      "question": "Choose the method you feel is easiest for the given problem (graphing, substitution, or elimination). y = −x + 10 y = 10 − x"
+    },
+    {
+      "number": 443,
+      "question": "Solve the system of equations. If there is no solution, write \"no solution\". If there are infinitely many solutions, write \"infinitely many solutions\". If there is one solution, write your answer in the following format: (x,y) with no spaces."
+    },
+    {
+      "number": 444,
+      "question": "Choose the method you feel is easiest for a given problem (graphing, substitution, or elimination). y = 2x x + y = 12"
+    },
+    {
+      "number": 445,
+      "question": "Solve the system of equations. If there is no solution, write \"no solution\". If there are infinitely many solutions, write \"infinitely many solutions\". If there is one solution, write your answer in the following format: (x,y) with no spaces."
+    },
+    {
+      "number": 446,
+      "question": "Find the value of each shape. Give the value of the (the triangle)."
+    },
+    {
+      "number": 447,
+      "question": "Give the value of the (the hexagon)."
+    },
+    {
+      "number": 448,
+      "question": "Explain how you determined each."
+    },
+    {
+      "number": 449,
+      "question": "Verify your answers."
+    },
+    {
+      "number": 450,
+      "question": "Here are a lot of systems of equations: • • • • Without solving, identify 3 systems that you think would be the least difficult for you to solve and 3 systems you think would be the most difficult. Be prepared to explain your reasoning."
+    }
+  ]
+}

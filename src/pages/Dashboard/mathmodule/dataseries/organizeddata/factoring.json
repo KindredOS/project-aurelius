@@ -1,0 +1,230 @@
+{
+    "title": "Factoring - 25 Problem Sets",
+    "problems": [
+      {
+        "id": "F1",
+        "question": "Factor the expression: x^2 + 7x + 12",
+        "answer": "(x + 3)(x + 4)",
+        "difficulty": "easy",
+        "concept": "Factoring",
+        "subconcept": "Factoring Trinomials",
+        "next": ["F2"]
+      },
+      {
+        "id": "F2",
+        "question": "Factor the expression: x^2 − 9",
+        "answer": "(x + 3)(x − 3)",
+        "difficulty": "easy",
+        "concept": "Factoring",
+        "subconcept": "Difference of Squares",
+        "next": ["F3"]
+      },
+      {
+        "id": "F3",
+        "question": "Factor: 3x^2 + 6x",
+        "answer": "3x(x + 2)",
+        "difficulty": "easy",
+        "concept": "Factoring",
+        "subconcept": "Factoring Out the GCF",
+        "next": ["F4"]
+      },
+      {
+        "id": "F4",
+        "question": "Factor: x^2 + 2x − 15",
+        "answer": "(x + 5)(x − 3)",
+        "difficulty": "medium",
+        "concept": "Factoring",
+        "subconcept": "Factoring Trinomials",
+        "next": ["F5"]
+      },
+      {
+        "id": "F5",
+        "question": "Factor completely: 2x^2 + 10x",
+        "answer": "2x(x + 5)",
+        "difficulty": "easy",
+        "concept": "Factoring",
+        "subconcept": "Factoring Out the GCF",
+        "next": ["F6"]
+      },
+      {
+        "id": "F6",
+        "question": "Factor the perfect square trinomial: x^2 + 6x + 9",
+        "answer": "(x + 3)^2",
+        "difficulty": "easy",
+        "concept": "Factoring",
+        "subconcept": "Perfect Square Trinomials",
+        "next": ["F7"]
+      },
+      {
+        "id": "F7",
+        "question": "Factor completely: x^2 − 16",
+        "answer": "(x + 4)(x − 4)",
+        "difficulty": "easy",
+        "concept": "Factoring",
+        "subconcept": "Difference of Squares",
+        "next": ["F8"]
+      },
+      {
+        "id": "F8",
+        "question": "Factor: x^2 − x − 20",
+        "answer": "(x − 5)(x + 4)",
+        "difficulty": "medium",
+        "concept": "Factoring",
+        "subconcept": "Factoring Trinomials",
+        "next": ["F9"]
+      },
+      {
+        "id": "F9",
+        "question": "Factor: 4x^2 − 25",
+        "answer": "(2x + 5)(2x − 5)",
+        "difficulty": "medium",
+        "concept": "Factoring",
+        "subconcept": "Difference of Squares",
+        "next": ["F10"]
+      },
+      {
+        "id": "F10",
+        "question": "Factor the trinomial: x^2 + 4x − 21",
+        "answer": "(x + 7)(x − 3)",
+        "difficulty": "medium",
+        "concept": "Factoring",
+        "subconcept": "Factoring Trinomials",
+        "next": ["F11"]
+      },
+      {
+        "id": "F11",
+        "question": "Factor completely: 5x^2 − 20x",
+        "answer": "5x(x − 4)",
+        "difficulty": "easy",
+        "concept": "Factoring",
+        "subconcept": "Factoring Out the GCF",
+        "next": ["F12"]
+      },
+      {
+        "id": "F12",
+        "question": "Factor the perfect square trinomial: x^2 − 10x + 25",
+        "answer": "(x − 5)^2",
+        "difficulty": "medium",
+        "concept": "Factoring",
+        "subconcept": "Perfect Square Trinomials",
+        "next": ["F13"]
+      },
+      {
+        "id": "F13",
+        "question": "Factor: 6x^2 + 5x − 6",
+        "answer": "(3x − 2)(2x + 3)",
+        "difficulty": "hard",
+        "concept": "Factoring",
+        "subconcept": "Factoring Complex Trinomials",
+        "next": ["F14"]
+      },
+      {
+        "id": "F14",
+        "question": "Factor: x^2 − 4x",
+        "answer": "x(x − 4)",
+        "difficulty": "easy",
+        "concept": "Factoring",
+        "subconcept": "Factoring Out the GCF",
+        "next": ["F15"]
+      },
+      {
+        "id": "F15",
+        "question": "Factor completely: 2x^2 − 8x + 6",
+        "answer": "2(x − 1)(x − 3)",
+        "difficulty": "medium",
+        "concept": "Factoring",
+        "subconcept": "Factoring by Grouping",
+        "next": ["F16"]
+      },
+      {
+        "id": "F16",
+        "question": "Factor: x^2 − 36",
+        "answer": "(x + 6)(x − 6)",
+        "difficulty": "easy",
+        "concept": "Factoring",
+        "subconcept": "Difference of Squares",
+        "next": ["F17"]
+      },
+      {
+        "id": "F17",
+        "question": "Factor the trinomial: x^2 − 3x − 28",
+        "answer": "(x − 7)(x + 4)",
+        "difficulty": "medium",
+        "concept": "Factoring",
+        "subconcept": "Factoring Trinomials",
+        "next": ["F18"]
+      },
+      {
+        "id": "F18",
+        "question": "Factor: 9x^2 − 1",
+        "answer": "(3x + 1)(3x − 1)",
+        "difficulty": "medium",
+        "concept": "Factoring",
+        "subconcept": "Difference of Squares",
+        "next": ["F19"]
+      },
+      {
+        "id": "F19",
+        "question": "Factor: x^2 + 10x + 21",
+        "answer": "(x + 3)(x + 7)",
+        "difficulty": "medium",
+        "concept": "Factoring",
+        "subconcept": "Factoring Trinomials",
+        "next": ["F20"]
+      },
+      {
+        "id": "F20",
+        "question": "Factor: 8x^2 − 2x − 3",
+        "answer": "(4x + 1)(2x − 3)",
+        "difficulty": "hard",
+        "concept": "Factoring",
+        "subconcept": "Factoring Complex Trinomials",
+        "next": ["F21"]
+      },
+      {
+        "id": "F21",
+        "question": "Factor completely: x^2 − 6x + 9",
+        "answer": "(x − 3)^2",
+        "difficulty": "easy",
+        "concept": "Factoring",
+        "subconcept": "Perfect Square Trinomials",
+        "next": ["F22"]
+      },
+      {
+        "id": "F22",
+        "question": "Factor: 4x^2 + 4x − 15",
+        "answer": "(2x + 5)(2x − 3)",
+        "difficulty": "hard",
+        "concept": "Factoring",
+        "subconcept": "Factoring Complex Trinomials",
+        "next": ["F23"]
+      },
+      {
+        "id": "F23",
+        "question": "Factor completely: 3x^2 − 12x + 12",
+        "answer": "3(x − 2)^2",
+        "difficulty": "medium",
+        "concept": "Factoring",
+        "subconcept": "Factoring by Grouping",
+        "next": ["F24"]
+      },
+      {
+        "id": "F24",
+        "question": "Factor: x^2 + 2x − 8",
+        "answer": "(x + 4)(x − 2)",
+        "difficulty": "medium",
+        "concept": "Factoring",
+        "subconcept": "Factoring Trinomials",
+        "next": ["F25"]
+      },
+      {
+        "id": "F25",
+        "question": "Factor: 16x^2 − 1",
+        "answer": "(4x + 1)(4x − 1)",
+        "difficulty": "medium",
+        "concept": "Factoring",
+        "subconcept": "Difference of Squares",
+        "next": []
+      }
+    ]
+  }

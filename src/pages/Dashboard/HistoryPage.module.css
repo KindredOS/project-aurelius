@@ -1,0 +1,100 @@
+/* HistoryPage.module.css */
+
+.historyPageContainer {
+    display: flex;
+    flex-direction: row;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #fdfdfd;
+    border-right: 1px solid #ddd;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.header {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.figureList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.figureItem {
+    padding: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+    background-color: #e8e8e8;
+    color: #000;
+    font-weight: normal;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    transform: scale(1);
+}
+
+.figureItem:hover {
+    background-color: #d6d6d6;
+    transform: scale(1.05);
+}
+
+.activeFigure {
+    background-color: #3cb371;
+    color: white;
+    font-weight: bold;
+    transform: scale(1.05);
+}
+
+.chatContainer {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    overflow-y: auto;
+    height: 70vh;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 20px;
+}
+
+.chatHistory {
+    height: 70%;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.inputBox {
+    flex: 3;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 1rem;
+}
+
+.sendButton {
+    flex: 1;
+    padding: 10px;
+    background-color: #3cb371;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.sendButton:hover {
+    background-color: #2e8b57;
+    transform: scale(1.05);
+}

@@ -1,0 +1,205 @@
+{
+  "title": "Foundations for Algebra - 50 Problem Sets (Extension)",
+  "problems": [
+    {
+      "number": 301,
+      "question": "Write the linear equation that represents Hector’s constant speed. Make sure to take into account that Hector left after Darnell. Complete the equation below: y = _______________ Use x as your variable."
+    },
+    {
+      "number": 302,
+      "question": "Write the system of linear equations that represents this situation. Write the systems of equations using the 'WIRIS editor' button."
+    },
+    {
+      "number": 303,
+      "question": "Sketch the graphs of the two equations. Submit your graph using the tools below."
+    },
+    {
+      "number": 304,
+      "question": "Will Hector catch up to Darnell before he gets home?"
+    },
+    {
+      "number": 305,
+      "question": "Approximately when? Do not include units (miles) in your answer."
+    },
+    {
+      "number": 306,
+      "question": "At approximately what point do the graphs of the lines intersect? Write your answer in the following format: (x,y) with no spaces."
+    },
+    {
+      "number": 307,
+      "question": "Your teacher will give you a page with some systems of equations. Graph each system of equations carefully on the provided coordinate plane. Submit your work using the tools below."
+    },
+    {
+      "number": 308,
+      "question": "Describe what the graph of a system of equations looks like when it has 1 solution."
+    },
+    {
+      "number": 309,
+      "question": "Describe what the graph of a system of equations looks like when it has 0 solutions."
+    },
+    {
+      "number": 310,
+      "question": "Describe what the graph of a system of equations looks like when it has infinitely many solutions."
+    },
+    {
+      "number": 311,
+      "question": "For the statement below, decide if it is true or false. (4, 0) is a solution of the equation for line m."
+    },
+    {
+      "number": 312,
+      "question": "Explain your reasoning."
+    },
+    {
+      "number": 313,
+      "question": "For the statement below, decide if it is true or false. The coordinates of the point G make both the equation for line m and the equation for line n true."
+    },
+    {
+      "number": 314,
+      "question": "Explain your reasoning."
+    },
+    {
+      "number": 315,
+      "question": "For the statement below, decide if it is true or false. x=0 is a solution of the equation for line n."
+    },
+    {
+      "number": 316,
+      "question": "Explain your reasoning."
+    },
+    {
+      "number": 317,
+      "question": "For the statement below, decide if it is true or false. (2, 0) makes both the equation for line m and the equation for line n true."
+    },
+    {
+      "number": 318,
+      "question": "Explain your reasoning."
+    },
+    {
+      "number": 319,
+      "question": "For the statement below, decide if it is true or false. There is no solution for the equation for line ℓ that has y=0."
+    },
+    {
+      "number": 320,
+      "question": "Explain your reasoning."
+    },
+    {
+      "number": 321,
+      "question": "For the statement below, decide if it is true or false. The coordinates of point H are solutions to the equation for line ℓ."
+    },
+    {
+      "number": 322,
+      "question": "Explain your reasoning."
+    },
+    {
+      "number": 323,
+      "question": "For the statement below, decide if it is true or false. There are exactly two solutions of the equation for line ℓ."
+    },
+    {
+      "number": 324,
+      "question": "Explain your reasoning."
+    },
+    {
+      "number": 325,
+      "question": "For the statement below, decide if it is true or false. There is a point whose coordinates make the equations of all three lines true."
+    },
+    {
+      "number": 326,
+      "question": "Explain your reasoning."
+    },
+    {
+      "number": 327,
+      "question": "Determine the solution, if it exists, for each system of linear equations. Verify your solution on the coordinate plane. Does it have a solution?"
+    },
+    {
+      "number": 328,
+      "question": "Enter the solution. Write your answer in the format: (x,y)with no spaces. Express any non-integer values as fractions."
+    },
+    {
+      "number": 329,
+      "question": "Sketch the graphs of the linear system on a coordinate plane: y = 3x +1, y = −3x + 11. Submit your graph using the tools below."
+    },
+    {
+      "number": 330,
+      "question": "Name the ordered pair where the graphs of the two linear equations intersect."
+    },
+    {
+      "number": 331,
+      "question": "Verify that the ordered pair named in the previous part is a solution to y = 3x +1."
+    },
+    {
+      "number": 332,
+      "question": "Verify that the ordered pair named in the previous part is a solution to y = −3x + 11."
+    },
+    {
+      "number": 333,
+      "question": "A different ant and ladybug are a certain distance apart, and they start walking toward each other. The graph shows the ladybug’s distance from its starting point over time and the labeled point (2.5, 10) indicates when the ant and the ladybug pass each other. The ant is walking 2 centimeters per second. Write an equation representing the relationship between the ant’s distance from the ladybug’s starting point and the amount of time that has passed."
+    },
+    {
+      "number": 334,
+      "question": "If you haven’t already, draw the graph of your equation on the same coordinate plane. Submit your graph using the tools below."
+    },
+    {
+      "number": 335,
+      "question": "Consider the graph below showing two lines, L1 and L2. Find the two corresponding linear equations. L1: y = ____, L2: y = ____"
+    },
+    {
+      "number": 336,
+      "question": "Find the following point other than those shown on the graph: One that lies on L1 but not on L2. (0,13), (0,5), (4,21)"
+    },
+    {
+      "number": 337,
+      "question": "Find the following point other than those shown on the graph: One that lies on L2 but not on L1. (0,5), (0,13), (4,21)"
+    },
+    {
+      "number": 338,
+      "question": "A school is selling t-shirts and sweatshirts for a fund-raiser. The table shows the number of t-shirts and the number of sweatshirts in each of three recent orders. The total cost of orders A and B are given. Each t-shirt has the same cost, and each sweatshirt has the same cost. The system of equations shown can be used to represent this situation: 2x+2y=38, 3x+y=35. What is the total cost, in dollars, of 1 t-shirt?"
+    },
+    {
+      "number": 339,
+      "question": "What is the cost of 1 sweatshirt?"
+    },
+    {
+      "number": 340,
+      "question": "In the system of equations, what does x represent?"
+    },
+    {
+      "number": 341,
+      "question": "In the system of equations, what does y represent?"
+    },
+    {
+      "number": 342,
+      "question": "If the system of equations is graphed in a coordinate plane, what are the coordinates (x,y) of the intersection of the two lines?"
+    },
+    {
+      "number": 343,
+      "question": "What is the total cost, in dollars, of order C?"
+    },
+    {
+      "number": 344,
+      "question": "Does the system below have a solution?"
+    },
+    {
+      "number": 345,
+      "question": "Determine the solution for the given system of linear equations. Express any non-integer values as fractions. Write your answer in the format: (x,y) with no spaces."
+    },
+    {
+      "number": 346,
+      "question": "Verify your solution on the coordinate plane. Draw your graph on paper, take a picture, and upload it using the image upload icon. If you do not have the ability to upload an image of your work type 'Graph is on paper.'"
+    },
+    {
+      "number": 347,
+      "question": "Sketch the graphs of the linear system on a coordinate plane. Submit your graph using the tools below."
+    },
+    {
+      "number": 348,
+      "question": "Name the ordered pair where the graphs of the two linear equations intersect. Write your answer in the format: (x,y) with no spaces."
+    },
+    {
+      "number": 349,
+      "question": "Verify that the ordered pair named in the previous part is a solution to one equation."
+    },
+    {
+      "number": 350,
+      "question": "Verify that the ordered pair named in the previous part is a solution to the other equation."
+    }
+  ]
+}

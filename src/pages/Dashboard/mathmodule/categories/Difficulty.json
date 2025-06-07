@@ -1,0 +1,161 @@
+{
+    "concepts": {
+      "Expressions & Equations": {
+        "subcategories": [
+          "Simplifying Expressions",
+          "Solving One-Step Equations",
+          "Solving Multi-Step Equations",
+          "Translating Words to Algebra"
+        ],
+        "difficulty": {
+          "easy": ["Simplifying Expressions", "Solving One-Step Equations"],
+          "medium": ["Translating Words to Algebra"],
+          "hard": ["Solving Multi-Step Equations"]
+        },
+        "prerequisites": [],
+        "next": ["Linear Functions", "Inequalities"]
+      },
+      "Ratios & Proportional Relationships": {
+        "subcategories": [
+          "Unit Rates",
+          "Proportions",
+          "Percent Problems"
+        ],
+        "difficulty": {
+          "easy": ["Unit Rates"],
+          "medium": ["Proportions"],
+          "hard": ["Percent Problems"]
+        },
+        "prerequisites": [],
+        "next": ["Linear Functions"]
+      },
+      "Linear Functions": {
+        "subcategories": [
+          "Understanding Slope",
+          "Interpreting Y-Intercept",
+          "Graphing Linear Equations",
+          "Writing Linear Equations from Context"
+        ],
+        "difficulty": {
+          "easy": ["Understanding Slope"],
+          "medium": ["Interpreting Y-Intercept", "Graphing Linear Equations"],
+          "hard": ["Writing Linear Equations from Context"]
+        },
+        "prerequisites": ["Expressions & Equations", "Ratios & Proportional Relationships"],
+        "next": ["Functions", "Systems of Equations"]
+      },
+      "Inequalities": {
+        "subcategories": [
+          "Solving Inequalities",
+          "Graphing Solutions on a Number Line",
+          "Real-World Inequality Applications"
+        ],
+        "difficulty": {
+          "easy": ["Solving Inequalities"],
+          "medium": ["Graphing Solutions on a Number Line"],
+          "hard": ["Real-World Inequality Applications"]
+        },
+        "prerequisites": ["Expressions & Equations"],
+        "next": ["Functions"]
+      },
+      "Functions": {
+        "subcategories": [
+          "Identifying Functions",
+          "Function Notation",
+          "Input-Output Tables"
+        ],
+        "difficulty": {
+          "easy": ["Input-Output Tables"],
+          "medium": ["Identifying Functions"],
+          "hard": ["Function Notation"]
+        },
+        "prerequisites": ["Linear Functions", "Inequalities"],
+        "next": ["Statistics & Data Representations"]
+      },
+      "Systems of Equations": {
+        "subcategories": [
+          "Solving by Graphing",
+          "Solving by Substitution",
+          "Solving by Elimination"
+        ],
+        "difficulty": {
+          "easy": ["Solving by Graphing"],
+          "medium": ["Solving by Substitution"],
+          "hard": ["Solving by Elimination"]
+        },
+        "prerequisites": ["Expressions & Equations", "Linear Functions"],
+        "next": []
+      },
+      "Factoring": {
+        "subcategories": [
+          "Distributive Property",
+          "Finding Greatest Common Factor",
+          "Factoring Basic Expressions"
+        ],
+        "difficulty": {
+          "easy": ["Distributive Property"],
+          "medium": ["Finding Greatest Common Factor"],
+          "hard": ["Factoring Basic Expressions"]
+        },
+        "prerequisites": ["Expressions & Equations"],
+        "next": ["Rational Expressions"]
+      },
+      "Exponents & Powers": {
+        "subcategories": [
+          "Laws of Exponents",
+          "Scientific Notation",
+          "Square and Cube Roots"
+        ],
+        "difficulty": {
+          "easy": ["Square and Cube Roots"],
+          "medium": ["Laws of Exponents"],
+          "hard": ["Scientific Notation"]
+        },
+        "prerequisites": [],
+        "next": ["Rational Expressions"]
+      },
+      "Rational Expressions": {
+        "subcategories": [
+          "Simplifying Rational Expressions",
+          "Adding/Subtracting Rational Expressions",
+          "Multiplying/Dividing Rational Expressions"
+        ],
+        "difficulty": {
+          "easy": ["Simplifying Rational Expressions"],
+          "medium": ["Multiplying/Dividing Rational Expressions"],
+          "hard": ["Adding/Subtracting Rational Expressions"]
+        },
+        "prerequisites": ["Factoring", "Exponents & Powers"],
+        "next": []
+      },
+      "Geometry Connections with Algebra": {
+        "subcategories": [
+          "Solving for Unknown Angles",
+          "Area and Perimeter with Variables",
+          "Volume Formulas with Expressions"
+        ],
+        "difficulty": {
+          "easy": ["Solving for Unknown Angles"],
+          "medium": ["Area and Perimeter with Variables"],
+          "hard": ["Volume Formulas with Expressions"]
+        },
+        "prerequisites": ["Expressions & Equations"],
+        "next": []
+      },
+      "Statistics & Data Representations": {
+        "subcategories": [
+          "Scatter Plots",
+          "Line of Best Fit",
+          "Interpreting Graphical Data"
+        ],
+        "difficulty": {
+          "easy": ["Scatter Plots"],
+          "medium": ["Interpreting Graphical Data"],
+          "hard": ["Line of Best Fit"]
+        },
+        "prerequisites": ["Functions"],
+        "next": []
+      }
+    }
+  }
+  

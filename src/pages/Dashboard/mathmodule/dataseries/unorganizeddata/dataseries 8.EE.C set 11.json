@@ -1,0 +1,173 @@
+{
+  "title": "Foundations for Algebra - 50 Problem Sets (Extension)",
+  "problems": [
+    {
+      "number": 501,
+      "question": "Drake was trying to write an equation to help him predict the cost of his monthly phone bill. He is charged $35 just for having a phone, and his only additional expense comes from the number of texts that he sends. He is charged $0.05 for each text. How much was his phone bill in July when he sent 750 texts? Do not include units (dollars) in your answer."
+    },
+    {
+      "number": 502,
+      "question": "How much was his phone bill in August when he sent 823 texts? Do not include units (dollars) in your answer."
+    },
+    {
+      "number": 503,
+      "question": "How much was his phone bill in September when he sent 579 texts? Do not include units (dollars) in your answer."
+    },
+    {
+      "number": 504,
+      "question": "Let y represent the total cost of Drake’s phone bill. Write an equation that represents the total cost of his phone bill in October if he sends t texts. Complete the equation below y = _______________ Use t as your variable."
+    },
+    {
+      "number": 505,
+      "question": "Another phone plan charges $20 for having a phone and $0.10 per text. Let y represent the total cost of the phone bill for sending t texts. Complete the equation below y = _______________ Use t as your variable."
+    },
+    {
+      "number": 506,
+      "question": "Write your equations in problems 504 and 505 as a system of linear equations."
+    },
+    {
+      "number": 507,
+      "question": "Solve the system you defined above. Write your answer in the following format: (t,y) with no spaces."
+    },
+    {
+      "number": 508,
+      "question": "Interpret the meaning of the solution in terms of the phone bill."
+    },
+    {
+      "number": 509,
+      "question": "You are a representative for a cell phone company and it is your job to promote different cell phone plans. Your boss asks you to visually display the costs of three plans and compare them so you can point out the advantages of each plan to your customers."
+    },
+    {
+      "number": 510,
+      "question": "(a) Use this information to write equations for each plan, and then graph the equations and estimate their intersections. (b) A customer wants to know how to decide which plan will save her the most money. Describe which plan has the lowest cost for each possible range of numbers of text messages a customer might send."
+    },
+    {
+      "number": 511,
+      "question": "Decide which story can be represented by the system of equations y = x + 6 and x + y = 100."
+    },
+    {
+      "number": 512,
+      "question": "Explain your reasoning."
+    },
+    {
+      "number": 513,
+      "question": "Diego has $11 and begins saving $5 each week toward buying a new phone. At the same time that Diego begins saving, Lin has $60 and begins spending $2 per week on supplies for her art class. Is there a week when they have the same amount of money?"
+    },
+    {
+      "number": 514,
+      "question": "After how many weeks?"
+    },
+    {
+      "number": 515,
+      "question": "How much do they have at that time?"
+    },
+    {
+      "number": 516,
+      "question": "Students sold 275 tickets for a fundraiser at school. Some tickets are for children and cost $3, while the rest are adult tickets that cost $5. If the total value of all tickets sold was $1,025, how many of each type of ticket was sold? How many children's tickets were sold?"
+    },
+    {
+      "number": 517,
+      "question": "How many adult tickets were sold?"
+    },
+    {
+      "number": 518,
+      "question": "In the figure below, line DE is parallel to line FG, with transversal AG. Write and solve a system of linear equations to determine the values of x and y."
+    },
+    {
+      "number": 519,
+      "question": "Show your work."
+    },
+    {
+      "number": 520,
+      "question": "Diego’s history teacher writes a test for the class with 26 questions. The test is worth 123 points and has two types of questions: multiple choice worth 3 points each, and essays worth 8 points each. How many essay questions are on the test?"
+    },
+    {
+      "number": 521,
+      "question": "Explain or show your reasoning."
+    },
+    {
+      "number": 522,
+      "question": "Kimi and Jordan are both working during the summer to earn money in addition to their weekly allowances, and they are saving all their money. Kimi earns $9 an hour at her job, and her allowance is $8 per week. Jordan earns $7.50 an hour, and his allowance is $16 per week. Complete the tables."
+    },
+    {
+      "number": 523,
+      "question": "Write an equation that can be used to calculate the total of Kimi's allowance and job earnings at the end of one week given the number of hours she works."
+    },
+    {
+      "number": 524,
+      "question": "Write an equation that can be used to calculate the total of Jordan's allowance and job earnings at the end of one week given the number of hours he works."
+    },
+    {
+      "number": 525,
+      "question": "Jordan wonders who will save more money in one week if they both work the same number of hours. Who will save more money? Assume they work 40 hours in one week."
+    },
+    {
+      "number": 526,
+      "question": "An exam worth 145 points contains 50 questions. Some of the questions are worth two points and some are worth five points. How many two-point questions are on the test?"
+    },
+    {
+      "number": 527,
+      "question": "How many five-point questions are on the test?"
+    },
+    {
+      "number": 528,
+      "question": "Jasper has a coin collection consisting of quarters and dimes. He has 50 coins worth $8.60. How many of each coin does he have? First define your unknowns."
+    },
+    {
+      "number": 529,
+      "question": "Write the system of equations."
+    },
+    {
+      "number": 530,
+      "question": "Solve. Write the solution in a complete sentence."
+    },
+    {
+      "number": 531,
+      "question": "Clare and Noah play a game in which they earn the same number of points for each goal and lose the same number of points for each penalty. Clare makes 6 goals and 3 penalties, ending the game with 6 points. Noah earns 8 goals and 9 penalties and ends the game with -22 points. Write a system of equations that describes Clare and Noah's outcomes. Use x to represent the number of points for a goal and y to represent the number of points for a penalty."
+    },
+    {
+      "number": 532,
+      "question": "Solve the system."
+    },
+    {
+      "number": 533,
+      "question": "What does your solution mean?"
+    },
+    {
+      "number": 534,
+      "question": "While conducting an inventory in their bicycle shop, the owner noticed the number of bicycles is 2 fewer than 10 times the number of tricycles. They also know there are 410 wheels on all the bicycles and tricycles in the store. Write a system of equations to find the number of bicycles in the store."
+    },
+    {
+      "number": 535,
+      "question": "Solve the system of equations to find the number of bicycles in the store."
+    },
+    {
+      "number": 536,
+      "question": "Mai earns $7 per hour mowing her neighbors' lawns. She also earned $14 for hauling away bags of recyclables for some neighbors. Priya babysits her neighbor’s children. The table shows the amount of money m she earns in h hours. Priya and Mai have agreed to go to the movies the weekend after they have earned the same amount of money for the same number of work hours."
+    },
+    {
+      "number": 537,
+      "question": "How much will each of them have earned?"
+    },
+    {
+      "number": 538,
+      "question": "Explain where the solution can be seen in tables of values, graphs, and equations that represent Priya's and Mai's hourly earnings."
+    },
+    {
+      "number": 539,
+      "question": "Priya and Han are biking in the same direction on the same path. Han is riding at a constant speed of 16 miles per hour. Write an expression that shows how many miles Han has gone after t hours. Use t as your variable."
+    },
+    {
+      "number": 540,
+      "question": "Priya started riding a half hour before Han. If Han has been riding for t hours, how long has Priya been riding? Use t as your variable."
+    },
+    {
+      "number": 541,
+      "question": "Priya is riding at a constant speed of 12 miles per hour. Write an expression that shows how many miles Priya has gone after Han has been riding for t hours. Use t as your variable."
+    },
+    {
+      "number": 542,
+      "question": "Use your expressions to find when Han and Priya meet."
+    }
+  ]
+}

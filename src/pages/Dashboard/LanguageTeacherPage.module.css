@@ -1,0 +1,520 @@
+/* LanguageTeacherPage.module.css */
+
+/* Main container matching the flex layout from JS */
+.languageTeacherPageContainer {
+    display: flex;
+    height: 100vh;
+    background-color: #f3f4f6; /* bg-gray-100 equivalent */
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+/* Sidebar Navigation */
+.sidebar {
+    width: 16rem; /* w-64 equivalent */
+    background-color: #ffffff;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    flex-shrink: 0;
+}
+
+.sidebarHeader {
+    padding: 1.5rem; /* p-6 */
+    border-bottom: 1px solid #e5e7eb; /* border-gray-200 */
+}
+
+.sidebarTitle {
+    font-size: 1.5rem; /* text-2xl */
+    font-weight: 700; /* font-bold */
+    color: #1f2937; /* text-gray-800 */
+    margin: 0;
+}
+
+.sidebarSubtitle {
+    font-size: 0.875rem; /* text-sm */
+    color: #4b5563; /* text-gray-600 */
+    margin: 0.25rem 0 0 0; /* mt-1 */
+}
+
+.sidebarNav {
+    padding: 1rem; /* p-4 */
+}
+
+.navTitle {
+    font-size: 1.125rem; /* text-lg */
+    font-weight: 600; /* font-semibold */
+    color: #374151; /* text-gray-700 */
+    margin: 0 0 1rem 0; /* mb-4 */
+}
+
+.toolList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* space-y-2 */
+}
+
+.toolItem {
+    margin: 0;
+}
+
+.toolButton {
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1rem; /* px-4 py-3 */
+    border-radius: 0.5rem; /* rounded-lg */
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    background: none;
+}
+
+.toolButton:not(.active) {
+    color: #374151; /* text-gray-700 */
+}
+
+.toolButton:not(.active):hover {
+    background-color: #f3f4f6; /* hover:bg-gray-100 */
+}
+
+.toolButton.active {
+    background-color: #059669; /* bg-green-600 */
+    color: #ffffff; /* text-white */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+    transform: scale(1.05);
+}
+
+.toolIcon {
+    width: 1.25rem; /* w-5 h-5 */
+    height: 1.25rem;
+    margin-right: 0.75rem; /* mr-3 */
+}
+
+/* Main Content Area */
+.mainContent {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.contentSection {
+    padding: 1.5rem; /* p-6 */
+}
+
+/* Overview Page Styles */
+.overviewHeader {
+    margin-bottom: 1.5rem; /* mb-6 */
+}
+
+.overviewTitle {
+    font-size: 1.875rem; /* text-3xl */
+    font-weight: 700; /* font-bold */
+    color: #1f2937; /* text-gray-800 */
+    margin: 0 0 1rem 0; /* mb-4 */
+}
+
+.overviewDescription {
+    font-size: 1.125rem; /* text-lg */
+    color: #4b5563; /* text-gray-600 */
+    margin: 0 0 1.5rem 0; /* mb-6 */
+}
+
+.languageSelector {
+    margin-bottom: 1.5rem; /* mb-6 */
+}
+
+.languageLabel {
+    display: block;
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    color: #374151; /* text-gray-700 */
+    margin-bottom: 0.5rem; /* mb-2 */
+}
+
+.languageSelect {
+    border: 1px solid #d1d5db; /* border-gray-300 */
+    border-radius: 0.5rem; /* rounded-lg */
+    padding: 0.5rem 1rem; /* px-4 py-2 */
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.languageSelect:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #10b981; /* focus:ring-green-500 */
+    border-color: transparent;
+}
+
+.toolsGrid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.5rem; /* gap-6 */
+}
+
+@media (min-width: 768px) {
+    .toolsGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)); /* md:grid-cols-2 */
+    }
+}
+
+.toolCard {
+    background-color: #ffffff;
+    border-radius: 0.5rem; /* rounded-lg */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+    padding: 1.5rem; /* p-6 */
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+    border: 1px solid #e5e7eb; /* border-gray-200 */
+}
+
+.toolCard:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* hover:shadow-lg */
+}
+
+.toolCardHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem; /* mb-3 */
+}
+
+.toolCardIcon {
+    width: 2rem; /* w-8 h-8 */
+    height: 2rem;
+    color: #059669; /* text-green-600 */
+    margin-right: 0.75rem; /* mr-3 */
+}
+
+.toolCardTitle {
+    font-size: 1.25rem; /* text-xl */
+    font-weight: 600; /* font-semibold */
+    color: #1f2937; /* text-gray-800 */
+    margin: 0;
+}
+
+.toolCardDescription {
+    color: #4b5563; /* text-gray-600 */
+    margin: 0;
+    line-height: 1.5;
+}
+
+.toolCardFooter {
+    margin-top: 1rem; /* mt-4 */
+    display: flex;
+    justify-content: flex-end;
+}
+
+.chevronIcon {
+    width: 1.25rem; /* w-5 h-5 */
+    height: 1.25rem;
+    color: #059669; /* text-green-600 */
+}
+
+/* Common Card Styles */
+.card {
+    background-color: #ffffff;
+    border-radius: 0.5rem; /* rounded-lg */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    padding: 2rem; /* p-8 */
+}
+
+.cardCentered {
+    max-width: 32rem; /* max-w-2xl */
+    margin: 0 auto;
+}
+
+.cardSmall {
+    max-width: 28rem; /* max-w-md */
+    margin: 0 auto;
+}
+
+/* Button Styles */
+.button {
+    padding: 0.5rem 1.5rem; /* px-6 py-2 */
+    border-radius: 0.5rem; /* rounded-lg */
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.buttonPrimary {
+    background-color: #059669; /* bg-green-600 */
+    color: #ffffff; /* text-white */
+}
+
+.buttonPrimary:hover {
+    background-color: #047857; /* hover:bg-green-700 */
+}
+
+.buttonSecondary {
+    background-color: #2563eb; /* bg-blue-600 */
+    color: #ffffff; /* text-white */
+}
+
+.buttonSecondary:hover {
+    background-color: #1d4ed8; /* hover:bg-blue-700 */
+}
+
+.buttonGray {
+    background-color: #4b5563; /* bg-gray-600 */
+    color: #ffffff; /* text-white */
+}
+
+.buttonGray:hover {
+    background-color: #374151; /* hover:bg-gray-700 */
+}
+
+.buttonRed {
+    background-color: #dc2626; /* bg-red-600 */
+    color: #ffffff; /* text-white */
+}
+
+.buttonRed:hover {
+    background-color: #b91c1c; /* hover:bg-red-700 */
+}
+
+.buttonDisabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.buttonIcon {
+    width: 1rem; /* w-4 h-4 */
+    height: 1rem;
+    margin-right: 0.5rem; /* mr-2 */
+}
+
+.buttonIconLarge {
+    width: 1.25rem; /* w-5 h-5 */
+    height: 1.25rem;
+    margin-right: 0.5rem; /* mr-2 */
+}
+
+/* Text Styles */
+.textCenter {
+    text-align: center;
+}
+
+.text3xl {
+    font-size: 1.875rem; /* text-3xl */
+    line-height: 2.25rem;
+}
+
+.text2xl {
+    font-size: 1.5rem; /* text-2xl */
+    line-height: 2rem;
+}
+
+.textXl {
+    font-size: 1.25rem; /* text-xl */
+    line-height: 1.75rem;
+}
+
+.textLg {
+    font-size: 1.125rem; /* text-lg */
+    line-height: 1.75rem;
+}
+
+.textSm {
+    font-size: 0.875rem; /* text-sm */
+    line-height: 1.25rem;
+}
+
+.fontBold {
+    font-weight: 700;
+}
+
+.fontSemibold {
+    font-weight: 600;
+}
+
+.fontMedium {
+    font-weight: 500;
+}
+
+/* Color Classes */
+.textGray800 {
+    color: #1f2937;
+}
+
+.textGray600 {
+    color: #4b5563;
+}
+
+.textGray500 {
+    color: #6b7280;
+}
+
+.textGreen600 {
+    color: #059669;
+}
+
+.textGreen800 {
+    color: #065f46;
+}
+
+.textRed800 {
+    color: #991b1b;
+}
+
+/* Spacing Utilities */
+.mb2 {
+    margin-bottom: 0.5rem;
+}
+
+.mb4 {
+    margin-bottom: 1rem;
+}
+
+.mb6 {
+    margin-bottom: 1.5rem;
+}
+
+.mb8 {
+    margin-bottom: 2rem;
+}
+
+.mt2 {
+    margin-top: 0.5rem;
+}
+
+.mt4 {
+    margin-top: 1rem;
+}
+
+.mt6 {
+    margin-top: 1.5rem;
+}
+
+.mt8 {
+    margin-top: 2rem;
+}
+
+/* Quiz and Practice Specific Styles */
+.quizGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem; /* gap-4 */
+}
+
+.quizButton {
+    padding: 1rem; /* p-4 */
+    border-radius: 0.5rem; /* rounded-lg */
+    border: 2px solid #d1d5db; /* border-gray-300 */
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quizButton:hover:not(.quizButtonDisabled) {
+    border-color: #10b981; /* hover:border-green-500 */
+    background-color: #ecfdf5; /* hover:bg-green-50 */
+}
+
+.quizButtonCorrect {
+    background-color: #dcfce7; /* bg-green-100 */
+    border-color: #10b981; /* border-green-500 */
+    color: #065f46; /* text-green-800 */
+}
+
+.quizButtonIncorrect {
+    background-color: #fee2e2; /* bg-red-100 */
+    border-color: #ef4444; /* border-red-500 */
+    color: #991b1b; /* text-red-800 */
+}
+
+.quizButtonDefault {
+    background-color: #f3f4f6; /* bg-gray-100 */
+    border-color: #d1d5db; /* border-gray-300 */
+}
+
+.quizButtonDisabled {
+    cursor: not-allowed;
+}
+
+/* Flashcard Styles */
+.flashcard {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+    min-height: 16rem; /* min-h-64 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.flashcard:hover {
+    transform: translateY(-2px);
+}
+
+.flashcardControls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+
+.flashcardCounter {
+    color: #4b5563;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+/* Audio Button Styles */
+.audioButton {
+    color: #059669;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    transition: color 0.2s ease;
+}
+
+.audioButton:hover {
+    color: #047857;
+}
+
+/* Practice Navigation */
+.practiceNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.practiceCounter {
+    color: #4b5563;
+    padding: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .languageTeacherPageContainer {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+    
+    .quizGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .toolsGrid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,205 @@
+{
+  "title": "Foundations for Algebra - 50 Problem Sets (Extension)",
+  "problems": [
+    {
+      "number": 251,
+      "question": "Complete the table to find solutions to the linear equation. Create and fill in the table using the table button"
+    },
+    {
+      "number": 252,
+      "question": "Graph the points on the coordinate plane. Submit your graph using the tools below."
+    },
+    {
+      "number": 253,
+      "question": "Find the slope between any two points."
+    },
+    {
+      "number": 254,
+      "question": "The slope you found in part (d) should be equal to the slope you noted in part (a). If so, connect the points to make the line that is the graph of an equation of the form"
+    },
+    {
+      "number": 255,
+      "question": "Note the location (ordered pair) that describes where the line intersects the y-axis."
+    },
+    {
+      "number": 256,
+      "question": "Here is the graph for one equation in a system of equations. Write a second equation for the system so it has infinitely many solutions. y= Use x as your variable."
+    },
+    {
+      "number": 257,
+      "question": "Write a second equation whose graph goes through (0, 2) so that the system has no solutions. y= Use x as your variable."
+    },
+    {
+      "number": 258,
+      "question": "Write a second equation whose graph goes through (2, 2) so that the system has one solution at (4, 3). y= Use x as your variable."
+    },
+    {
+      "number": 259,
+      "question": "La gráfica de una ecuación lineal pasa por los puntos (-2,0) y (0,-6). Usa los dos puntos para dibujar la gráfica de la ecuación. Entrega tu gráfica usando las herramientas que ves en el espacio de abajo."
+    },
+    {
+      "number": 260,
+      "question": "A graph of a linear equation passes through (-2,0) and (0,-6). ¿Sí es una ecuación para esta gráfica?"
+    },
+    {
+      "number": 261,
+      "question": "Explica cómo lo sabes."
+    },
+    {
+      "number": 262,
+      "question": "Graph a system of linear equations with no solutions. Submit your graph using the tools below."
+    },
+    {
+      "number": 263,
+      "question": "Write an equation for each line you graph. Write the equations using the \"WIRIS editor\" button."
+    },
+    {
+      "number": 264,
+      "question": "Your boss asks you to visually display the costs of three phone plans. Use the information provided to write equations for each plan, graph them, and estimate their intersections."
+    },
+    {
+      "number": 265,
+      "question": "Describe which plan has the lowest cost for different ranges of text messages."
+    },
+    {
+      "number": 266,
+      "question": "Line l and line l₂ are shown on the graph. What is the y-intercept of l₁? Answer in the format: (x,y) with no spaces."
+    },
+    {
+      "number": 267,
+      "question": "What is the y-intercept of l₂? Answer in the format: (x,y) with no spaces."
+    },
+    {
+      "number": 268,
+      "question": "Write a system of linear equations representing lines l₁ and l₂. Use the \"WIRIS editor\" button."
+    },
+    {
+      "number": 269,
+      "question": "Use the graph to estimate the solution to the system."
+    },
+    {
+      "number": 270,
+      "question": "Solve the system of linear equations algebraically. Write your answer in the format: (x,y) with no spaces."
+    },
+    {
+      "number": 271,
+      "question": "Show that your solution from the previous part satisfies both equations."
+    },
+    {
+      "number": 272,
+      "question": "The solution of a system of linear equations is (−3, 1). Graph two lines that could be the graphs of the system."
+    },
+    {
+      "number": 273,
+      "question": "What is the equation of line L₁ in the graph shown? y ="
+    },
+    {
+      "number": 274,
+      "question": "What is the equation of line L₂ in the graph shown? y ="
+    },
+    {
+      "number": 275,
+      "question": "Find a point that lies on L₁ but not on L₂."
+    },
+    {
+      "number": 276,
+      "question": "Find a point that lies on L₂ but not on L₁."
+    },
+    {
+      "number": 277,
+      "question": "Andre starts with $15 and deposits $5 per week. Write the equation for Andre's savings. y= Use x as your variable."
+    },
+    {
+      "number": 278,
+      "question": "Graph Andre's equation alongside Noah's equation. Submit your graph using the tools below."
+    },
+    {
+      "number": 279,
+      "question": "What does the intersection point mean in this situation?"
+    },
+    {
+      "number": 280,
+      "question": "Draw a graph with two lines that intersect at (1, 4). One line should also pass through (0, −1). Submit your graph using the tools below."
+    },
+    {
+      "number": 281,
+      "question": "Write an equation for each line you drew in part a."
+    },
+    {
+      "number": 282,
+      "question": "Can you determine whether a system of equations has a solution by looking at the graph of the equations? Explain."
+    },
+    {
+      "number": 283,
+      "question": "Can you find a pair (x, y) that makes all equations in a system true? Explain."
+    },
+    {
+      "number": 284,
+      "question": "Lin drinks a 12 oz milkshake at 1 oz/second. Diego starts 5 seconds later with a 20 oz shake at the same rate. Graph this situation."
+    },
+    {
+      "number": 285,
+      "question": "What does the graph tell you about the situation?"
+    },
+    {
+      "number": 286,
+      "question": "How many solutions are there?"
+    },
+    {
+      "number": 287,
+      "question": "A graph of a linear equation passes through (-2, 0) and (0, -6). Sketch the graph using these points."
+    },
+    {
+      "number": 288,
+      "question": "Does the graph of the line for 3x − y = −6 pass through the points (−2, 0) and (0, −6)?"
+    },
+    {
+      "number": 289,
+      "question": "Explain how you know."
+    },
+    {
+      "number": 290,
+      "question": "A stack of n small cups has height h = 1.5n + 6. A stack of large cups has h = 1.5n + 9. Graph both equations."
+    },
+    {
+      "number": 291,
+      "question": "For what number of cups will the two stacks have the same height?"
+    },
+    {
+      "number": 292,
+      "question": "The solution of a system of linear equations is (−3, 1). Graph two lines that pass through this point. Label one line a and the other b. What is the equation of line a?"
+    },
+    {
+      "number": 293,
+      "question": "What is the equation of line b?"
+    },
+    {
+      "number": 294,
+      "question": "Here is the graph for one equation in a system. Write a second equation so the system has infinitely many solutions. y= Use x as your variable."
+    },
+    {
+      "number": 295,
+      "question": "Write a second equation whose graph goes through (0,1) so the system has no solutions. y= Use x as your variable."
+    },
+    {
+      "number": 296,
+      "question": "Write a second equation whose graph goes through (0,2) so the system has one solution at (4,1). y= Use x as your variable."
+    },
+    {
+      "number": 297,
+      "question": "Consider the graph of two lines, L1 and L2. Find the equations: L1: y =  L2: y ="
+    },
+    {
+      "number": 298,
+      "question": "Find a point that lies on L1 but not on L2."
+    },
+    {
+      "number": 299,
+      "question": "Find a point that lies on L2 but not on L1."
+    },
+    {
+      "number": 300,
+      "question": "Darnell bikes 8 miles in 32 minutes. Hector starts 5 minutes later and rides faster. Will Hector catch up? Write the linear equation for Darnell’s speed. y = Use x as your variable."
+    }
+  ]
+}
