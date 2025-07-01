@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './LearningSession.module.css';
 import { getNextProblem, submitAnswer } from './utils/LessonEngine';
 import CalculatorMath from './CalculatorMath';
-import CourseChat from '../../../components/layout/CourseChat';
+import AITutor from './utils/useAITutor';
 import feedbackMessages from './dataseries/MotivationBank.json';
 import { MathAPI } from '../../../api/ApiMaster';
 
@@ -51,7 +51,6 @@ const LearningSession = () => {
       console.error('Error sending session data to backend:', error);
     }
 
-    // Feedback message logic
     const milestoneMessage = feedbackMessages.milestone[updatedLog.length];
     const fallbackMessage = correct
       ? getRandom(feedbackMessages.positive)
@@ -105,8 +104,8 @@ const LearningSession = () => {
         />
       </div>
 
-      {/* Chat Bubble */}
-      <CourseChat chatVisible={showChat} toggleChat={() => setShowChat(!showChat)} />
+      {/* Embedded AI Tutor */}
+      <AITutor chatVisible={showChat} toggleChat={() => setShowChat(!showChat)} />
     </div>
   );
 };
