@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import styles from './LearningSession.module.css';
 import { getNextProblem, submitAnswer } from './utils/LessonEngine';
 import CalculatorMath from './CalculatorMath';
-import { FaDownload } from 'react-icons/fa';
 import CourseChat from '../../../components/layout/CourseChat';
 import feedbackMessages from './dataseries/MotivationBank.json';
+import { MathAPI } from '../../../api/ApiMaster';
 
 const LOCAL_STORAGE_KEY = 'studybuddy_math_attempt_log';
 
@@ -16,10 +16,9 @@ const LearningSession = () => {
   const [userAnswer, setUserAnswer] = useState('');
   const [feedback, setFeedback] = useState('');
   const [attemptLog, setAttemptLog] = useState([]);
-  const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
-  const [passwordInput, setPasswordInput] = useState('');
   const [scratchPad, setScratchPad] = useState('');
   const [showChat, setShowChat] = useState(false);
+  const userEmail = localStorage.getItem('userEmail') || 'anonymous@fallback.com';
 
   useEffect(() => {
     const problem = getNextProblem();
@@ -31,7 +30,7 @@ const LearningSession = () => {
     }
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const correct = submitAnswer(userAnswer);
 
     const logEntry = {
@@ -45,6 +44,12 @@ const LearningSession = () => {
     const updatedLog = [...attemptLog, logEntry];
     setAttemptLog(updatedLog);
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedLog));
+
+    try {
+      await MathAPI.logSessionResult(userEmail, logEntry);
+    } catch (error) {
+      console.error('Error sending session data to backend:', error);
+    }
 
     // Feedback message logic
     const milestoneMessage = feedbackMessages.milestone[updatedLog.length];
@@ -61,23 +66,6 @@ const LearningSession = () => {
         setFeedback('');
       }, 1000);
     }
-  };
-
-  const handlePasswordCheck = () => {
-    if (passwordInput === '1234') {
-      const data = localStorage.getItem(LOCAL_STORAGE_KEY);
-      const blob = new Blob([data], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'math_attempt_log.json';
-      a.click();
-      URL.revokeObjectURL(url);
-    } else {
-      alert('Incorrect password.');
-    }
-    setShowPasswordPrompt(false);
-    setPasswordInput('');
   };
 
   return (
@@ -117,32 +105,8 @@ const LearningSession = () => {
         />
       </div>
 
-      {/* Download Button Bubble */}
-      <button
-        className={styles.downloadIconButton}
-        onClick={() => setShowPasswordPrompt(true)}
-        title="Download Attempt Log"
-      >
-        <FaDownload />
-      </button>
-
       {/* Chat Bubble */}
       <CourseChat chatVisible={showChat} toggleChat={() => setShowChat(!showChat)} />
-
-      {showPasswordPrompt && (
-        <div style={{ position: 'absolute', top: '6rem', right: '1rem' }}>
-          <input
-            type="password"
-            value={passwordInput}
-            onChange={(e) => setPasswordInput(e.target.value)}
-            placeholder="Enter password"
-            className={styles.inputField}
-          />
-          <button className={styles.button} onClick={handlePasswordCheck}>
-            Confirm
-          </button>
-        </div>
-      )}
     </div>
   );
 };

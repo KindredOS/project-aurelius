@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { isOnline } from '../../../utils/networkStatus'; // Import the network status utility
+import { isOnline } from '../../../utils/networkStatus';
 import styles from './GlobalNavigation.module.css';
 
-const GlobalNavigation = ({ user }) => {
+const GlobalNavigation = ({ user: propUser }) => {
   const navigate = useNavigate();
   const [isConnected, setIsConnected] = useState(false);
+  const [user, setUser] = useState(propUser || {});
+
+  useEffect(() => {
+    if (!propUser) {
+      const storedRole = localStorage.getItem('userRole');
+      const imageUrl = localStorage.getItem('userImageUrl');
+      setUser({ role: storedRole, imageUrl });
+    }
+  }, [propUser]);
 
   useEffect(() => {
     const checkConnectivity = async () => {
       try {
         const online = await isOnline();
-        console.log("Connectivity Check: Online Status -", online); // Debug log
+        console.log("Connectivity Check: Online Status -", online);
         setIsConnected(online);
       } catch (error) {
         console.error("Error checking connectivity:", error);
@@ -20,29 +29,39 @@ const GlobalNavigation = ({ user }) => {
     };
 
     checkConnectivity();
-
-    // Set an interval to regularly check connectivity
-    const interval = setInterval(checkConnectivity, 10000); // Check every 10 seconds
+    const interval = setInterval(checkConnectivity, 10000);
     return () => clearInterval(interval);
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('googleLoggedIn'); // Clear the Google login token
+    localStorage.removeItem('googleLoggedIn');
+    localStorage.removeItem('userRole');
     alert('You have been logged out.');
-    setTimeout(() => navigate('/pages/Login'), 100); // Redirect to the correct login page after a short delay
+    setTimeout(() => navigate('/'), 100);
+  };
+
+  const handleDashboardNavigation = () => {
+    const role = user?.role;
+    if (['student', 'teacher', 'admin'].includes(role)) {
+      navigate(`/dashboard/${role}`);
+    } else {
+      console.warn('No valid role found for dashboard navigation. Redirecting to home.');
+      navigate('/');
+    }
   };
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.logo} onClick={() => navigate('/dashboard')}>KOSEdu SDK</div>
+      <div className={styles.logo} onClick={handleDashboardNavigation}>KOSEdu SDK</div>
       <ul className={styles.navLinks} style={{ justifyContent: 'flex-end' }}>
         <li>
-          <NavLink
-            to="/dashboard"
-            className={({ isActive }) => (isActive ? styles.active : undefined)}
+          <div
+            onClick={handleDashboardNavigation}
+            className={styles.navLink}
+            style={{ cursor: 'pointer' }}
           >
             Dashboard
-          </NavLink>
+          </div>
         </li>
         <li>
           <NavLink
@@ -63,9 +82,7 @@ const GlobalNavigation = ({ user }) => {
         </li>
       </ul>
       <div className={styles.connectionIndicator} style={{ textAlign: 'center', flex: 1 }}>
-        <span
-          className={isConnected ? styles.connected : styles.disconnected}
-        >
+        <span className={isConnected ? styles.connected : styles.disconnected}>
           {isConnected ? '● Connected' : '● Not Connected'}
         </span>
       </div>

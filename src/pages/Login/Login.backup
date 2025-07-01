@@ -25,17 +25,7 @@ function Login() {
 
   const handleGoogleSuccess = (response) => {
     console.log('Google Login Success:', response.credential);
-
-    // Decode JWT payload to extract user info
-    const base64Url = response.credential.split('.')[1];
-    const decodedPayload = JSON.parse(atob(base64Url));
-    const userEmail = decodedPayload.email;
-    const userName = decodedPayload.name;
-
     alert('Google Login successful!');
-    localStorage.setItem('googleLoggedIn', true);
-    localStorage.setItem('userName', userName);
-    localStorage.setItem('userEmail', userEmail);
     localStorage.setItem('googleLoggedIn', true);
     if (role) localStorage.setItem('userRole', role);
     navigate(`/dashboard/${role}`);
