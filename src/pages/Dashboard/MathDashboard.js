@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './MathDashboard.module.css';
-import { getMasteryLog } from './mathmodule/utils/LessonEngine';
+import { getApiUrl } from '../../api/ApiMaster';
 
 const mathJokes = [
   "Why was the math book sad? Because it had too many problems.",
@@ -50,14 +50,30 @@ const getBadge = (accuracy) => {
 const MathDashboard = () => {
   const [joke, setJoke] = useState("");
   const [mastery, setMastery] = useState({});
+  const [rewards, setRewards] = useState({});
   const [expanded, setExpanded] = useState({});
   const navigate = useNavigate();
+  const userEmail = localStorage.getItem('userEmail') || 'anonymous@fallback.com';
 
   useEffect(() => {
-    const randomJoke = mathJokes[Math.floor(Math.random() * mathJokes.length)];
-    setJoke(randomJoke);
-    setMastery(getMasteryLog());
-  }, []);
+    const fetchData = async () => {
+      try {
+        const masteryRes = await fetch(`${getApiUrl()}/edu/${userEmail}/mastery`);
+        const rewardsRes = await fetch(`${getApiUrl()}/edu/${userEmail}/rewards`);
+        const masteryData = await masteryRes.json();
+        const rewardsData = await rewardsRes.json();
+        setMastery(masteryData);
+        setRewards(rewardsData);
+      } catch (err) {
+        console.error("Failed to fetch mastery or rewards:", err);
+        setMastery({});
+        setRewards({});
+      }
+    };
+
+    setJoke(mathJokes[Math.floor(Math.random() * mathJokes.length)]);
+    fetchData();
+  }, [userEmail]);
 
   const handleStartLearning = () => {
     navigate("/page/Dashboard/mathmodule/LearningSession");
@@ -102,6 +118,7 @@ const MathDashboard = () => {
           const totalCorrect = entries.reduce((sum, e) => sum + e.correct, 0);
           const accuracy = totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : 0;
           const badge = getBadge(accuracy);
+          const unlocked = rewards.hasOwnProperty(concept);
 
           return (
             <div key={concept} className={styles.card}>
@@ -115,10 +132,13 @@ const MathDashboard = () => {
                   <p><strong>Correct:</strong> {totalCorrect}</p>
                   <p><strong>Accuracy:</strong> {accuracy}%</p>
                   <p><strong>Badge:</strong> <span style={{ backgroundColor: badge.color, color: 'white', padding: '4px 10px', borderRadius: '8px' }}>{badge.label}</span></p>
-                  {accuracy >= 75 && cardImages[concept] && (
+                  {unlocked && cardImages[concept] && (
                     <button className={styles.button} onClick={() => handleDownloadCard(concept)}>
                       🎁 Download Reward Card
                     </button>
+                  )}
+                  {!unlocked && accuracy >= 75 && (
+                    <p><em>🎖️ Earn this card by mastering the topic!</em></p>
                   )}
                 </div>
               )}

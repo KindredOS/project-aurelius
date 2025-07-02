@@ -1,11 +1,11 @@
 // LearningSession.jsx
 import React, { useState, useEffect } from 'react';
 import styles from './LearningSession.module.css';
-import { getNextProblem, submitAnswer, getMasteryLog } from './utils/LessonEngine';
+import { getNextProblem, submitAnswer } from './utils/LessonEngine';
 import CalculatorMath from './CalculatorMath';
 import AITutor from './utils/useAITutor';
 import feedbackMessages from './dataseries/MotivationBank.json';
-import { getApiUrl } from '../../../api/ApiMaster';
+import { MathAPI } from '../../../api/ApiMaster';
 
 const LOCAL_STORAGE_KEY = 'studybuddy_math_attempt_log';
 
@@ -30,16 +30,6 @@ const LearningSession = () => {
     }
   }, []);
 
-  const postJSON = async (endpoint, payload) => {
-    const response = await fetch(`${getApiUrl()}/edu/${endpoint}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    if (!response.ok) throw new Error(`Failed request to ${endpoint}`);
-    return response.json();
-  };
-
   const handleSubmit = async () => {
     const correct = submitAnswer(userAnswer);
 
@@ -56,24 +46,9 @@ const LearningSession = () => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedLog));
 
     try {
-      await postJSON(`${userEmail}/sessions`, logEntry);
-      await postJSON(`${userEmail}/mastery`, getMasteryLog());
-      await postJSON(`${userEmail}/tool_usage`, {
-        tool: 'submitAnswer',
-        timestamp: new Date().toISOString()
-      });
-
-      // Reward unlock if accuracy high enough
-      const key = currentProblem.concept + '::' + currentProblem.subconcept;
-      const mastery = getMasteryLog();
-      const entry = mastery[key] || { attempts: 0, correct: 0 };
-      const accuracy = entry.attempts > 0 ? Math.round((entry.correct / entry.attempts) * 100) : 0;
-
-      if (accuracy >= 75) {
-        await fetch(`${getApiUrl()}/edu/${userEmail}/rewards/${currentProblem.concept}`, { method: 'POST' });
-      }
+      await MathAPI.logSessionResult(userEmail, logEntry);
     } catch (error) {
-      console.error('Error with session handling:', error);
+      console.error('Error sending session data to backend:', error);
     }
 
     const milestoneMessage = feedbackMessages.milestone[updatedLog.length];
