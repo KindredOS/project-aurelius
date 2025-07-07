@@ -1,6 +1,6 @@
 //Edu_routes.js
 // File Name: routes.js
-// Version: 0.03
+// Version: 0.04
 // NOTE: Update the version number each time changes are made to this file.
 
 // Import necessary modules for routing
@@ -35,6 +35,14 @@ import DashboardTeacher from './pages/Dashboard/DashboardTeacher';
 import DashboardStudent from './pages/Dashboard/DashboardStudent';
 import DashboardAdmin from './pages/Dashboard/DashboardAdmin';
 
+// Import student subpages
+import ScienceDash from './pages/Dashboard/student/ScienceDash';
+import TechnologyDash from './pages/Dashboard/student/TechnologyDash';
+import EngineeringDash from './pages/Dashboard/student/EngineeringDash';
+import ArtsDash from './pages/Dashboard/student/ArtsDash';
+import MathDash from './pages/Dashboard/student/MathDash';
+import LifestyleDash from './pages/Dashboard/student/LifestyleDash';
+
 // Function for AppRoutes
 function AppRoutes() {
   const location = useLocation();
@@ -64,6 +72,15 @@ function AppRoutes() {
         <Route path="/dashboard/teacher" element={<DashboardTeacher />} />
         <Route path="/dashboard/student" element={<DashboardStudent />} />
         <Route path="/dashboard/admin" element={<DashboardAdmin />} />
+
+        {/* Student subpages */}
+        <Route path="/page/Dashboard/student/ScienceDash" element={<ScienceDash />} />
+        <Route path="/page/Dashboard/student/TechnologyDash" element={<TechnologyDash />} />
+        <Route path="/page/Dashboard/student/EngineeringDash" element={<EngineeringDash />} />
+        <Route path="/page/Dashboard/student/ArtsDash" element={<ArtsDash />} />
+        <Route path="/page/Dashboard/student/MathDash" element={<MathDash />} />
+        <Route path="/page/Dashboard/student/LifestyleDash" element={<LifestyleDash />} />
+
         <Route path="/page/Dashboard/SciencePage" element={<SciencePage />} />
         <Route path="/page/Dashboard/ArtStudioPage" element={<ArtStudioPage />} />
         <Route path="/page/Dashboard/EngineeringPage" element={<EngineeringPage />} />

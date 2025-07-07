@@ -1,0 +1,619 @@
+import React, { useState, useEffect } from 'react';
+import { BookOpen, Lightbulb, Users, Award, Play, Pause, RotateCcw, ChevronRight, Star, Trophy, Brain, Settings, Calculator, Zap, Cog, Wrench } from 'lucide-react';
+import styles from './EngineeringDash.module.css';
+
+const EngineeringDash = () => {
+  const [selectedTopic, setSelectedTopic] = useState('overview');
+  const [gradeLevel, setGradeLevel] = useState(6);
+  const [learningMode, setLearningMode] = useState('interactive');
+  const [userProgress, setUserProgress] = useState({});
+  const [currentQuiz, setCurrentQuiz] = useState(null);
+  const [quizScore, setQuizScore] = useState(0);
+  const [simulationRunning, setSimulationRunning] = useState(false);
+  const [chatHistory, setChatHistory] = useState([]);
+  const [userInput, setUserInput] = useState('');
+  const [achievements, setAchievements] = useState([]);
+  const [studyStreak, setStudyStreak] = useState(0);
+
+  const topics = [
+    { 
+      id: 'overview', 
+      name: 'Overview', 
+      icon: BookOpen,
+      description: 'Welcome to your personalized engineering learning journey!',
+      concepts: ['Engineering Design Process', 'Problem Solving', 'Safety Standards'],
+      difficulty: 1
+    },
+    { 
+      id: 'mechanical', 
+      name: 'Mechanical Engineering', 
+      icon: Cog,
+      description: 'Explore machines, mechanisms, thermodynamics, and mechanical systems.',
+      concepts: ['Mechanisms', 'Thermodynamics', 'Materials Science', 'Fluid Mechanics'],
+      difficulty: 3
+    },
+    { 
+      id: 'electrical', 
+      name: 'Electrical Engineering', 
+      icon: Zap,
+      description: 'Study circuits, electronics, power systems, and electrical design.',
+      concepts: ['Circuit Analysis', 'Electronics', 'Power Systems', 'Control Systems'],
+      difficulty: 4
+    },
+    { 
+      id: 'civil', 
+      name: 'Civil Engineering', 
+      icon: Settings,
+      description: 'Learn about structures, construction, infrastructure, and urban planning.',
+      concepts: ['Structural Design', 'Construction', 'Transportation', 'Environmental Systems'],
+      difficulty: 2
+    },
+    { 
+      id: 'computer', 
+      name: 'Computer Engineering', 
+      icon: Calculator,
+      description: 'Understand hardware, software, programming, and digital systems.',
+      concepts: ['Programming', 'Digital Logic', 'Computer Architecture', 'Software Engineering'],
+      difficulty: 3
+    },
+    { 
+      id: 'chemical', 
+      name: 'Chemical Engineering', 
+      icon: Wrench,
+      description: 'Explore chemical processes, materials, and industrial applications.',
+      concepts: ['Process Design', 'Chemical Reactions', 'Mass Transfer', 'Process Control'],
+      difficulty: 4
+    }
+  ];
+
+  const learningModes = [
+    { id: 'interactive', name: 'Interactive', icon: Play, description: 'Hands-on simulations and design challenges' },
+    { id: 'visual', name: 'Visual', icon: Lightbulb, description: 'Diagrams, CAD models, and visual learning' },
+    { id: 'collaborative', name: 'Study Group', icon: Users, description: 'Team projects and peer collaboration' },
+    { id: 'assessment', name: 'Assessment', icon: Award, description: 'Quizzes and engineering problem solving' }
+  ];
+
+  const quizzes = {
+    mechanical: [
+      {
+        question: "What is the primary function of a gear system?",
+        options: [
+          "To change the speed and torque of rotational motion",
+          "To convert electrical energy to mechanical energy",
+          "To store potential energy",
+          "To measure temperature"
+        ],
+        correct: 0
+      },
+      {
+        question: "Which law describes the relationship between force, mass, and acceleration?",
+        options: ["Hooke's Law", "Newton's Second Law", "Ohm's Law", "Boyle's Law"],
+        correct: 1
+      }
+    ],
+    electrical: [
+      {
+        question: "What is Ohm's Law?",
+        options: ["V = I × R", "P = V × I", "F = m × a", "E = m × c²"],
+        correct: 0
+      },
+      {
+        question: "What component stores electrical energy in a circuit?",
+        options: ["Resistor", "Inductor", "Capacitor", "Transistor"],
+        correct: 2
+      }
+    ],
+    civil: [
+      {
+        question: "What is the primary consideration in structural design?",
+        options: ["Color", "Safety and load-bearing capacity", "Cost only", "Speed of construction"],
+        correct: 1
+      },
+      {
+        question: "Which material is commonly used for reinforcing concrete?",
+        options: ["Wood", "Steel rebar", "Plastic", "Glass"],
+        correct: 1
+      }
+    ],
+    computer: [
+      {
+        question: "What does CPU stand for?",
+        options: ["Computer Processing Unit", "Central Processing Unit", "Core Processing Unit", "Computer Program Unit"],
+        correct: 1
+      },
+      {
+        question: "Which programming concept allows code reuse?",
+        options: ["Variables", "Functions", "Comments", "Loops"],
+        correct: 1
+      }
+    ]
+  };
+
+  const simulations = {
+    mechanical: {
+      name: "Gear Train Simulator",
+      description: "Design and test different gear configurations",
+      interactive: true
+    },
+    electrical: {
+      name: "Circuit Builder",
+      description: "Build and analyze electrical circuits",
+      interactive: true
+    },
+    civil: {
+      name: "Bridge Load Testing",
+      description: "Test structural integrity under various loads",
+      interactive: true
+    },
+    computer: {
+      name: "Algorithm Visualizer",
+      description: "Watch sorting algorithms in action",
+      interactive: false
+    }
+  };
+
+  useEffect(() => {
+    // Initialize user progress
+    const initialProgress = {};
+    topics.forEach(topic => {
+      initialProgress[topic.id] = Math.floor(Math.random() * 100);
+    });
+    setUserProgress(initialProgress);
+    setStudyStreak(Math.floor(Math.random() * 15) + 1);
+  }, []);
+
+  const startQuiz = (topicId) => {
+    if (quizzes[topicId]) {
+      setCurrentQuiz({
+        topic: topicId,
+        questions: quizzes[topicId],
+        currentQuestion: 0,
+        userAnswers: []
+      });
+      setQuizScore(0);
+    }
+  };
+
+  const answerQuestion = (answerIndex) => {
+    if (!currentQuiz) return;
+    
+    const newAnswers = [...currentQuiz.userAnswers, answerIndex];
+    const isCorrect = answerIndex === currentQuiz.questions[currentQuiz.currentQuestion].correct;
+    
+    if (isCorrect) {
+      setQuizScore(quizScore + 1);
+    }
+
+    if (currentQuiz.currentQuestion + 1 < currentQuiz.questions.length) {
+      setCurrentQuiz({
+        ...currentQuiz,
+        currentQuestion: currentQuiz.currentQuestion + 1,
+        userAnswers: newAnswers
+      });
+    } else {
+      // Quiz completed
+      const finalScore = quizScore + (isCorrect ? 1 : 0);
+      const percentage = Math.round((finalScore / currentQuiz.questions.length) * 100);
+      
+      // Update progress
+      setUserProgress(prev => ({
+        ...prev,
+        [currentQuiz.topic]: Math.min(100, prev[currentQuiz.topic] + 10)
+      }));
+
+      // Check for achievements
+      if (percentage >= 80 && !achievements.includes('engineering_expert')) {
+        setAchievements(prev => [...prev, 'engineering_expert']);
+      }
+
+      setCurrentQuiz({
+        ...currentQuiz,
+        completed: true,
+        finalScore: finalScore,
+        percentage: percentage,
+        userAnswers: newAnswers
+      });
+    }
+  };
+
+  const runSimulation = (topicId) => {
+    setSimulationRunning(true);
+    setTimeout(() => {
+      setSimulationRunning(false);
+      setUserProgress(prev => ({
+        ...prev,
+        [topicId]: Math.min(100, prev[topicId] + 5)
+      }));
+    }, 3000);
+  };
+
+  const sendMessage = () => {
+    if (!userInput.trim()) return;
+
+    const newMessage = { role: 'user', content: userInput };
+    setChatHistory(prev => [...prev, newMessage]);
+
+    // Simulate AI response
+    setTimeout(() => {
+      const responses = [
+        "That's an excellent engineering question! Let me break down the technical principles...",
+        "Great problem-solving approach! Here's how engineers tackle this challenge...",
+        "Interesting design consideration! This involves several engineering concepts...",
+        "Good engineering thinking! Let's analyze this step by step..."
+      ];
+      
+      const response = {
+        role: 'assistant',
+        content: responses[Math.floor(Math.random() * responses.length)] + " " + userInput
+      };
+      
+      setChatHistory(prev => [...prev, response]);
+    }, 1000);
+
+    setUserInput('');
+  };
+
+  const renderProgressBar = (progress) => (
+    <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+      <div 
+        className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+        style={{ width: `${progress}%` }}
+      ></div>
+    </div>
+  );
+
+  const renderMainProgressBar = (progress) => (
+    <div className="w-full bg-gray-200 rounded-full h-3">
+      <div 
+        className="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full transition-all duration-300"
+        style={{ width: `${progress}%` }}
+      ></div>
+    </div>
+  );
+
+  const renderQuiz = () => {
+    if (!currentQuiz) return null;
+
+    if (currentQuiz.completed) {
+      return (
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+          <div className="text-center">
+            <Trophy className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">Quiz Complete!</h3>
+            <p className="text-lg text-gray-600 mb-6">
+              Score: {currentQuiz.finalScore}/{currentQuiz.questions.length} ({currentQuiz.percentage}%)
+            </p>
+            <div className="flex gap-4 justify-center">
+              <button 
+                onClick={() => setCurrentQuiz(null)}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors"
+              >
+                Continue Learning
+              </button>
+              <button 
+                onClick={() => startQuiz(currentQuiz.topic)}
+                className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg transition-colors"
+              >
+                Retake Quiz
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    const question = currentQuiz.questions[currentQuiz.currentQuestion];
+    
+    return (
+      <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <div className="mb-4">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="text-xl font-bold text-gray-800">Quiz: {topics.find(t => t.id === currentQuiz.topic)?.name}</h3>
+            <span className="text-sm text-gray-500">
+              {currentQuiz.currentQuestion + 1} / {currentQuiz.questions.length}
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div 
+              className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+              style={{ width: `${((currentQuiz.currentQuestion + 1) / currentQuiz.questions.length) * 100}%` }}
+            ></div>
+          </div>
+        </div>
+        
+        <h4 className="text-lg font-semibold text-gray-800 mb-4">{question.question}</h4>
+        
+        <div className="space-y-2">
+          {question.options.map((option, index) => (
+            <button
+              key={index}
+              onClick={() => answerQuestion(index)}
+              className="w-full text-left p-3 rounded-lg border border-gray-300 hover:border-blue-500 hover:bg-blue-50 transition-colors"
+            >
+              {String.fromCharCode(65 + index)}. {option}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderSimulation = (topicId) => {
+    const sim = simulations[topicId];
+    if (!sim) return null;
+
+    return (
+      <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xl font-bold text-gray-800">{sim.name}</h3>
+          <Settings className="w-6 h-6 text-gray-500" />
+        </div>
+        <p className="text-gray-600 mb-4">{sim.description}</p>
+        
+        <div className="bg-gray-100 rounded-lg p-8 mb-4 min-h-[200px] flex items-center justify-center">
+          {simulationRunning ? (
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+              <p className="text-gray-600">Simulation running...</p>
+            </div>
+          ) : (
+            <p className="text-gray-500">Click "Run Simulation" to start</p>
+          )}
+        </div>
+        
+        <div className="flex gap-4">
+          <button
+            onClick={() => runSimulation(topicId)}
+            disabled={simulationRunning}
+            className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            <Play className="w-4 h-4" />
+            {simulationRunning ? 'Running...' : 'Run Simulation'}
+          </button>
+          <button className="flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+            <RotateCcw className="w-4 h-4" />
+            Reset
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const renderChatWindow = () => (
+    <div className="bg-white rounded-lg shadow-lg mb-6 overflow-hidden">
+      <div className="bg-gradient-to-r from-blue-500 to-purple-500 text-white p-4">
+        <h3 className="flex items-center gap-2 font-bold">
+          <Brain className="w-5 h-5" />
+          AI Engineering Tutor
+        </h3>
+      </div>
+      
+      <div className="h-80 overflow-y-auto p-4">
+        {chatHistory.length === 0 && (
+          <div className="text-center text-gray-500 py-8">
+            Ask me anything about engineering! I'm here to help you learn and solve problems.
+          </div>
+        )}
+        {chatHistory.map((message, index) => (
+          <div
+            key={index}
+            className={`mb-4 flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
+            <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+              message.role === 'user' 
+                ? 'bg-blue-500 text-white' 
+                : 'bg-gray-100 text-gray-800'
+            }`}>
+              {message.content}
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div className="p-4 border-t">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={userInput}
+            onChange={(e) => setUserInput(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+            placeholder="Ask an engineering question..."
+            className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+          />
+          <button
+            onClick={sendMessage}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderContent = () => {
+    const topic = topics.find(t => t.id === selectedTopic);
+    
+    return (
+      <div className="flex-1 p-6 overflow-auto">
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+          <div className="flex items-center mb-4">
+            <topic.icon className="w-8 h-8 text-blue-500 mr-4" />
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800">{topic.name}</h2>
+              <p className="text-gray-600">{topic.description}</p>
+            </div>
+          </div>
+          
+          <div className="mb-6">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm font-medium text-gray-700">Progress</span>
+              <span className="text-sm font-medium text-gray-700">{userProgress[selectedTopic] || 0}%</span>
+            </div>
+            {renderMainProgressBar(userProgress[selectedTopic] || 0)}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {topic.concepts.map((concept, index) => (
+              <div key={index} className="bg-gray-50 rounded-lg p-3">
+                <div className="text-sm font-medium text-gray-700">{concept}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {learningMode === 'interactive' && renderSimulation(selectedTopic)}
+        
+        {learningMode === 'assessment' && (
+          <div>
+            {currentQuiz ? renderQuiz() : (
+              <div className="bg-white rounded-lg shadow-lg p-6 text-center">
+                <Award className="w-16 h-16 text-blue-500 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Ready for an Engineering Challenge?</h3>
+                <p className="text-gray-600 mb-4">Test your knowledge of {topic.name}</p>
+                <button
+                  onClick={() => startQuiz(selectedTopic)}
+                  className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg transition-colors"
+                  disabled={!quizzes[selectedTopic]}
+                >
+                  {quizzes[selectedTopic] ? 'Start Quiz' : 'Quiz Coming Soon'}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {learningMode === 'collaborative' && renderChatWindow()}
+
+        {learningMode === 'visual' && (
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Engineering Visual Resources</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-gradient-to-br from-green-400 to-green-600 text-white rounded-lg p-4">
+                <h4 className="font-bold text-lg mb-2">CAD Models</h4>
+                <p className="text-sm">Interactive 3D engineering designs</p>
+              </div>
+              <div className="bg-gradient-to-br from-purple-400 to-purple-600 text-white rounded-lg p-4">
+                <h4 className="font-bold text-lg mb-2">Circuit Diagrams</h4>
+                <p className="text-sm">Detailed electrical schematics</p>
+              </div>
+              <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 text-white rounded-lg p-4">
+                <h4 className="font-bold text-lg mb-2">Process Animations</h4>
+                <p className="text-sm">Watch engineering processes in action</p>
+              </div>
+              <div className="bg-gradient-to-br from-red-400 to-red-600 text-white rounded-lg p-4">
+                <h4 className="font-bold text-lg mb-2">Video Tutorials</h4>
+                <p className="text-sm">Expert engineering demonstrations</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex h-screen bg-gray-100">
+      {/* Sidebar */}
+      <div className="w-80 bg-white shadow-lg flex flex-col">
+        <div className="p-6 border-b border-gray-200">
+          <h1 className="text-2xl font-bold text-gray-800">Engineering Learning Hub</h1>
+          <div className="flex items-center gap-2 mt-2 text-yellow-600">
+            <Star className="w-4 h-4" />
+            <span className="text-sm font-medium">{studyStreak} day streak</span>
+          </div>
+        </div>
+
+        {/* Grade Level Selector */}
+        <div className="p-4 border-b border-gray-200">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Grade Level</label>
+          <select
+            value={gradeLevel}
+            onChange={(e) => setGradeLevel(Number(e.target.value))}
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+          >
+            {[6, 7, 8, 9, 10, 11, 12].map(grade => (
+              <option key={grade} value={grade}>Grade {grade}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Learning Mode Selector */}
+        <div className="p-4 border-b border-gray-200">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Learning Mode</label>
+          <div className="space-y-2">
+            {learningModes.map(mode => (
+              <button
+                key={mode.id}
+                onClick={() => setLearningMode(mode.id)}
+                className={`w-full text-left p-3 rounded-lg border transition-colors ${
+                  learningMode === mode.id 
+                    ? 'border-blue-500 bg-blue-50 text-blue-700' 
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <mode.icon className="w-5 h-5" />
+                  <div>
+                    <div className="font-medium">{mode.name}</div>
+                    <div className="text-sm text-gray-500">{mode.description}</div>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Topics */}
+        <div className="flex-1 overflow-auto p-4">
+          <h2 className="text-lg font-bold text-gray-800 mb-4">Topics</h2>
+          <div className="space-y-2">
+            {topics.map(topic => (
+              <button
+                key={topic.id}
+                onClick={() => setSelectedTopic(topic.id)}
+                className={`w-full text-left p-3 rounded-lg border transition-colors ${
+                  selectedTopic === topic.id 
+                    ? 'border-blue-500 bg-blue-50' 
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <topic.icon className="w-5 h-5 text-gray-600" />
+                    <span className="font-medium text-gray-800">{topic.name}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-500">{userProgress[topic.id] || 0}%</span>
+                    <ChevronRight className="w-4 h-4 text-gray-400" />
+                  </div>
+                </div>
+                {renderProgressBar(userProgress[topic.id] || 0)}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Achievements */}
+        {achievements.length > 0 && (
+          <div className="p-4 border-t border-gray-200">
+            <h3 className="text-lg font-bold text-gray-800 mb-2">Achievements</h3>
+            <div className="space-y-2">
+              {achievements.map((achievement, index) => (
+                <div key={index} className="flex items-center gap-2 text-yellow-600">
+                  <Trophy className="w-4 h-4" />
+                  <span className="text-sm font-medium">Engineering Expert</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Main Content */}
+      {renderContent()}
+    </div>
+  );
+};
+
+export default EngineeringDash;

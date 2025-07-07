@@ -10,46 +10,37 @@ function StudyBuddyDashboard() {
         {
             header: "Science",
             tiles: [
-                { id: 1, name: "Science", route: "/page/Dashboard/sciencePage", image: "science.jpeg" },
-                { id: 2, name: "Astronomy", route: "/page/Dashboard/astronomyPage", image: "astronomy.jpeg" }
+                { id: 1, name: "LabMate", route: "/page/Dashboard/student/ScienceDash", image: "science.jpeg" },
             ]
         },
         {
             header: "Technology",
             tiles: [
-                { id: 3, name: "Coding", route: "/page/Dashboard/codingPage", image: "coding.jpeg" },
-                { id: 4, name: "Robotics", route: "/page/Dashboard/roboticsPage", image: "robotics.jpeg" },
-                { id: 5, name: "3D Design", route: "/page/Dashboard/design3DPage", image: "design3d.jpeg" }
+                { id: 3, name: "CodeBuddy", route: "/page/Dashboard/student/TechnologyDash", image: "coding.jpeg" },
             ]
         },
         {
             header: "Engineering",
             tiles: [
-                { id: 6, name: "Engineering", route: "/page/Dashboard/engineeringPage", image: "engineering.jpeg" }
+                { id: 6, name: "Enginuity", route: "/page/Dashboard/student/EngineeringDash", image: "engineering.jpeg" }
             ]
         },
         {
             header: "Arts",
             tiles: [
-                { id: 7, name: "Art Studio", route: "/page/Dashboard/artStudioPage", image: "artstudio.jpeg" },
-                { id: 8, name: "Music Theory", route: "/page/Dashboard/musicTheoryPage", image: "music.jpeg" },
-                { id: 9, name: "Story Book", route: "/page/Dashboard/storyBookPage", image: "storybook.jpeg" },
-                { id: 10, name: "History", route: "/page/Dashboard/historyPage", image: "history.jpeg" },
-                { id: 11, name: "Language Teacher", route: "/page/Dashboard/languageTeacherPage", image: "language.jpeg" }
+                { id: 10, name: "CivicSpark", route: "/page/Dashboard/student/ArtsDash", image: "history.jpeg" },
             ]
         },
         {
             header: "Math",
             tiles: [
-                { id: 12, name: "Math Dashboard", route: "/page/Dashboard/MathDashboard", image: "calculator.jpeg" },
-                { id: 13, name: "Financial Calculator", route: "/page/Dashboard/financialCalculatorPage", image: "financial.jpeg" }
+                { id: 12, name: "MathSnap", route: "/page/Dashboard/student/MathDash", image: "calculator.jpeg" },
             ]
         },
         {
             header: "Lifestyle",
             tiles: [
-                { id: 14, name: "Exercise", route: "/page/Dashboard/exercisePage", image: "exercise.jpeg" },
-                { id: 15, name: "Food Prep", route: "/page/Dashboard/foodPrepPage", image: "foodprep.jpeg" }
+                { id: 14, name: "MyBestMe", route: "/page/Dashboard/student/LifestyleDash", image: "exercise.jpeg" },
             ]
         }
     ];

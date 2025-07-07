@@ -26,15 +26,23 @@ function Login() {
   }, [navigate]);
 
   const handleGoogleSuccess = async (response) => {
+    // IMPORTANT: Require role selection before Google OAuth
+    if (!role) {
+      alert('Please select your role before signing in with Google.');
+      return;
+    }
+
     try {
       const base64Url = response.credential.split('.')[1];
       const decodedPayload = JSON.parse(atob(base64Url));
       const userEmail = decodedPayload.email;
       const userName = decodedPayload.name;
 
-      const res = await axios.post('http://localhost:8000/login', {
+      // FIXED: Add /api/edu prefix (edu_router is included with /edu prefix)
+      const res = await axios.post('http://localhost:8000/api/edu/login', {
         email: userEmail,
         password: 'google_oauth',
+        role: role, // Send the selected role
         inviteCode: role === 'student' ? inviteCode : undefined,
       });
 
@@ -65,10 +73,11 @@ function Login() {
     }
 
     try {
-      const response = await axios.post('http://localhost:8000/login', {
+      // FIXED: Add /api/edu prefix (edu_router is included with /edu prefix)
+      const response = await axios.post('http://localhost:8000/api/edu/login', {
         email,
         password,
-        role,
+        role, // Make sure to send the role
         inviteCode: role === 'student' ? inviteCode : undefined
       });
 
@@ -94,24 +103,39 @@ function Login() {
                   onClick={() => setRole('student')}
                   style={{ backgroundColor: role === 'student' ? '#28a745' : '#007bff', color: '#fff', padding: '10px', borderRadius: '5px', flex: 1 }}
                 >
-                  I’m a Student
+                  I'm a Student
                 </button>
                 <button
                   type="button"
                   onClick={() => setRole('teacher')}
                   style={{ backgroundColor: role === 'teacher' ? '#ffc107' : '#007bff', color: '#000', padding: '10px', borderRadius: '5px', flex: 1 }}
                 >
-                  I’m a Teacher
+                  I'm a Teacher
                 </button>
                 <button
                   type="button"
                   onClick={() => setRole('admin')}
                   style={{ backgroundColor: role === 'admin' ? '#6f42c1' : '#007bff', color: '#fff', padding: '10px', borderRadius: '5px', flex: 1 }}
                 >
-                  I’m an Admin
+                  I'm an Admin
                 </button>
               </div>
             </div>
+            
+            {/* Show invite code field for students */}
+            {role === 'student' && (
+              <div className={styles['form-group']}>
+                <label htmlFor="invite">Invite Code:</label>
+                <input
+                  type="text"
+                  id="invite"
+                  value={inviteCode}
+                  onChange={(e) => setInviteCode(e.target.value)}
+                  required
+                />
+              </div>
+            )}
+
             <form onSubmit={handleSubmit}>
               <div className={styles['form-group']}>
                 <label htmlFor="email">Email:</label>
@@ -133,21 +157,13 @@ function Login() {
                   required
                 />
               </div>
-              {role === 'student' && (
-                <div className={styles['form-group']}>
-                  <label htmlFor="invite">Invite Code:</label>
-                  <input
-                    type="text"
-                    id="invite"
-                    value={inviteCode}
-                    onChange={(e) => setInviteCode(e.target.value)}
-                    required
-                  />
-                </div>
-              )}
               <button type="submit">Login</button>
             </form>
+            
             <div style={{ marginTop: '20px' }}>
+              <p style={{ fontSize: '14px', marginBottom: '10px', color: '#666' }}>
+                {role ? `Sign in with Google as ${role}` : 'Select a role first to use Google Sign-In'}
+              </p>
               <GoogleLogin
                 onSuccess={handleGoogleSuccess}
                 onError={handleGoogleError}

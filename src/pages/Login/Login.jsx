@@ -7,6 +7,7 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState(null);
+  const [inviteCode, setInviteCode] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,22 +24,49 @@ function Login() {
     };
   }, [navigate]);
 
-  const handleGoogleSuccess = (response) => {
-    console.log('Google Login Success:', response.credential);
+  const handleGoogleSuccess = async (response) => {
+    if (!role) {
+      alert('Please select your role before signing in with Google.');
+      return;
+    }
 
-    // Decode JWT payload to extract user info
-    const base64Url = response.credential.split('.')[1];
-    const decodedPayload = JSON.parse(atob(base64Url));
-    const userEmail = decodedPayload.email;
-    const userName = decodedPayload.name;
+    try {
+      const base64Url = response.credential.split('.')[1];
+      const decodedPayload = JSON.parse(atob(base64Url));
+      const userEmail = decodedPayload.email;
+      const userName = decodedPayload.name;
 
-    alert('Google Login successful!');
-    localStorage.setItem('googleLoggedIn', true);
-    localStorage.setItem('userName', userName);
-    localStorage.setItem('userEmail', userEmail);
-    localStorage.setItem('googleLoggedIn', true);
-    if (role) localStorage.setItem('userRole', role);
-    navigate(`/dashboard/${role}`);
+      const res = await fetch('http://localhost:8000/api/edu/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: userEmail,
+          password: 'google_oauth',
+          role: role,
+          inviteCode: role === 'student' ? inviteCode : undefined,
+        }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.detail || 'Google login failed');
+      }
+
+      const data = await res.json();
+
+      alert('Google Login successful!');
+      localStorage.setItem('googleLoggedIn', true);
+      localStorage.setItem('userName', userName);
+      localStorage.setItem('userEmail', data.email);
+      localStorage.setItem('userRole', data.role);
+
+      navigate(`/dashboard/${data.role}`);
+    } catch (err) {
+      console.error('Google Login Failed', err);
+      alert(err.message || 'Google login failed.');
+    }
   };
 
   const handleGoogleError = () => {
@@ -46,7 +74,7 @@ function Login() {
     alert('Google Login failed. Please try again.');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!role) {
@@ -54,19 +82,32 @@ function Login() {
       return;
     }
 
-    const isGoogleLoggedIn = localStorage.getItem('googleLoggedIn');
-    if (isGoogleLoggedIn) {
-      alert('Login successful via Google!');
-      navigate(`/dashboard/${role}`);
-      return;
-    }
+    try {
+      const response = await fetch('http://localhost:8000/api/edu/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          role,
+          inviteCode: role === 'student' ? inviteCode : undefined
+        }),
+      });
 
-    if (email === 'user@example.com' && password === 'password') {
-      alert('Login successful!');
-      localStorage.setItem('userRole', role);
-      navigate(`/dashboard/${role}`);
-    } else {
-      alert('Invalid credentials. Please try again.');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Login failed');
+      }
+
+      const data = await response.json();
+
+      localStorage.setItem('userRole', data.role);
+      localStorage.setItem('userEmail', data.email);
+      navigate(`/dashboard/${data.role}`);
+    } catch (error) {
+      alert(error.message || 'Login failed.');
     }
   };
 
@@ -84,24 +125,38 @@ function Login() {
                   onClick={() => setRole('student')}
                   style={{ backgroundColor: role === 'student' ? '#28a745' : '#007bff', color: '#fff', padding: '10px', borderRadius: '5px', flex: 1 }}
                 >
-                  I’m a Student
+                  I'm a Student
                 </button>
                 <button
                   type="button"
                   onClick={() => setRole('teacher')}
                   style={{ backgroundColor: role === 'teacher' ? '#ffc107' : '#007bff', color: '#000', padding: '10px', borderRadius: '5px', flex: 1 }}
                 >
-                  I’m a Teacher
+                  I'm a Teacher
                 </button>
                 <button
                   type="button"
                   onClick={() => setRole('admin')}
                   style={{ backgroundColor: role === 'admin' ? '#6f42c1' : '#007bff', color: '#fff', padding: '10px', borderRadius: '5px', flex: 1 }}
                 >
-                  I’m an Admin
+                  I'm an Admin
                 </button>
               </div>
             </div>
+
+            {role === 'student' && (
+              <div className={styles['form-group']}>
+                <label htmlFor="invite">Invite Code:</label>
+                <input
+                  type="text"
+                  id="invite"
+                  value={inviteCode}
+                  onChange={(e) => setInviteCode(e.target.value)}
+                  required
+                />
+              </div>
+            )}
+
             <form onSubmit={handleSubmit}>
               <div className={styles['form-group']}>
                 <label htmlFor="email">Email:</label>
@@ -125,11 +180,17 @@ function Login() {
               </div>
               <button type="submit">Login</button>
             </form>
+
             <div style={{ marginTop: '20px' }}>
-              <GoogleLogin
-                onSuccess={handleGoogleSuccess}
-                onError={handleGoogleError}
-              />
+              <p style={{ fontSize: '14px', marginBottom: '10px', color: '#666' }}>
+                {role ? `Sign in with Google as ${role}` : 'Select a role first to use Google Sign-In'}
+              </p>
+              {role && (
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={handleGoogleError}
+                />
+              )}
             </div>
           </div>
         </div>
