@@ -1,4 +1,4 @@
-// components/common/Sidebar.jsx
+// components/student/Sidebar.jsx
 import React from 'react';
 import { Star, ChevronRight, Trophy } from 'lucide-react';
 
@@ -42,28 +42,6 @@ const Sidebar = ({
         </select>
       </div>
 
-      {/* Learning Mode Selector */}
-      <div className={styles.learningModeSection}>
-        <label className={styles.sectionLabel}>Learning Mode</label>
-        <div className={styles.learningModeList}>
-          {learningModes.map(mode => (
-            <button
-              key={mode.id}
-              onClick={() => setLearningMode(mode.id)}
-              className={`${styles.learningModeButton} ${learningMode === mode.id ? styles.active : ''}`}
-            >
-              <div className={styles.modeContent}>
-                {mode.icon && <mode.icon className={styles.modeIcon} />}
-                <div className={styles.modeDetails}>
-                  <div className={styles.modeName}>{mode.name}</div>
-                  <div className={styles.modeDescription}>{mode.description}</div>
-                </div>
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Topics */}
       <div className={styles.topicsSection}>
         <h2 className={styles.topicsTitle}>Topics</h2>
@@ -86,6 +64,28 @@ const Sidebar = ({
               </div>
               <div>
                 {renderProgressBar(userProgress[topic.id] || 0)}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Learning Mode Selector */}
+      <div className={styles.learningModeSection}>
+        <label className={styles.sectionLabel}>Learning Mode</label>
+        <div className={styles.learningModeList}>
+          {learningModes.map(mode => (
+            <button
+              key={mode.id}
+              onClick={() => setLearningMode(mode.id)}
+              className={`${styles.learningModeButton} ${learningMode === mode.id ? styles.active : ''}`}
+            >
+              <div className={styles.modeContent}>
+                {mode.icon && <mode.icon className={styles.modeIcon} />}
+                <div className={styles.modeDetails}>
+                  <div className={styles.modeName}>{mode.name}</div>
+                  <div className={styles.modeDescription}>{mode.description}</div>
+                </div>
               </div>
             </button>
           ))}
