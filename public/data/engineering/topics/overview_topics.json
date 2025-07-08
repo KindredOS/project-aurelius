@@ -1,0 +1,14 @@
+{
+  "id": "overview",
+  "name": "Overview",
+  "icon": "Settings",
+  "description": "Dive into the exciting world of engineering, where creativity meets practical problem solving.",
+  "concepts": [
+    "Design Thinking",
+    "Mechanical Systems",
+    "Electrical Circuits",
+    "Robotics",
+    "Engineering Ethics"
+  ],
+  "difficulty": 2
+}

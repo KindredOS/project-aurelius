@@ -1,0 +1,13 @@
+{
+      "id": "earth",
+      "name": "Earth Science",
+      "icon": "Globe",
+      "description": "Understand our planet's systems, weather, and geological processes.",
+      "concepts": [
+        { "title": "Rock Cycle", "content": "Learn how rocks transform between types over time." },
+        { "title": "Weather Systems", "content": "Understand atmospheric phenomena and forecasting." },
+        { "title": "Plate Tectonics", "content": "Explore the movement of Earth's plates and its effects." },
+        { "title": "Climate", "content": "Study long-term weather patterns and climate change." }
+      ],
+      "difficulty": 2
+    }

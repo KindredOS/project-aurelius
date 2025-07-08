@@ -1,0 +1,13 @@
+{
+      "id": "module6",
+      "name": "Environmental Science",
+      "icon": "Leaf",
+      "description": "Learn about the environment, sustainability, and human impact on the planet.",
+      "concepts": [
+        { "title": "Ecosystem Services", "content": "Explore the resources and processes nature provides." },
+        { "title": "Pollution", "content": "Understand causes and effects of different types of pollution." },
+        { "title": "Sustainability", "content": "Study practices that support ecological balance." },
+        { "title": "Climate Action", "content": "Examine strategies to combat climate change." }
+      ],
+      "difficulty": 2
+    }

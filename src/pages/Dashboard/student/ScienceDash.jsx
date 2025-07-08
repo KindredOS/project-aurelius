@@ -121,6 +121,7 @@ const ScienceDash = () => {
             selectedTopic={selectedTopic}
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}
+            subject="science"
           />
 
           {learningMode === 'interactive' && renderSimulation(selectedTopic)}

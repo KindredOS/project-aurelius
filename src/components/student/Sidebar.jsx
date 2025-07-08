@@ -70,9 +70,9 @@ const Sidebar = ({
         </div>
       </div>
 
-      {/* Learning Mode Selector */}
+      {/* Tools and Assessments */}
       <div className={styles.learningModeSection}>
-        <label className={styles.sectionLabel}>Learning Mode</label>
+        <label className={styles.sectionLabel}>Tools and Assessments</label>
         <div className={styles.learningModeList}>
           {learningModes.map(mode => (
             <button

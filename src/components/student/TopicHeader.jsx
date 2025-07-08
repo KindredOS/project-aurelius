@@ -1,8 +1,33 @@
 // components/common/TopicHeader.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
 
-const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar, styles }) => {
+const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar, styles, onConceptClick, subject }) => {
+  const [selectedConcept, setSelectedConcept] = useState(null);
+  const [markdownText, setMarkdownText] = useState('');
+
+  useEffect(() => {
+    if (selectedConcept?.markdown && subject) {
+      fetch(`/data/${subject}/markdown/${selectedConcept.markdown}`)
+        .then(res => res.text())
+        .then(setMarkdownText)
+        .catch(err => {
+          console.error('Error loading markdown:', err);
+          setMarkdownText('Error loading content.');
+        });
+    } else {
+      setMarkdownText('');
+    }
+  }, [selectedConcept, subject]);
+
   if (!topic) return null;
+
+  const handleConceptClick = (conceptObj, index) => {
+    setSelectedConcept(conceptObj);
+    onConceptClick?.(conceptObj, index);
+  };
+
+  const isObjectConcepts = topic.concepts.length > 0 && typeof topic.concepts[0] === 'object';
 
   return (
     <div className={styles.topicHeaderCard}>
@@ -13,7 +38,7 @@ const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar
           <p>{topic.description}</p>
         </div>
       </div>
-      
+
       <div className={styles.topicProgressSection}>
         <div className={styles.progressHeader}>
           <span className={styles.progressLabel}>Progress</span>
@@ -24,11 +49,29 @@ const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar
 
       {topic.concepts && (
         <div className={styles.conceptsGrid}>
-          {topic.concepts.map((concept, index) => (
-            <div key={index} className={styles.conceptCard}>
-              <div className={styles.conceptText}>{concept}</div>
-            </div>
-          ))}
+          {topic.concepts.map((concept, index) => {
+            const conceptTitle = isObjectConcepts ? concept.title : concept;
+            return (
+              <button
+                key={index}
+                className={`${styles.conceptCard} ${selectedConcept?.title === conceptTitle ? styles.activeConcept : ''}`}
+                onClick={() => handleConceptClick(concept, index)}
+              >
+                <div className={styles.conceptText}>{conceptTitle}</div>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {selectedConcept && (
+        <div className={styles.conceptDetailCard}>
+          <h3>{selectedConcept.title || selectedConcept}</h3>
+          {selectedConcept.markdown ? (
+            <ReactMarkdown>{markdownText}</ReactMarkdown>
+          ) : (
+            <p>{selectedConcept.content || `Here we’ll show details, activities, or lessons for: ${selectedConcept.title || selectedConcept}`}</p>
+          )}
         </div>
       )}
     </div>

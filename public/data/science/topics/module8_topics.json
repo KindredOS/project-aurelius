@@ -1,0 +1,13 @@
+{
+      "id": "module7",
+      "name": "Scientific Frontiers",
+      "icon": "Lightbulb",
+      "description": "Explore cutting-edge discoveries and emerging technologies.",
+      "concepts": [
+        { "title": "CRISPR & Gene Editing", "content": "Understand the science of editing genetic material." },
+        { "title": "Quantum Computing", "content": "Learn how quantum mechanics powers next-gen computers." },
+        { "title": "Space Telescopes", "content": "Discover tools that let us see deep into the universe." },
+        { "title": "Artificial Intelligence", "content": "Examine the rise of smart machines and their applications." }
+      ],
+      "difficulty": 4
+    }

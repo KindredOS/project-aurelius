@@ -1,0 +1,13 @@
+{
+      "id": "biology",
+      "name": "Biology",
+      "icon": "Dna",
+      "description": "Study living organisms, cells, genetics, and ecosystems.",
+      "concepts": [
+        { "title": "Cell Structure", "content": "Learn the parts of cells and their functions." },
+        { "title": "Genetics", "content": "Understand DNA, inheritance, and genetic variation." },
+        { "title": "Evolution", "content": "Explore natural selection and the history of life on Earth." },
+        { "title": "Ecosystems", "content": "Investigate how organisms interact with each other and their environment." }
+      ],
+      "difficulty": 2
+    }

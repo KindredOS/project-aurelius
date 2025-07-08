@@ -122,6 +122,7 @@ const ArtsDash = () => {
             selectedTopic={selectedTopic}
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}
+            subject="arts"
           />
 
           {learningMode === 'interactive' && renderProject(selectedTopic)}

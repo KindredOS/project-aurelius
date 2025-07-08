@@ -2,11 +2,40 @@
   "id": "overview",
   "name": "Overview",
   "icon": "BookOpen",
-  "description": "Welcome to your personalized science learning journey!",
+  "description": "Welcome to your personalized science learning journey! This module introduces students to the core of scientific thinking, emphasizing systematic inquiry, ethical responsibility, and foundational knowledge that supports all STEAM fields.",
   "concepts": [
-    "Scientific Method",
-    "Lab Safety",
-    "Data Analysis"
+    {
+      "title": "What is Science?",
+      "markdown": "overview/what_is_science.md"
+    },
+    {
+      "title": "Scientific Method",
+      "markdown": "overview/scientific_method.md"
+    },
+    {
+      "title": "Branches of Science",
+      "markdown": "overview/branches_of_science.md"
+    },
+    {
+      "title": "Lab Safety",
+      "markdown": "overview/lab_safety.md"
+    },
+    {
+      "title": "Research Methods",
+      "markdown": "overview/research_methods.md"
+    },
+    {
+      "title": "Data Analysis",
+      "markdown": "overview/data_analysis.md"
+    },
+    {
+      "title": "Scientific Communication",
+      "markdown": "overview/scientific_communication.md"
+    },
+    {
+      "title": "Ethics in Science",
+      "markdown": "overview/ethics_in_science.md"
+    }
   ],
   "difficulty": 1
 }

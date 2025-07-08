@@ -1,0 +1,13 @@
+{
+      "id": "space",
+      "name": "Space Science",
+      "icon": "Star",
+      "description": "Journey through the cosmos and explore astronomical phenomena.",
+      "concepts": [
+        { "title": "Solar System", "content": "Learn about the Sun and planets that orbit it." },
+        { "title": "Stars", "content": "Study how stars are formed, live, and die." },
+        { "title": "Galaxies", "content": "Understand the massive systems of stars, gas, and dust." },
+        { "title": "Space Exploration", "content": "Explore how humans study and travel in space." }
+      ],
+      "difficulty": 3
+    }

@@ -64,13 +64,13 @@ const TechnologyDash = () => {
           <Monitor className={styles.simulationIcon} />
         </div>
         <p className={styles.simulationDescription}>{projectData.description}</p>
-        
+
         <div className={styles.simulationWindow}>
           <p className={styles.simulationPlaceholder}>
             {projectData.placeholder || "Click 'Run Simulation' to start"}
           </p>
         </div>
-        
+
         <div className={styles.simulationControls}>
           <button
             onClick={() => runSimulation(topicId)}
@@ -125,6 +125,7 @@ const TechnologyDash = () => {
             selectedTopic={selectedTopic}
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}
+            subject="technology"
           />
 
           {learningMode === 'interactive' && renderSimulation(selectedTopic)}

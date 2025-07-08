@@ -27,11 +27,14 @@ export const findLesson = async (subject, topicId) => {
 export const loadAllTopics = async (subject) => {
   const topicFiles = [
     'overview',
-    'visual', 
-    'music',
-    'theater',
-    'dance',
-    'media'
+    'module1',
+    'module2',
+    'module3',
+    'module4',
+    'module5',
+    'module6',
+    'module7',
+    'module8'
   ];
 
   const topics = [];

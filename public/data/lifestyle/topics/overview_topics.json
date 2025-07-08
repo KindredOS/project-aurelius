@@ -1,0 +1,15 @@
+{
+  "id": "overview",
+  "name": "Overview",
+  "icon": "Heart",
+  "description": "Build skills for a balanced life including health, wellness, communication, and personal growth.",
+  "concepts": [
+    "Health and Nutrition",
+    "Emotional Intelligence",
+    "Financial Literacy",
+    "Time Management",
+    "Interpersonal Skills",
+    "Mindfulness and Wellness"
+  ],
+  "difficulty": 1
+}

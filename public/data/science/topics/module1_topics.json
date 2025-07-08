@@ -1,0 +1,15 @@
+{
+      "id": "physics",
+      "name": "Physics",
+      "icon": "Atom",
+      "description": "Explore forces, energy, motion, and the fundamental laws of nature.",
+      "concepts": [
+        { "title": "Newton's Laws", "content": "Understand motion through Newton's three laws." },
+        { "title": "Energy Conservation", "content": "Study how energy is transferred and conserved." },
+        { "title": "Waves", "content": "Learn about wave types and behaviors." },
+        { "title": "Electricity", "content": "Explore electric circuits and current flow." }
+      ],
+      "difficulty": 3
+    }
+    
+    

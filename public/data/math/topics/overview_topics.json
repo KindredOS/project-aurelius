@@ -1,0 +1,15 @@
+{
+  "id": "overview",
+  "name": "Overview",
+  "icon": "Calculator",
+  "description": "Explore the language of numbers and logic to solve real-world problems and sharpen your critical thinking.",
+  "concepts": [
+    "Algebra",
+    "Geometry",
+    "Statistics",
+    "Probability",
+    "Functions",
+    "Ratios and Proportions"
+  ],
+  "difficulty": 2
+}

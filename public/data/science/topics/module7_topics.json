@@ -1,0 +1,13 @@
+{
+      "id": "module8",
+      "name": "Marine Science",
+      "icon": "Fish",
+      "description": "Explore the oceans, marine ecosystems, and the science of underwater life.",
+      "concepts": [
+        { "title": "Ocean Currents", "content": "Learn how ocean water moves and its effects on climate." },
+        { "title": "Marine Food Webs", "content": "Understand the feeding relationships in marine ecosystems." },
+        { "title": "Coral Reefs", "content": "Study the biodiversity and importance of reef systems." },
+        { "title": "Deep Sea Exploration", "content": "Discover technologies and methods used to study the deep ocean." }
+      ],
+      "difficulty": 3
+    }

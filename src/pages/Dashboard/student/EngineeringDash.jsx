@@ -127,6 +127,7 @@ const EngineeringDash = () => {
             selectedTopic={selectedTopic}
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}
+            subject="engineering"
           />
 
           {learningMode === 'interactive' && renderSimulation(selectedTopic)}

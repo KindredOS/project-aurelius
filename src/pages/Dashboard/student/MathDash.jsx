@@ -125,6 +125,7 @@ const MathDash = () => {
             selectedTopic={selectedTopic}
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}
+            subject="math"
           />
 
           {learningMode === 'interactive' && renderSimulation(selectedTopic)}
