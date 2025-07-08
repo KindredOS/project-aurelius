@@ -1,0 +1,12 @@
+{
+  "id": "overview",
+  "name": "Overview",
+  "icon": "BookOpen",
+  "description": "Welcome to your personalized technology learning journey!",
+  "concepts": [
+    "Digital Literacy",
+    "Tech Ethics",
+    "Problem Solving"
+  ],
+  "difficulty": 1
+}

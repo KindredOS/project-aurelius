@@ -1,0 +1,13 @@
+{
+  "id": "overview",
+  "name": "Overview",
+  "icon": "BookOpen",
+  "description": "Welcome to your creative arts learning journey!",
+  "concepts": [
+    "Art History",
+    "Creative Process",
+    "Art Criticism",
+    "Media Exploration"
+  ],
+  "difficulty": 1
+}

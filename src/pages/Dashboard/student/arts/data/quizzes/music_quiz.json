@@ -1,0 +1,22 @@
+[
+  {
+    "question": "How many beats are in a 4/4 time signature?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "8"
+    ],
+    "correct": 2
+  },
+  {
+    "question": "What is the distance between two notes called?",
+    "options": [
+      "Rhythm",
+      "Tempo",
+      "Interval",
+      "Harmony"
+    ],
+    "correct": 2
+  }
+]

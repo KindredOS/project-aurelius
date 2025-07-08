@@ -1,0 +1,22 @@
+[
+  {
+    "question": "How long should a beginner meditate daily?",
+    "options": [
+      "1-2 minutes",
+      "5-10 minutes",
+      "20-30 minutes",
+      "60+ minutes"
+    ],
+    "correct": 1
+  },
+  {
+    "question": "What is the recommended amount of sleep for adults?",
+    "options": [
+      "5-6 hours",
+      "6-7 hours",
+      "7-9 hours",
+      "10+ hours"
+    ],
+    "correct": 2
+  }
+]

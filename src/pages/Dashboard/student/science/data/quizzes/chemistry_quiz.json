@@ -1,0 +1,22 @@
+[
+  {
+    "question": "How many protons does a carbon atom have?",
+    "options": [
+      "4",
+      "6",
+      "8",
+      "12"
+    ],
+    "correct": 1
+  },
+  {
+    "question": "What happens during a chemical reaction?",
+    "options": [
+      "Atoms are created",
+      "Atoms are destroyed",
+      "Bonds between atoms are broken and formed",
+      "Nothing changes"
+    ],
+    "correct": 2
+  }
+]

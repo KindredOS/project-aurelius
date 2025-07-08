@@ -1,0 +1,13 @@
+{
+  "id": "media",
+  "name": "Media Arts",
+  "icon": "Camera",
+  "description": "Explore photography, film, animation, and digital media creation.",
+  "concepts": [
+    "Photography",
+    "Video Production",
+    "Animation",
+    "Digital Design"
+  ],
+  "difficulty": 4
+}

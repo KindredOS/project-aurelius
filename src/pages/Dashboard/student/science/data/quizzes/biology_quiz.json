@@ -1,0 +1,22 @@
+[
+  {
+    "question": "What is the basic unit of life?",
+    "options": [
+      "Atom",
+      "Molecule",
+      "Cell",
+      "Organ"
+    ],
+    "correct": 2
+  },
+  {
+    "question": "Which process do plants use to make food?",
+    "options": [
+      "Respiration",
+      "Photosynthesis",
+      "Digestion",
+      "Circulation"
+    ],
+    "correct": 1
+  }
+]

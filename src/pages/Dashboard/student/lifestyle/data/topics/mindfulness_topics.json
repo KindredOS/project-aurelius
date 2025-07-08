@@ -1,0 +1,13 @@
+{
+  "id": "mindfulness",
+  "name": "Mindfulness & Mental Health",
+  "icon": "Smile",
+  "description": "Develop emotional intelligence and stress management skills.",
+  "concepts": [
+    "Meditation",
+    "Stress Management",
+    "Emotional Wellness",
+    "Sleep"
+  ],
+  "difficulty": 2
+}

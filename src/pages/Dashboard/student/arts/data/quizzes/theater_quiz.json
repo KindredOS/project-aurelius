@@ -1,0 +1,22 @@
+[
+  {
+    "question": "What is the area of the stage closest to the audience called?",
+    "options": [
+      "Upstage",
+      "Downstage",
+      "Stage Left",
+      "Center Stage"
+    ],
+    "correct": 1
+  },
+  {
+    "question": "What does 'breaking the fourth wall' mean in theater?",
+    "options": [
+      "Destroying stage props",
+      "Actors acknowledging the audience directly",
+      "Changing scenes quickly",
+      "Using special effects"
+    ],
+    "correct": 1
+  }
+]

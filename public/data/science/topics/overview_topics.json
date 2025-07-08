@@ -1,0 +1,12 @@
+{
+  "id": "overview",
+  "name": "Overview",
+  "icon": "BookOpen",
+  "description": "Welcome to your personalized science learning journey!",
+  "concepts": [
+    "Scientific Method",
+    "Lab Safety",
+    "Data Analysis"
+  ],
+  "difficulty": 1
+}

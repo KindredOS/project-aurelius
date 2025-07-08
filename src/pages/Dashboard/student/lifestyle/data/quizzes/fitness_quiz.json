@@ -1,0 +1,22 @@
+[
+  {
+    "question": "How many minutes of moderate exercise per week does the WHO recommend?",
+    "options": [
+      "75 minutes",
+      "150 minutes",
+      "300 minutes",
+      "450 minutes"
+    ],
+    "correct": 1
+  },
+  {
+    "question": "What is the best time to stretch for flexibility?",
+    "options": [
+      "Before workout",
+      "After workout",
+      "Only on rest days",
+      "It doesn't matter"
+    ],
+    "correct": 1
+  }
+]

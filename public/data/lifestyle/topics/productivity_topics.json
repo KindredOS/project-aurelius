@@ -1,0 +1,13 @@
+{
+  "id": "productivity",
+  "name": "Productivity",
+  "icon": "Activity",
+  "description": "Optimize your time, build better habits, and achieve your goals.",
+  "concepts": [
+    "Time Management",
+    "Goal Setting",
+    "Habit Building",
+    "Focus"
+  ],
+  "difficulty": 3
+}

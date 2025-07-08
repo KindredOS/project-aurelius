@@ -1,0 +1,13 @@
+{
+  "id": "fitness",
+  "name": "Fitness & Health",
+  "icon": "Dumbbell",
+  "description": "Build strength, improve cardio, and maintain physical wellness.",
+  "concepts": [
+    "Strength Training",
+    "Cardio Workouts",
+    "Flexibility",
+    "Recovery"
+  ],
+  "difficulty": 3
+}

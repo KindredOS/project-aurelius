@@ -1,0 +1,13 @@
+{
+  "id": "ai",
+  "name": "AI & Machine Learning",
+  "icon": "Brain",
+  "description": "Explore artificial intelligence, machine learning, and neural networks.",
+  "concepts": [
+    "Neural Networks",
+    "Machine Learning",
+    "Deep Learning",
+    "AI Ethics"
+  ],
+  "difficulty": 5
+}

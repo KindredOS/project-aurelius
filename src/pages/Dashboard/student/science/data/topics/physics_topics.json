@@ -1,0 +1,13 @@
+{
+  "id": "physics",
+  "name": "Physics",
+  "icon": "Atom",
+  "description": "Explore forces, energy, motion, and the fundamental laws of nature.",
+  "concepts": [
+    "Newton's Laws",
+    "Energy Conservation",
+    "Waves",
+    "Electricity"
+  ],
+  "difficulty": 3
+}

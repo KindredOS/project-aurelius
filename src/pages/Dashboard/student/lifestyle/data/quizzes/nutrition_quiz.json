@@ -1,0 +1,22 @@
+[
+  {
+    "question": "How many servings of fruits and vegetables should you eat daily?",
+    "options": [
+      "3-4",
+      "5-9",
+      "10-12",
+      "15+"
+    ],
+    "correct": 1
+  },
+  {
+    "question": "What percentage of your daily calories should come from protein?",
+    "options": [
+      "5-10%",
+      "10-15%",
+      "15-25%",
+      "30-35%"
+    ],
+    "correct": 2
+  }
+]

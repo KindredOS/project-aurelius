@@ -1,0 +1,13 @@
+{
+  "id": "chemistry",
+  "name": "Chemistry",
+  "icon": "Calculator",
+  "description": "Discover atoms, molecules, reactions, and the periodic table.",
+  "concepts": [
+    "Atomic Structure",
+    "Chemical Bonds",
+    "Reactions",
+    "Periodic Table"
+  ],
+  "difficulty": 4
+}

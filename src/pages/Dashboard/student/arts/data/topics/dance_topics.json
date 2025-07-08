@@ -1,0 +1,13 @@
+{
+  "id": "dance",
+  "name": "Dance",
+  "icon": "Users",
+  "description": "Study movement, choreography, and various dance styles.",
+  "concepts": [
+    "Movement Basics",
+    "Choreography",
+    "Dance Styles",
+    "Performance"
+  ],
+  "difficulty": 2
+}

@@ -1,0 +1,13 @@
+{
+  "id": "relationships",
+  "name": "Relationships & Social",
+  "icon": "Heart",
+  "description": "Strengthen connections and improve communication skills.",
+  "concepts": [
+    "Communication",
+    "Conflict Resolution",
+    "Empathy",
+    "Boundaries"
+  ],
+  "difficulty": 4
+}

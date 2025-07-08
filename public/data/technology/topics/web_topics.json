@@ -1,0 +1,13 @@
+{
+  "id": "web",
+  "name": "Web Technologies",
+  "icon": "Globe",
+  "description": "Master HTML, CSS, JavaScript, and modern web frameworks.",
+  "concepts": [
+    "HTML/CSS",
+    "JavaScript",
+    "React",
+    "APIs"
+  ],
+  "difficulty": 3
+}

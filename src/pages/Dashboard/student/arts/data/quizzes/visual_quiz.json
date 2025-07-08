@@ -1,0 +1,22 @@
+[
+  {
+    "question": "What are the three primary colors in traditional color theory?",
+    "options": [
+      "Red, Blue, Yellow",
+      "Red, Green, Blue",
+      "Cyan, Magenta, Yellow",
+      "Red, Orange, Blue"
+    ],
+    "correct": 0
+  },
+  {
+    "question": "What is the rule of thirds in composition?",
+    "options": [
+      "Dividing the canvas into three equal sections",
+      "Using only three colors in a painting",
+      "Placing important elements along grid lines that divide the image into nine parts",
+      "Making three sketches before the final artwork"
+    ],
+    "correct": 2
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "id": "theater",
+  "name": "Theater Arts",
+  "icon": "Mic",
+  "description": "Discover acting, directing, stagecraft, and dramatic expression.",
+  "concepts": [
+    "Acting Techniques",
+    "Script Analysis",
+    "Stage Design",
+    "Performance"
+  ],
+  "difficulty": 3
+}

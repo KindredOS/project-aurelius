@@ -1,0 +1,13 @@
+{
+  "id": "nutrition",
+  "name": "Nutrition",
+  "icon": "Utensils",
+  "description": "Learn about balanced eating, meal planning, and healthy choices.",
+  "concepts": [
+    "Balanced Diet",
+    "Meal Planning",
+    "Hydration",
+    "Supplements"
+  ],
+  "difficulty": 2
+}

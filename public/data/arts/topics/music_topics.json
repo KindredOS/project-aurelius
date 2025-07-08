@@ -1,0 +1,13 @@
+{
+  "id": "music",
+  "name": "Music",
+  "icon": "Music",
+  "description": "Learn about rhythm, melody, harmony, and musical expression.",
+  "concepts": [
+    "Music Theory",
+    "Rhythm & Beat",
+    "Instruments",
+    "Composition"
+  ],
+  "difficulty": 3
+}

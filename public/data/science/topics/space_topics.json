@@ -1,0 +1,13 @@
+{
+  "id": "space",
+  "name": "Space Science",
+  "icon": "Star",
+  "description": "Journey through the cosmos and explore astronomical phenomena.",
+  "concepts": [
+    "Solar System",
+    "Stars",
+    "Galaxies",
+    "Space Exploration"
+  ],
+  "difficulty": 3
+}

@@ -1,0 +1,13 @@
+{
+  "id": "visual",
+  "name": "Visual Arts",
+  "icon": "Palette",
+  "description": "Explore drawing, painting, sculpture, and digital art techniques.",
+  "concepts": [
+    "Drawing Fundamentals",
+    "Color Theory",
+    "Composition",
+    "Digital Art"
+  ],
+  "difficulty": 2
+}
