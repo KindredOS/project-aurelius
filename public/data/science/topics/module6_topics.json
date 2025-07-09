@@ -1,13 +1,41 @@
 {
-      "id": "module6",
-      "name": "Environmental Science",
-      "icon": "Leaf",
-      "description": "Learn about the environment, sustainability, and human impact on the planet.",
-      "concepts": [
-        { "title": "Ecosystem Services", "content": "Explore the resources and processes nature provides." },
-        { "title": "Pollution", "content": "Understand causes and effects of different types of pollution." },
-        { "title": "Sustainability", "content": "Study practices that support ecological balance." },
-        { "title": "Climate Action", "content": "Examine strategies to combat climate change." }
-      ],
-      "difficulty": 2
+  "id": "module6",
+  "name": "Social Sciences",
+  "icon": "Users",
+  "description": "Understand how individuals and societies function—from psychology and group dynamics to economic systems and democratic values.",
+  "concepts": [
+    {
+      "title": "Introduction to Social Science",
+      "markdown": "module%206/intro_social_science.md"
+    },
+    {
+      "title": "Human Behavior",
+      "markdown": "module%206/human_behavior.md"
+    },
+    {
+      "title": "Group Dynamics",
+      "markdown": "module%206/group_dynamics.md"
+    },
+    {
+      "title": "Culture & Society",
+      "markdown": "module%206/culture_society.md"
+    },
+    {
+      "title": "Power & Governance",
+      "markdown": "module%206/power_governance.md"
+    },
+    {
+      "title": "Economics & Resources",
+      "markdown": "module%206/economics_resources.md"
+    },
+    {
+      "title": "Social Systems & Justice",
+      "markdown": "module%206/social_systems_justice.md"
+    },
+    {
+      "title": "Ethics, Innovation & Impact",
+      "markdown": "module%206/ethics_innovation.md"
     }
+  ],
+  "difficulty": 2
+}

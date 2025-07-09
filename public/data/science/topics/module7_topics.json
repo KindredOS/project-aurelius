@@ -1,13 +1,41 @@
 {
-      "id": "module8",
-      "name": "Marine Science",
-      "icon": "Fish",
-      "description": "Explore the oceans, marine ecosystems, and the science of underwater life.",
-      "concepts": [
-        { "title": "Ocean Currents", "content": "Learn how ocean water moves and its effects on climate." },
-        { "title": "Marine Food Webs", "content": "Understand the feeding relationships in marine ecosystems." },
-        { "title": "Coral Reefs", "content": "Study the biodiversity and importance of reef systems." },
-        { "title": "Deep Sea Exploration", "content": "Discover technologies and methods used to study the deep ocean." }
-      ],
-      "difficulty": 3
+  "id": "module7",
+  "name": "Applied Sciences",
+  "icon": "Wrench",
+  "description": "Discover how scientific knowledge becomes real-world innovation. Explore how biology, chemistry, physics, and engineering combine to solve problems and improve lives.",
+  "concepts": [
+    {
+      "title": "What is Applied Science?",
+      "markdown": "module%207/what_is_applied_science.md"
+    },
+    {
+      "title": "Engineering Principles",
+      "markdown": "module%207/engineering_principles.md"
+    },
+    {
+      "title": "Biomedical Sciences",
+      "markdown": "module%207/biomedical_sciences.md"
+    },
+    {
+      "title": "Agricultural Sciences",
+      "markdown": "module%207/agricultural_sciences.md"
+    },
+    {
+      "title": "Materials Science",
+      "markdown": "module%207/materials_science.md"
+    },
+    {
+      "title": "Environmental Science & Engineering",
+      "markdown": "module%207/environmental_engineering.md"
+    },
+    {
+      "title": "Interdisciplinary Science in Action",
+      "markdown": "module%207/interdisciplinary_science.md"
+    },
+    {
+      "title": "Communicating Innovation",
+      "markdown": "module%207/communicating_innovation.md"
     }
+  ],
+  "difficulty": 2
+}

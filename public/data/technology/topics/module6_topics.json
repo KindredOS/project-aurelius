@@ -1,0 +1,41 @@
+{
+  "id": "module6",
+  "name": "Software Engineering, Tools & Deployment",
+  "icon": "Code",
+  "description": "This module covers the complete software development process—from coding languages and environments to deployment strategies and ethical AI assistance. Students gain hands-on experience in UI/UX design, compliance, and building for real-world platforms.",
+  "concepts": [
+    {
+      "title": "What is Software Engineering?",
+      "markdown": "module%206/software_engineering_intro.md"
+    },
+    {
+      "title": "Popular Programming Languages",
+      "markdown": "module%206/programming_languages.md"
+    },
+    {
+      "title": "Coding Environments & IDEs",
+      "markdown": "module%206/coding_environments_ides.md"
+    },
+    {
+      "title": "UI/UX Tools & Design Thinking",
+      "markdown": "module%206/uiux_design_tools.md"
+    },
+    {
+      "title": "Coding with AI Support",
+      "markdown": "module%206/coding_with_ai.md"
+    },
+    {
+      "title": "Digital Privacy & Compliance in Software",
+      "markdown": "module%206/digital_privacy_compliance.md"
+    },
+    {
+      "title": "Deployment Strategies",
+      "markdown": "module%206/deployment_strategies.md"
+    },
+    {
+      "title": "Application Domains: IoT, Mobile, Edge, and Games",
+      "markdown": "module%206/iot_mobile_games.md"
+    }
+  ],
+  "difficulty": 3
+}

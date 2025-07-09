@@ -1,13 +1,41 @@
 {
-  "id": "chemistry",
-  "name": "Chemistry",
-  "icon": "Calculator",
-  "description": "Discover atoms, molecules, reactions, and the periodic table.",
+  "id": "module4",
+  "name": "Biological Sciences",
+  "icon": "Leaf",
+  "description": "Explore the complexity of life on Earth, from cells to ecosystems, and understand how humans can live sustainably within biological systems.",
   "concepts": [
-    "Atomic Structure",
-    "Chemical Bonds",
-    "Reactions",
-    "Periodic Table"
+    {
+      "title": "What is Life?",
+      "markdown": "module%204/what_is_life.md"
+    },
+    {
+      "title": "Cell Biology",
+      "markdown": "module%204/cell_biology.md"
+    },
+    {
+      "title": "Genetics & Inheritance",
+      "markdown": "module%204/genetics_inheritance.md"
+    },
+    {
+      "title": "Organism Structure & Function",
+      "markdown": "module%204/organism_structure.md"
+    },
+    {
+      "title": "Ecosystems & Habitats",
+      "markdown": "module%204/ecosystems_habitats.md"
+    },
+    {
+      "title": "Environmental Science",
+      "markdown": "module%204/environmental_science.md"
+    },
+    {
+      "title": "Interdependence & Adaptation",
+      "markdown": "module%204/interdependence_adaptation.md"
+    },
+    {
+      "title": "Sustainability in Living Systems",
+      "markdown": "module%204/sustainability_living_systems.md"
+    }
   ],
-  "difficulty": 4
+  "difficulty": 2
 }

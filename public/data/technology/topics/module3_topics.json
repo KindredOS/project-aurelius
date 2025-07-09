@@ -1,0 +1,41 @@
+{
+  "id": "module3",
+  "name": "Communication & Technology Ideation",
+  "icon": "MessageSquare",
+  "description": "This module explores the digital tools and strategies for effective communication, collaborative work, and technology-based problem solving. Students will learn how to present ideas, create pitch decks, and explore entrepreneurship as a pathway to innovation.",
+  "concepts": [
+    {
+      "title": "Docs, Slides & Spreadsheets",
+      "markdown": "module%203/docs_slides_spreadsheets.md"
+    },
+    {
+      "title": "Coding & Markup as Communication",
+      "markdown": "module%203/coding_and_markup.md"
+    },
+    {
+      "title": "Visual Storytelling & Multimedia Design",
+      "markdown": "module%203/visual_storytelling.md"
+    },
+    {
+      "title": "Platforms for Tech Communication",
+      "markdown": "module%203/tech_communication_platforms.md"
+    },
+    {
+      "title": "Technology Ideation & Problem Solving",
+      "markdown": "module%203/technology_ideation.md"
+    },
+    {
+      "title": "Pitch Decks & Digital Portfolios",
+      "markdown": "module%203/pitch_decks_and_portfolios.md"
+    },
+    {
+      "title": "Tech Entrepreneurship Basics",
+      "markdown": "module%203/tech_entrepreneurship.md"
+    },
+    {
+      "title": "Collaborative Tools & Team Workflow",
+      "markdown": "module%203/collaborative_tools_workflow.md"
+    }
+  ],
+  "difficulty": 2
+}

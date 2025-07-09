@@ -1,0 +1,41 @@
+{
+  "id": "module7",
+  "name": "Technology Applications & Global Impact",
+  "icon": "Globe",
+  "description": "This module challenges students to apply technology to global problems. Through inquiry, design, and civic engagement, students explore how technologists can help address today's biggest challenges and shape a better tomorrow.",
+  "concepts": [
+    {
+      "title": "The Great Global Challenges",
+      "markdown": "module%207/global_challenges.md"
+    },
+    {
+      "title": "Technology for Human and Planetary Health",
+      "markdown": "module%207/tech_for_health_and_planet.md"
+    },
+    {
+      "title": "Digital Infrastructure & Equity",
+      "markdown": "module%207/digital_equity.md"
+    },
+    {
+      "title": "Public Interest Technology",
+      "markdown": "module%207/public_interest_tech.md"
+    },
+    {
+      "title": "Technologists as Changemakers",
+      "markdown": "module%207/technologists_changemakers.md"
+    },
+    {
+      "title": "Technology & Policy",
+      "markdown": "module%207/technology_policy.md"
+    },
+    {
+      "title": "Mapping Your Cause",
+      "markdown": "module%207/mapping_your_cause.md"
+    },
+    {
+      "title": "Prototype a Better Future",
+      "markdown": "module%207/prototype_better_future.md"
+    }
+  ],
+  "difficulty": 3
+}

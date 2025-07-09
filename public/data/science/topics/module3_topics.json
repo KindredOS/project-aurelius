@@ -1,13 +1,41 @@
 {
-      "id": "biology",
-      "name": "Biology",
-      "icon": "Dna",
-      "description": "Study living organisms, cells, genetics, and ecosystems.",
-      "concepts": [
-        { "title": "Cell Structure", "content": "Learn the parts of cells and their functions." },
-        { "title": "Genetics", "content": "Understand DNA, inheritance, and genetic variation." },
-        { "title": "Evolution", "content": "Explore natural selection and the history of life on Earth." },
-        { "title": "Ecosystems", "content": "Investigate how organisms interact with each other and their environment." }
-      ],
-      "difficulty": 2
+  "id": "module3",
+  "name": "Planetary & Space Sciences",
+  "icon": "Globe",
+  "description": "Explore Earth as a system within a vast and interconnected universe. This module covers geology, atmosphere, space science, and the future of human expansion into space.",
+  "concepts": [
+    {
+      "title": "Earth's Structure",
+      "markdown": "module%203/earth_structure.md"
+    },
+    {
+      "title": "Atmosphere & Weather",
+      "markdown": "module%203/atmosphere_weather.md"
+    },
+    {
+      "title": "Earth’s Systems & Cycles",
+      "markdown": "module%203/earth_systems_cycles.md"
+    },
+    {
+      "title": "The Solar System",
+      "markdown": "module%203/solar_system.md"
+    },
+    {
+      "title": "The Moon & Tides",
+      "markdown": "module%203/moon_tides.md"
+    },
+    {
+      "title": "Space Science & Exploration",
+      "markdown": "module%203/space_exploration.md"
+    },
+    {
+      "title": "The Universe Beyond",
+      "markdown": "module%203/universe_beyond.md"
+    },
+    {
+      "title": "Earth in Context",
+      "markdown": "module%203/earth_in_context.md"
     }
+  ],
+  "difficulty": 2
+}

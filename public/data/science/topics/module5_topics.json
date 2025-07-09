@@ -1,13 +1,41 @@
 {
-      "id": "space",
-      "name": "Space Science",
-      "icon": "Star",
-      "description": "Journey through the cosmos and explore astronomical phenomena.",
-      "concepts": [
-        { "title": "Solar System", "content": "Learn about the Sun and planets that orbit it." },
-        { "title": "Stars", "content": "Study how stars are formed, live, and die." },
-        { "title": "Galaxies", "content": "Understand the massive systems of stars, gas, and dust." },
-        { "title": "Space Exploration", "content": "Explore how humans study and travel in space." }
-      ],
-      "difficulty": 3
+  "id": "module5",
+  "name": "Human Biology",
+  "icon": "HeartPulse",
+  "description": "Understand the systems of the human body, how they work together, and how to maintain health and wellness in a complex world.",
+  "concepts": [
+    {
+      "title": "Introduction to Human Biology",
+      "markdown": "module%205/intro_human_biology.md"
+    },
+    {
+      "title": "Skeletal & Muscular Systems",
+      "markdown": "module%205/skeletal_muscular.md"
+    },
+    {
+      "title": "Circulatory & Respiratory Systems",
+      "markdown": "module%205/circulatory_respiratory.md"
+    },
+    {
+      "title": "Digestive & Excretory Systems",
+      "markdown": "module%205/digestive_excretory.md"
+    },
+    {
+      "title": "Nervous & Endocrine Systems",
+      "markdown": "module%205/nervous_endocrine.md"
+    },
+    {
+      "title": "Immune System & Disease",
+      "markdown": "module%205/immune_disease.md"
+    },
+    {
+      "title": "Reproductive Health & Development",
+      "markdown": "module%205/reproductive_health.md"
+    },
+    {
+      "title": "Wellness, Prevention & Public Health",
+      "markdown": "module%205/wellness_prevention.md"
     }
+  ],
+  "difficulty": 2
+}

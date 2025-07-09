@@ -1,13 +1,41 @@
 {
-      "id": "module7",
-      "name": "Scientific Frontiers",
-      "icon": "Lightbulb",
-      "description": "Explore cutting-edge discoveries and emerging technologies.",
-      "concepts": [
-        { "title": "CRISPR & Gene Editing", "content": "Understand the science of editing genetic material." },
-        { "title": "Quantum Computing", "content": "Learn how quantum mechanics powers next-gen computers." },
-        { "title": "Space Telescopes", "content": "Discover tools that let us see deep into the universe." },
-        { "title": "Artificial Intelligence", "content": "Examine the rise of smart machines and their applications." }
-      ],
-      "difficulty": 4
+  "id": "module8",
+  "name": "Frontier Science",
+  "icon": "Rocket",
+  "description": "Explore the bold edges of scientific discovery—from AI to space colonization, quantum breakthroughs to climate challenges. This is science on the edge of tomorrow.",
+  "concepts": [
+    {
+      "title": "The Nature of Frontier Science",
+      "markdown": "module%208/nature_of_frontier_science.md"
+    },
+    {
+      "title": "Grand Scientific Challenges",
+      "markdown": "module%208/grand_challenges.md"
+    },
+    {
+      "title": "Space & Cosmic Frontiers",
+      "markdown": "module%208/space_cosmic_frontiers.md"
+    },
+    {
+      "title": "Quantum & Theoretical Physics",
+      "markdown": "module%208/quantum_theoretical_physics.md"
+    },
+    {
+      "title": "Synthetic Biology & Genetic Frontiers",
+      "markdown": "module%208/synthetic_biology.md"
+    },
+    {
+      "title": "Artificial Intelligence & Conscious Systems",
+      "markdown": "module%208/ai_conscious_systems.md"
+    },
+    {
+      "title": "Future Energy & Environmental Systems",
+      "markdown": "module%208/future_energy_environment.md"
+    },
+    {
+      "title": "Philosophy, Ethics, and the Human Future",
+      "markdown": "module%208/philosophy_ethics_future.md"
     }
+  ],
+  "difficulty": 3
+}

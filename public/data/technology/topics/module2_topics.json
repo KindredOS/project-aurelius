@@ -1,0 +1,41 @@
+{
+  "id": "module2",
+  "name": "Systems Thinking & Core Digital Skills",
+  "icon": "Flowchart",
+  "description": "This module introduces students to systems thinking and core digital operations such as operating systems, networks, cybersecurity, and file management, while emphasizing structured problem-solving through design and debugging processes.",
+  "concepts": [
+    {
+      "title": "Systems Thinking & The Design Cycle",
+      "markdown": "module%202/systems_thinking_and_design_cycle.md"
+    },
+    {
+      "title": "Inputs, Outputs, and Feedback Loops",
+      "markdown": "module%202/inputs_outputs_feedback.md"
+    },
+    {
+      "title": "Flowcharts and System Diagrams",
+      "markdown": "module%202/flowcharts_and_diagrams.md"
+    },
+    {
+      "title": "Intro to Algorithmic Thinking",
+      "markdown": "module%202/algorithmic_thinking.md"
+    },
+    {
+      "title": "Operating Systems Overview",
+      "markdown": "module%202/operating_systems.md"
+    },
+    {
+      "title": "Networks and Internet Basics",
+      "markdown": "module%202/networks_and_internet.md"
+    },
+    {
+      "title": "Digital Safety, Privacy & Security",
+      "markdown": "module%202/digital_safety_and_privacy.md"
+    },
+    {
+      "title": "File Types, Formats & Storage",
+      "markdown": "module%202/file_types_and_storage.md"
+    }
+  ],
+  "difficulty": 2
+}

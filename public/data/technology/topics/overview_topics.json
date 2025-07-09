@@ -1,12 +1,41 @@
 {
   "id": "overview",
   "name": "Overview",
-  "icon": "BookOpen",
-  "description": "Welcome to your personalized technology learning journey!",
+  "icon": "Cpu",
+  "description": "Welcome to your personalized technology learning journey! This module introduces students to the core of technological thinking, emphasizing systematic design, ethical responsibility, and foundational knowledge that supports all STEAM fields.",
   "concepts": [
-    "Digital Literacy",
-    "Tech Ethics",
-    "Problem Solving"
+    {
+      "title": "What is Technology?",
+      "markdown": "overview/what_is_technology.md"
+    },
+    {
+      "title": "Branches of Technology",
+      "markdown": "overview/branches_of_technology.md"
+    },
+    {
+      "title": "Technology Fundamentals",
+      "markdown": "overview/technology_fundamentals.md"
+    },
+    {
+      "title": "Systems Thinking & Design Process",
+      "markdown": "overview/systems_thinking.md"
+    },
+    {
+      "title": "Communication in Technology",
+      "markdown": "overview/communication_in_technology.md"
+    },
+    {
+      "title": "Ethics & Digital Citizenship",
+      "markdown": "overview/ethics_in_technology.md"
+    },
+    {
+      "title": "Digital Tools & Applications",
+      "markdown": "overview/digital_tools_and_apps.md"
+    },
+    {
+      "title": "21st Century Skills in Tech",
+      "markdown": "overview/21st_century_skills.md"
+    }
   ],
   "difficulty": 1
 }

@@ -1,0 +1,41 @@
+{
+  "id": "module5",
+  "name": "Hardware Design, Devices & Deployment",
+  "icon": "Tool",
+  "description": "This module introduces students to the fundamentals of hardware prototyping, system design, and scalable device deployment. From soldering and circuitry to IoT applications and manufacturing strategies, students will learn how technology takes physical form.",
+  "concepts": [
+    {
+      "title": "Introduction to Hardware Design",
+      "markdown": "module%205/hardware_design_intro.md"
+    },
+    {
+      "title": "Soldering & Basic Electronic Tools",
+      "markdown": "module%205/soldering_and_tools.md"
+    },
+    {
+      "title": "Circuit Design Tools & Practices",
+      "markdown": "module%205/circuit_design_practices.md"
+    },
+    {
+      "title": "Single Board Computers & Microcontrollers",
+      "markdown": "module%205/sbc_microcontrollers.md"
+    },
+    {
+      "title": "Hardware Resources & Communities",
+      "markdown": "module%205/hardware_resources_communities.md"
+    },
+    {
+      "title": "Applications: IoT, Robotics & Embedded Systems",
+      "markdown": "module%205/iot_robotics_applications.md"
+    },
+    {
+      "title": "Environmental & Design Considerations",
+      "markdown": "module%205/environmental_design_considerations.md"
+    },
+    {
+      "title": "Scaling, MVPs & Manufacturing",
+      "markdown": "module%205/scaling_and_manufacturing.md"
+    }
+  ],
+  "difficulty": 3
+}

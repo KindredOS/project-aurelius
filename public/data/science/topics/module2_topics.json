@@ -1,13 +1,41 @@
 {
-      "id": "earth",
-      "name": "Earth Science",
-      "icon": "Globe",
-      "description": "Understand our planet's systems, weather, and geological processes.",
-      "concepts": [
-        { "title": "Rock Cycle", "content": "Learn how rocks transform between types over time." },
-        { "title": "Weather Systems", "content": "Understand atmospheric phenomena and forecasting." },
-        { "title": "Plate Tectonics", "content": "Explore the movement of Earth's plates and its effects." },
-        { "title": "Climate", "content": "Study long-term weather patterns and climate change." }
-      ],
-      "difficulty": 2
+  "id": "module2",
+  "name": "Chemistry Fundamentals",
+  "icon": "FlaskConical",
+  "description": "Dive into the world of molecules, reactions, and chemical systems. This module expands on atomic structure and introduces key chemistry disciplines with a focus on sustainability.",
+  "concepts": [
+    {
+      "title": "What is Chemistry?",
+      "markdown": "module%202/what_is_chemistry.md"
+    },
+    {
+      "title": "Atomic Structure Review",
+      "markdown": "module%202/atomic_structure.md"
+    },
+    {
+      "title": "Molecules & Compounds",
+      "markdown": "module%202/molecules_compounds.md"
+    },
+    {
+      "title": "Chemical Reactions",
+      "markdown": "module%202/chemical_reactions.md"
+    },
+    {
+      "title": "States of Matter & Changes",
+      "markdown": "module%202/states_of_matter.md"
+    },
+    {
+      "title": "Measurements & Observations in Chemistry",
+      "markdown": "module%202/measurements_observations.md"
+    },
+    {
+      "title": "Disciplines of Chemistry",
+      "markdown": "module%202/disciplines_of_chemistry.md"
+    },
+    {
+      "title": "Chemistry in Systems",
+      "markdown": "module%202/chemistry_in_systems.md"
     }
+  ],
+  "difficulty": 2
+}

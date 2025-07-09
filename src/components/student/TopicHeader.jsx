@@ -8,7 +8,8 @@ const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar
 
   useEffect(() => {
     if (selectedConcept?.markdown && subject) {
-      fetch(`/data/${subject}/markdown/${selectedConcept.markdown}`)
+      const path = `/data/${subject}/markdown/${selectedConcept.markdown}`;
+      fetch(path)
         .then(res => res.text())
         .then(setMarkdownText)
         .catch(err => {

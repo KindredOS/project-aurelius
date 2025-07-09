@@ -1,15 +1,41 @@
 {
-      "id": "physics",
-      "name": "Physics",
-      "icon": "Atom",
-      "description": "Explore forces, energy, motion, and the fundamental laws of nature.",
-      "concepts": [
-        { "title": "Newton's Laws", "content": "Understand motion through Newton's three laws." },
-        { "title": "Energy Conservation", "content": "Study how energy is transferred and conserved." },
-        { "title": "Waves", "content": "Learn about wave types and behaviors." },
-        { "title": "Electricity", "content": "Explore electric circuits and current flow." }
-      ],
-      "difficulty": 3
+  "id": "module1",
+  "name": "The Physical World",
+  "icon": "Atom",
+  "description": "Explore the fundamental building blocks of the universe—atoms, energy, and physical systems. This module emphasizes foundational physics and chemistry principles through a systems-based lens.",
+  "concepts": [
+    {
+      "title": "Atoms & Matter",
+      "markdown": "module%201/atoms_and_matter.md"
+    },
+    {
+      "title": "Forces & Motion",
+      "markdown": "module%201/forces_and_motion.md"
+    },
+    {
+      "title": "Forms of Energy",
+      "markdown": "module%201/forms_of_energy.md"
+    },
+    {
+      "title": "Systems Thinking",
+      "markdown": "module%201/systems_thinking.md"
+    },
+    {
+      "title": "Measurement & Observation",
+      "markdown": "module%201/measurement_observation.md"
+    },
+    {
+      "title": "Materials Science",
+      "markdown": "module%201/materials_science.md"
+    },
+    {
+      "title": "Simple Machines",
+      "markdown": "module%201/simple_machines.md"
+    },
+    {
+      "title": "Real-World Design Integration",
+      "markdown": "module%201/real_world_design.md"
     }
-    
-    
+  ],
+  "difficulty": 2
+}
