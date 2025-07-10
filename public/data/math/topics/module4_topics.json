@@ -1,0 +1,41 @@
+{
+  "id": "math_module_4",
+  "name": "Applied Mathematics and Data Literacy",
+  "icon": "BarChart3",
+  "description": "Apply mathematical reasoning in real-life contexts by interpreting data, understanding variability, and manipulating rational expressions. Strengthens quantitative literacy and data interpretation skills.",
+  "concepts": [
+    {
+      "title": "Introduction to Rational Expressions",
+      "markdown": "module%204/introduction_to_rational_expressions.md"
+    },
+    {
+      "title": "Operations with Rational Expressions",
+      "markdown": "module%204/operations_with_rational_expressions.md"
+    },
+    {
+      "title": "Analyzing Data Sets",
+      "markdown": "module%204/analyzing_data_sets.md"
+    },
+    {
+      "title": "Visualizing Data",
+      "markdown": "module%204/visualizing_data.md"
+    },
+    {
+      "title": "Line of Best Fit and Trend Analysis",
+      "markdown": "module%204/line_of_best_fit.md"
+    },
+    {
+      "title": "Communicating Quantitative Findings",
+      "markdown": "module%204/communicating_findings.md"
+    },
+    {
+      "title": "Hands-On Activities",
+      "markdown": "module%204/hands_on_activities.md"
+    },
+    {
+      "title": "STEAM Integration & 21st Century Skills",
+      "markdown": "module%204/steam_and_skills.md"
+    }
+  ],
+  "difficulty": 4
+}

@@ -1,0 +1,41 @@
+{
+  "id": "math_module_8",
+  "name": "Future Mathematics and Theoretical Frontiers",
+  "icon": "Atom",
+  "description": "Explore abstract, speculative, and cutting-edge mathematics that pushes the boundaries of traditional thinking. From fractals and paradoxes to quantum logic and AI, this module ignites curiosity and visionary thinking.",
+  "concepts": [
+    {
+      "title": "Fractals, Patterns, and Chaos Theory",
+      "markdown": "module%208/fractals_and_chaos.md"
+    },
+    {
+      "title": "Infinity, Paradoxes, and Set Theory",
+      "markdown": "module%208/infinity_and_set_theory.md"
+    },
+    {
+      "title": "Topology and Higher Dimensions",
+      "markdown": "module%208/topology_and_dimensions.md"
+    },
+    {
+      "title": "Cryptography and Mathematical Security",
+      "markdown": "module%208/cryptography_and_security.md"
+    },
+    {
+      "title": "Quantum Math and Probabilistic Systems",
+      "markdown": "module%208/quantum_and_probability.md"
+    },
+    {
+      "title": "Artificial Intelligence and Mathematical Decision Systems",
+      "markdown": "module%208/ai_and_math_models.md"
+    },
+    {
+      "title": "Philosophy of Mathematics and Unsolved Problems",
+      "markdown": "module%208/philosophy_and_unsolved.md"
+    },
+    {
+      "title": "Exploratory Modeling and Innovation Design",
+      "markdown": "module%208/exploratory_modeling_and_innovation.md"
+    }
+  ],
+  "difficulty": 8
+}

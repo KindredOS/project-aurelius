@@ -1,48 +1,40 @@
 {
-  "id": "module_1_visual_arts",
-  "name": "Visual Arts",
-  "icon": "Brush",
-  "description": "This module explores how visual elements are used to communicate ideas, emotions, and identities. Students will learn the foundational language of visual art, its cultural relevance, and practical applications in design, storytelling, and innovation.",
+  "id": "math_module_1",
+  "name": "Foundations of Mathematical Thinking",
+  "icon": "Calculator",
+  "description": "Establish algebraic literacy and confidence in symbolic reasoning. Students will explore mathematics as a structured system of meaning-making, rooted in logic, relationships, and abstraction.",
   "concepts": [
     {
-      "title": "What is Visual Art?",
-      "markdown": "visual_arts/what_is_visual_art.md"
+      "title": "Expressions and Equations",
+      "markdown": "module%201/expressions_and_equations.md"
     },
     {
-      "title": "Elements of Visual Art",
-      "markdown": "visual_arts/elements_of_visual_art.md"
+      "title": "Ratios & Proportional Relationships",
+      "markdown": "module%201/ratios_and_proportional_relationships.md"
     },
     {
-      "title": "Materials & Mediums",
-      "markdown": "visual_arts/materials_and_mediums.md"
+      "title": "Word Problems and Problem Solving Strategies",
+      "markdown": "module%201/word_problems_and_strategies.md"
     },
     {
-      "title": "Composition & Style",
-      "markdown": "visual_arts/composition_and_style.md"
+      "title": "Patterns and Structure in Math",
+      "markdown": "module%201/patterns_and_structure.md"
     },
     {
-      "title": "Visual Storytelling & Communication",
-      "markdown": "visual_arts/visual_storytelling.md"
+      "title": "Mathematical Language and Notation",
+      "markdown": "module%201/language_and_notation.md"
     },
     {
-      "title": "Critique, Interpretation & Context",
-      "markdown": "visual_arts/critique_and_context.md"
-    },
-    {
-      "title": "Application in the Real World",
-      "markdown": "visual_arts/real_world_application.md"
-    },
-    {
-      "title": "Ethics & Responsibility in Visual Arts",
-      "markdown": "visual_arts/ethics_and_responsibility.md"
+      "title": "Real-World Applications of Algebra",
+      "markdown": "module%201/real_world_algebra.md"
     },
     {
       "title": "Hands-On Activities",
-      "markdown": "visual_arts/hands_on_activities.md"
+      "markdown": "module%201/hands_on_activities.md"
     },
     {
-      "title": "STEAM Integration in Visual Arts",
-      "markdown": "visual_arts/steam_integration.md"
+      "title": "STEAM Integration & 21st Century Skills",
+      "markdown": "module%201/steam_and_skills.md"
     }
   ],
   "difficulty": 1

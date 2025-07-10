@@ -1,0 +1,41 @@
+{
+  "id": "math_module_3",
+  "name": "Structures, Systems, and Representation",
+  "icon": "Layers",
+  "description": "Explore algebraic and geometric systems through visual models, structured reasoning, and symbolic manipulation. This module connects systems of equations, factoring, exponents, and geometric applications.",
+  "concepts": [
+    {
+      "title": "Systems of Equations",
+      "markdown": "module%203/systems_of_equations.md"
+    },
+    {
+      "title": "Factoring and Algebraic Structure",
+      "markdown": "module%203/factoring_algebraic_structure.md"
+    },
+    {
+      "title": "Exponents and Powers",
+      "markdown": "module%203/exponents_and_powers.md"
+    },
+    {
+      "title": "Geometry Connections with Algebra",
+      "markdown": "module%203/geometry_connections.md"
+    },
+    {
+      "title": "Symbolic Manipulation and Order",
+      "markdown": "module%203/symbolic_manipulation.md"
+    },
+    {
+      "title": "Mathematical Structures and Hierarchies",
+      "markdown": "module%203/mathematical_structures.md"
+    },
+    {
+      "title": "Visual Modeling and Diagramming",
+      "markdown": "module%203/visual_modeling.md"
+    },
+    {
+      "title": "Systems Thinking in Math",
+      "markdown": "module%203/systems_thinking.md"
+    }
+  ],
+  "difficulty": 3
+}

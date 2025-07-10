@@ -1,0 +1,41 @@
+{
+  "id": "math_module_7",
+  "name": "Global Challenges Through a Mathematical Lens",
+  "icon": "Globe",
+  "description": "Use applied mathematics to understand and model pressing global issues. Students develop practical tools to interpret data, evaluate systems, and propose solutions in areas such as climate, economics, and health.",
+  "concepts": [
+    {
+      "title": "Mathematics of Climate and Environmental Change",
+      "markdown": "module%207/climate_and_environmental_change.md"
+    },
+    {
+      "title": "Population Growth and Resource Allocation",
+      "markdown": "module%207/population_and_resources.md"
+    },
+    {
+      "title": "Economic Systems and Inequality Metrics",
+      "markdown": "module%207/economics_and_inequality.md"
+    },
+    {
+      "title": "Statistical Modeling for Public Health and Policy",
+      "markdown": "module%207/public_health_and_policy.md"
+    },
+    {
+      "title": "Geopolitical and Social Systems Modeling",
+      "markdown": "module%207/social_systems_modeling.md"
+    },
+    {
+      "title": "Risk Analysis and Forecasting Tools",
+      "markdown": "module%207/risk_analysis_and_forecasting.md"
+    },
+    {
+      "title": "Quantitative Decision-Making and Ethics",
+      "markdown": "module%207/decision_making_and_ethics.md"
+    },
+    {
+      "title": "Scenario Modeling and Strategic Thinking",
+      "markdown": "module%207/scenario_modeling_and_strategy.md"
+    }
+  ],
+  "difficulty": 7
+}

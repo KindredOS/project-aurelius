@@ -1,0 +1,41 @@
+{
+  "id": "math_module_6",
+  "name": "Computation, Algorithms, and Calculus Foundations",
+  "icon": "FunctionSquare",
+  "description": "Bridge abstract reasoning with real-world problem solving by introducing students to algorithmic logic and the foundational principles of calculus. This module explores how mathematics models dynamic systems, change over time, and structured decision-making.",
+  "concepts": [
+    {
+      "title": "Algorithmic Thinking and Logical Flow",
+      "markdown": "module%206/algorithmic_thinking.md"
+    },
+    {
+      "title": "Discrete Structures and Decision Systems",
+      "markdown": "module%206/discrete_structures.md"
+    },
+    {
+      "title": "Combinatorics and Probability",
+      "markdown": "module%206/combinatorics_and_probability.md"
+    },
+    {
+      "title": "Limits and Continuity",
+      "markdown": "module%206/limits_and_continuity.md"
+    },
+    {
+      "title": "Derivatives and Rates of Change",
+      "markdown": "module%206/derivatives_and_rates_of_change.md"
+    },
+    {
+      "title": "Integrals and Accumulation",
+      "markdown": "module%206/integrals_and_accumulation.md"
+    },
+    {
+      "title": "Graphical Interpretation of Change",
+      "markdown": "module%206/graphical_interpretation_of_change.md"
+    },
+    {
+      "title": "Applied Calculus and Decision Models",
+      "markdown": "module%206/applied_calculus_and_decision_models.md"
+    }
+  ],
+  "difficulty": 6
+}

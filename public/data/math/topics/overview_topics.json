@@ -1,15 +1,41 @@
 {
   "id": "overview",
-  "name": "Overview",
+  "name": "Foundations of Mathematical Thinking",
   "icon": "Calculator",
-  "description": "Explore the language of numbers and logic to solve real-world problems and sharpen your critical thinking.",
+  "description": "Introduce students to mathematics as a language of patterns, relationships, and systems. This module lays the foundation for reasoning, modeling, and solving real-world problems.",
   "concepts": [
-    "Algebra",
-    "Geometry",
-    "Statistics",
-    "Probability",
-    "Functions",
-    "Ratios and Proportions"
+    {
+      "title": "What Is Mathematics?",
+      "markdown": "overview/what_is_mathematics.md"
+    },
+    {
+      "title": "Expressions and Equations",
+      "markdown": "overview/expressions_and_equations.md"
+    },
+    {
+      "title": "Ratios & Proportional Relationships",
+      "markdown": "overview/ratios_and_proportional_relationships.md"
+    },
+    {
+      "title": "Numbers as Systems",
+      "markdown": "overview/numbers_as_systems.md"
+    },
+    {
+      "title": "Mathematical Mindsets",
+      "markdown": "overview/mathematical_mindsets.md"
+    },
+    {
+      "title": "The Role of Representation",
+      "markdown": "overview/role_of_representation.md"
+    },
+    {
+      "title": "Math in the Real World",
+      "markdown": "overview/math_in_the_real_world.md"
+    },
+    {
+      "title": "Your Math Story",
+      "markdown": "overview/your_math_story.md"
+    }
   ],
-  "difficulty": 2
+  "difficulty": 1
 }

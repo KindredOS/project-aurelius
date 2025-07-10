@@ -1,0 +1,41 @@
+{
+  "id": "math_module_2",
+  "name": "Patterns, Relationships, and Functions",
+  "icon": "TrendingUp",
+  "description": "Empower students to recognize, analyze, and represent patterns in the world around them. This module builds on foundational math skills to explore linear relationships, functions, and inequalities.",
+  "concepts": [
+    {
+      "title": "Introduction to Patterns and Relationships",
+      "markdown": "module%202/introduction_to_patterns.md"
+    },
+    {
+      "title": "Understanding Linear Functions",
+      "markdown": "module%202/understanding_linear_functions.md"
+    },
+    {
+      "title": "Function Notation and Input-Output Models",
+      "markdown": "module%202/function_notation_and_models.md"
+    },
+    {
+      "title": "Inequalities in Context",
+      "markdown": "module%202/inequalities_in_context.md"
+    },
+    {
+      "title": "Multiple Representations of Relationships",
+      "markdown": "module%202/multiple_representations.md"
+    },
+    {
+      "title": "Interpreting Real-World Situations",
+      "markdown": "module%202/interpreting_real_world.md"
+    },
+    {
+      "title": "Hands-On Activities",
+      "markdown": "module%202/hands_on_activities.md"
+    },
+    {
+      "title": "STEAM Integration & 21st Century Skills",
+      "markdown": "module%202/steam_and_skills.md"
+    }
+  ],
+  "difficulty": 2
+}

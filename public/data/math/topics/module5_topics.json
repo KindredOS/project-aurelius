@@ -1,0 +1,41 @@
+{
+  "id": "math_module_5",
+  "name": "Mathematical Modeling and Optimization",
+  "icon": "AreaChart",
+  "description": "Empower students to construct mathematical models that represent real-world systems, predict outcomes, and identify optimal solutions. This module introduces core ideas from pre-calculus to extend algebraic reasoning into applied modeling contexts.",
+  "concepts": [
+    {
+      "title": "Introduction to Mathematical Modeling",
+      "markdown": "module%205/introduction_to_modeling.md"
+    },
+    {
+      "title": "Piecewise and Step Functions",
+      "markdown": "module%205/piecewise_and_step_functions.md"
+    },
+    {
+      "title": "Quadratic, Polynomial, and Rational Models",
+      "markdown": "module%205/quadratic_polynomial_rational_models.md"
+    },
+    {
+      "title": "Exponential and Logarithmic Functions",
+      "markdown": "module%205/exponential_and_logarithmic_functions.md"
+    },
+    {
+      "title": "Systems Thinking and Optimization Problems",
+      "markdown": "module%205/systems_thinking_and_optimization.md"
+    },
+    {
+      "title": "Function Composition and Transformation",
+      "markdown": "module%205/function_composition_and_transformation.md"
+    },
+    {
+      "title": "Hands-On Activities",
+      "markdown": "module%205/hands_on_activities.md"
+    },
+    {
+      "title": "STEAM Integration & 21st Century Skills",
+      "markdown": "module%205/steam_and_skills.md"
+    }
+  ],
+  "difficulty": 5
+}
