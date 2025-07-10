@@ -1,0 +1,41 @@
+{
+  "id": "module5",
+  "name": "Engineering Applications in the Real World",
+  "icon": "Globe",
+  "description": "This module explores how engineering is applied in real-world systems—from energy and transportation to water, agriculture, and disaster relief. Students gain insight into how engineers build and maintain the critical infrastructure that powers civilization.",
+  "concepts": [
+    {
+      "title": "Infrastructure Engineering",
+      "markdown": "module%205/infrastructure_engineering.md"
+    },
+    {
+      "title": "Energy Systems",
+      "markdown": "module%205/energy_systems.md"
+    },
+    {
+      "title": "Transportation Systems",
+      "markdown": "module%205/transportation_systems.md"
+    },
+    {
+      "title": "Manufacturing and Industrial Engineering",
+      "markdown": "module%205/manufacturing_industrial_engineering.md"
+    },
+    {
+      "title": "Agricultural and Food Engineering",
+      "markdown": "module%205/agricultural_food_engineering.md"
+    },
+    {
+      "title": "Water and Waste Systems",
+      "markdown": "module%205/water_waste_systems.md"
+    },
+    {
+      "title": "Communication and Network Engineering",
+      "markdown": "module%205/communication_network_engineering.md"
+    },
+    {
+      "title": "Engineering for Development and Disaster Response",
+      "markdown": "module%205/development_disaster_engineering.md"
+    }
+  ],
+  "difficulty": 3
+}

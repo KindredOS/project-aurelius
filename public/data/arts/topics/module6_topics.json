@@ -1,0 +1,41 @@
+{
+  "id": "module_6_culinary_arts",
+  "name": "Culinary Arts",
+  "icon": "Utensils",
+  "description": "This module explores food as a creative, scientific, and cultural practice. Students will learn culinary techniques, food presentation, global traditions, and ethical considerations in gastronomy and the culinary industry.",
+  "concepts": [
+    {
+      "title": "What are the Culinary Arts?",
+      "markdown": "module%206/what_are_the_culinary_arts.md"
+    },
+    {
+      "title": "Taste, Flavor & Presentation",
+      "markdown": "module%206/taste_flavor_and_presentation.md"
+    },
+    {
+      "title": "Cooking Techniques & Methods",
+      "markdown": "module%206/cooking_techniques_and_methods.md"
+    },
+    {
+      "title": "Ingredients & Seasonality",
+      "markdown": "module%206/ingredients_and_seasonality.md"
+    },
+    {
+      "title": "Culinary Cultures & Global Cuisine",
+      "markdown": "module%206/culinary_cultures_and_global_cuisine.md"
+    },
+    {
+      "title": "Innovation in Culinary Arts",
+      "markdown": "module%206/innovation_in_culinary_arts.md"
+    },
+    {
+      "title": "Food Business & Presentation",
+      "markdown": "module%206/food_business_and_presentation.md"
+    },
+    {
+      "title": "Ethics in the Culinary World",
+      "markdown": "module%206/ethics_in_the_culinary_world.md"
+    }
+  ],
+  "difficulty": 1
+}

@@ -1,0 +1,41 @@
+{
+  "id": "module6",
+  "name": "Architecture and Urban Design",
+  "icon": "Landmark",
+  "description": "This module explores how engineering, architecture, and urban planning shape the built environments we inhabit—emphasizing the design, function, and sustainability of cities, towns, and rural systems.",
+  "concepts": [
+    {
+      "title": "The Built Environment",
+      "markdown": "module%206/built_environment.md"
+    },
+    {
+      "title": "Architecture and Structural Design",
+      "markdown": "module%206/architecture_structural_design.md"
+    },
+    {
+      "title": "Urban Systems and Infrastructure",
+      "markdown": "module%206/urban_systems_infrastructure.md"
+    },
+    {
+      "title": "City Planning and Zoning",
+      "markdown": "module%206/city_planning_zoning.md"
+    },
+    {
+      "title": "Mobility and Transportation Networks",
+      "markdown": "module%206/mobility_transportation_networks.md"
+    },
+    {
+      "title": "Sustainability in Urban Environments",
+      "markdown": "module%206/sustainability_urban_environments.md"
+    },
+    {
+      "title": "Smart Cities and Emerging Technologies",
+      "markdown": "module%206/smart_cities_technologies.md"
+    },
+    {
+      "title": "Global Case Studies in Urban Innovation",
+      "markdown": "module%206/global_case_studies.md"
+    }
+  ],
+  "difficulty": 3
+}

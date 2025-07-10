@@ -1,13 +1,41 @@
 {
   "id": "overview",
-  "name": "Overview",
-  "icon": "BookOpen",
-  "description": "Welcome to your creative arts learning journey!",
+  "name": "Foundations of Artistic Expression",
+  "icon": "Palette",
+  "description": "This module introduces students to the world of the arts as a diverse, expressive, and impactful domain of human creativity. It emphasizes common elements across artistic disciplines, cultural context, and the ethical dimensions of art-making in the 21st century.",
   "concepts": [
-    "Art History",
-    "Creative Process",
-    "Art Criticism",
-    "Media Exploration"
+    {
+      "title": "What is Art?",
+      "markdown": "overview/what_is_art.md"
+    },
+    {
+      "title": "Branches of the Arts",
+      "markdown": "overview/branches_of_arts.md"
+    },
+    {
+      "title": "Elements of Art & Design",
+      "markdown": "overview/elements_of_art.md"
+    },
+    {
+      "title": "Artistic Composition & Systems",
+      "markdown": "overview/composition_and_systems.md"
+    },
+    {
+      "title": "Art and Audience",
+      "markdown": "overview/art_and_audience.md"
+    },
+    {
+      "title": "Ethics, Ownership & Impact",
+      "markdown": "overview/ethics_and_impact.md"
+    },
+    {
+      "title": "Hands-On Activities",
+      "markdown": "overview/hands_on_activities.md"
+    },
+    {
+      "title": "STEAM Integration in Arts",
+      "markdown": "overview/steam_integration_arts.md"
+    }
   ],
   "difficulty": 1
 }

@@ -1,13 +1,41 @@
 {
-  "id": "fitness",
-  "name": "Fitness & Health",
-  "icon": "Dumbbell",
-  "description": "Build strength, improve cardio, and maintain physical wellness.",
+  "id": "module2",
+  "name": "Habits, Routines & Self-Regulation",
+  "icon": "Repeat",
+  "description": "Understand how habits and routines shape identity and long-term outcomes. This module helps students recognize behavioral patterns, learn the neuroscience of habit loops, and build personalized systems for daily success and emotional regulation.",
   "concepts": [
-    "Strength Training",
-    "Cardio Workouts",
-    "Flexibility",
-    "Recovery"
+    {
+      "title": "What Are Habits?",
+      "markdown": "module%202/what_are_habits.md"
+    },
+    {
+      "title": "Habit Formation Systems",
+      "markdown": "module%202/habit_formation_systems.md"
+    },
+    {
+      "title": "The Power of Routines",
+      "markdown": "module%202/power_of_routines.md"
+    },
+    {
+      "title": "Breaking Bad Habits",
+      "markdown": "module%202/breaking_bad_habits.md"
+    },
+    {
+      "title": "Tools of Self-Regulation",
+      "markdown": "module%202/tools_self_regulation.md"
+    },
+    {
+      "title": "Habit Tracking and Feedback Loops",
+      "markdown": "module%202/habit_tracking_feedback.md"
+    },
+    {
+      "title": "Environmental Design for Success",
+      "markdown": "module%202/environmental_design.md"
+    },
+    {
+      "title": "Long-Term Identity Change",
+      "markdown": "module%202/long_term_identity.md"
+    }
   ],
-  "difficulty": 3
+  "difficulty": 1
 }

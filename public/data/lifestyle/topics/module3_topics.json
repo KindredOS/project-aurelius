@@ -1,13 +1,41 @@
 {
-  "id": "mindfulness",
-  "name": "Mindfulness & Mental Health",
-  "icon": "Smile",
-  "description": "Develop emotional intelligence and stress management skills.",
+  "id": "module3",
+  "name": "Emotional Intelligence & Social Life",
+  "icon": "Users",
+  "description": "Learn how understanding emotions—both your own and others'—can improve communication, relationships, and self-awareness. This module explores empathy, active listening, emotional literacy, and the social systems that influence our lives.",
   "concepts": [
-    "Meditation",
-    "Stress Management",
-    "Emotional Wellness",
-    "Sleep"
+    {
+      "title": "What is Emotional Intelligence (EQ)?",
+      "markdown": "module%203/what_is_eq.md"
+    },
+    {
+      "title": "Self-Awareness and Emotional Literacy",
+      "markdown": "module%203/self_awareness_literacy.md"
+    },
+    {
+      "title": "Empathy and Perspective-Taking",
+      "markdown": "module%203/empathy_perspective.md"
+    },
+    {
+      "title": "Social Awareness and Relationship Skills",
+      "markdown": "module%203/social_awareness_skills.md"
+    },
+    {
+      "title": "Communication for Connection",
+      "markdown": "module%203/communication_connection.md"
+    },
+    {
+      "title": "Managing Emotions Under Stress",
+      "markdown": "module%203/managing_emotions.md"
+    },
+    {
+      "title": "Belonging, Identity, and Culture",
+      "markdown": "module%203/belonging_identity_culture.md"
+    },
+    {
+      "title": "Healthy Relationships & Support Systems",
+      "markdown": "module%203/healthy_relationships.md"
+    }
   ],
-  "difficulty": 2
+  "difficulty": 1
 }

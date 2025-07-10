@@ -1,13 +1,41 @@
 {
-  "id": "theater",
-  "name": "Theater Arts",
-  "icon": "Mic",
-  "description": "Discover acting, directing, stagecraft, and dramatic expression.",
+  "id": "module_4_media_arts",
+  "name": "Media Arts",
+  "icon": "Video",
+  "description": "This module explores how digital technologies, sound, and time-based media are used as tools of creative expression. Students will engage with tools for animation, film, digital art, sound design, and interactive storytelling.",
   "concepts": [
-    "Acting Techniques",
-    "Script Analysis",
-    "Stage Design",
-    "Performance"
+    {
+      "title": "What is Media Art?",
+      "markdown": "module%204/what_is_media_art.md"
+    },
+    {
+      "title": "Digital Tools & Platforms",
+      "markdown": "module%204/digital_tools_and_platforms.md"
+    },
+    {
+      "title": "Visual & Audio Composition",
+      "markdown": "module%204/visual_and_audio_composition.md"
+    },
+    {
+      "title": "Narrative & Interactivity",
+      "markdown": "module%204/narrative_and_interactivity.md"
+    },
+    {
+      "title": "Media Movements & Genres",
+      "markdown": "module%204/media_movements_and_genres.md"
+    },
+    {
+      "title": "Feedback & Collaboration",
+      "markdown": "module%204/feedback_and_collaboration.md"
+    },
+    {
+      "title": "Publishing & Platforms",
+      "markdown": "module%204/publishing_and_platforms.md"
+    },
+    {
+      "title": "Ethics in Media Arts",
+      "markdown": "module%204/ethics_in_media_arts.md"
+    }
   ],
-  "difficulty": 3
+  "difficulty": 1
 }

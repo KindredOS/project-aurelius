@@ -1,0 +1,41 @@
+{
+  "id": "module_8_arts_for_social_change",
+  "name": "Arts for Social Change & Future Frontiers",
+  "icon": "Megaphone",
+  "description": "This module focuses on how art can influence society, address injustice, and imagine futures through activism, environmental art, speculative design, and emerging technologies like AI.",
+  "concepts": [
+    {
+      "title": "What is Art for Social Change?",
+      "markdown": "module%208/what_is_art_for_social_change.md"
+    },
+    {
+      "title": "Eco-Art & Environmental Practice",
+      "markdown": "module%208/eco_art_and_environmental_practice.md"
+    },
+    {
+      "title": "Speculative & Futurist Art Forms",
+      "markdown": "module%208/speculative_and_futurist_art.md"
+    },
+    {
+      "title": "Technology & AI in Art",
+      "markdown": "module%208/technology_and_ai_in_art.md"
+    },
+    {
+      "title": "Public Art & Civic Engagement",
+      "markdown": "module%208/public_art_and_civic_engagement.md"
+    },
+    {
+      "title": "Global Voices & Decolonizing the Arts",
+      "markdown": "module%208/global_voices_and_decolonizing_the_arts.md"
+    },
+    {
+      "title": "Youth & Emerging Voices",
+      "markdown": "module%208/youth_and_emerging_voices.md"
+    },
+    {
+      "title": "Ethics of Representation & Impact",
+      "markdown": "module%208/ethics_of_representation_and_impact.md"
+    }
+  ],
+  "difficulty": 1
+}

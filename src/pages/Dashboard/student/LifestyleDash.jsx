@@ -123,6 +123,7 @@ const LifestyleDash = () => {
             selectedTopic={selectedTopic}
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}
+            subject="lifestyle"
           />
 
           {learningMode === 'interactive' && renderActivity(selectedTopic)}

@@ -1,0 +1,49 @@
+{
+  "id": "module_1_visual_arts",
+  "name": "Visual Arts",
+  "icon": "Brush",
+  "description": "This module explores how visual elements are used to communicate ideas, emotions, and identities. Students will learn the foundational language of visual art, its cultural relevance, and practical applications in design, storytelling, and innovation.",
+  "concepts": [
+    {
+      "title": "What is Visual Art?",
+      "markdown": "visual_arts/what_is_visual_art.md"
+    },
+    {
+      "title": "Elements of Visual Art",
+      "markdown": "visual_arts/elements_of_visual_art.md"
+    },
+    {
+      "title": "Materials & Mediums",
+      "markdown": "visual_arts/materials_and_mediums.md"
+    },
+    {
+      "title": "Composition & Style",
+      "markdown": "visual_arts/composition_and_style.md"
+    },
+    {
+      "title": "Visual Storytelling & Communication",
+      "markdown": "visual_arts/visual_storytelling.md"
+    },
+    {
+      "title": "Critique, Interpretation & Context",
+      "markdown": "visual_arts/critique_and_context.md"
+    },
+    {
+      "title": "Application in the Real World",
+      "markdown": "visual_arts/real_world_application.md"
+    },
+    {
+      "title": "Ethics & Responsibility in Visual Arts",
+      "markdown": "visual_arts/ethics_and_responsibility.md"
+    },
+    {
+      "title": "Hands-On Activities",
+      "markdown": "visual_arts/hands_on_activities.md"
+    },
+    {
+      "title": "STEAM Integration in Visual Arts",
+      "markdown": "visual_arts/steam_integration.md"
+    }
+  ],
+  "difficulty": 1
+}

@@ -1,0 +1,41 @@
+{
+  "id": "module7",
+  "name": "Meaning, Mindset & Worldview",
+  "icon": "Compass",
+  "description": "Encourage students to explore what gives life meaning. This module guides learners through topics like belief systems, personal values, mindset development, gratitude, and the role of purpose in shaping lifestyle choices and identity.",
+  "concepts": [
+    {
+      "title": "What is Meaning and Purpose?",
+      "markdown": "module%207/what_is_purpose.md"
+    },
+    {
+      "title": "Belief Systems and Worldview",
+      "markdown": "module%207/belief_worldview.md"
+    },
+    {
+      "title": "Developing a Growth Mindset",
+      "markdown": "module%207/growth_mindset.md"
+    },
+    {
+      "title": "Gratitude and Perspective",
+      "markdown": "module%207/gratitude_perspective.md"
+    },
+    {
+      "title": "Journaling and Self-Inquiry",
+      "markdown": "module%207/journaling_inquiry.md"
+    },
+    {
+      "title": "Values Clarification",
+      "markdown": "module%207/values_clarification.md"
+    },
+    {
+      "title": "Spirituality, Stillness, and Connection",
+      "markdown": "module%207/spirituality_connection.md"
+    },
+    {
+      "title": "Lifestyle Design Through Meaning",
+      "markdown": "module%207/lifestyle_design_meaning.md"
+    }
+  ],
+  "difficulty": 1
+}

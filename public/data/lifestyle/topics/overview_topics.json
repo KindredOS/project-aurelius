@@ -1,15 +1,41 @@
 {
   "id": "overview",
-  "name": "Overview",
-  "icon": "Heart",
-  "description": "Build skills for a balanced life including health, wellness, communication, and personal growth.",
+  "name": "Overview: Lifestyle",
+  "icon": "HeartPulse",
+  "description": "Welcome to your personalized lifestyle learning journey! This module introduces students to the foundational concepts of lifestyle design, systems thinking, personal responsibility, and self-directed growth across health, habits, values, and identity.",
   "concepts": [
-    "Health and Nutrition",
-    "Emotional Intelligence",
-    "Financial Literacy",
-    "Time Management",
-    "Interpersonal Skills",
-    "Mindfulness and Wellness"
+    {
+      "title": "What is Lifestyle?",
+      "markdown": "overview/what_is_lifestyle.md"
+    },
+    {
+      "title": "Lifestyle as a System",
+      "markdown": "overview/lifestyle_as_a_system.md"
+    },
+    {
+      "title": "Core Elements of a Healthy Lifestyle",
+      "markdown": "overview/core_elements.md"
+    },
+    {
+      "title": "Decision-Making & Critical Thinking",
+      "markdown": "overview/decision_making.md"
+    },
+    {
+      "title": "Personal Responsibility & Forgiveness",
+      "markdown": "overview/personal_responsibility.md"
+    },
+    {
+      "title": "The Art of Lifestyle Design",
+      "markdown": "overview/lifestyle_design.md"
+    },
+    {
+      "title": "Lifestyle Mapping & Reflection",
+      "markdown": "overview/lifestyle_mapping.md"
+    },
+    {
+      "title": "21st Century Skills & Lifelong Learning",
+      "markdown": "overview/21st_century_skills.md"
+    }
   ],
   "difficulty": 1
 }

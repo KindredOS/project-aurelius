@@ -1,13 +1,41 @@
 {
-  "id": "media",
-  "name": "Media Arts",
-  "icon": "Camera",
-  "description": "Explore photography, film, animation, and digital media creation.",
+  "id": "module_5_applied_arts_design",
+  "name": "Applied Arts & Design",
+  "icon": "Layout",
+  "description": "This module focuses on the intersection of creativity and functionality in applied art fields like graphic, fashion, industrial, and interior design. Students will explore design principles, user-centered approaches, and real-world applications.",
   "concepts": [
-    "Photography",
-    "Video Production",
-    "Animation",
-    "Digital Design"
+    {
+      "title": "What are Applied Arts & Design?",
+      "markdown": "module%205/what_are_applied_arts.md"
+    },
+    {
+      "title": "Disciplines in Applied Arts",
+      "markdown": "module%205/disciplines_in_applied_arts.md"
+    },
+    {
+      "title": "Elements & Principles of Design",
+      "markdown": "module%205/elements_and_principles_of_design.md"
+    },
+    {
+      "title": "Design Thinking & User Experience",
+      "markdown": "module%205/design_thinking_and_ux.md"
+    },
+    {
+      "title": "Materials, Tools & Mediums",
+      "markdown": "module%205/materials_tools_and_mediums.md"
+    },
+    {
+      "title": "Prototyping & Presentation",
+      "markdown": "module%205/prototyping_and_presentation.md"
+    },
+    {
+      "title": "Design in the Real World",
+      "markdown": "module%205/design_in_the_real_world.md"
+    },
+    {
+      "title": "Ethics in Design",
+      "markdown": "module%205/ethics_in_design.md"
+    }
   ],
-  "difficulty": 4
+  "difficulty": 1
 }

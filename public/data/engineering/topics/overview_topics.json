@@ -1,14 +1,41 @@
 {
-  "id": "overview",
-  "name": "Overview",
-  "icon": "Settings",
-  "description": "Dive into the exciting world of engineering, where creativity meets practical problem solving.",
+  "id": "overview_engineering",
+  "name": "Foundations of Engineering Inquiry",
+  "icon": "Cog",
+  "description": "This module introduces students to the world of engineering as a creative, ethical, and systematic field of problem-solving. It emphasizes the engineering design process, systems thinking, and the societal impact of innovation across multiple disciplines.",
   "concepts": [
-    "Design Thinking",
-    "Mechanical Systems",
-    "Electrical Circuits",
-    "Robotics",
-    "Engineering Ethics"
+    {
+      "title": "What is Engineering?",
+      "markdown": "overview/what_is_engineering.md"
+    },
+    {
+      "title": "Branches of Engineering",
+      "markdown": "overview/branches_of_engineering.md"
+    },
+    {
+      "title": "Engineering Design Process",
+      "markdown": "overview/design_process.md"
+    },
+    {
+      "title": "Design Thinking & Systems",
+      "markdown": "overview/design_thinking.md"
+    },
+    {
+      "title": "Engineering Communication",
+      "markdown": "overview/communication.md"
+    },
+    {
+      "title": "Ethics & Integrity",
+      "markdown": "overview/ethics.md"
+    },
+    {
+      "title": "Hands-On Challenges",
+      "markdown": "overview/hands_on_challenges.md"
+    },
+    {
+      "title": "STEAM Integration in Engineering",
+      "markdown": "overview/steam_integration.md"
+    }
   ],
-  "difficulty": 2
+  "difficulty": 1
 }

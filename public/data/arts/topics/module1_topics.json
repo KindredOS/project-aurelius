@@ -1,13 +1,41 @@
 {
-  "id": "visual",
+  "id": "module1",
   "name": "Visual Arts",
-  "icon": "Palette",
-  "description": "Explore drawing, painting, sculpture, and digital art techniques.",
+  "icon": "Brush",
+  "description": "This module explores how visual elements are used to communicate ideas, emotions, and identities. Students will learn the foundational language of visual art, its cultural relevance, and practical applications in design, storytelling, and innovation.",
   "concepts": [
-    "Drawing Fundamentals",
-    "Color Theory",
-    "Composition",
-    "Digital Art"
+    {
+      "title": "What is Visual Art?",
+      "markdown": "module%201/what_is_visual_art.md"
+    },
+    {
+      "title": "Elements of Visual Art",
+      "markdown": "module%201/elements_of_visual_art.md"
+    },
+    {
+      "title": "Materials & Mediums",
+      "markdown": "module%201/materials_and_mediums.md"
+    },
+    {
+      "title": "Composition & Style",
+      "markdown": "module%201/composition_and_style.md"
+    },
+    {
+      "title": "Visual Storytelling & Communication",
+      "markdown": "module%201/visual_storytelling.md"
+    },
+    {
+      "title": "Critique, Interpretation & Context",
+      "markdown": "module%201/critique_and_context.md"
+    },
+    {
+      "title": "Application in the Real World",
+      "markdown": "module%201/real_world_application.md"
+    },
+    {
+      "title": "Ethics & Responsibility in Visual Arts",
+      "markdown": "module%201/ethics_and_responsibility.md"
+    }
   ],
-  "difficulty": 2
+  "difficulty": 1
 }

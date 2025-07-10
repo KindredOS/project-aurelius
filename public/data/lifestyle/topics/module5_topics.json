@@ -1,13 +1,41 @@
 {
-  "id": "relationships",
-  "name": "Relationships & Social",
-  "icon": "Heart",
-  "description": "Strengthen connections and improve communication skills.",
+  "id": "module5",
+  "name": "Personal Responsibility & Forgiveness",
+  "icon": "ShieldCheck",
+  "description": "Develop a deeper sense of ownership over one's actions, emotions, and growth. This module explores the power of taking responsibility, navigating guilt and shame, practicing forgiveness, and fostering accountability in self and relationships.",
   "concepts": [
-    "Communication",
-    "Conflict Resolution",
-    "Empathy",
-    "Boundaries"
+    {
+      "title": "What is Personal Responsibility?",
+      "markdown": "module%205/what_is_responsibility.md"
+    },
+    {
+      "title": "Cause and Effect in Life",
+      "markdown": "module%205/cause_effect_life.md"
+    },
+    {
+      "title": "Guilt vs. Shame",
+      "markdown": "module%205/guilt_vs_shame.md"
+    },
+    {
+      "title": "Making Amends and Repairing Harm",
+      "markdown": "module%205/making_amends.md"
+    },
+    {
+      "title": "What is Forgiveness?",
+      "markdown": "module%205/what_is_forgiveness.md"
+    },
+    {
+      "title": "Forgiveness as a Lifestyle Practice",
+      "markdown": "module%205/forgiveness_practice.md"
+    },
+    {
+      "title": "Responsibility to Others and Society",
+      "markdown": "module%205/responsibility_society.md"
+    },
+    {
+      "title": "Building a Life of Integrity",
+      "markdown": "module%205/life_of_integrity.md"
+    }
   ],
-  "difficulty": 4
+  "difficulty": 1
 }

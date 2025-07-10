@@ -1,13 +1,41 @@
 {
-  "id": "nutrition",
-  "name": "Nutrition",
-  "icon": "Utensils",
-  "description": "Learn about balanced eating, meal planning, and healthy choices.",
+  "id": "module1",
+  "name": "Health & Energy",
+  "icon": "Activity",
+  "description": "Explore how physical and mental health serve as the foundation of a balanced lifestyle. This module introduces students to the elements, systems, and daily practices that support energy management, stress regulation, and long-term vitality.",
   "concepts": [
-    "Balanced Diet",
-    "Meal Planning",
-    "Hydration",
-    "Supplements"
+    {
+      "title": "What is Health?",
+      "markdown": "module%201/what_is_health.md"
+    },
+    {
+      "title": "Elements of Health",
+      "markdown": "module%201/elements_of_health.md"
+    },
+    {
+      "title": "Body Systems and Energy",
+      "markdown": "module%201/body_systems_energy.md"
+    },
+    {
+      "title": "Stress and Recovery Systems",
+      "markdown": "module%201/stress_recovery_systems.md"
+    },
+    {
+      "title": "Environmental Factors",
+      "markdown": "module%201/environmental_factors.md"
+    },
+    {
+      "title": "Lifestyle Implementation",
+      "markdown": "module%201/lifestyle_implementation.md"
+    },
+    {
+      "title": "Energy Tracking and Awareness",
+      "markdown": "module%201/energy_tracking_awareness.md"
+    },
+    {
+      "title": "Sleep, Rest, and Circadian Health",
+      "markdown": "module%201/sleep_rest_circadian.md"
+    }
   ],
-  "difficulty": 2
+  "difficulty": 1
 }

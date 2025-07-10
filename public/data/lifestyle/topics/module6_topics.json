@@ -1,0 +1,41 @@
+{
+  "id": "module6",
+  "name": "Financial Wellness & Time Management",
+  "icon": "CalendarClock",
+  "description": "Teach students to take control of two of their most valuable resources: money and time. This module introduces the principles of budgeting, saving, planning, and prioritizing, empowering learners to build sustainable habits for long-term well-being and productivity.",
+  "concepts": [
+    {
+      "title": "What is Financial Wellness?",
+      "markdown": "module%206/what_is_financial_wellness.md"
+    },
+    {
+      "title": "Budgeting and Saving",
+      "markdown": "module%206/budgeting_saving.md"
+    },
+    {
+      "title": "Needs vs. Wants",
+      "markdown": "module%206/needs_vs_wants.md"
+    },
+    {
+      "title": "Time as a Resource",
+      "markdown": "module%206/time_as_resource.md"
+    },
+    {
+      "title": "Time Management Tools",
+      "markdown": "module%206/time_management_tools.md"
+    },
+    {
+      "title": "Goal Setting and Future Planning",
+      "markdown": "module%206/goal_setting_planning.md"
+    },
+    {
+      "title": "Digital Wellness and Distraction Management",
+      "markdown": "module%206/digital_wellness.md"
+    },
+    {
+      "title": "Building Sustainable Routines",
+      "markdown": "module%206/sustainable_routines.md"
+    }
+  ],
+  "difficulty": 1
+}

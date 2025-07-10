@@ -1,13 +1,41 @@
 {
-  "id": "music",
-  "name": "Music",
-  "icon": "Music",
-  "description": "Learn about rhythm, melody, harmony, and musical expression.",
+  "id": "module_2_literary_arts",
+  "name": "Literary Arts",
+  "icon": "BookOpen",
+  "description": "This module explores the power of written and spoken language as a form of artistic expression. Students will investigate structure, genres, cultural context, and techniques used in poetry, prose, storytelling, and dramatic writing.",
   "concepts": [
-    "Music Theory",
-    "Rhythm & Beat",
-    "Instruments",
-    "Composition"
+    {
+      "title": "What is Literary Art?",
+      "markdown": "module%202/what_is_literary_art.md"
+    },
+    {
+      "title": "Elements of Literary Expression",
+      "markdown": "module%202/elements_of_literary_expression.md"
+    },
+    {
+      "title": "Forms & Genres",
+      "markdown": "module%202/forms_and_genres.md"
+    },
+    {
+      "title": "Language Tools & Techniques",
+      "markdown": "module%202/language_tools_and_techniques.md"
+    },
+    {
+      "title": "Cultural Context & Literary Movements",
+      "markdown": "module%202/cultural_context_and_movements.md"
+    },
+    {
+      "title": "Interpretation & Critique",
+      "markdown": "module%202/interpretation_and_critique.md"
+    },
+    {
+      "title": "Publishing & Authorship",
+      "markdown": "module%202/publishing_and_authorship.md"
+    },
+    {
+      "title": "Ethics in Literary Arts",
+      "markdown": "module%202/ethics_in_literary_arts.md"
+    }
   ],
-  "difficulty": 3
+  "difficulty": 1
 }

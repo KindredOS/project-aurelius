@@ -1,13 +1,41 @@
 {
-  "id": "dance",
-  "name": "Dance",
-  "icon": "Users",
-  "description": "Study movement, choreography, and various dance styles.",
+  "id": "module_3_performing_arts",
+  "name": "Performing Arts",
+  "icon": "Mic",
+  "description": "This module explores live, time-based performance as a form of creative expression. Students will examine disciplines including theater, dance, music, and spoken word, with a focus on embodiment, collaboration, and cultural relevance.",
   "concepts": [
-    "Movement Basics",
-    "Choreography",
-    "Dance Styles",
-    "Performance"
+    {
+      "title": "What is Performing Art?",
+      "markdown": "module%203/what_is_performing_art.md"
+    },
+    {
+      "title": "Core Disciplines of Performance",
+      "markdown": "module%203/core_disciplines.md"
+    },
+    {
+      "title": "Elements of Performance",
+      "markdown": "module%203/elements_of_performance.md"
+    },
+    {
+      "title": "Composition & Rehearsal",
+      "markdown": "module%203/composition_and_rehearsal.md"
+    },
+    {
+      "title": "Cultural Traditions & Global Forms",
+      "markdown": "module%203/cultural_traditions.md"
+    },
+    {
+      "title": "Critique & Feedback in Performance",
+      "markdown": "module%203/critique_and_feedback.md"
+    },
+    {
+      "title": "Public Presentation & Careers",
+      "markdown": "module%203/public_presentation_and_careers.md"
+    },
+    {
+      "title": "Ethics in the Performing Arts",
+      "markdown": "module%203/ethics_in_performing_arts.md"
+    }
   ],
-  "difficulty": 2
+  "difficulty": 1
 }

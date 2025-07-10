@@ -1,0 +1,41 @@
+{
+  "id": "module2",
+  "name": "Mechanical and Structural Engineering",
+  "icon": "Building2",
+  "description": "This module introduces students to mechanical and structural systems, emphasizing machines, motion, materials, CAD tools, and real-world engineering design challenges.",
+  "concepts": [
+    {
+      "title": "Introduction to Mechanical Systems",
+      "markdown": "module%202/introduction_mechanical_systems.md"
+    },
+    {
+      "title": "Kinematics and Dynamics in Design",
+      "markdown": "module%202/kinematics_dynamics.md"
+    },
+    {
+      "title": "Strength of Materials",
+      "markdown": "module%202/strength_of_materials.md"
+    },
+    {
+      "title": "Statics in Structures",
+      "markdown": "module%202/statics_structures.md"
+    },
+    {
+      "title": "Structural Design and Innovation",
+      "markdown": "module%202/structural_design.md"
+    },
+    {
+      "title": "CAD and Modeling Tools",
+      "markdown": "module%202/cad_modeling_tools.md"
+    },
+    {
+      "title": "Failure Analysis and Safety Margins",
+      "markdown": "module%202/failure_analysis.md"
+    },
+    {
+      "title": "Sustainability and Material Selection",
+      "markdown": "module%202/sustainability_materials.md"
+    }
+  ],
+  "difficulty": 2
+}

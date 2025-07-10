@@ -1,0 +1,41 @@
+{
+  "id": "module7",
+  "name": "Power, Energy, and Transportation Systems",
+  "icon": "Zap",
+  "description": "This module explores how energy is generated, distributed, stored, and used in transportation systems. Students examine energy sources, infrastructure, and innovations that shape our powered and mobile world.",
+  "concepts": [
+    {
+      "title": "Energy Fundamentals",
+      "markdown": "module%207/energy_fundamentals.md"
+    },
+    {
+      "title": "Sources of Energy",
+      "markdown": "module%207/sources_of_energy.md"
+    },
+    {
+      "title": "Power Generation and Storage",
+      "markdown": "module%207/power_generation_storage.md"
+    },
+    {
+      "title": "Energy Transmission and Infrastructure",
+      "markdown": "module%207/energy_transmission_infrastructure.md"
+    },
+    {
+      "title": "Transportation Engineering",
+      "markdown": "module%207/transportation_engineering.md"
+    },
+    {
+      "title": "Electrification and Alternative Fuels",
+      "markdown": "module%207/electrification_alternative_fuels.md"
+    },
+    {
+      "title": "Energy and Environmental Impact",
+      "markdown": "module%207/energy_environmental_impact.md"
+    },
+    {
+      "title": "Future of Energy and Transportation",
+      "markdown": "module%207/future_energy_transportation.md"
+    }
+  ],
+  "difficulty": 3
+}

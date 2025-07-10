@@ -1,13 +1,41 @@
 {
-  "id": "productivity",
-  "name": "Productivity",
-  "icon": "Activity",
-  "description": "Optimize your time, build better habits, and achieve your goals.",
+  "id": "module4",
+  "name": "Critical Thinking & Decision-Making",
+  "icon": "Brain",
+  "description": "Equip students with tools to think clearly, question deeply, and make informed decisions. This module explores logic, bias awareness, reflection, and decision-making frameworks that shape personal and social outcomes.",
   "concepts": [
-    "Time Management",
-    "Goal Setting",
-    "Habit Building",
-    "Focus"
+    {
+      "title": "What is Critical Thinking?",
+      "markdown": "module%204/what_is_critical_thinking.md"
+    },
+    {
+      "title": "Common Cognitive Biases",
+      "markdown": "module%204/common_biases.md"
+    },
+    {
+      "title": "Questioning and Inquiry",
+      "markdown": "module%204/questioning_inquiry.md"
+    },
+    {
+      "title": "Decision-Making Frameworks",
+      "markdown": "module%204/decision_frameworks.md"
+    },
+    {
+      "title": "Risk, Uncertainty, and Trade-offs",
+      "markdown": "module%204/risk_uncertainty.md"
+    },
+    {
+      "title": "Emotions and Intuition in Decision-Making",
+      "markdown": "module%204/emotions_intuition.md"
+    },
+    {
+      "title": "Ethical and Value-Based Thinking",
+      "markdown": "module%204/ethical_value_thinking.md"
+    },
+    {
+      "title": "Reflection and Meta-Cognition",
+      "markdown": "module%204/reflection_metacognition.md"
+    }
   ],
-  "difficulty": 3
+  "difficulty": 1
 }

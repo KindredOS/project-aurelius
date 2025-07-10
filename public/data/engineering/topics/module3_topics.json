@@ -1,0 +1,41 @@
+{
+  "id": "module3",
+  "name": "Branches of Engineering",
+  "icon": "Map",
+  "description": "This module introduces students to the wide-ranging fields of engineering, highlighting the core focus, applications, and innovations in each discipline.",
+  "concepts": [
+    {
+      "title": "Mechanical Engineering",
+      "markdown": "module%203/mechanical_engineering.md"
+    },
+    {
+      "title": "Electrical and Electronics Engineering",
+      "markdown": "module%203/electrical_electronics_engineering.md"
+    },
+    {
+      "title": "Civil and Environmental Engineering",
+      "markdown": "module%203/civil_environmental_engineering.md"
+    },
+    {
+      "title": "Chemical and Materials Engineering",
+      "markdown": "module%203/chemical_materials_engineering.md"
+    },
+    {
+      "title": "Computer and Software Engineering",
+      "markdown": "module%203/computer_software_engineering.md"
+    },
+    {
+      "title": "Biomedical and Biotech Engineering",
+      "markdown": "module%203/biomedical_biotech_engineering.md"
+    },
+    {
+      "title": "Aerospace and Marine Engineering",
+      "markdown": "module%203/aerospace_marine_engineering.md"
+    },
+    {
+      "title": "Emerging Fields and Interdisciplinary Engineering",
+      "markdown": "module%203/emerging_interdisciplinary_engineering.md"
+    }
+  ],
+  "difficulty": 2
+}

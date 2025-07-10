@@ -1,0 +1,41 @@
+{
+  "id": "module8",
+  "name": "Sustainability, Citizenship & Lifestyle Design",
+  "icon": "Globe",
+  "description": "Empower students to think systemically about their role in the world. This module weaves together sustainability, civic responsibility, personal legacy, and intentional lifestyle design to create learners who are engaged, ethical, and forward-thinking global citizens.",
+  "concepts": [
+    {
+      "title": "What is Sustainability?",
+      "markdown": "module%208/what_is_sustainability.md"
+    },
+    {
+      "title": "Ethical Consumption and Resource Use",
+      "markdown": "module%208/ethical_consumption.md"
+    },
+    {
+      "title": "Civic Engagement and Responsibility",
+      "markdown": "module%208/civic_engagement.md"
+    },
+    {
+      "title": "Lifestyle Footprint and Global Impact",
+      "markdown": "module%208/lifestyle_footprint.md"
+    },
+    {
+      "title": "Design Thinking for Life",
+      "markdown": "module%208/design_thinking_life.md"
+    },
+    {
+      "title": "Social Justice and Inclusion",
+      "markdown": "module%208/social_justice_inclusion.md"
+    },
+    {
+      "title": "Long-Term Thinking and Legacy",
+      "markdown": "module%208/long_term_legacy.md"
+    },
+    {
+      "title": "Your Personal Sustainability Plan",
+      "markdown": "module%208/personal_sustainability_plan.md"
+    }
+  ],
+  "difficulty": 1
+}

@@ -1,0 +1,41 @@
+{
+  "id": "module_7_interdisciplinary_arts",
+  "name": "Interdisciplinary & Experiential Arts",
+  "icon": "Move3D",
+  "description": "This module investigates the fusion of different artistic disciplines to create immersive and experiential art. Students will explore installation, site-specific, and interactive works while examining audience engagement, social themes, and ethics in public and participatory art.",
+  "concepts": [
+    {
+      "title": "What are Interdisciplinary Arts?",
+      "markdown": "module%207/what_are_interdisciplinary_arts.md"
+    },
+    {
+      "title": "Experiential & Immersive Art Forms",
+      "markdown": "module%207/experiential_and_immersive_forms.md"
+    },
+    {
+      "title": "Tools & Materials Across Mediums",
+      "markdown": "module%207/tools_and_materials.md"
+    },
+    {
+      "title": "Planning & Composition",
+      "markdown": "module%207/planning_and_composition.md"
+    },
+    {
+      "title": "Cultural Context & Conceptual Art",
+      "markdown": "module%207/cultural_context_and_conceptual_art.md"
+    },
+    {
+      "title": "Audience Engagement & Feedback",
+      "markdown": "module%207/audience_engagement_and_feedback.md"
+    },
+    {
+      "title": "Showcase & Collaboration",
+      "markdown": "module%207/showcase_and_collaboration.md"
+    },
+    {
+      "title": "Ethics of Immersive & Public Art",
+      "markdown": "module%207/ethics_of_immersive_and_public_art.md"
+    }
+  ],
+  "difficulty": 1
+}
