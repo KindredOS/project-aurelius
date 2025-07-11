@@ -1,3 +1,4 @@
+// ScienceDash.jsx
 import React, { useMemo } from 'react';
 import { BookOpen, Atom, Calculator, Dna, Globe, Star, Play, RotateCcw, Microscope } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
@@ -7,9 +8,6 @@ import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import styles from './ScienceDash.module.css';
-
-// API Master Import for DB and AI Integration
-import { getApiUrl, UserAPI, MathAPI, AdminAPI } from '../../../api/ApiMaster';
 
 const ScienceDash = () => {
   const iconMap = useMemo(() => ({
@@ -33,7 +31,8 @@ const ScienceDash = () => {
     achievements, studyStreak,
     topics, currentTopicData, quizData, projectData, learningResources, learningModes,
     loading, error,
-    startQuiz, answerQuestion, sendMessage
+    startQuiz, answerQuestion, sendMessage,
+    user
   } = dashboardState;
 
   const runSimulation = (topicId) => {
@@ -125,6 +124,7 @@ const ScienceDash = () => {
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}
             subject="science"
+            userEmail={user.email}
           />
 
           {learningMode === 'interactive' && renderSimulation(selectedTopic)}

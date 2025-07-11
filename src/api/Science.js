@@ -41,4 +41,28 @@ export async function logStudyStreak(userId, streakCount) {
   }
 }
 
-// Add more science-specific endpoints as needed (e.g. concept mastery, simulation tracking, etc.)
+export async function fetchStudentMarkdown(email, filepath) {
+  try {
+    const url = `${getApiUrl()}/science/markdown?email=${encodeURIComponent(email)}&filepath=${encodeURIComponent(filepath)}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Markdown fetch failed');
+    return await response.text();
+  } catch (err) {
+    console.error('[ScienceAPI] fetchStudentMarkdown error:', err);
+    return 'Error loading content.';
+  }
+}
+
+export async function saveStudentMarkdown(email, filepath, content) {
+  try {
+    const response = await fetch(`${getApiUrl()}/science/markdown/save`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, filepath, content })
+    });
+    return await response.json();
+  } catch (err) {
+    console.error('[ScienceAPI] saveStudentMarkdown error:', err);
+    return null;
+  }
+}

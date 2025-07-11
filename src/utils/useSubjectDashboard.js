@@ -21,7 +21,14 @@ export const useSubjectDashboard = (subject, iconMap) => {
   const [userInput, setUserInput] = useState('');
   const [achievements, setAchievements] = useState([]);
   const [studyStreak, setStudyStreak] = useState(0);
-  
+
+  const [user, setUser] = useState({
+    email: localStorage.getItem('userEmail') || '',
+    name: localStorage.getItem('userName') || '',
+    role: localStorage.getItem('userRole') || '',
+    username: localStorage.getItem('username') || ''
+  });
+
   // Dynamic data
   const [topics, setTopics] = useState([]);
   const [currentTopicData, setCurrentTopicData] = useState(null);
@@ -38,23 +45,22 @@ export const useSubjectDashboard = (subject, iconMap) => {
       try {
         setLoading(true);
         const loadedTopics = await loadAllTopics(subject);
-        
+
         const topicsWithIcons = loadedTopics.map(topic => ({
           ...topic,
           icon: iconMap[topic.id] || iconMap.default
         }));
-        
+
         setTopics(topicsWithIcons);
         setLearningModes(getLearningModes());
-        
-        // Initialize user progress
+
         const initialProgress = {};
         topicsWithIcons.forEach(topic => {
           initialProgress[topic.id] = Math.floor(Math.random() * 100);
         });
         setUserProgress(initialProgress);
         setStudyStreak(Math.floor(Math.random() * 15) + 1);
-        
+
       } catch (err) {
         console.error('Failed to load topics:', err);
         setError('Failed to load lesson content. Please try again.');
@@ -70,7 +76,7 @@ export const useSubjectDashboard = (subject, iconMap) => {
   useEffect(() => {
     const loadTopicData = async () => {
       if (!selectedTopic) return;
-      
+
       try {
         const topicData = await findLessonCached(subject, selectedTopic);
         if (topicData && validateLessonData(topicData)) {
@@ -108,10 +114,10 @@ export const useSubjectDashboard = (subject, iconMap) => {
 
   const answerQuestion = useCallback((answerIndex) => {
     if (!currentQuiz) return;
-    
+
     const newAnswers = [...currentQuiz.userAnswers, answerIndex];
     const isCorrect = answerIndex === currentQuiz.questions[currentQuiz.currentQuestion].correct;
-    
+
     if (isCorrect) {
       setQuizScore(prev => prev + 1);
     }
@@ -125,7 +131,7 @@ export const useSubjectDashboard = (subject, iconMap) => {
     } else {
       const finalScore = quizScore + (isCorrect ? 1 : 0);
       const percentage = Math.round((finalScore / currentQuiz.questions.length) * 100);
-      
+
       setUserProgress(prev => ({
         ...prev,
         [currentQuiz.topic]: Math.min(100, prev[currentQuiz.topic] + 10)
@@ -161,12 +167,12 @@ export const useSubjectDashboard = (subject, iconMap) => {
         "Excellent thinking! This relates to...",
         "Good question! Let's explore this..."
       ];
-      
+
       const response = {
         role: 'assistant',
         content: responses[Math.floor(Math.random() * responses.length)] + " " + userInput
       };
-      
+
       setChatHistory(prev => [...prev, response]);
     }, 1000);
 
@@ -197,6 +203,9 @@ export const useSubjectDashboard = (subject, iconMap) => {
     // Actions
     startQuiz,
     answerQuestion,
-    sendMessage
+    sendMessage,
+
+    // User Info
+    user
   };
 };
