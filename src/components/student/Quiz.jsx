@@ -1,4 +1,4 @@
-// components/common/Quiz.jsx
+// components/student/Quiz.jsx
 import React from 'react';
 import { Trophy, Award } from 'lucide-react';
 

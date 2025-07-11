@@ -1,4 +1,4 @@
-// components/common/VisualResources.jsx
+// components/student/VisualResources.jsx
 import React from 'react';
 
 const VisualResources = ({ resources, styles, title = "Visual Learning Resources" }) => {

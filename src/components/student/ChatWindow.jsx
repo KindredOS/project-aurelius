@@ -1,4 +1,4 @@
-// components/common/ChatWindow.jsx
+// components/student/ChatWindow.jsx
 import React from 'react';
 import { Brain } from 'lucide-react';
 

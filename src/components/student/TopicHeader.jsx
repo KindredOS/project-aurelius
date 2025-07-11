@@ -1,4 +1,4 @@
-// components/common/TopicHeader.jsx
+// components/student/TopicHeader.jsx
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 
