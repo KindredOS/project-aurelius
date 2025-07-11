@@ -1,9 +1,6 @@
 // components/student/Quiz.jsx
-// NOTE: This component is wired for backend quiz tracking and score storage using ApiMaster
-
 import React from 'react';
 import { Trophy, Award } from 'lucide-react';
-import { getApiUrl } from '../../api/ApiMaster';
 
 const Quiz = ({ 
   currentQuiz, 

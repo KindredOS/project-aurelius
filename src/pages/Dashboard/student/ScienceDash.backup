@@ -8,9 +8,6 @@ import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import styles from './ScienceDash.module.css';
 
-// API Master Import for DB and AI Integration
-import { getApiUrl, UserAPI, MathAPI, AdminAPI } from '../../../api/ApiMaster';
-
 const ScienceDash = () => {
   const iconMap = useMemo(() => ({
     'overview': BookOpen,

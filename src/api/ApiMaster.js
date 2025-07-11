@@ -3,6 +3,7 @@ import { useState } from "react";
 import * as UserAPI from './User.js';
 import * as MathAPI from './Math.js';
 import * as AdminAPI from './Admin.js';
+import * as ScienceAPI from './Science.js';
 
 export const MODE =
   (typeof process !== 'undefined' && process.env && process.env.REACT_APP_MODE)
@@ -21,7 +22,7 @@ console.log('[API] MODE:', MODE);
 console.log('[API] BASE:', API_BASE);
 
 // Namespace re-export
-export { UserAPI, MathAPI, AdminAPI };
+export { UserAPI, MathAPI, AdminAPI, ScienceAPI };
 
 // Reactive Hook Support for Dynamic API URL
 let apiUrl = API_BASE; // Start with API_BASE

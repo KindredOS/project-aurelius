@@ -1,7 +1,6 @@
 // components/student/ChatWindow.jsx
 import React from 'react';
 import { Brain } from 'lucide-react';
-import { getApiUrl } from '../../api/ApiMaster';
 
 const ChatWindow = ({ 
   chatHistory, 

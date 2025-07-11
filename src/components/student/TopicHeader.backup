@@ -1,7 +1,6 @@
 // components/student/TopicHeader.jsx
 import React, { useState, useEffect } from 'react';
 import AdaptiveTextbook from './AdaptiveTextbook';
-import { getApiUrl } from '../../api/ApiMaster';
 
 const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar, styles, onConceptClick, subject }) => {
   const [selectedConcept, setSelectedConcept] = useState(null);
@@ -24,7 +23,7 @@ const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar
 
   const handleEnhance = async (headerText, action) => {
     try {
-      const response = await fetch(`${getApiUrl()}/enhanceMarkdown`, {
+      const response = await fetch('/api/enhanceMarkdown', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: headerText, action, personality: 'default' })

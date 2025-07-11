@@ -1,11 +1,6 @@
 // components/student/Sidebar.jsx
-// NOTE: This component now integrates backend API access via ApiMaster.
-// - Grade level selector removed (handled elsewhere)
-// - Study streak and achievements can be synced via API hooks
-
 import React from 'react';
 import { Star, ChevronRight, Trophy } from 'lucide-react';
-import { getApiUrl, UserAPI } from '../../api/ApiMaster';
 
 const Sidebar = ({ 
   title, 
@@ -31,6 +26,20 @@ const Sidebar = ({
           <Star className={styles.streakIcon} />
           {studyStreak} day streak
         </div>
+      </div>
+
+      {/* Grade Level Selector */}
+      <div className={styles.gradeLevelSection}>
+        <label className={styles.sectionLabel}>Grade Level</label>
+        <select
+          value={gradeLevel}
+          onChange={(e) => setGradeLevel(Number(e.target.value))}
+          className={styles.gradeSelect}
+        >
+          {[6, 7, 8, 9, 10, 11, 12].map(grade => (
+            <option key={grade} value={grade}>Grade {grade}</option>
+          ))}
+        </select>
       </div>
 
       {/* Topics */}
