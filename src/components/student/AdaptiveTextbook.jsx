@@ -6,15 +6,60 @@ import React, { useState } from 'react';
 import { Sparkles, Plus, Minimize, Brain } from 'lucide-react';
 import styles from './AdaptiveTextbook.module.css';
 
-const AdaptiveTextbook = ({ content, onEnhance }) => {
+const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
   const [enhancedSections, setEnhancedSections] = useState({});
   const [expandedHeader, setExpandedHeader] = useState(null);
+
+  const actionMap = {
+    simplify: 'Simplify the following section',
+    add_detail: 'Add more depth to the following section',
+    contract: 'Make the following section shorter and more concise',
+    reframe: 'Reframe the following section from a new perspective'
+  };
+
+  const extractSectionUnderHeader = (text, header) => {
+    const lines = text.split('\n');
+    const headerIndex = lines.findIndex(line => line.replace(/^#+\s*/, '') === header);
+    if (headerIndex === -1) return '';
+
+    const currentLevel = (lines[headerIndex].match(/^#+/) || [''])[0].length;
+    const bodyLines = [];
+
+    for (let i = headerIndex + 1; i < lines.length; i++) {
+      const line = lines[i];
+      const lineLevel = (line.match(/^#+/) || [''])[0].length;
+
+      if (lineLevel && lineLevel <= currentLevel) break;
+      bodyLines.push(line);
+    }
+
+    return bodyLines.join('\n').trim();
+  };
 
   const handleEnhancement = async (header, action) => {
     console.log('Enhancement triggered:', header, action);
     try {
-      const newContent = await onEnhance(header, action);
-      setEnhancedSections(prev => ({ ...prev, [header]: newContent }));
+      const sectionBody = extractSectionUnderHeader(content, header);
+      const prompt = `${actionMap[action]}:\n\n## ${header}\n\n${sectionBody}`;
+
+      const enhancedBody = await onEnhance(prompt, action);
+
+      const lines = content.split('\n');
+      const headerIndex = lines.findIndex(line => line.replace(/^#+\s*/, '') === header);
+      const newLines = [...lines];
+
+      let i = headerIndex + 1;
+      while (i < newLines.length && !newLines[i].startsWith('#')) {
+        newLines.splice(i, 1);
+      }
+
+      const enhancedLines = enhancedBody.split('\n');
+      newLines.splice(headerIndex + 1, 0, ...enhancedLines);
+
+      const updatedContent = newLines.join('\n');
+
+      setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));
+      onMarkdownUpdate?.(updatedContent);
     } catch (error) {
       console.error('Enhancement failed:', error);
     }
@@ -24,7 +69,6 @@ const AdaptiveTextbook = ({ content, onEnhance }) => {
     setExpandedHeader(prev => prev === headerText ? null : headerText);
   };
 
-  // Simple markdown parser
   const parseMarkdown = (text) => {
     const lines = text.split('\n');
     const elements = [];
@@ -45,7 +89,6 @@ const AdaptiveTextbook = ({ content, onEnhance }) => {
         const headerText = line.substring(5);
         elements.push(renderHeader(headerText, 4));
       } else if (line.trim() !== '') {
-        // Handle bold text **text**
         const boldText = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         elements.push(
           <p key={i} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: boldText }} />
@@ -74,7 +117,6 @@ const AdaptiveTextbook = ({ content, onEnhance }) => {
             {headerText}
           </div>
 
-          {/* Toggle Button */}
           <button
             onClick={() => toggleIconBar(headerText)}
             className={styles.toggleButton}
@@ -84,7 +126,6 @@ const AdaptiveTextbook = ({ content, onEnhance }) => {
           </button>
         </div>
 
-        {/* Expandable Icon Bar */}
         {isExpanded && (
           <div className={styles.iconBar}>
             <button
@@ -125,7 +166,6 @@ const AdaptiveTextbook = ({ content, onEnhance }) => {
           </div>
         )}
 
-        {/* Enhanced Content */}
         {enhancedText && (
           <div className={styles.enhancedContent}>
             <div className={styles.enhancedHeader}>

@@ -66,3 +66,59 @@ export async function saveStudentMarkdown(email, filepath, content) {
     return null;
   }
 }
+
+export async function queryModel(prompt, modelKey = 'hermes', max_new_tokens = 750) {
+  try {
+    const response = await fetch(`${getApiUrl()}/model/query`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: prompt,
+        model_key: modelKey,
+        max_new_tokens
+      })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Model query failed: ${errorText}`);
+    }
+
+    const result = await response.json();
+    return result.response || 'No response received.';
+  } catch (err) {
+    console.error('[ScienceAPI] queryModel error:', err);
+    return 'Error during model query.';
+  }
+}
+
+export async function saveChatThread({ email, threadId, subject, history }) {
+  try {
+    const response = await fetch(`${getApiUrl()}/science/chats/save`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        threadId,
+        subject,
+        history,
+        timestamp: new Date().toISOString()
+      })
+    });
+    return await response.json();
+  } catch (err) {
+    console.error('[ScienceAPI] saveChatThread error:', err);
+    return null;
+  }
+}
+
+export async function fetchChatThreads(email) {
+  try {
+    const response = await fetch(`${getApiUrl()}/science/chats/list?email=${encodeURIComponent(email)}`);
+    if (!response.ok) throw new Error('Failed to fetch chat threads');
+    return await response.json();
+  } catch (err) {
+    console.error('[ScienceAPI] fetchChatThreads error:', err);
+    return [];
+  }
+}

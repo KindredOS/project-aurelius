@@ -27,7 +27,8 @@ const ScienceDash = () => {
     learningMode, setLearningMode,
     userProgress, setUserProgress,
     currentQuiz, setCurrentQuiz,
-    chatHistory, userInput, setUserInput,
+    chatHistory, setChatHistory,
+    userInput, setUserInput,
     achievements, studyStreak,
     topics, currentTopicData, quizData, projectData, learningResources, learningModes,
     loading, error,
@@ -147,12 +148,15 @@ const ScienceDash = () => {
           {learningMode === 'collaborative' && (
             <ChatWindow
               chatHistory={chatHistory}
+              setChatHistory={setChatHistory}
               userInput={userInput}
               setUserInput={setUserInput}
               sendMessage={sendMessage}
               styles={styles}
               tutorName="AI Science Tutor"
               placeholder="Ask me anything about science..."
+              subject="science"
+              user={user}
             />
           )}
 

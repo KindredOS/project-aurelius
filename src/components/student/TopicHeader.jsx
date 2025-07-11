@@ -2,10 +2,29 @@
 import React, { useState, useEffect } from 'react';
 import AdaptiveTextbook from './AdaptiveTextbook';
 import { getApiUrl } from '../../api/ApiMaster';
+import { polishMarkdown } from '../../utils/polishMarkdown';
+import { generateAISection } from '../../utils/genAISection';
 
 const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar, styles, onConceptClick, subject, userEmail }) => {
   const [selectedConcept, setSelectedConcept] = useState(null);
   const [markdownText, setMarkdownText] = useState('');
+  const [progressData, setProgressData] = useState({});
+
+  useEffect(() => {
+    const fetchProgressIndex = async () => {
+      try {
+        const res = await fetch(`${getApiUrl()}/edu/science/user-index?email=${encodeURIComponent(userEmail)}`);
+        if (res.ok) {
+          const data = await res.json();
+          setProgressData(data);
+        }
+      } catch (err) {
+        console.error('Error loading user index:', err);
+      }
+    };
+
+    if (userEmail) fetchProgressIndex();
+  }, [userEmail]);
 
   useEffect(() => {
     const loadMarkdown = async () => {
@@ -20,14 +39,13 @@ const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar
             const text = await res.text();
             setMarkdownText(text);
           } else {
-            // fallback to public version and push to backend
             const publicPath = `/data/${subject}/markdown/${selectedConcept.markdown}`;
+            console.log("Public path attempt:", publicPath);
             const publicRes = await fetch(publicPath);
             if (!publicRes.ok) throw new Error('Public markdown not found');
             const fallbackText = await publicRes.text();
             setMarkdownText(fallbackText);
 
-            // save to backend for first-time mirror
             await fetch(`${getApiUrl()}/edu/science/markdown/save`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -50,38 +68,68 @@ const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar
     loadMarkdown();
   }, [selectedConcept, subject, userEmail]);
 
-  const handleEnhance = async (headerText, action) => {
+  const handleEnhance = async (promptText, action) => {
     try {
-      const response = await fetch(`${getApiUrl()}/enhanceMarkdown`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: headerText, action, personality: 'default' })
+      const rawAI = await generateAISection(promptText, 'hermes', 750);
+      const enhanced = await polishMarkdown({
+        text: rawAI,
+        action,
+        personality: 'default',
+        model_key: 'hermes'
       });
-      const data = await response.json();
+      handleMarkdownUpdate(enhanced);
+      return enhanced;
+    } catch (err) {
+      console.error("Enhancement failed:", err);
+      return 'Error during enhancement.';
+    }
+  };
 
-      await fetch(`${getApiUrl()}/edu/science/markdown/save`, {
+  const handleMarkdownUpdate = async (updatedContent) => {
+    setMarkdownText(updatedContent);
+
+    await fetch(`${getApiUrl()}/edu/science/markdown/save`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: userEmail,
+        filepath: selectedConcept.markdown,
+        content: updatedContent
+      })
+    });
+  };
+
+  const saveProgressIndex = async (updated) => {
+    try {
+      await fetch(`${getApiUrl()}/edu/science/user-index/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: userEmail,
-          filepath: selectedConcept.markdown,
-          content: data.result
+          progressData: updated
         })
       });
-
-      return data.result;
-    } catch (error) {
-      console.error('Enhancement error:', error);
-      return 'Error enhancing content.';
+    } catch (err) {
+      console.error('Error saving progress index:', err);
     }
   };
-
-  if (!topic) return null;
 
   const handleConceptClick = (conceptObj, index) => {
     setSelectedConcept(conceptObj);
     onConceptClick?.(conceptObj, index);
+
+    const topicId = topic?.id;
+    if (topicId) {
+      const updated = {
+        ...progressData,
+        [topicId]: Math.min(100, (progressData[topicId] || 0) + 5)
+      };
+      setProgressData(updated);
+      saveProgressIndex(updated);
+    }
   };
+
+  if (!topic) return null;
 
   const isObjectConcepts = topic.concepts.length > 0 && typeof topic.concepts[0] === 'object';
 
@@ -98,9 +146,9 @@ const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar
       <div className={styles.topicProgressSection}>
         <div className={styles.progressHeader}>
           <span className={styles.progressLabel}>Progress</span>
-          <span className={styles.progressPercentage}>{userProgress[selectedTopic] || 0}%</span>
+          <span className={styles.progressPercentage}>{progressData[selectedTopic] || 0}%</span>
         </div>
-        {renderMainProgressBar(userProgress[selectedTopic] || 0)}
+        {renderMainProgressBar(progressData[selectedTopic] || 0)}
       </div>
 
       {topic.concepts && (
@@ -124,9 +172,9 @@ const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar
         <div className={styles.conceptDetailCard}>
           <h3>{selectedConcept.title || selectedConcept}</h3>
           {selectedConcept.markdown ? (
-            <AdaptiveTextbook content={markdownText} onEnhance={handleEnhance} />
+            <AdaptiveTextbook content={markdownText} onEnhance={handleEnhance} onMarkdownUpdate={handleMarkdownUpdate} />
           ) : (
-            <p>{selectedConcept.content || `Here we’ll show details, activities, or lessons for: ${selectedConcept.title || selectedConcept}`}</p>
+            <p>{selectedConcept.content || `Here we'll show details, activities, or lessons for: ${selectedConcept.title || selectedConcept}`}</p>
           )}
         </div>
       )}
