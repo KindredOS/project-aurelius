@@ -1,6 +1,6 @@
 // Import necessary libraries
 import React, { useState } from 'react';
-import { streamAIResponse } from "../../utils/AiConfig";
+//import { streamAIResponse } from "../../utils/AiConfig";
 import { useApiUrl } from "../../config/ApiConfig";
 import styles from "./HistoryPage.module.css";
 

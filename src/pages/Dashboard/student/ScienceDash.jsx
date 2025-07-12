@@ -31,7 +31,7 @@ const ScienceDash = () => {
     userInput, setUserInput,
     achievements, studyStreak,
     topics, currentTopicData, quizData, projectData, learningResources, learningModes,
-    loading, error,
+    loading,
     startQuiz, answerQuestion, sendMessage,
     user
   } = dashboardState;
@@ -110,10 +110,10 @@ const ScienceDash = () => {
         topics={topics}
         selectedTopic={selectedTopic}
         setSelectedTopic={setSelectedTopic}
-        userProgress={userProgress}
         achievements={achievements}
         renderProgressBar={renderProgressBar}
         styles={styles}
+        email={user.email}
       />
 
       <div className={styles.mainContent}>

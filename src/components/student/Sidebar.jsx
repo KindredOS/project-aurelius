@@ -3,9 +3,9 @@
 // - Grade level selector removed (handled elsewhere)
 // - Study streak and achievements can be synced via API hooks
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Star, ChevronRight, Trophy } from 'lucide-react';
-import { getApiUrl, UserAPI } from '../../api/ApiMaster';
+import { getApiUrl, UserAPI, fetchUserScienceProgress } from '../../api/ApiMaster';
 
 const Sidebar = ({ 
   title, 
@@ -18,11 +18,22 @@ const Sidebar = ({
   topics, 
   selectedTopic, 
   setSelectedTopic, 
-  userProgress, 
+  email, // NEW PROP
   achievements, 
   renderProgressBar,
   styles 
 }) => {
+  const [userProgress, setUserProgress] = useState({});
+
+  useEffect(() => {
+    async function loadProgress() {
+      if (!email) return;
+      const data = await fetchUserScienceProgress(email);
+      setUserProgress(data);
+    }
+    loadProgress();
+  }, [email]);
+
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebarHeader}>

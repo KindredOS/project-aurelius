@@ -1,40 +1,56 @@
 // components/student/ChatWindow.jsx
 import React, { useState, useEffect } from 'react';
-import { Brain } from 'lucide-react';
+import { Brain, Menu } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
-import { getApiUrl, ScienceAPI } from '../../api/ApiMaster';
+import { getApiUrl, queryModel, saveChatThread, fetchChatThreads } from '../../api/ApiMaster';
 import ChatSidebar from './ChatSidebar';
+import styles from './ChatWindow.module.css';
 
 const ChatWindow = ({ 
   chatHistory, 
   userInput, 
   setUserInput, 
   setChatHistory, 
-  styles, 
-  tutorName = "AI Tutor",
-  placeholder = "Ask a question...",
+  tutorName = "AI Science Tutor",
+  placeholder = "Ask a question about science...",
   subject = "general",
   user = { email: "", name: "" }
 }) => {
   const [threadId, setThreadId] = useState(uuidv4());
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [threads, setThreads] = useState([]);
 
   useEffect(() => {
     setThreadId(uuidv4());
   }, [subject]);
 
+  // Fetch threads when component mounts or user changes
+  useEffect(() => {
+    if (user.email) {
+      fetchThreadsData();
+    }
+  }, [user.email]);
+
+  const fetchThreadsData = async () => {
+    try {
+      const threadsData = await fetchChatThreads(user.email);
+      setThreads(threadsData);
+    } catch (err) {
+      console.error('❌ Failed to fetch threads:', err);
+    }
+  };
+
   const saveChatToThread = async (messageLog) => {
     try {
-      await fetch(`${getApiUrl()}/science/chats/save`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: user.email,
-          threadId,
-          subject,
-          history: messageLog,
-          timestamp: new Date().toISOString()
-        })
+      await saveChatThread({
+        email: user.email,
+        threadId,
+        subject,
+        history: messageLog
       });
+      // Refresh threads after saving
+      fetchThreadsData();
     } catch (err) {
       console.error('❌ Failed to save chat thread:', err);
     }
@@ -57,15 +73,17 @@ const ChatWindow = ({
   };
 
   const sendMessage = async () => {
-    if (!userInput.trim()) return;
+    if (!userInput.trim() || isLoading) return;
 
     const userMessage = { role: 'user', content: userInput };
     const newHistory = [...chatHistory, userMessage];
     setChatHistory(newHistory);
+    setUserInput('');
+    setIsLoading(true);
 
     try {
       const subjectPrompt = `[${subject.toUpperCase()}] ${userInput}`;
-      const aiResponse = await ScienceAPI.queryModel(subjectPrompt);
+      const aiResponse = await queryModel(subjectPrompt);
       const assistantMessage = { role: 'assistant', content: aiResponse };
 
       const updatedHistory = [...newHistory, assistantMessage];
@@ -84,15 +102,30 @@ const ChatWindow = ({
     } catch (err) {
       console.error(err);
       setChatHistory((prev) => [...prev, { role: 'assistant', content: 'Error: Could not fetch response.' }]);
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    setUserInput('');
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
   };
 
   const handleSelectThread = (id) => {
     setThreadId(id);
     loadChatThread(id);
+    setSidebarOpen(false); // Close sidebar on mobile when selecting thread
   };
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  // Show sidebar on desktop only if there are threads
+  const showSidebarOnDesktop = threads.length > 0;
 
   return (
     <div className={styles.chatWindowContainer}>
@@ -100,9 +133,21 @@ const ChatWindow = ({
         email={user.email}
         activeThreadId={threadId}
         onSelectThread={handleSelectThread}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        styles={styles}
+        threads={threads}
+        showOnDesktop={showSidebarOnDesktop}
       />
-      <div className={styles.chatWindow}>
+      
+      <div className={`${styles.chatWindow} ${showSidebarOnDesktop ? styles.withSidebar : ''}`}>
         <div className={styles.chatHeader}>
+          <button
+            onClick={toggleSidebar}
+            className={styles.sidebarToggle}
+          >
+            <Menu className={styles.menuIcon} />
+          </button>
           <h3 className={styles.chatHeaderContent}>
             <Brain className={styles.chatHeaderIcon} />
             {tutorName}
@@ -112,9 +157,12 @@ const ChatWindow = ({
         <div className={styles.chatMessages}>
           {chatHistory.length === 0 && (
             <div className={styles.chatMessagesEmpty}>
-              Ask me anything! I'm here to help you learn.
+              <Brain className={styles.emptyIcon} />
+              <p className={styles.emptyTitle}>Welcome to AI Science Tutor!</p>
+              <p className={styles.emptySubtitle}>Ask me anything about science and I'll help you learn.</p>
             </div>
           )}
+          
           {chatHistory.map((message, index) => (
             <div
               key={index}
@@ -125,20 +173,35 @@ const ChatWindow = ({
               </div>
             </div>
           ))}
+          
+          {isLoading && (
+            <div className={`${styles.chatMessageRow} ${styles.assistant}`}>
+              <div className={`${styles.chatMessage} ${styles.assistant} ${styles.loadingMessage}`}>
+                <div className={styles.loadingDots}>
+                  <div className={styles.dot}></div>
+                  <div className={styles.dot}></div>
+                  <div className={styles.dot}></div>
+                </div>
+                <span className={styles.loadingText}>AI is thinking...</span>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className={styles.chatInput}>
           <div className={styles.chatInputRow}>
-            <input
-              type="text"
+            <textarea
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+              onKeyPress={handleKeyPress}
               placeholder={placeholder}
               className={styles.chatInputField}
+              rows="1"
+              disabled={isLoading}
             />
             <button
               onClick={sendMessage}
+              disabled={!userInput.trim() || isLoading}
               className={styles.chatSendButton}
             >
               Send
