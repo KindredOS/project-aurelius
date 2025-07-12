@@ -3,12 +3,23 @@
 // This promotes separation of concerns and keeps this component UI-focused and reusable.
 
 import React, { useState } from 'react';
-import { Sparkles, Plus, Minimize, Brain } from 'lucide-react';
+import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
 import styles from './AdaptiveTextbook.module.css';
+import { extractPromptWrap, containsInteractiveElement } from '../../utils/extensionsMarkdown';
 
 const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
   const [enhancedSections, setEnhancedSections] = useState({});
   const [expandedHeader, setExpandedHeader] = useState(null);
+  const [promptToggles, setPromptToggles] = useState({});
+  const [interactiveToggles, setInteractiveToggles] = useState({});
+
+  const togglePrompt = (key) => {
+    setPromptToggles(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const toggleInteractive = (key) => {
+    setInteractiveToggles(prev => ({ ...prev, [key]: !prev[key] }));
+  };
 
   const actionMap = {
     simplify: 'Simplify the following section',
@@ -28,7 +39,6 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
     for (let i = headerIndex + 1; i < lines.length; i++) {
       const line = lines[i];
       const lineLevel = (line.match(/^#+/) || [''])[0].length;
-
       if (lineLevel && lineLevel <= currentLevel) break;
       bodyLines.push(line);
     }
@@ -41,7 +51,6 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
     try {
       const sectionBody = extractSectionUnderHeader(content, header);
       const prompt = `${actionMap[action]}:\n\n## ${header}\n\n${sectionBody}`;
-
       const enhancedBody = await onEnhance(prompt, action);
 
       const lines = content.split('\n');
@@ -72,9 +81,41 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
   const parseMarkdown = (text) => {
     const lines = text.split('\n');
     const elements = [];
+    let insidePrompt = false;
+    let promptBuffer = [];
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
+
+      if (line.includes('[Prompt Wrap Start]')) {
+        insidePrompt = true;
+        promptBuffer = [];
+        continue;
+      }
+      if (line.includes('[Prompt Wrap End]')) {
+        insidePrompt = false;
+        const fullPromptText = promptBuffer.join(' ').replace(/Prompt:\s*/i, '').trim();
+        if (fullPromptText) {
+          elements.push(
+            <div key={`prompt-${i}`} className={styles.promptBox}>
+              <button
+                className={styles.promptToggle}
+                onClick={() => togglePrompt(i)}
+              >
+                {promptToggles[i] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} <strong>Prompt</strong>
+              </button>
+              {promptToggles[i] && (
+                <div className={styles.promptContent}>{fullPromptText}</div>
+              )}
+            </div>
+          );
+        }
+        continue;
+      }
+      if (insidePrompt) {
+        promptBuffer.push(line);
+        continue;
+      }
 
       if (line.startsWith('# ')) {
         const headerText = line.substring(2);
@@ -88,6 +129,20 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
       } else if (line.startsWith('#### ')) {
         const headerText = line.substring(5);
         elements.push(renderHeader(headerText, 4));
+      } else if (line.includes('[interactive element]') || containsInteractiveElement(line)) {
+        elements.push(
+          <div key={`interactive-${i}`} className={styles.interactiveBox}>
+            <button
+              className={styles.interactiveToggle}
+              onClick={() => toggleInteractive(i)}
+            >
+              {interactiveToggles[i] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} <strong>Interactive Module</strong>
+            </button>
+            {interactiveToggles[i] && (
+              <div className={styles.interactiveContent}><em>Content coming soon...</em></div>
+            )}
+          </div>
+        );
       } else if (line.trim() !== '') {
         const boldText = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         elements.push(
