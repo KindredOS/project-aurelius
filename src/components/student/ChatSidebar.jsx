@@ -1,6 +1,6 @@
 // components/student/ChatSidebar.jsx
 import React, { useEffect, useState } from 'react';
-import { MessageSquare, Clock, X } from 'lucide-react';
+import { MessageSquare, Clock, X, Plus } from 'lucide-react';
 import { fetchChatThreads } from '../../api/Science';
 
 const ChatSidebar = ({ email, activeThreadId, onSelectThread, isOpen, onClose, styles }) => {
@@ -12,11 +12,16 @@ const ChatSidebar = ({ email, activeThreadId, onSelectThread, isOpen, onClose, s
     }
   }, [email]);
 
+  const handleNewChat = () => {
+    const newThreadId = crypto.randomUUID();
+    onSelectThread(newThreadId);
+  };
+
   return (
     <>
       {/* Backdrop for mobile */}
       {isOpen && <div className={styles.backdrop} onClick={onClose} />}
-      
+
       {/* Sidebar */}
       <div className={`${styles.chatSidebar} ${isOpen ? styles.open : ''}`}>
         <div className={styles.sidebarHeader}>
@@ -24,15 +29,17 @@ const ChatSidebar = ({ email, activeThreadId, onSelectThread, isOpen, onClose, s
             <MessageSquare className={styles.sidebarIcon} />
             Chat Threads
           </h3>
-          <button
-            onClick={onClose}
-            className={styles.closeButton}
-          >
+          <button onClick={onClose} className={styles.closeButton}>
             <X className={styles.closeIcon} />
           </button>
         </div>
-        
+
         <div className={styles.threadListContainer}>
+          <button className={styles.newChatButton} onClick={handleNewChat}>
+            <Plus className={styles.plusIcon} />
+            New Chat
+          </button>
+
           {threads.length === 0 ? (
             <div className={styles.emptyThreads}>
               <MessageSquare className={styles.emptyThreadsIcon} />

@@ -2,10 +2,20 @@
 import React, { useState, useEffect } from 'react';
 import AdaptiveTextbook from './AdaptiveTextbook';
 import { getApiUrl } from '../../api/ApiMaster';
+import { fetchStudentMarkdown, saveStudentMarkdown } from '../../api/Science';
 import { polishMarkdown } from '../../utils/polishMarkdown';
 import { generateAISection } from '../../utils/genAISection';
+import styles from './TopicHeader.module.css';
 
-const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar, styles, onConceptClick, subject, userEmail }) => {
+const TopicHeader = ({ 
+  topic, 
+  userProgress, 
+  selectedTopic, 
+  renderMainProgressBar, 
+  onConceptClick, 
+  subject, 
+  userEmail 
+}) => {
   const [selectedConcept, setSelectedConcept] = useState(null);
   const [markdownText, setMarkdownText] = useState('');
   const [progressData, setProgressData] = useState({});
@@ -29,36 +39,30 @@ const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar
   useEffect(() => {
     const loadMarkdown = async () => {
       if (selectedConcept?.markdown && subject && userEmail) {
-        const encodedFilepath = encodeURIComponent(`${selectedConcept.markdown}`);
-        const encodedEmail = encodeURIComponent(userEmail);
-        const apiUrl = `${getApiUrl()}/edu/science/markdown?email=${encodedEmail}&filepath=${encodedFilepath}`;
-
         try {
-          const res = await fetch(apiUrl);
-          if (res.ok) {
-            const text = await res.text();
-            setMarkdownText(text);
-          } else {
-            const publicPath = `/data/${subject}/markdown/${selectedConcept.markdown}`;
-            console.log("Public path attempt:", publicPath);
-            const publicRes = await fetch(publicPath);
-            if (!publicRes.ok) throw new Error('Public markdown not found');
-            const fallbackText = await publicRes.text();
-            setMarkdownText(fallbackText);
-
-            await fetch(`${getApiUrl()}/edu/science/markdown/save`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                email: userEmail,
-                filepath: selectedConcept.markdown,
-                content: fallbackText
-              })
-            });
-          }
+          // Use the enhanced API function that cleans markdown
+          const content = await fetchStudentMarkdown(userEmail, selectedConcept.markdown);
+          setMarkdownText(content);
         } catch (err) {
-          console.error('Error loading markdown fallback:', err);
-          setMarkdownText('Error loading content.');
+          console.error('Error loading markdown:', err);
+          
+          // Fallback to public path
+          try {
+            const publicPath = `/data/${subject}/markdown/${selectedConcept.markdown}`;
+            const publicRes = await fetch(publicPath);
+            if (publicRes.ok) {
+              const fallbackText = await publicRes.text();
+              setMarkdownText(fallbackText);
+              
+              // Save to user's storage
+              await saveStudentMarkdown(userEmail, selectedConcept.markdown, fallbackText);
+            } else {
+              setMarkdownText('Error loading content.');
+            }
+          } catch (fallbackErr) {
+            console.error('Fallback failed:', fallbackErr);
+            setMarkdownText('Error loading content.');
+          }
         }
       } else {
         setMarkdownText('');
@@ -88,15 +92,13 @@ const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar
   const handleMarkdownUpdate = async (updatedContent) => {
     setMarkdownText(updatedContent);
 
-    await fetch(`${getApiUrl()}/edu/science/markdown/save`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: userEmail,
-        filepath: selectedConcept.markdown,
-        content: updatedContent
-      })
-    });
+    if (selectedConcept?.markdown && userEmail) {
+      try {
+        await saveStudentMarkdown(userEmail, selectedConcept.markdown, updatedContent);
+      } catch (err) {
+        console.error('Error saving markdown:', err);
+      }
+    }
   };
 
   const saveProgressIndex = async (updated) => {
@@ -119,7 +121,7 @@ const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar
     onConceptClick?.(conceptObj, index);
 
     const topicId = topic?.id;
-    if (topicId) {
+    if (topicId && userEmail) {
       const updated = {
         ...progressData,
         [topicId]: Math.min(100, (progressData[topicId] || 0) + 5)
@@ -129,9 +131,21 @@ const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar
     }
   };
 
+  const renderProgressBar = (progress) => {
+    return (
+      <div className={styles.mainProgressBar}>
+        <div 
+          className={styles.mainProgressFill}
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+    );
+  };
+
   if (!topic) return null;
 
-  const isObjectConcepts = topic.concepts.length > 0 && typeof topic.concepts[0] === 'object';
+  const isObjectConcepts = topic.concepts && topic.concepts.length > 0 && typeof topic.concepts[0] === 'object';
+  const currentProgress = progressData[selectedTopic] || 0;
 
   return (
     <div className={styles.topicHeaderCard}>
@@ -146,19 +160,25 @@ const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar
       <div className={styles.topicProgressSection}>
         <div className={styles.progressHeader}>
           <span className={styles.progressLabel}>Progress</span>
-          <span className={styles.progressPercentage}>{progressData[selectedTopic] || 0}%</span>
+          <span className={styles.progressPercentage}>{currentProgress}%</span>
         </div>
-        {renderMainProgressBar(progressData[selectedTopic] || 0)}
+        {renderMainProgressBar ? renderMainProgressBar(currentProgress) : renderProgressBar(currentProgress)}
       </div>
 
-      {topic.concepts && (
+      {topic.concepts && topic.concepts.length > 0 && (
         <div className={styles.conceptsGrid}>
           {topic.concepts.map((concept, index) => {
             const conceptTitle = isObjectConcepts ? concept.title : concept;
+            const isActive = selectedConcept && (
+              isObjectConcepts 
+                ? selectedConcept.title === conceptTitle 
+                : selectedConcept === conceptTitle
+            );
+
             return (
               <button
                 key={index}
-                className={`${styles.conceptCard} ${selectedConcept?.title === conceptTitle ? styles.activeConcept : ''}`}
+                className={`${styles.conceptCard} ${isActive ? styles.activeConcept : ''}`}
                 onClick={() => handleConceptClick(concept, index)}
               >
                 <div className={styles.conceptText}>{conceptTitle}</div>
@@ -172,9 +192,17 @@ const TopicHeader = ({ topic, userProgress, selectedTopic, renderMainProgressBar
         <div className={styles.conceptDetailCard}>
           <h3>{selectedConcept.title || selectedConcept}</h3>
           {selectedConcept.markdown ? (
-            <AdaptiveTextbook content={markdownText} onEnhance={handleEnhance} onMarkdownUpdate={handleMarkdownUpdate} />
+            <AdaptiveTextbook 
+              content={markdownText} 
+              onEnhance={handleEnhance} 
+              onMarkdownUpdate={handleMarkdownUpdate} 
+            />
           ) : (
-            <p>{selectedConcept.content || `Here we'll show details, activities, or lessons for: ${selectedConcept.title || selectedConcept}`}</p>
+            <p>
+              {selectedConcept.content || 
+                `Here we'll show details, activities, or lessons for: ${selectedConcept.title || selectedConcept}`
+              }
+            </p>
           )}
         </div>
       )}

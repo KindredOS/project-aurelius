@@ -1,11 +1,34 @@
 // api/Science.js
 // This file contains all science-specific API helper functions for use with ApiMaster
 
-import { getApiUrl } from './ApiMaster';
+import { getApiUrl } from './ApiMaster.js';
+
+const getBase = () => `${getApiUrl()}/edu/science`;
+
+// Helper function to clean markdown content
+function cleanMarkdownContent(content) {
+  if (typeof content !== 'string') return content;
+  
+  // Handle escaped newlines
+  let cleaned = content.replace(/\\n/g, '\n');
+  
+  // Clean up excessive newlines (more than 2 consecutive)
+  cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+  
+  // Handle any remaining escaped characters
+  cleaned = cleaned
+    .replace(/\\t/g, '\t')
+    .replace(/\\r/g, '\r')
+    .replace(/\\"/g, '"')
+    .replace(/\\'/g, "'")
+    .replace(/\\\\/g, '\\');
+    
+  return cleaned;
+}
 
 export async function submitQuizResult({ topicId, score, total, percentage }) {
   try {
-    const response = await fetch(`${getApiUrl()}/science/quiz/submit`, {
+    const response = await fetch(`${getBase()}/quiz/submit`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ topicId, score, total, percentage })
@@ -19,7 +42,7 @@ export async function submitQuizResult({ topicId, score, total, percentage }) {
 
 export async function fetchScienceTopics() {
   try {
-    const response = await fetch(`${getApiUrl()}/science/topics`);
+    const response = await fetch(`${getBase()}/topics`);
     return await response.json();
   } catch (err) {
     console.error('[ScienceAPI] fetchScienceTopics error:', err);
@@ -29,7 +52,7 @@ export async function fetchScienceTopics() {
 
 export async function logStudyStreak(userId, streakCount) {
   try {
-    const response = await fetch(`${getApiUrl()}/science/streak`, {
+    const response = await fetch(`${getBase()}/streak`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId, streakCount })
@@ -43,10 +66,19 @@ export async function logStudyStreak(userId, streakCount) {
 
 export async function fetchStudentMarkdown(email, filepath) {
   try {
-    const url = `${getApiUrl()}/science/markdown?email=${encodeURIComponent(email)}&filepath=${encodeURIComponent(filepath)}`;
+    const url = `${getBase()}/markdown?email=${encodeURIComponent(email)}&filepath=${encodeURIComponent(filepath)}`;
     const response = await fetch(url);
     if (!response.ok) throw new Error('Markdown fetch failed');
-    return await response.text();
+    
+    const rawContent = await response.text();
+    
+    // Clean the markdown content before returning
+    const cleanedContent = cleanMarkdownContent(rawContent);
+    
+    console.log('[ScienceAPI] Raw markdown:', rawContent.substring(0, 200));
+    console.log('[ScienceAPI] Cleaned markdown:', cleanedContent.substring(0, 200));
+    
+    return cleanedContent;
   } catch (err) {
     console.error('[ScienceAPI] fetchStudentMarkdown error:', err);
     return 'Error loading content.';
@@ -55,10 +87,13 @@ export async function fetchStudentMarkdown(email, filepath) {
 
 export async function saveStudentMarkdown(email, filepath, content) {
   try {
-    const response = await fetch(`${getApiUrl()}/science/markdown/save`, {
+    // Clean content before saving
+    const cleanedContent = cleanMarkdownContent(content);
+    
+    const response = await fetch(`${getBase()}/markdown/save`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, filepath, content })
+      body: JSON.stringify({ email, filepath, content: cleanedContent })
     });
     return await response.json();
   } catch (err) {
@@ -94,7 +129,7 @@ export async function queryModel(prompt, modelKey = 'hermes', max_new_tokens = 7
 
 export async function saveChatThread({ email, threadId, subject, history }) {
   try {
-    const response = await fetch(`${getApiUrl()}/science/chats/save`, {
+    const response = await fetch(`${getBase()}/chats/save`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -114,7 +149,7 @@ export async function saveChatThread({ email, threadId, subject, history }) {
 
 export async function fetchChatThreads(email) {
   try {
-    const response = await fetch(`${getApiUrl()}/science/chats/list?email=${encodeURIComponent(email)}`);
+    const response = await fetch(`${getBase()}/chats/list?email=${encodeURIComponent(email)}`);
     if (!response.ok) throw new Error('Failed to fetch chat threads');
     return await response.json();
   } catch (err) {
@@ -123,9 +158,20 @@ export async function fetchChatThreads(email) {
   }
 }
 
+export async function fetchChatThread(email, threadId) {
+  try {
+    const response = await fetch(`${getBase()}/chats/${threadId}.json?email=${encodeURIComponent(email)}`);
+    if (!response.ok) throw new Error('Failed to fetch chat thread');
+    return await response.json();
+  } catch (err) {
+    console.error('[ScienceAPI] fetchChatThread error:', err);
+    return null;
+  }
+}
+
 export async function fetchUserScienceProgress(email) {
   try {
-    const response = await fetch(`${getApiUrl()}/science/user-index?email=${encodeURIComponent(email)}`);
+    const response = await fetch(`${getBase()}/user-index?email=${encodeURIComponent(email)}`);
     if (!response.ok) throw new Error('Failed to fetch user progress');
     return await response.json();
   } catch (err) {

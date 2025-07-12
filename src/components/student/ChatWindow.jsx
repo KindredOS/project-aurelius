@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Brain, Menu } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
-import { getApiUrl, queryModel, saveChatThread, fetchChatThreads } from '../../api/ApiMaster';
+import { queryModel, saveChatThread, fetchChatThreads, fetchChatThread } from '../../api/Science';
 import ChatSidebar from './ChatSidebar';
 import styles from './ChatWindow.module.css';
 
@@ -25,7 +25,6 @@ const ChatWindow = ({
     setThreadId(uuidv4());
   }, [subject]);
 
-  // Fetch threads when component mounts or user changes
   useEffect(() => {
     if (user.email) {
       fetchThreadsData();
@@ -49,7 +48,6 @@ const ChatWindow = ({
         subject,
         history: messageLog
       });
-      // Refresh threads after saving
       fetchThreadsData();
     } catch (err) {
       console.error('❌ Failed to save chat thread:', err);
@@ -58,15 +56,10 @@ const ChatWindow = ({
 
   const loadChatThread = async (id) => {
     try {
-      const response = await fetch(`${getApiUrl()}/science/chats/list?email=${encodeURIComponent(user.email)}`);
-      const threads = await response.json();
-      const selected = threads.find(t => t.threadId === id);
-      if (!selected) return;
-
-      const threadDataResponse = await fetch(`${getApiUrl()}/science/chats/${id}/thread.json?email=${encodeURIComponent(user.email)}`);
-      const threadData = await threadDataResponse.json();
-
-      setChatHistory(threadData.history || []);
+      const threadData = await fetchChatThread(user.email, id);
+      if (threadData) {
+        setChatHistory(threadData.history || []);
+      }
     } catch (err) {
       console.error('❌ Failed to load chat thread:', err);
     }
@@ -117,14 +110,13 @@ const ChatWindow = ({
   const handleSelectThread = (id) => {
     setThreadId(id);
     loadChatThread(id);
-    setSidebarOpen(false); // Close sidebar on mobile when selecting thread
+    setSidebarOpen(false);
   };
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  // Show sidebar on desktop only if there are threads
   const showSidebarOnDesktop = threads.length > 0;
 
   return (
@@ -139,13 +131,10 @@ const ChatWindow = ({
         threads={threads}
         showOnDesktop={showSidebarOnDesktop}
       />
-      
+
       <div className={`${styles.chatWindow} ${showSidebarOnDesktop ? styles.withSidebar : ''}`}>
         <div className={styles.chatHeader}>
-          <button
-            onClick={toggleSidebar}
-            className={styles.sidebarToggle}
-          >
+          <button onClick={toggleSidebar} className={styles.sidebarToggle}>
             <Menu className={styles.menuIcon} />
           </button>
           <h3 className={styles.chatHeaderContent}>
@@ -162,7 +151,7 @@ const ChatWindow = ({
               <p className={styles.emptySubtitle}>Ask me anything about science and I'll help you learn.</p>
             </div>
           )}
-          
+
           {chatHistory.map((message, index) => (
             <div
               key={index}
@@ -173,7 +162,7 @@ const ChatWindow = ({
               </div>
             </div>
           ))}
-          
+
           {isLoading && (
             <div className={`${styles.chatMessageRow} ${styles.assistant}`}>
               <div className={`${styles.chatMessage} ${styles.assistant} ${styles.loadingMessage}`}>

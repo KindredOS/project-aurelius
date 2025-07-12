@@ -5,6 +5,40 @@ import { getApiUrl } from './ApiMaster.js';
 
 const getBase = () => `${getApiUrl()}/edu/science`;
 
+// Helper function to clean markdown content
+function cleanMarkdownContent(content) {
+  if (typeof content !== 'string') return content;
+  
+  // Handle escaped newlines
+  let cleaned = content.replace(/\\n/g, '\n');
+  
+  // Clean up excessive newlines (more than 2 consecutive)
+  cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+  
+  // Handle any remaining escaped characters
+  cleaned = cleaned
+    .replace(/\\t/g, '\t')
+    .replace(/\\r/g, '\r')
+    .replace(/\\"/g, '"')
+    .replace(/\\'/g, "'")
+    .replace(/\\\\/g, '\\');
+  
+  // FIX: Handle malformed headers that start with quotes
+  // This fixes the "# What is Science? issue
+  cleaned = cleaned.replace(/^"#\s*/gm, '# ');
+  
+  // Also handle cases where the entire header line is quoted
+  cleaned = cleaned.replace(/^"(#{1,6}\s+[^"]+)"$/gm, '$1');
+  
+  // Clean up any remaining quotes at the start of lines that shouldn't be there
+  cleaned = cleaned.replace(/^"([^"]*?)$/gm, '$1');
+  
+  // Ensure proper spacing after headers
+  cleaned = cleaned.replace(/(#{1,6}\s+[^\n]+)\n([^\n#])/g, '$1\n\n$2');
+    
+  return cleaned;
+}
+
 export async function submitQuizResult({ topicId, score, total, percentage }) {
   try {
     const response = await fetch(`${getBase()}/quiz/submit`, {
@@ -48,7 +82,16 @@ export async function fetchStudentMarkdown(email, filepath) {
     const url = `${getBase()}/markdown?email=${encodeURIComponent(email)}&filepath=${encodeURIComponent(filepath)}`;
     const response = await fetch(url);
     if (!response.ok) throw new Error('Markdown fetch failed');
-    return await response.text();
+    
+    const rawContent = await response.text();
+    
+    // Clean the markdown content before returning
+    const cleanedContent = cleanMarkdownContent(rawContent);
+    
+    console.log('[ScienceAPI] Raw markdown:', rawContent.substring(0, 200));
+    console.log('[ScienceAPI] Cleaned markdown:', cleanedContent.substring(0, 200));
+    
+    return cleanedContent;
   } catch (err) {
     console.error('[ScienceAPI] fetchStudentMarkdown error:', err);
     return 'Error loading content.';
@@ -57,10 +100,13 @@ export async function fetchStudentMarkdown(email, filepath) {
 
 export async function saveStudentMarkdown(email, filepath, content) {
   try {
+    // Clean content before saving
+    const cleanedContent = cleanMarkdownContent(content);
+    
     const response = await fetch(`${getBase()}/markdown/save`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, filepath, content })
+      body: JSON.stringify({ email, filepath, content: cleanedContent })
     });
     return await response.json();
   } catch (err) {
@@ -122,6 +168,17 @@ export async function fetchChatThreads(email) {
   } catch (err) {
     console.error('[ScienceAPI] fetchChatThreads error:', err);
     return [];
+  }
+}
+
+export async function fetchChatThread(email, threadId) {
+  try {
+    const response = await fetch(`${getBase()}/chats/${threadId}.json?email=${encodeURIComponent(email)}`);
+    if (!response.ok) throw new Error('Failed to fetch chat thread');
+    return await response.json();
+  } catch (err) {
+    console.error('[ScienceAPI] fetchChatThread error:', err);
+    return null;
   }
 }
 
