@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import styles from './Login.module.css';
+import { getApiUrl } from '../../api/ApiMaster';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -36,7 +37,7 @@ function Login() {
       const userEmail = decodedPayload.email;
       const userName = decodedPayload.name;
 
-      const res = await fetch('http://localhost:8000/api/edu/login', {
+      const res = await fetch(`${getApiUrl()}/edu/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +84,7 @@ function Login() {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/api/edu/login', {
+      const response = await fetch(`${getApiUrl()}/edu/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
