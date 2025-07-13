@@ -10,7 +10,7 @@ if (!process.env?.REACT_APP_MODE) {
 
 export const API_BASE = MODE === 'LOCAL'
   ? 'http://localhost:8000/api'
-  : 'https://your-cloudflare-worker-url/api'; // Update with actual prod URL
+  : 'eduos-worker.shepherdn.workers.dev'; // Update with actual prod URL
 
 // Static route constants for safe imports
 export const EDU_SCIENCE = `${API_BASE}/edu/science`;
