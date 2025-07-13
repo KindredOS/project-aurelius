@@ -10,7 +10,7 @@ if (!process.env?.REACT_APP_MODE) {
 
 export const API_BASE = MODE === 'LOCAL'
   ? 'http://localhost:8000/api'
-  : 'eduos-worker.shepherdn.workers.dev'; // Update with actual prod URL
+  : 'https://eduos-worker.shepherdn.workers.dev/api'; // Updated with full https path
 
 // Static route constants for safe imports
 export const EDU_SCIENCE = `${API_BASE}/edu/science`;
