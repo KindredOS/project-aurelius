@@ -8,9 +8,11 @@ if (!process.env?.REACT_APP_MODE) {
   console.warn('[API] ⚠️ No REACT_APP_MODE set. Falling back to LOCAL.');
 }
 
-export const API_BASE = MODE === 'LOCAL'
-  ? 'http://localhost:8000/api'
-  : 'https://eduos-worker.shepherdn.workers.dev/api'; // Updated with full https path
+export const API_BASE = process.env.REACT_APP_API_URL || (
+  MODE === 'LOCAL'
+    ? 'http://localhost:8000/api'
+    : 'https://eduos-worker.shepherdn.workers.dev/api'
+);
 
 // Static route constants for safe imports
 export const EDU_SCIENCE = `${API_BASE}/edu/science`;
