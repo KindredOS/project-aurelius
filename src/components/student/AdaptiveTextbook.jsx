@@ -8,12 +8,11 @@ import {
   extractSectionUnderHeader,
   replaceSection,
   parseMarkdownElements,
-  convertMarkdownBold,
-  createEnhancementPrompt,
-  ENHANCEMENT_ACTIONS
+  convertMarkdownBold
 } from '../../utils/markdownStructure';
 import { generateAISection } from '../../utils/genAIContent';
 import { polishMarkdown } from '../../utils/polishMarkdown';
+import { buildPromptWrap } from '../../utils/aiPromptTools';
 
 const AdaptiveTextbook = ({ content, onContentSave }) => {
   const [localContent, setLocalContent] = useState(content);
@@ -39,16 +38,16 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
   // Self-contained AI enhancement logic
   const handleEnhancement = async (header, action) => {
     console.log('Enhancement triggered:', header, action);
-    
+
     setIsEnhancing(prev => ({ ...prev, [header]: true }));
-    
+
     try {
       const sectionBody = extractSectionUnderHeader(localContent, header);
-      const prompt = createEnhancementPrompt(header, sectionBody, action);
+      const prompt = buildPromptWrap({ header, paragraph: sectionBody, action });
 
       // Generate AI content
       const rawAI = await generateAISection(prompt, 'hermes', 750);
-      
+
       // Polish the response
       const enhancedBody = await polishMarkdown({
         text: rawAI,
@@ -69,22 +68,22 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
       // Update local content
       const updatedContent = replaceSection(localContent, header, enhancedBody);
       setLocalContent(updatedContent);
-      
+
       // Update enhanced sections for display
       setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));
-      
+
       // Save to backend
       if (onContentSave) {
         await onContentSave(updatedContent);
       }
-      
+
       console.log('Enhancement successful for:', header);
-      
+
     } catch (error) {
       console.error('Enhancement failed:', error);
-      
+
       let errorMessage = '⚠️ Enhancement failed. ';
-      
+
       if (error.message.includes('404') || error.message.includes('unavailable')) {
         errorMessage += 'Service temporarily unavailable. Please try again later.';
       } else if (error.message.includes('No response') || error.message.includes('empty')) {
@@ -94,7 +93,7 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
       } else {
         errorMessage += 'Please try again later.';
       }
-      
+
       setEnhancedSections(prev => ({ ...prev, [header]: errorMessage }));
     } finally {
       setIsEnhancing(prev => ({ ...prev, [header]: false }));
@@ -126,11 +125,11 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
             </div>
           );
           break;
-        
+
         case 'header':
           renderedElements.push(renderHeader(element.content, element.level, element.lineIndex));
           break;
-        
+
         case 'interactive':
           renderedElements.push(
             <div key={`interactive-${element.lineIndex}`} className={styles.interactiveBox}>
@@ -146,14 +145,14 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
             </div>
           );
           break;
-        
+
         case 'paragraph':
           const htmlContent = convertMarkdownBold(element.content);
           renderedElements.push(
             <p key={element.lineIndex} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
           );
           break;
-        
+
         default:
           break;
       }
