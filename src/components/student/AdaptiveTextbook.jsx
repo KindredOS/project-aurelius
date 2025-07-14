@@ -1,5 +1,5 @@
 // components/student/AdaptiveTextbook.jsx
-// Refactored to rely on onEnhance prop again (handled via TopicHeader)
+// Fixed version with better error handling and content manipulation
 
 import React, { useState } from 'react';
 import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
@@ -11,6 +11,7 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
   const [expandedHeader, setExpandedHeader] = useState(null);
   const [promptToggles, setPromptToggles] = useState({});
   const [interactiveToggles, setInteractiveToggles] = useState({});
+  const [isEnhancing, setIsEnhancing] = useState({});
 
   const togglePrompt = (key) => {
     setPromptToggles(prev => ({ ...prev, [key]: !prev[key] }));
@@ -28,8 +29,14 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
   };
 
   const extractSectionUnderHeader = (text, header) => {
+    if (!text || !header) return '';
+    
     const lines = text.split('\n');
-    const headerIndex = lines.findIndex(line => line.replace(/^#+\s*/, '') === header);
+    const headerIndex = lines.findIndex(line => {
+      const cleanLine = line.replace(/^#+\s*/, '');
+      return cleanLine === header;
+    });
+    
     if (headerIndex === -1) return '';
 
     const currentLevel = (lines[headerIndex].match(/^#+/) || [''])[0].length;
@@ -45,37 +52,86 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
     return bodyLines.join('\n').trim();
   };
 
+  const replaceSection = (originalContent, header, newContent) => {
+    if (!originalContent || !header) return originalContent;
+    
+    const lines = originalContent.split('\n');
+    const headerIndex = lines.findIndex(line => {
+      const cleanLine = line.replace(/^#+\s*/, '');
+      return cleanLine === header;
+    });
+    
+    if (headerIndex === -1) return originalContent;
+
+    const currentLevel = (lines[headerIndex].match(/^#+/) || [''])[0].length;
+    const newLines = [...lines];
+    
+    // Find the end of this section
+    let endIndex = newLines.length;
+    for (let i = headerIndex + 1; i < newLines.length; i++) {
+      const line = newLines[i];
+      const lineLevel = (line.match(/^#+/) || [''])[0].length;
+      if (lineLevel && lineLevel <= currentLevel) {
+        endIndex = i;
+        break;
+      }
+    }
+    
+    // Remove the old section content (keep the header)
+    newLines.splice(headerIndex + 1, endIndex - headerIndex - 1);
+    
+    // Insert the new content
+    if (newContent && typeof newContent === 'string') {
+      const enhancedLines = newContent.split('\n');
+      newLines.splice(headerIndex + 1, 0, '', ...enhancedLines, '');
+    }
+    
+    return newLines.join('\n');
+  };
+
   const handleEnhancement = async (header, action) => {
     console.log('Enhancement triggered:', header, action);
+    
+    // Set loading state
+    setIsEnhancing(prev => ({ ...prev, [header]: true }));
+    
     try {
       const sectionBody = extractSectionUnderHeader(content, header);
       const prompt = `${actionMap[action]}:\n\n## ${header.trim()}\n\n${sectionBody.trim()}`;
 
-      const enhancedBody = await onEnhance?.(prompt, action);
+      console.log('Calling onEnhance with prompt:', prompt);
+      
+      if (!onEnhance) {
+        throw new Error('onEnhance function not provided');
+      }
+
+      const enhancedBody = await onEnhance(prompt, action);
+      console.log('Enhancement response:', enhancedBody);
 
       if (!enhancedBody || typeof enhancedBody !== 'string') {
         throw new Error('Empty or invalid enhancement response');
       }
 
-      const lines = content.split('\n');
-      const headerIndex = lines.findIndex(line => line.replace(/^#+\s*/, '') === header);
-      const newLines = [...lines];
-
-      let i = headerIndex + 1;
-      while (i < newLines.length && !newLines[i].startsWith('#')) {
-        newLines.splice(i, 1);
-      }
-
-      const enhancedLines = (enhancedBody || '').split('\n');
-      newLines.splice(headerIndex + 1, 0, ...enhancedLines);
-
-      const updatedContent = newLines.join('\n');
-
+      // Replace the section in the content
+      const updatedContent = replaceSection(content, header, enhancedBody);
+      
+      // Update the enhanced sections state for display
       setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));
-      onMarkdownUpdate?.(updatedContent);
+      
+      // Call the markdown update function
+      if (onMarkdownUpdate) {
+        onMarkdownUpdate(updatedContent);
+      }
+      
+      console.log('Enhancement successful for:', header);
+      
     } catch (error) {
       console.error('Enhancement failed:', error);
-      setEnhancedSections(prev => ({ ...prev, [header]: '⚠️ Enhancement failed. Please try again later.' }));
+      const errorMessage = '⚠️ Enhancement failed. Please try again later.';
+      setEnhancedSections(prev => ({ ...prev, [header]: errorMessage }));
+    } finally {
+      // Clear loading state
+      setIsEnhancing(prev => ({ ...prev, [header]: false }));
     }
   };
 
@@ -84,6 +140,8 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
   };
 
   const parseMarkdown = (text) => {
+    if (!text) return [];
+    
     const lines = text.split('\n');
     const elements = [];
     let insidePrompt = false;
@@ -162,6 +220,7 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
   const renderHeader = (headerText, level, lineIndex) => {
     const enhancedText = enhancedSections[headerText] || null;
     const isExpanded = expandedHeader === headerText;
+    const isLoading = isEnhancing[headerText];
 
     const headerClasses = {
       1: styles.heading1,
@@ -203,9 +262,10 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
               className={`${styles.enhanceButton} ${styles.simplifyButton}`}
               title="Simplify explanation"
               type="button"
+              disabled={isLoading}
             >
               <Sparkles size={16} />
-              <span>Simplify</span>
+              <span>{isLoading ? 'Loading...' : 'Simplify'}</span>
             </button>
 
             <button
@@ -217,9 +277,10 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
               className={`${styles.enhanceButton} ${styles.detailButton}`}
               title="Add more detail"
               type="button"
+              disabled={isLoading}
             >
               <Plus size={16} />
-              <span>Detail</span>
+              <span>{isLoading ? 'Loading...' : 'Detail'}</span>
             </button>
 
             <button
@@ -231,9 +292,10 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
               className={`${styles.enhanceButton} ${styles.contractButton}`}
               title="Make more concise"
               type="button"
+              disabled={isLoading}
             >
               <Minimize size={16} />
-              <span>Contract</span>
+              <span>{isLoading ? 'Loading...' : 'Contract'}</span>
             </button>
 
             <button
@@ -245,9 +307,10 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
               className={`${styles.enhanceButton} ${styles.reframeButton}`}
               title="Reframe perspective"
               type="button"
+              disabled={isLoading}
             >
               <Brain size={16} />
-              <span>Reframe</span>
+              <span>{isLoading ? 'Loading...' : 'Reframe'}</span>
             </button>
           </div>
         )}
@@ -258,7 +321,13 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
               <Sparkles size={16} className={styles.toggleIcon} />
               <span className={styles.enhancedLabel}>AI Enhancement</span>
             </div>
-            <p className={styles.enhancedText}>{enhancedText}</p>
+            <div className={styles.enhancedText}>
+              {enhancedText.startsWith('⚠️') ? (
+                <p style={{ color: '#ff6b6b' }}>{enhancedText}</p>
+              ) : (
+                <div dangerouslySetInnerHTML={{ __html: enhancedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+              )}
+            </div>
           </div>
         )}
       </div>
