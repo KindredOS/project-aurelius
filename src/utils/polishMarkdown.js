@@ -1,6 +1,15 @@
 // utils/polishMarkdown.js - IMPROVED VERSION
 
 import { getApiUrl } from '../api/ApiMaster';
+import {
+  extractSpecialElements,
+  removeSpecialElements,
+  restoreSpecialElements
+} from './specialElements';
+import {
+  detectContentDuplication,
+  removeDuplicateContent
+} from './contentProcessing';
 
 /**
  * IMPROVED: Process enhanced markdown with better special element handling
@@ -79,14 +88,6 @@ export const processEnhancedMarkdown = (rawResult) => {
  */
 export async function polishMarkdown({ text, action, personality = 'default', model_key = 'hermes' }) {
   try {
-    const { 
-      removeSpecialElements, 
-      extractSpecialElements, 
-      restoreSpecialElements, 
-      detectContentDuplication, 
-      removeDuplicateContent 
-    } = await import('./markdownStructure.js');
-
     const specialElements = extractSpecialElements(text);
     const cleanedText = removeSpecialElements(text);
 
