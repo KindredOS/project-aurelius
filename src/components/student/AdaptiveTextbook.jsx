@@ -22,7 +22,6 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
   const [interactiveToggles, setInteractiveToggles] = useState({});
   const [isEnhancing, setIsEnhancing] = useState({});
 
-  // Update local content when prop changes
   React.useEffect(() => {
     setLocalContent(content);
   }, [content]);
@@ -35,28 +34,33 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
     setInteractiveToggles(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // Self-contained AI enhancement logic
   const handleEnhancement = async (header, action) => {
     console.log('Enhancement triggered:', header, action);
-
     setIsEnhancing(prev => ({ ...prev, [header]: true }));
 
     try {
       const sectionBody = extractSectionUnderHeader(localContent, header);
-      const prompt = buildPromptWrap({ header, paragraph: sectionBody, action });
 
-      // Generate AI content
+      const hadInteractive = containsInteractiveElement(sectionBody);
+      const interactiveLine = hadInteractive ? '[interactive element]' : '';
+
+      const prompt = buildPromptWrap({ header, paragraph: sectionBody, action });
       const rawAI = await generateAISection(prompt, 'hermes', 750);
 
-      // Polish the response
-      const enhancedBody = await polishMarkdown({
+      let enhancedBody = await polishMarkdown({
         text: rawAI,
         action,
         personality: 'default',
         model_key: 'hermes'
       });
 
-      // Validate response
+      const headerPattern = new RegExp(`^##\\s+${header}\\s*\\n+`, 'i');
+      enhancedBody = enhancedBody.replace(headerPattern, '').trim();
+
+      if (interactiveLine) {
+        enhancedBody += `\n\n${interactiveLine}`;
+      }
+
       if (!enhancedBody || typeof enhancedBody !== 'string' || enhancedBody.trim().length === 0) {
         throw new Error('Invalid enhancement response');
       }
@@ -65,20 +69,15 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         throw new Error('Enhancement service unavailable');
       }
 
-      // Update local content
       const updatedContent = replaceSection(localContent, header, enhancedBody);
       setLocalContent(updatedContent);
-
-      // Update enhanced sections for display
       setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));
 
-      // Save to backend
       if (onContentSave) {
         await onContentSave(updatedContent);
       }
 
       console.log('Enhancement successful for:', header);
-
     } catch (error) {
       console.error('Enhancement failed:', error);
 
