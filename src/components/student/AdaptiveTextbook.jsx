@@ -47,24 +47,26 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
   };
 
   const handleEnhancement = async (header, action) => {
+    if (enhancedSections[header]) {
+      console.log(`Skipping enhancement for "${header}" — already enhanced.`);
+      return;
+    }
+
     console.log('Enhancement triggered:', header, action);
     setIsEnhancing(prev => ({ ...prev, [header]: true }));
 
     try {
       const sectionBody = extractSectionUnderHeader(localContent, header);
-      
+
       if (!sectionBody || sectionBody.trim().length === 0) {
         throw new Error('No content found under header');
       }
 
-      // Extract and preserve special elements BEFORE sending to AI
       const specialElements = extractSpecialElements(sectionBody);
       console.log('Extracted special elements:', specialElements);
 
-      // Remove special elements from content sent to AI
       const cleanedSectionBody = removeSpecialElements(sectionBody);
-      
-      // Only proceed if there's actual content to enhance
+
       if (!cleanedSectionBody || cleanedSectionBody.trim().length === 0) {
         console.log('No enhanceable content found, preserving original section');
         return;
@@ -75,7 +77,7 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         paragraph: cleanedSectionBody,
         action 
       });
-      
+
       const rawAI = await generateAISection(prompt, 'hermes', 750);
 
       let enhancedBody = await polishMarkdown({
@@ -85,11 +87,9 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         model_key: 'hermes'
       });
 
-      // Remove any headers that might have been returned by AI
       const headerPattern = new RegExp(`^##\s+${header}\s*\n+`, 'i');
       enhancedBody = enhancedBody.replace(headerPattern, '').trim();
 
-      // Restore special elements to enhanced content
       enhancedBody = restoreSpecialElements(enhancedBody, specialElements);
 
       if (!enhancedBody || typeof enhancedBody !== 'string' || enhancedBody.trim().length === 0) {
@@ -111,7 +111,7 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
       console.log('Enhancement successful for:', header);
     } catch (error) {
       console.error('Enhancement failed:', error);
-      
+
       let errorMessage = '⚠️ Enhancement failed. ';
       if (error.message.includes('404') || error.message.includes('unavailable')) {
         errorMessage += 'Service temporarily unavailable. Please try again later.';
