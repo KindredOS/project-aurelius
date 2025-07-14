@@ -58,26 +58,34 @@ export function extractSpecialElements(content) {
 }
 
 /**
- * NEW: Restores special elements to enhanced content
+ * PATCHED: Restores special elements to enhanced content without header duplication or repetition
  * @param {string} enhancedContent - The AI-enhanced content
  * @param {object} specialElements - The extracted special elements
  * @returns {string} - Content with special elements restored
  */
 export function restoreSpecialElements(enhancedContent, specialElements) {
-  let restored = enhancedContent;
+  let restored = enhancedContent || '';
   
   if (!specialElements || (!specialElements.promptWraps?.length && !specialElements.interactiveElements?.length)) {
     return restored;
   }
   
+  const alreadyIncluded = new Set(restored.split('\n'));
+  
   // Restore prompt wraps (append to end to avoid position conflicts)
   specialElements.promptWraps.forEach(promptWrap => {
-    restored += `\n\n${promptWrap.originalText}`;
+    const cleanedPrompt = promptWrap.originalText.replace(/^#{1,6}\s+.*$/gm, '').trim();
+    if (cleanedPrompt && !alreadyIncluded.has(cleanedPrompt)) {
+      restored += `\n\n${cleanedPrompt}`;
+    }
   });
   
   // Restore interactive elements (append to end)
   specialElements.interactiveElements.forEach(interactive => {
-    restored += `\n\n${interactive.originalText}`;
+    const cleanedInteractive = interactive.originalText.replace(/^#{1,6}\s+.*$/gm, '').trim();
+    if (cleanedInteractive && !alreadyIncluded.has(cleanedInteractive)) {
+      restored += `\n\n${cleanedInteractive}`;
+    }
   });
   
   return restored;
