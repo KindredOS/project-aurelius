@@ -1,6 +1,5 @@
 // components/student/AdaptiveTextbook.jsx
-// NOTE: Enhancement logic (AI requests) is delegated via `onEnhance` prop.
-// This promotes separation of concerns and keeps this component UI-focused and reusable.
+// Refactored to rely on onEnhance prop again (handled via TopicHeader)
 
 import React, { useState } from 'react';
 import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
@@ -50,8 +49,13 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
     console.log('Enhancement triggered:', header, action);
     try {
       const sectionBody = extractSectionUnderHeader(content, header);
-      const prompt = `${actionMap[action]}:\n\n## ${header}\n\n${sectionBody}`;
-      const enhancedBody = await onEnhance(prompt, action);
+      const prompt = `${actionMap[action]}:\n\n## ${header.trim()}\n\n${sectionBody.trim()}`;
+
+      const enhancedBody = await onEnhance?.(prompt, action);
+
+      if (!enhancedBody || typeof enhancedBody !== 'string') {
+        throw new Error('Empty or invalid enhancement response');
+      }
 
       const lines = content.split('\n');
       const headerIndex = lines.findIndex(line => line.replace(/^#+\s*/, '') === header);
@@ -62,7 +66,7 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
         newLines.splice(i, 1);
       }
 
-      const enhancedLines = enhancedBody.split('\n');
+      const enhancedLines = (enhancedBody || '').split('\n');
       newLines.splice(headerIndex + 1, 0, ...enhancedLines);
 
       const updatedContent = newLines.join('\n');
@@ -71,11 +75,11 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
       onMarkdownUpdate?.(updatedContent);
     } catch (error) {
       console.error('Enhancement failed:', error);
+      setEnhancedSections(prev => ({ ...prev, [header]: '⚠️ Enhancement failed. Please try again later.' }));
     }
   };
 
   const toggleIconBar = (headerText) => {
-    console.log('Toggle icon bar clicked for:', headerText); // Debug log
     setExpandedHeader(prev => prev === headerText ? null : headerText);
   };
 
@@ -262,11 +266,7 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
   };
 
   if (!content) {
-    return (
-      <div className={styles.noContent}>
-        No content available
-      </div>
-    );
+    return <div className={styles.noContent}>No content available</div>;
   }
 
   return (
