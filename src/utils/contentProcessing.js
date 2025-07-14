@@ -205,16 +205,17 @@ export function replaceSection(originalContent, header, newContent) {
 
   let result = newLines.join('\n');
 
-  const sectionSpecialElements = {
-    promptWraps: specialElements.promptWraps.filter(pw =>
-      pw.lineNumber > headerIndex && pw.lineNumber < endIndex
-    ),
-    interactiveElements: specialElements.interactiveElements.filter(ie =>
-      ie.lineNumber > headerIndex && ie.lineNumber < endIndex
-    )
-  };
+  // const sectionSpecialElements = {
+  //   promptWraps: specialElements.promptWraps.filter(pw =>
+  //     pw.lineNumber > headerIndex && pw.lineNumber < endIndex
+  //   ),
+  //   interactiveElements: specialElements.interactiveElements.filter(ie =>
+  //     ie.lineNumber > headerIndex && ie.lineNumber < endIndex
+  //   )
+  // };
 
-  const restored = restoreSpecialElements(result, sectionSpecialElements, originalContent);
+  // const restored = restoreSpecialElements(result, sectionSpecialElements, originalContent);
 
-  return removeDuplicateContent(restored);
+  // return removeDuplicateContent(restored);
+  return removeDuplicateContent(result);
 }
