@@ -1,4 +1,4 @@
-// utils/genAISection.js
+// utils/genAIContent.js
 import { queryModel } from '../api/ApiMaster';
 
 /**

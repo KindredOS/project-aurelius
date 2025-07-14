@@ -11,8 +11,8 @@ import {
   convertMarkdownBold,
   createEnhancementPrompt,
   ENHANCEMENT_ACTIONS
-} from '../../utils/extensionsMarkdown';
-import { generateAISection } from '../../utils/genAISection';
+} from '../../utils/markdownStructure';
+import { generateAISection } from '../../utils/genAIContent';
 import { polishMarkdown } from '../../utils/polishMarkdown';
 
 const AdaptiveTextbook = ({ content, onContentSave }) => {
