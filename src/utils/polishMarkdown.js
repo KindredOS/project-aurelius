@@ -47,7 +47,7 @@ export const processEnhancedMarkdown = (rawResult) => {
 
 export async function polishMarkdown({ text, action, personality = 'default', model_key = 'hermes' }) {
   try {
-    const response = await fetch(`${getApiUrl()}/edu/science/markdown/enhance`, {
+      const response = await fetch(`${getApiUrl()}/markdown/enhance`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, action, personality, model_key })
