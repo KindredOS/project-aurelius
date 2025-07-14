@@ -28,46 +28,39 @@ export const processEnhancedMarkdown = (rawResult) => {
     processed = processed.replace(/\\"/g, '"');
     processed = processed.replace(/\\'/g, "'");
     processed = processed.replace(/\\\\/g, '\\');
-    
+
     // Fix malformed headers that start with quotes
     processed = processed.replace(/^"#\s*/gm, '# ');
     processed = processed.replace(/^"(#{1,6}\s+[^"]+)"$/gm, '$1');
     processed = processed.replace(/^"([^"]*?)$/gm, '$1');
-    
+
     // IMPROVED: Only remove headers that are likely duplicates
-    // Instead of removing ALL headers, only remove ones that might be duplicates
-    // This is more conservative and preserves legitimate structure
-    
-    // Remove headers only if they appear at the very beginning of the response
-    // (which indicates they might be duplicates from the prompt)
     const lines = processed.split('\n');
     const cleanedLines = [];
     let skipInitialHeaders = true;
-    
+
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
       const isHeader = /^#{1,6}\s+/.test(line);
-      
+
       if (skipInitialHeaders && isHeader) {
-        // Skip headers at the beginning that might be duplicates
         continue;
       } else if (skipInitialHeaders && line.trim() !== '') {
-        // Once we hit non-empty, non-header content, stop skipping headers
         skipInitialHeaders = false;
         cleanedLines.push(line);
       } else {
         cleanedLines.push(line);
       }
     }
-    
+
     processed = cleanedLines.join('\n');
-    
+
     // Clean up multiple consecutive newlines
     processed = processed.replace(/^\n+/, '').replace(/\n{3,}/g, '\n\n');
-    
+
     // Ensure proper spacing after headers
     processed = processed.replace(/(#{1,6}\s+[^\n]+)\n([^\n#])/g, '$1\n\n$2');
-    
+
     // Final cleanup - remove leading/trailing whitespace but preserve internal structure
     processed = processed.trim();
   }
@@ -86,7 +79,6 @@ export const processEnhancedMarkdown = (rawResult) => {
  */
 export async function polishMarkdown({ text, action, personality = 'default', model_key = 'hermes' }) {
   try {
-    // Import here to avoid circular dependency
     const { 
       removeSpecialElements, 
       extractSpecialElements, 
@@ -94,22 +86,19 @@ export async function polishMarkdown({ text, action, personality = 'default', mo
       detectContentDuplication, 
       removeDuplicateContent 
     } = await import('./markdownStructure.js');
-    
-    // Extract special elements before sending to AI
+
     const specialElements = extractSpecialElements(text);
-    
-    // Remove special elements from the text before AI processing
     const cleanedText = removeSpecialElements(text);
-    
+
     console.log('Original text:', text);
     console.log('Cleaned text for AI:', cleanedText);
     console.log('Extracted special elements:', specialElements);
-    
+
     const response = await fetch(`${getApiUrl()}/markdown/enhance`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
-        text: cleanedText, // Send cleaned text without special elements
+        text: cleanedText,
         action, 
         personality, 
         model_key 
@@ -118,19 +107,21 @@ export async function polishMarkdown({ text, action, personality = 'default', mo
 
     const data = await response.json();
     let enhanced = processEnhancedMarkdown(data.result);
-    
+
+    // 🔍 DEBUG STAMP TO TRACE STACKING
+    const debugStamp = `\n\n---\n⚠️ [SANITIZED at ${new Date().toISOString()}]\n---\n`;
+    enhanced += debugStamp;
+
     console.log('Raw AI response:', data.result);
     console.log('Processed enhanced text:', enhanced);
-    
-    // Check for and remove duplicates in the enhanced content
+
     if (detectContentDuplication(enhanced)) {
       console.log('Duplicate content detected, removing...');
       enhanced = removeDuplicateContent(enhanced);
     }
-    
-    // Restore special elements to the enhanced content
+
     const final = restoreSpecialElements(enhanced, specialElements, text);
-    
+
     console.log('Final text with special elements restored:', final);
 
     return final;
