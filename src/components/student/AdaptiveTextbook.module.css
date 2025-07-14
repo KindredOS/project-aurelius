@@ -16,9 +16,14 @@
 .headerRow {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: flex-start; /* Changed from space-between */
   position: relative;
   gap: 0.75rem;
+}
+
+/* Make sure the header text takes up available space */
+.headerRow > div:first-child {
+  flex: 1; /* Header text takes remaining space */
 }
 
 .toggleButton {
@@ -36,6 +41,7 @@
   justify-content: center;
   gap: 0.375rem;
   min-width: fit-content;
+  width: auto; /* Ensure button doesn't expand beyond content */
 }
 
 .toggleButton:hover {
