@@ -1,10 +1,19 @@
 // components/student/AdaptiveTextbook.jsx
-// Fixed version with better error handling and content manipulation
+// Refactored version using enhanced utility functions
 
 import React, { useState } from 'react';
 import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
 import styles from './AdaptiveTextbook.module.css';
-import { extractPromptWrap, containsInteractiveElement } from '../../utils/extensionsMarkdown';
+import { 
+  extractPromptWrap, 
+  containsInteractiveElement,
+  extractSectionUnderHeader,
+  replaceSection,
+  parseMarkdownElements,
+  convertMarkdownBold,
+  createEnhancementPrompt,
+  ENHANCEMENT_ACTIONS
+} from '../../utils/extensionsMarkdown';
 
 const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
   const [enhancedSections, setEnhancedSections] = useState({});
@@ -21,74 +30,6 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
     setInteractiveToggles(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const actionMap = {
-    simplify: 'Simplify the following section',
-    add_detail: 'Add more depth to the following section',
-    contract: 'Make the following section shorter and more concise',
-    reframe: 'Reframe the following section from a new perspective'
-  };
-
-  const extractSectionUnderHeader = (text, header) => {
-    if (!text || !header) return '';
-    
-    const lines = text.split('\n');
-    const headerIndex = lines.findIndex(line => {
-      const cleanLine = line.replace(/^#+\s*/, '');
-      return cleanLine === header;
-    });
-    
-    if (headerIndex === -1) return '';
-
-    const currentLevel = (lines[headerIndex].match(/^#+/) || [''])[0].length;
-    const bodyLines = [];
-
-    for (let i = headerIndex + 1; i < lines.length; i++) {
-      const line = lines[i];
-      const lineLevel = (line.match(/^#+/) || [''])[0].length;
-      if (lineLevel && lineLevel <= currentLevel) break;
-      bodyLines.push(line);
-    }
-
-    return bodyLines.join('\n').trim();
-  };
-
-  const replaceSection = (originalContent, header, newContent) => {
-    if (!originalContent || !header) return originalContent;
-    
-    const lines = originalContent.split('\n');
-    const headerIndex = lines.findIndex(line => {
-      const cleanLine = line.replace(/^#+\s*/, '');
-      return cleanLine === header;
-    });
-    
-    if (headerIndex === -1) return originalContent;
-
-    const currentLevel = (lines[headerIndex].match(/^#+/) || [''])[0].length;
-    const newLines = [...lines];
-    
-    // Find the end of this section
-    let endIndex = newLines.length;
-    for (let i = headerIndex + 1; i < newLines.length; i++) {
-      const line = newLines[i];
-      const lineLevel = (line.match(/^#+/) || [''])[0].length;
-      if (lineLevel && lineLevel <= currentLevel) {
-        endIndex = i;
-        break;
-      }
-    }
-    
-    // Remove the old section content (keep the header)
-    newLines.splice(headerIndex + 1, endIndex - headerIndex - 1);
-    
-    // Insert the new content
-    if (newContent && typeof newContent === 'string') {
-      const enhancedLines = newContent.split('\n');
-      newLines.splice(headerIndex + 1, 0, '', ...enhancedLines, '');
-    }
-    
-    return newLines.join('\n');
-  };
-
   const handleEnhancement = async (header, action) => {
     console.log('Enhancement triggered:', header, action);
     
@@ -97,7 +38,7 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
     
     try {
       const sectionBody = extractSectionUnderHeader(content, header);
-      const prompt = `${actionMap[action]}:\n\n## ${header.trim()}\n\n${sectionBody.trim()}`;
+      const prompt = createEnhancementPrompt(header, sectionBody, action);
 
       console.log('Calling onEnhance with prompt:', prompt);
       
@@ -167,81 +108,60 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
   };
 
   const parseMarkdown = (text) => {
-    if (!text) return [];
-    
-    const lines = text.split('\n');
-    const elements = [];
-    let insidePrompt = false;
-    let promptBuffer = [];
+    const elements = parseMarkdownElements(text);
+    const renderedElements = [];
 
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-
-      if (line.includes('[Prompt Wrap Start]')) {
-        insidePrompt = true;
-        promptBuffer = [];
-        continue;
-      }
-      if (line.includes('[Prompt Wrap End]')) {
-        insidePrompt = false;
-        const fullPromptText = promptBuffer.join(' ').replace(/Prompt:\s*/i, '').trim();
-        if (fullPromptText) {
-          elements.push(
-            <div key={`prompt-${i}`} className={styles.promptBox}>
+    elements.forEach((element, index) => {
+      switch (element.type) {
+        case 'prompt':
+          renderedElements.push(
+            <div key={`prompt-${element.lineIndex}`} className={styles.promptBox}>
               <button
                 className={styles.promptToggle}
-                onClick={() => togglePrompt(i)}
+                onClick={() => togglePrompt(element.lineIndex)}
               >
-                {promptToggles[i] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} <strong>Prompt</strong>
+                {promptToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} <strong>Prompt</strong>
               </button>
-              {promptToggles[i] && (
-                <div className={styles.promptContent}>{fullPromptText}</div>
+              {promptToggles[element.lineIndex] && (
+                <div className={styles.promptContent}>{element.content}</div>
               )}
             </div>
           );
-        }
-        continue;
+          break;
+        
+        case 'header':
+          renderedElements.push(renderHeader(element.content, element.level, element.lineIndex));
+          break;
+        
+        case 'interactive':
+          renderedElements.push(
+            <div key={`interactive-${element.lineIndex}`} className={styles.interactiveBox}>
+              <button
+                className={styles.interactiveToggle}
+                onClick={() => toggleInteractive(element.lineIndex)}
+              >
+                {interactiveToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} <strong>Interactive Module</strong>
+              </button>
+              {interactiveToggles[element.lineIndex] && (
+                <div className={styles.interactiveContent}><em>Content coming soon...</em></div>
+              )}
+            </div>
+          );
+          break;
+        
+        case 'paragraph':
+          const htmlContent = convertMarkdownBold(element.content);
+          renderedElements.push(
+            <p key={element.lineIndex} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
+          );
+          break;
+        
+        default:
+          break;
       }
-      if (insidePrompt) {
-        promptBuffer.push(line);
-        continue;
-      }
+    });
 
-      if (line.startsWith('# ')) {
-        const headerText = line.substring(2);
-        elements.push(renderHeader(headerText, 1, i));
-      } else if (line.startsWith('## ')) {
-        const headerText = line.substring(3);
-        elements.push(renderHeader(headerText, 2, i));
-      } else if (line.startsWith('### ')) {
-        const headerText = line.substring(4);
-        elements.push(renderHeader(headerText, 3, i));
-      } else if (line.startsWith('#### ')) {
-        const headerText = line.substring(5);
-        elements.push(renderHeader(headerText, 4, i));
-      } else if (line.includes('[interactive element]') || containsInteractiveElement(line)) {
-        elements.push(
-          <div key={`interactive-${i}`} className={styles.interactiveBox}>
-            <button
-              className={styles.interactiveToggle}
-              onClick={() => toggleInteractive(i)}
-            >
-              {interactiveToggles[i] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} <strong>Interactive Module</strong>
-            </button>
-            {interactiveToggles[i] && (
-              <div className={styles.interactiveContent}><em>Content coming soon...</em></div>
-            )}
-          </div>
-        );
-      } else if (line.trim() !== '') {
-        const boldText = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        elements.push(
-          <p key={i} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: boldText }} />
-        );
-      }
-    }
-
-    return elements;
+    return renderedElements;
   };
 
   const renderHeader = (headerText, level, lineIndex) => {
@@ -352,7 +272,7 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
               {enhancedText.startsWith('⚠️') ? (
                 <p style={{ color: '#ff6b6b' }}>{enhancedText}</p>
               ) : (
-                <div dangerouslySetInnerHTML={{ __html: enhancedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                <div dangerouslySetInnerHTML={{ __html: convertMarkdownBold(enhancedText) }} />
               )}
             </div>
           </div>
