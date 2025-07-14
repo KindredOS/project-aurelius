@@ -177,7 +177,8 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
             className={styles.toggleButton}
             title="Show enhancement options"
           >
-            <Sparkles size={14} className={styles.toggleIcon} />
+            <Brain size={14} className={styles.toggleIcon} />
+            <span className={styles.toggleText}>Learning Lens</span>
           </button>
         </div>
 

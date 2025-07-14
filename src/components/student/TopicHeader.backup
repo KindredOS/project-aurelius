@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import AdaptiveTextbook from './AdaptiveTextbook';
 import { getApiUrl } from '../../api/ApiMaster';
+import { fetchStudentMarkdown, saveStudentMarkdown } from '../../api/Science';
 import { polishMarkdown } from '../../utils/polishMarkdown';
 import { generateAISection } from '../../utils/genAISection';
 import styles from './TopicHeader.module.css';
@@ -38,36 +39,30 @@ const TopicHeader = ({
   useEffect(() => {
     const loadMarkdown = async () => {
       if (selectedConcept?.markdown && subject && userEmail) {
-        const encodedFilepath = encodeURIComponent(`${selectedConcept.markdown}`);
-        const encodedEmail = encodeURIComponent(userEmail);
-        const apiUrl = `${getApiUrl()}/edu/science/markdown?email=${encodedEmail}&filepath=${encodedFilepath}`;
-
         try {
-          const res = await fetch(apiUrl);
-          if (res.ok) {
-            const text = await res.text();
-            setMarkdownText(text);
-          } else {
-            const publicPath = `/data/${subject}/markdown/${selectedConcept.markdown}`;
-            console.log("Public path attempt:", publicPath);
-            const publicRes = await fetch(publicPath);
-            if (!publicRes.ok) throw new Error('Public markdown not found');
-            const fallbackText = await publicRes.text();
-            setMarkdownText(fallbackText);
-
-            await fetch(`${getApiUrl()}/edu/science/markdown/save`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                email: userEmail,
-                filepath: selectedConcept.markdown,
-                content: fallbackText
-              })
-            });
-          }
+          // Use the enhanced API function that cleans markdown
+          const content = await fetchStudentMarkdown(userEmail, selectedConcept.markdown);
+          setMarkdownText(content);
         } catch (err) {
-          console.error('Error loading markdown fallback:', err);
-          setMarkdownText('Error loading content.');
+          console.error('Error loading markdown:', err);
+          
+          // Fallback to public path
+          try {
+            const publicPath = `/data/${subject}/markdown/${selectedConcept.markdown}`;
+            const publicRes = await fetch(publicPath);
+            if (publicRes.ok) {
+              const fallbackText = await publicRes.text();
+              setMarkdownText(fallbackText);
+              
+              // Save to user's storage
+              await saveStudentMarkdown(userEmail, selectedConcept.markdown, fallbackText);
+            } else {
+              setMarkdownText('Error loading content.');
+            }
+          } catch (fallbackErr) {
+            console.error('Fallback failed:', fallbackErr);
+            setMarkdownText('Error loading content.');
+          }
         }
       } else {
         setMarkdownText('');
@@ -99,15 +94,7 @@ const TopicHeader = ({
 
     if (selectedConcept?.markdown && userEmail) {
       try {
-        await fetch(`${getApiUrl()}/edu/science/markdown/save`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: userEmail,
-            filepath: selectedConcept.markdown,
-            content: updatedContent
-          })
-        });
+        await saveStudentMarkdown(userEmail, selectedConcept.markdown, updatedContent);
       } catch (err) {
         console.error('Error saving markdown:', err);
       }
