@@ -35,11 +35,21 @@ export const processEnhancedMarkdown = (rawResult) => {
     // Clean up any remaining quotes at the start of lines that shouldn't be there
     processed = processed.replace(/^"([^"]*?)$/gm, '$1');
     
+    // NEW: Strip headers from AI responses to prevent duplication
+    // This is the critical fix for header duplication
+    processed = processed.replace(/^#{1,6}\s+.*$/gm, '');
+    
+    // Clean up multiple consecutive newlines after header removal
+    processed = processed.replace(/^\n+/, '').replace(/\n{3,}/g, '\n\n');
+    
     // Clean up any remaining double-escaped newlines
     processed = processed.replace(/\n\n\n+/g, '\n\n'); // Replace 3+ newlines with just 2
     
-    // Ensure proper spacing after headers
+    // Ensure proper spacing after headers (if any remain)
     processed = processed.replace(/(#{1,6}\s+[^\n]+)\n([^\n#])/g, '$1\n\n$2');
+    
+    // Final cleanup - remove leading/trailing whitespace but preserve internal structure
+    processed = processed.trim();
   }
 
   return processed;

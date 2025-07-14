@@ -8,7 +8,10 @@ import {
   extractSectionUnderHeader,
   replaceSection,
   parseMarkdownElements,
-  convertMarkdownBold
+  convertMarkdownBold,
+  extractSpecialElements,
+  restoreSpecialElements,
+  removeSpecialElements
 } from '../../utils/markdownStructure';
 import { generateAISection } from '../../utils/genAIContent';
 import { polishMarkdown } from '../../utils/polishMarkdown';
@@ -40,11 +43,30 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
 
     try {
       const sectionBody = extractSectionUnderHeader(localContent, header);
+      
+      if (!sectionBody || sectionBody.trim().length === 0) {
+        throw new Error('No content found under header');
+      }
 
-      const hadInteractive = containsInteractiveElement(sectionBody);
-      const interactiveLine = hadInteractive ? '[interactive element]' : '';
+      // NEW: Extract and preserve special elements BEFORE sending to AI
+      const specialElements = extractSpecialElements(sectionBody);
+      console.log('Extracted special elements:', specialElements);
 
-      const prompt = buildPromptWrap({ header, paragraph: sectionBody, action });
+      // NEW: Remove special elements from content sent to AI
+      const cleanedSectionBody = removeSpecialElements(sectionBody);
+      
+      // Only proceed if there's actual content to enhance after removing special elements
+      if (!cleanedSectionBody || cleanedSectionBody.trim().length === 0) {
+        console.log('No enhanceable content found, preserving original section');
+        return;
+      }
+
+      const prompt = buildPromptWrap({ 
+        header, 
+        paragraph: cleanedSectionBody, // Send cleaned content to AI
+        action 
+      });
+      
       const rawAI = await generateAISection(prompt, 'hermes', 750);
 
       let enhancedBody = await polishMarkdown({
@@ -54,12 +76,12 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         model_key: 'hermes'
       });
 
+      // Remove any headers that might have been returned by AI (already handled in polishMarkdown)
       const headerPattern = new RegExp(`^##\s+${header}\s*\n+`, 'i');
       enhancedBody = enhancedBody.replace(headerPattern, '').trim();
 
-      if (interactiveLine) {
-        enhancedBody += `\n\n${interactiveLine}`;
-      }
+      // NEW: Restore special elements to enhanced content
+      enhancedBody = restoreSpecialElements(enhancedBody, specialElements);
 
       if (!enhancedBody || typeof enhancedBody !== 'string' || enhancedBody.trim().length === 0) {
         throw new Error('Invalid enhancement response');
@@ -78,6 +100,7 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
       }
 
       console.log('Enhancement successful for:', header);
+      console.log('Enhanced content:', enhancedBody);
     } catch (error) {
       console.error('Enhancement failed:', error);
 
@@ -89,6 +112,8 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         errorMessage += 'No response from enhancement service. Please check your connection.';
       } else if (error.message.includes('Invalid enhancement')) {
         errorMessage += 'Invalid response received. Please try again.';
+      } else if (error.message.includes('No content found')) {
+        errorMessage += 'No content found under this header.';
       } else {
         errorMessage += 'Please try again later.';
       }

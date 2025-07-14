@@ -1,4 +1,4 @@
-// utils/extensionsMarkdown.js
+// utils/markdownStructure.js
 
 /**
  * Extracts prompt from `[Prompt Wrap Start]...Prompt: ...[Prompt Wrap End]`
@@ -17,6 +17,92 @@ export function extractPromptWrap(markdown) {
  */
 export function containsInteractiveElement(markdown) {
   return markdown.includes('[interactive element]');
+}
+
+/**
+ * NEW: Extracts special elements (prompt wraps and interactive elements) with their positions
+ * @param {string} content - The markdown content
+ * @returns {object} - Object containing arrays of special elements with metadata
+ */
+export function extractSpecialElements(content) {
+  const elements = {
+    promptWraps: [],
+    interactiveElements: []
+  };
+  
+  if (!content) return elements;
+  
+  // Extract prompt wraps with their positions and content
+  const promptWrapRegex = /\[Prompt Wrap Start\](.*?)\[Prompt Wrap End\]/gs;
+  let match;
+  while ((match = promptWrapRegex.exec(content)) !== null) {
+    elements.promptWraps.push({
+      fullMatch: match[0],
+      content: match[1],
+      index: match.index,
+      originalText: match[0]
+    });
+  }
+  
+  // Extract interactive elements with their positions
+  const interactiveRegex = /\[interactive element\]/g;
+  while ((match = interactiveRegex.exec(content)) !== null) {
+    elements.interactiveElements.push({
+      fullMatch: match[0],
+      index: match.index,
+      originalText: match[0]
+    });
+  }
+  
+  return elements;
+}
+
+/**
+ * NEW: Restores special elements to enhanced content
+ * @param {string} enhancedContent - The AI-enhanced content
+ * @param {object} specialElements - The extracted special elements
+ * @returns {string} - Content with special elements restored
+ */
+export function restoreSpecialElements(enhancedContent, specialElements) {
+  let restored = enhancedContent;
+  
+  if (!specialElements || (!specialElements.promptWraps?.length && !specialElements.interactiveElements?.length)) {
+    return restored;
+  }
+  
+  // Restore prompt wraps (append to end to avoid position conflicts)
+  specialElements.promptWraps.forEach(promptWrap => {
+    restored += `\n\n${promptWrap.originalText}`;
+  });
+  
+  // Restore interactive elements (append to end)
+  specialElements.interactiveElements.forEach(interactive => {
+    restored += `\n\n${interactive.originalText}`;
+  });
+  
+  return restored;
+}
+
+/**
+ * NEW: Removes special elements from content for AI processing
+ * @param {string} content - The original content
+ * @returns {string} - Content with special elements removed
+ */
+export function removeSpecialElements(content) {
+  if (!content) return '';
+  
+  let cleaned = content;
+  
+  // Remove prompt wraps
+  cleaned = cleaned.replace(/\[Prompt Wrap Start\].*?\[Prompt Wrap End\]/gs, '');
+  
+  // Remove interactive elements
+  cleaned = cleaned.replace(/\[interactive element\]/g, '');
+  
+  // Clean up extra whitespace
+  cleaned = cleaned.replace(/\n{3,}/g, '\n\n').trim();
+  
+  return cleaned;
 }
 
 /**
@@ -50,7 +136,7 @@ export function extractSectionUnderHeader(text, header) {
 }
 
 /**
- * Replaces a section under a specific header with new content
+ * IMPROVED: Replaces a section under a specific header with new content
  * @param {string} originalContent - The original markdown content
  * @param {string} header - The header text to find
  * @param {string} newContent - The new content to replace with
@@ -86,8 +172,16 @@ export function replaceSection(originalContent, header, newContent) {
   
   // Insert the new content
   if (newContent && typeof newContent === 'string') {
-    const enhancedLines = newContent.split('\n');
-    newLines.splice(headerIndex + 1, 0, '', ...enhancedLines, '');
+    // IMPROVED: Clean the new content to ensure no header duplication
+    const cleanedContent = newContent
+      .replace(/^#+\s+.*$/gm, '') // Remove any headers that might cause duplication
+      .replace(/^\n+/, '') // Remove leading newlines
+      .trim();
+    
+    if (cleanedContent) {
+      const enhancedLines = cleanedContent.split('\n');
+      newLines.splice(headerIndex + 1, 0, '', ...enhancedLines, '');
+    }
   }
   
   return newLines.join('\n');
