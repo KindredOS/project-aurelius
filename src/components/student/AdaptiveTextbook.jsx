@@ -108,8 +108,22 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
       const enhancedBody = await onEnhance(prompt, action);
       console.log('Enhancement response:', enhancedBody);
 
-      if (!enhancedBody || typeof enhancedBody !== 'string') {
-        throw new Error('Empty or invalid enhancement response');
+      // Better validation for the response
+      if (!enhancedBody) {
+        throw new Error('No response received from enhancement service');
+      }
+
+      if (typeof enhancedBody !== 'string') {
+        throw new Error('Enhancement response is not a string');
+      }
+
+      if (enhancedBody.trim().length === 0) {
+        throw new Error('Enhancement response is empty');
+      }
+
+      // Check if the response is an error message
+      if (enhancedBody.includes('404') || enhancedBody.includes('Failed to load')) {
+        throw new Error('Enhancement service unavailable');
       }
 
       // Replace the section in the content
@@ -127,7 +141,20 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
       
     } catch (error) {
       console.error('Enhancement failed:', error);
-      const errorMessage = '⚠️ Enhancement failed. Please try again later.';
+      
+      // More specific error messages
+      let errorMessage = '⚠️ Enhancement failed. ';
+      
+      if (error.message.includes('404') || error.message.includes('unavailable')) {
+        errorMessage += 'Service temporarily unavailable. Please try again later.';
+      } else if (error.message.includes('No response') || error.message.includes('empty')) {
+        errorMessage += 'No response from enhancement service. Please check your connection.';
+      } else if (error.message.includes('not provided')) {
+        errorMessage += 'Enhancement function not configured.';
+      } else {
+        errorMessage += 'Please try again later.';
+      }
+      
       setEnhancedSections(prev => ({ ...prev, [header]: errorMessage }));
     } finally {
       // Clear loading state
