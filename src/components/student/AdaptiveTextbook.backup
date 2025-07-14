@@ -1,6 +1,4 @@
-// components/student/AdaptiveTextbook.jsx
-// Refactored version using enhanced utility functions
-
+// 3. AdaptiveTextbook.jsx - Self-contained content engine with AI
 import React, { useState } from 'react';
 import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
 import styles from './AdaptiveTextbook.module.css';
@@ -11,16 +9,25 @@ import {
   replaceSection,
   parseMarkdownElements,
   convertMarkdownBold,
-  createEnhancementPrompt,
-  ENHANCEMENT_ACTIONS
-} from '../../utils/extensionsMarkdown';
+  extractSpecialElements,
+  restoreSpecialElements,
+  removeSpecialElements
+} from '../../utils/markdownStructure';
+import { generateAISection } from '../../utils/genAIContent';
+import { polishMarkdown } from '../../utils/polishMarkdown';
+import { buildPromptWrap } from '../../utils/aiPromptTools';
 
-const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
+const AdaptiveTextbook = ({ content, onContentSave }) => {
+  const [localContent, setLocalContent] = useState(content);
   const [enhancedSections, setEnhancedSections] = useState({});
   const [expandedHeader, setExpandedHeader] = useState(null);
   const [promptToggles, setPromptToggles] = useState({});
   const [interactiveToggles, setInteractiveToggles] = useState({});
   const [isEnhancing, setIsEnhancing] = useState({});
+
+  React.useEffect(() => {
+    setLocalContent(content);
+  }, [content]);
 
   const togglePrompt = (key) => {
     setPromptToggles(prev => ({ ...prev, [key]: !prev[key] }));
@@ -32,73 +39,87 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
 
   const handleEnhancement = async (header, action) => {
     console.log('Enhancement triggered:', header, action);
-    
-    // Set loading state
     setIsEnhancing(prev => ({ ...prev, [header]: true }));
-    
+
     try {
-      const sectionBody = extractSectionUnderHeader(content, header);
-      const prompt = createEnhancementPrompt(header, sectionBody, action);
-
-      console.log('Calling onEnhance with prompt:', prompt);
+      const sectionBody = extractSectionUnderHeader(localContent, header);
       
-      if (!onEnhance) {
-        throw new Error('onEnhance function not provided');
+      if (!sectionBody || sectionBody.trim().length === 0) {
+        throw new Error('No content found under header');
       }
 
-      const enhancedBody = await onEnhance(prompt, action);
-      console.log('Enhancement response:', enhancedBody);
+      // NEW: Extract and preserve special elements BEFORE sending to AI
+      const specialElements = extractSpecialElements(sectionBody);
+      console.log('Extracted special elements:', specialElements);
 
-      // Better validation for the response
-      if (!enhancedBody) {
-        throw new Error('No response received from enhancement service');
+      // NEW: Remove special elements from content sent to AI
+      const cleanedSectionBody = removeSpecialElements(sectionBody);
+      
+      // Only proceed if there's actual content to enhance after removing special elements
+      if (!cleanedSectionBody || cleanedSectionBody.trim().length === 0) {
+        console.log('No enhanceable content found, preserving original section');
+        return;
       }
 
-      if (typeof enhancedBody !== 'string') {
-        throw new Error('Enhancement response is not a string');
+      const prompt = buildPromptWrap({ 
+        header, 
+        paragraph: cleanedSectionBody, // Send cleaned content to AI
+        action 
+      });
+      
+      const rawAI = await generateAISection(prompt, 'hermes', 750);
+
+      let enhancedBody = await polishMarkdown({
+        text: rawAI,
+        action,
+        personality: 'default',
+        model_key: 'hermes'
+      });
+
+      // Remove any headers that might have been returned by AI (already handled in polishMarkdown)
+      const headerPattern = new RegExp(`^##\s+${header}\s*\n+`, 'i');
+      enhancedBody = enhancedBody.replace(headerPattern, '').trim();
+
+      // NEW: Restore special elements to enhanced content
+      enhancedBody = restoreSpecialElements(enhancedBody, specialElements);
+
+      if (!enhancedBody || typeof enhancedBody !== 'string' || enhancedBody.trim().length === 0) {
+        throw new Error('Invalid enhancement response');
       }
 
-      if (enhancedBody.trim().length === 0) {
-        throw new Error('Enhancement response is empty');
-      }
-
-      // Check if the response is an error message
       if (enhancedBody.includes('404') || enhancedBody.includes('Failed to load')) {
         throw new Error('Enhancement service unavailable');
       }
 
-      // Replace the section in the content
-      const updatedContent = replaceSection(content, header, enhancedBody);
-      
-      // Update the enhanced sections state for display
+      const updatedContent = replaceSection(localContent, header, enhancedBody);
+      setLocalContent(updatedContent);
       setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));
-      
-      // Call the markdown update function
-      if (onMarkdownUpdate) {
-        onMarkdownUpdate(updatedContent);
+
+      if (onContentSave) {
+        await onContentSave(updatedContent);
       }
-      
+
       console.log('Enhancement successful for:', header);
-      
+      console.log('Enhanced content:', enhancedBody);
     } catch (error) {
       console.error('Enhancement failed:', error);
-      
-      // More specific error messages
+
       let errorMessage = '⚠️ Enhancement failed. ';
-      
+
       if (error.message.includes('404') || error.message.includes('unavailable')) {
         errorMessage += 'Service temporarily unavailable. Please try again later.';
       } else if (error.message.includes('No response') || error.message.includes('empty')) {
         errorMessage += 'No response from enhancement service. Please check your connection.';
-      } else if (error.message.includes('not provided')) {
-        errorMessage += 'Enhancement function not configured.';
+      } else if (error.message.includes('Invalid enhancement')) {
+        errorMessage += 'Invalid response received. Please try again.';
+      } else if (error.message.includes('No content found')) {
+        errorMessage += 'No content found under this header.';
       } else {
         errorMessage += 'Please try again later.';
       }
-      
+
       setEnhancedSections(prev => ({ ...prev, [header]: errorMessage }));
     } finally {
-      // Clear loading state
       setIsEnhancing(prev => ({ ...prev, [header]: false }));
     }
   };
@@ -110,9 +131,15 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
   const parseMarkdown = (text) => {
     const elements = parseMarkdownElements(text);
     const renderedElements = [];
+    let currentHeader = null;
 
     elements.forEach((element, index) => {
       switch (element.type) {
+        case 'header':
+          currentHeader = element.content;
+          renderedElements.push(renderHeader(currentHeader, element.level, element.lineIndex));
+          break;
+
         case 'prompt':
           renderedElements.push(
             <div key={`prompt-${element.lineIndex}`} className={styles.promptBox}>
@@ -128,11 +155,7 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
             </div>
           );
           break;
-        
-        case 'header':
-          renderedElements.push(renderHeader(element.content, element.level, element.lineIndex));
-          break;
-        
+
         case 'interactive':
           renderedElements.push(
             <div key={`interactive-${element.lineIndex}`} className={styles.interactiveBox}>
@@ -148,14 +171,15 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
             </div>
           );
           break;
-        
+
         case 'paragraph':
-          const htmlContent = convertMarkdownBold(element.content);
+          const effectiveContent = enhancedSections[currentHeader] || element.content;
+          const htmlContent = convertMarkdownBold(effectiveContent);
           renderedElements.push(
             <p key={element.lineIndex} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
           );
           break;
-        
+
         default:
           break;
       }
@@ -165,7 +189,6 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
   };
 
   const renderHeader = (headerText, level, lineIndex) => {
-    const enhancedText = enhancedSections[headerText] || null;
     const isExpanded = expandedHeader === headerText;
     const isLoading = isEnhancing[headerText];
 
@@ -261,34 +284,18 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
             </button>
           </div>
         )}
-
-        {enhancedText && (
-          <div className={styles.enhancedContent}>
-            <div className={styles.enhancedHeader}>
-              <Sparkles size={16} className={styles.toggleIcon} />
-              <span className={styles.enhancedLabel}>AI Enhancement</span>
-            </div>
-            <div className={styles.enhancedText}>
-              {enhancedText.startsWith('⚠️') ? (
-                <p style={{ color: '#ff6b6b' }}>{enhancedText}</p>
-              ) : (
-                <div dangerouslySetInnerHTML={{ __html: convertMarkdownBold(enhancedText) }} />
-              )}
-            </div>
-          </div>
-        )}
       </div>
     );
   };
 
-  if (!content) {
+  if (!localContent) {
     return <div className={styles.noContent}>No content available</div>;
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        {parseMarkdown(content)}
+        {parseMarkdown(localContent)}
       </div>
     </div>
   );

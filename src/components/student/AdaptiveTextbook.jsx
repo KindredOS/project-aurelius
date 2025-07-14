@@ -1,18 +1,27 @@
-// 3. AdaptiveTextbook.jsx - Self-contained content engine with AI
+// AdaptiveTextbook.jsx - Now using modular utilities
 import React, { useState } from 'react';
 import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
 import styles from './AdaptiveTextbook.module.css';
+
+// Import the new modular utilities
 import { 
-  extractPromptWrap, 
-  containsInteractiveElement,
-  extractSectionUnderHeader,
-  replaceSection,
-  parseMarkdownElements,
-  convertMarkdownBold,
-  extractSpecialElements,
-  restoreSpecialElements,
-  removeSpecialElements
-} from '../../utils/markdownStructure';
+  extractSpecialElements, 
+  restoreSpecialElements, 
+  removeSpecialElements 
+} from '../../utils/specialElements';
+
+import { 
+  extractSectionUnderHeader, 
+  replaceSection 
+} from '../../utils/contentProcessing';
+
+import { 
+  parseMarkdownElements, 
+  convertMarkdownBold, 
+  getEnhancementButtons 
+} from '../../utils/markdownParsing';
+
+// Keep existing imports
 import { generateAISection } from '../../utils/genAIContent';
 import { polishMarkdown } from '../../utils/polishMarkdown';
 import { buildPromptWrap } from '../../utils/aiPromptTools';
@@ -48,14 +57,14 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         throw new Error('No content found under header');
       }
 
-      // NEW: Extract and preserve special elements BEFORE sending to AI
+      // Extract and preserve special elements BEFORE sending to AI
       const specialElements = extractSpecialElements(sectionBody);
       console.log('Extracted special elements:', specialElements);
 
-      // NEW: Remove special elements from content sent to AI
+      // Remove special elements from content sent to AI
       const cleanedSectionBody = removeSpecialElements(sectionBody);
       
-      // Only proceed if there's actual content to enhance after removing special elements
+      // Only proceed if there's actual content to enhance
       if (!cleanedSectionBody || cleanedSectionBody.trim().length === 0) {
         console.log('No enhanceable content found, preserving original section');
         return;
@@ -63,7 +72,7 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
 
       const prompt = buildPromptWrap({ 
         header, 
-        paragraph: cleanedSectionBody, // Send cleaned content to AI
+        paragraph: cleanedSectionBody,
         action 
       });
       
@@ -76,11 +85,11 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         model_key: 'hermes'
       });
 
-      // Remove any headers that might have been returned by AI (already handled in polishMarkdown)
+      // Remove any headers that might have been returned by AI
       const headerPattern = new RegExp(`^##\s+${header}\s*\n+`, 'i');
       enhancedBody = enhancedBody.replace(headerPattern, '').trim();
 
-      // NEW: Restore special elements to enhanced content
+      // Restore special elements to enhanced content
       enhancedBody = restoreSpecialElements(enhancedBody, specialElements);
 
       if (!enhancedBody || typeof enhancedBody !== 'string' || enhancedBody.trim().length === 0) {
@@ -100,12 +109,10 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
       }
 
       console.log('Enhancement successful for:', header);
-      console.log('Enhanced content:', enhancedBody);
     } catch (error) {
       console.error('Enhancement failed:', error);
-
+      
       let errorMessage = '⚠️ Enhancement failed. ';
-
       if (error.message.includes('404') || error.message.includes('unavailable')) {
         errorMessage += 'Service temporarily unavailable. Please try again later.';
       } else if (error.message.includes('No response') || error.message.includes('empty')) {
@@ -147,7 +154,8 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
                 className={styles.promptToggle}
                 onClick={() => togglePrompt(element.lineIndex)}
               >
-                {promptToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} <strong>Prompt</strong>
+                {promptToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} 
+                <strong>Prompt</strong>
               </button>
               {promptToggles[element.lineIndex] && (
                 <div className={styles.promptContent}>{element.content}</div>
@@ -163,7 +171,8 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
                 className={styles.interactiveToggle}
                 onClick={() => toggleInteractive(element.lineIndex)}
               >
-                {interactiveToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} <strong>Interactive Module</strong>
+                {interactiveToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} 
+                <strong>Interactive Module</strong>
               </button>
               {interactiveToggles[element.lineIndex] && (
                 <div className={styles.interactiveContent}><em>Content coming soon...</em></div>
@@ -191,12 +200,20 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
   const renderHeader = (headerText, level, lineIndex) => {
     const isExpanded = expandedHeader === headerText;
     const isLoading = isEnhancing[headerText];
+    const enhancementButtons = getEnhancementButtons();
 
     const headerClasses = {
       1: styles.heading1,
       2: styles.heading2,
       3: styles.heading3,
       4: styles.heading4
+    };
+
+    const iconMap = {
+      Sparkles,
+      Plus,
+      Minimize,
+      Brain
     };
 
     return (
@@ -223,65 +240,26 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
 
         {isExpanded && (
           <div className={styles.iconBar}>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleEnhancement(headerText, 'simplify');
-              }}
-              className={`${styles.enhanceButton} ${styles.simplifyButton}`}
-              title="Simplify explanation"
-              type="button"
-              disabled={isLoading}
-            >
-              <Sparkles size={16} />
-              <span>{isLoading ? 'Loading...' : 'Simplify'}</span>
-            </button>
-
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleEnhancement(headerText, 'add_detail');
-              }}
-              className={`${styles.enhanceButton} ${styles.detailButton}`}
-              title="Add more detail"
-              type="button"
-              disabled={isLoading}
-            >
-              <Plus size={16} />
-              <span>{isLoading ? 'Loading...' : 'Detail'}</span>
-            </button>
-
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleEnhancement(headerText, 'contract');
-              }}
-              className={`${styles.enhanceButton} ${styles.contractButton}`}
-              title="Make more concise"
-              type="button"
-              disabled={isLoading}
-            >
-              <Minimize size={16} />
-              <span>{isLoading ? 'Loading...' : 'Contract'}</span>
-            </button>
-
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleEnhancement(headerText, 'reframe');
-              }}
-              className={`${styles.enhanceButton} ${styles.reframeButton}`}
-              title="Reframe perspective"
-              type="button"
-              disabled={isLoading}
-            >
-              <Brain size={16} />
-              <span>{isLoading ? 'Loading...' : 'Reframe'}</span>
-            </button>
+            {enhancementButtons.map((button) => {
+              const IconComponent = iconMap[button.icon];
+              return (
+                <button
+                  key={button.action}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleEnhancement(headerText, button.action);
+                  }}
+                  className={`${styles.enhanceButton} ${styles[button.className]}`}
+                  title={button.title}
+                  type="button"
+                  disabled={isLoading}
+                >
+                  <IconComponent size={16} />
+                  <span>{isLoading ? 'Loading...' : button.label}</span>
+                </button>
+              );
+            })}
           </div>
         )}
       </div>
