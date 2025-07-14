@@ -62,10 +62,11 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         throw new Error('No content found under header');
       }
 
-      const specialElements = extractSpecialElements(sectionBody);
-      console.log('Extracted special elements:', specialElements);
+      // const specialElements = extractSpecialElements(sectionBody);
+      // console.log('Extracted special elements:', specialElements);
 
-      const cleanedSectionBody = removeSpecialElements(sectionBody);
+      // const cleanedSectionBody = removeSpecialElements(sectionBody);
+      const cleanedSectionBody = sectionBody; // No longer removing special elements
 
       if (!cleanedSectionBody || cleanedSectionBody.trim().length === 0) {
         console.log('No enhanceable content found, preserving original section');
@@ -90,7 +91,7 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
       const headerPattern = new RegExp(`^##\s+${header}\s*\n+`, 'i');
       enhancedBody = enhancedBody.replace(headerPattern, '').trim();
 
-      enhancedBody = restoreSpecialElements(enhancedBody, specialElements);
+      // enhancedBody = restoreSpecialElements(enhancedBody, specialElements);
 
       if (!enhancedBody || typeof enhancedBody !== 'string' || enhancedBody.trim().length === 0) {
         throw new Error('Invalid enhancement response');

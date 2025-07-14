@@ -12,20 +12,47 @@ export function extractSectionUnderHeader(text, header) {
   if (!text || !header) return '';
 
   const lines = text.split('\n');
-  const headerIndex = lines.findIndex(line => {
-    const cleanLine = line.replace(/^#+\s*/, '');
-    return cleanLine === header;
-  });
-
+  const headerIndex = lines.findIndex(line => line.replace(/^#+\s*/, '') === header);
   if (headerIndex === -1) return '';
 
   const currentLevel = (lines[headerIndex].match(/^#+/) || [''])[0].length;
+
+  let startIndex = headerIndex + 1;
+  let endIndex = lines.length;
+
+  // Always skip any prompt wrap (if present)
+  let skipPromptWrap = false;
   const bodyLines = [];
 
-  for (let i = headerIndex + 1; i < lines.length; i++) {
+  for (let i = startIndex; i < lines.length; i++) {
     const line = lines[i];
-    const lineLevel = (line.match(/^#+/) || [''])[0].length;
-    if (lineLevel && lineLevel <= currentLevel) break;
+
+    const headerMatch = line.match(/^#{1,6}\s+/);
+    const level = headerMatch ? headerMatch[0].length : 0;
+
+    // Stop if we hit a header that's not a subheader
+    if (level && level <= currentLevel) {
+      endIndex = i;
+      break;
+    }
+
+    // Handle skipping prompt wraps
+    if (line.includes('[Prompt Wrap Start]')) {
+      skipPromptWrap = true;
+      continue;
+    }
+    if (line.includes('[Prompt Wrap End]')) {
+      skipPromptWrap = false;
+      continue;
+    }
+    if (skipPromptWrap) continue;
+
+    // Stop before interactive elements
+    if (line.includes('[interactive element]')) {
+      endIndex = i;
+      break;
+    }
+
     bodyLines.push(line);
   }
 
