@@ -94,16 +94,18 @@
   border: none;
   cursor: pointer;
   background-color: #f3f4f6;
+  color: #374151; /* Dark text for light background */
 }
 
 .learningModeButton:hover {
   background-color: #e5e7eb;
+  color: #1f2937; /* Darker text on hover */
   transform: translateY(-1px);
 }
 
 .learningModeButton.active {
   background-color: #3b82f6;
-  color: #ffffff;
+  color: #ffffff; /* White text for blue background */
   transform: scale(1.02);
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
@@ -162,17 +164,19 @@
   border: none;
   cursor: pointer;
   background-color: #f3f4f6;
+  color: #374151; /* Dark text for light background */
   position: relative;
 }
 
 .topicButton:hover {
   background-color: #e5e7eb;
+  color: #1f2937; /* Darker text on hover */
   transform: translateX(4px);
 }
 
 .topicButton.active {
   background-color: #3b82f6;
-  color: #ffffff;
+  color: #ffffff; /* White text for blue background */
   transform: scale(1.05) translateX(4px);
   box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
 }
