@@ -76,7 +76,7 @@ export const processEnhancedMarkdown = (rawResult) => {
 };
 
 /**
- * IMPROVED: Enhanced markdown polishing with better special element handling
+ * IMPROVED: Enhanced markdown polishing with better special element handling and deduplication
  * @param {Object} params - Parameters for polishing
  * @param {string} params.text - The text to enhance
  * @param {string} params.action - The enhancement action
@@ -87,7 +87,13 @@ export const processEnhancedMarkdown = (rawResult) => {
 export async function polishMarkdown({ text, action, personality = 'default', model_key = 'hermes' }) {
   try {
     // Import here to avoid circular dependency
-    const { removeSpecialElements, extractSpecialElements } = await import('./markdownStructure.js');
+    const { 
+      removeSpecialElements, 
+      extractSpecialElements, 
+      restoreSpecialElements, 
+      detectContentDuplication, 
+      removeDuplicateContent 
+    } = await import('./markdownStructure.js');
     
     // Extract special elements before sending to AI
     const specialElements = extractSpecialElements(text);
@@ -111,13 +117,18 @@ export async function polishMarkdown({ text, action, personality = 'default', mo
     });
 
     const data = await response.json();
-    const enhanced = processEnhancedMarkdown(data.result);
+    let enhanced = processEnhancedMarkdown(data.result);
     
     console.log('Raw AI response:', data.result);
     console.log('Processed enhanced text:', enhanced);
     
+    // Check for and remove duplicates in the enhanced content
+    if (detectContentDuplication(enhanced)) {
+      console.log('Duplicate content detected, removing...');
+      enhanced = removeDuplicateContent(enhanced);
+    }
+    
     // Restore special elements to the enhanced content
-    const { restoreSpecialElements } = await import('./markdownStructure.js');
     const final = restoreSpecialElements(enhanced, specialElements, text);
     
     console.log('Final text with special elements restored:', final);

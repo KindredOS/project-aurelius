@@ -128,8 +128,77 @@ export function restoreSpecialElements(enhancedContent, specialElements, origina
 }
 
 /**
+ * NEW: Check if content has been duplicated by comparing normalized versions
+ * @param {string} content - The content to check
+ * @returns {boolean} - True if duplication is detected
+ */
+export function detectContentDuplication(content) {
+  if (!content) return false;
+  
+  const paragraphs = content.split('\n\n').filter(p => p.trim().length > 50); // Only check substantial paragraphs
+  const normalizedParagraphs = paragraphs.map(p => p.replace(/\s+/g, ' ').trim().toLowerCase());
+  
+  // Check for exact duplicates
+  const uniqueParagraphs = new Set(normalizedParagraphs);
+  return uniqueParagraphs.size !== normalizedParagraphs.length;
+}
+
+/**
+ * NEW: Remove duplicate content sections
+ * @param {string} content - The content to deduplicate
+ * @returns {string} - Content with duplicates removed
+ */
+export function removeDuplicateContent(content) {
+  if (!content) return '';
+  
+  const lines = content.split('\n');
+  const processedLines = [];
+  const seenSections = new Set();
+  
+  let currentSection = [];
+  let inSection = false;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    
+    // Check if this is a header or significant content start
+    if (line.match(/^#{1,6}\s+/) || (line.trim() && !inSection)) {
+      // Process the previous section if it exists
+      if (currentSection.length > 0) {
+        const sectionText = currentSection.join('\n');
+        const normalizedSection = sectionText.replace(/\s+/g, ' ').trim().toLowerCase();
+        
+        if (!seenSections.has(normalizedSection)) {
+          seenSections.add(normalizedSection);
+          processedLines.push(...currentSection);
+        }
+      }
+      
+      // Start new section
+      currentSection = [line];
+      inSection = true;
+    } else {
+      // Add to current section
+      currentSection.push(line);
+    }
+  }
+  
+  // Process the last section
+  if (currentSection.length > 0) {
+    const sectionText = currentSection.join('\n');
+    const normalizedSection = sectionText.replace(/\s+/g, ' ').trim().toLowerCase();
+    
+    if (!seenSections.has(normalizedSection)) {
+      processedLines.push(...currentSection);
+    }
+  }
+  
+  return processedLines.join('\n');
+}
+
+/**
  * IMPROVED: Replaces a section under a specific header with new content
- * Now handles special elements properly
+ * Now handles special elements properly and prevents duplication
  * @param {string} originalContent - The original markdown content
  * @param {string} header - The header text to find
  * @param {string} newContent - The new content to replace with
@@ -169,10 +238,13 @@ export function replaceSection(originalContent, header, newContent) {
   // Insert the new content
   if (newContent && typeof newContent === 'string') {
     // Clean the new content to ensure no header duplication
-    const cleanedContent = newContent
+    let cleanedContent = newContent
       .replace(/^#{1,6}\s+.*$/gm, '') // Remove headers to prevent duplication
       .replace(/^\n+/, '') // Remove leading newlines
       .trim();
+    
+    // NEW: Check for and remove duplicate content before inserting
+    cleanedContent = removeDuplicateContent(cleanedContent);
     
     if (cleanedContent) {
       const enhancedLines = cleanedContent.split('\n');
@@ -180,7 +252,12 @@ export function replaceSection(originalContent, header, newContent) {
     }
   }
   
-  const result = newLines.join('\n');
+  let result = newLines.join('\n');
+  
+  // NEW: Apply global deduplication check
+  if (detectContentDuplication(result)) {
+    result = removeDuplicateContent(result);
+  }
   
   // Restore special elements that might have been in this section
   const sectionSpecialElements = {
