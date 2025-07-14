@@ -54,7 +54,7 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         model_key: 'hermes'
       });
 
-      const headerPattern = new RegExp(`^##\\s+${header}\\s*\\n+`, 'i');
+      const headerPattern = new RegExp(`^##\s+${header}\s*\n+`, 'i');
       enhancedBody = enhancedBody.replace(headerPattern, '').trim();
 
       if (interactiveLine) {
@@ -106,9 +106,15 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
   const parseMarkdown = (text) => {
     const elements = parseMarkdownElements(text);
     const renderedElements = [];
+    let currentHeader = null;
 
     elements.forEach((element, index) => {
       switch (element.type) {
+        case 'header':
+          currentHeader = element.content;
+          renderedElements.push(renderHeader(currentHeader, element.level, element.lineIndex));
+          break;
+
         case 'prompt':
           renderedElements.push(
             <div key={`prompt-${element.lineIndex}`} className={styles.promptBox}>
@@ -123,10 +129,6 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
               )}
             </div>
           );
-          break;
-
-        case 'header':
-          renderedElements.push(renderHeader(element.content, element.level, element.lineIndex));
           break;
 
         case 'interactive':
@@ -146,7 +148,8 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
           break;
 
         case 'paragraph':
-          const htmlContent = convertMarkdownBold(element.content);
+          const effectiveContent = enhancedSections[currentHeader] || element.content;
+          const htmlContent = convertMarkdownBold(effectiveContent);
           renderedElements.push(
             <p key={element.lineIndex} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
           );
@@ -161,7 +164,6 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
   };
 
   const renderHeader = (headerText, level, lineIndex) => {
-    const enhancedText = enhancedSections[headerText] || null;
     const isExpanded = expandedHeader === headerText;
     const isLoading = isEnhancing[headerText];
 
@@ -255,22 +257,6 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
               <Brain size={16} />
               <span>{isLoading ? 'Loading...' : 'Reframe'}</span>
             </button>
-          </div>
-        )}
-
-        {enhancedText && (
-          <div className={styles.enhancedContent}>
-            <div className={styles.enhancedHeader}>
-              <Sparkles size={16} className={styles.toggleIcon} />
-              <span className={styles.enhancedLabel}>AI Enhancement</span>
-            </div>
-            <div className={styles.enhancedText}>
-              {enhancedText.startsWith('⚠️') ? (
-                <p style={{ color: '#ff6b6b' }}>{enhancedText}</p>
-              ) : (
-                <div dangerouslySetInnerHTML={{ __html: convertMarkdownBold(enhancedText) }} />
-              )}
-            </div>
           </div>
         )}
       </div>
