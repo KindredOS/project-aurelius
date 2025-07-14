@@ -1,10 +1,7 @@
-// components/student/TopicHeader.jsx
+// 1. TopicHeader.jsx - ONLY handles navigation and progress
 import React, { useState, useEffect } from 'react';
-import AdaptiveTextbook from './AdaptiveTextbook';
+import ContentManager from './ContentManager';
 import { getApiUrl } from '../../api/ApiMaster';
-import { fetchStudentMarkdown, saveStudentMarkdown } from '../../api/Science';
-import { polishMarkdown } from '../../utils/polishMarkdown';
-import { generateAISection } from '../../utils/genAISection';
 import styles from './TopicHeader.module.css';
 
 const TopicHeader = ({ 
@@ -17,7 +14,6 @@ const TopicHeader = ({
   userEmail 
 }) => {
   const [selectedConcept, setSelectedConcept] = useState(null);
-  const [markdownText, setMarkdownText] = useState('');
   const [progressData, setProgressData] = useState({});
 
   useEffect(() => {
@@ -35,71 +31,6 @@ const TopicHeader = ({
 
     if (userEmail) fetchProgressIndex();
   }, [userEmail]);
-
-  useEffect(() => {
-    const loadMarkdown = async () => {
-      if (selectedConcept?.markdown && subject && userEmail) {
-        try {
-          // Use the enhanced API function that cleans markdown
-          const content = await fetchStudentMarkdown(userEmail, selectedConcept.markdown);
-          setMarkdownText(content);
-        } catch (err) {
-          console.error('Error loading markdown:', err);
-          
-          // Fallback to public path
-          try {
-            const publicPath = `/data/${subject}/markdown/${selectedConcept.markdown}`;
-            const publicRes = await fetch(publicPath);
-            if (publicRes.ok) {
-              const fallbackText = await publicRes.text();
-              setMarkdownText(fallbackText);
-              
-              // Save to user's storage
-              await saveStudentMarkdown(userEmail, selectedConcept.markdown, fallbackText);
-            } else {
-              setMarkdownText('Error loading content.');
-            }
-          } catch (fallbackErr) {
-            console.error('Fallback failed:', fallbackErr);
-            setMarkdownText('Error loading content.');
-          }
-        }
-      } else {
-        setMarkdownText('');
-      }
-    };
-
-    loadMarkdown();
-  }, [selectedConcept, subject, userEmail]);
-
-  const handleEnhance = async (promptText, action) => {
-    try {
-      const rawAI = await generateAISection(promptText, 'hermes', 750);
-      const enhanced = await polishMarkdown({
-        text: rawAI,
-        action,
-        personality: 'default',
-        model_key: 'hermes'
-      });
-      handleMarkdownUpdate(enhanced);
-      return enhanced;
-    } catch (err) {
-      console.error("Enhancement failed:", err);
-      return 'Error during enhancement.';
-    }
-  };
-
-  const handleMarkdownUpdate = async (updatedContent) => {
-    setMarkdownText(updatedContent);
-
-    if (selectedConcept?.markdown && userEmail) {
-      try {
-        await saveStudentMarkdown(userEmail, selectedConcept.markdown, updatedContent);
-      } catch (err) {
-        console.error('Error saving markdown:', err);
-      }
-    }
-  };
 
   const saveProgressIndex = async (updated) => {
     try {
@@ -120,6 +51,7 @@ const TopicHeader = ({
     setSelectedConcept(conceptObj);
     onConceptClick?.(conceptObj, index);
 
+    // Update progress
     const topicId = topic?.id;
     if (topicId && userEmail) {
       const updated = {
@@ -188,23 +120,13 @@ const TopicHeader = ({
         </div>
       )}
 
+      {/* Content Manager handles everything below this point */}
       {selectedConcept && (
-        <div className={styles.conceptDetailCard}>
-          <h3>{selectedConcept.title || selectedConcept}</h3>
-          {selectedConcept.markdown ? (
-            <AdaptiveTextbook 
-              content={markdownText} 
-              onEnhance={handleEnhance} 
-              onMarkdownUpdate={handleMarkdownUpdate} 
-            />
-          ) : (
-            <p>
-              {selectedConcept.content || 
-                `Here we'll show details, activities, or lessons for: ${selectedConcept.title || selectedConcept}`
-              }
-            </p>
-          )}
-        </div>
+        <ContentManager
+          selectedConcept={selectedConcept}
+          subject={subject}
+          userEmail={userEmail}
+        />
       )}
     </div>
   );
