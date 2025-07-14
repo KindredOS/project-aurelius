@@ -1,4 +1,4 @@
-// utils/markdownStructure.js
+// utils/markdownStructure.js - IMPROVED VERSION
 
 /**
  * Extracts prompt from `[Prompt Wrap Start]...Prompt: ...[Prompt Wrap End]`
@@ -20,7 +20,7 @@ export function containsInteractiveElement(markdown) {
 }
 
 /**
- * NEW: Extracts special elements (prompt wraps and interactive elements) with their positions
+ * IMPROVED: Extracts special elements with better position tracking
  * @param {string} content - The markdown content
  * @returns {object} - Object containing arrays of special elements with metadata
  */
@@ -36,11 +36,15 @@ export function extractSpecialElements(content) {
   const promptWrapRegex = /\[Prompt Wrap Start\](.*?)\[Prompt Wrap End\]/gs;
   let match;
   while ((match = promptWrapRegex.exec(content)) !== null) {
+    const promptContent = match[1].replace(/Prompt:\s*/i, '').trim();
     elements.promptWraps.push({
       fullMatch: match[0],
-      content: match[1],
+      content: promptContent,
+      rawContent: match[1],
       index: match.index,
-      originalText: match[0]
+      originalText: match[0],
+      // Add line number for better tracking
+      lineNumber: content.substring(0, match.index).split('\n').length
     });
   }
   
@@ -50,7 +54,8 @@ export function extractSpecialElements(content) {
     elements.interactiveElements.push({
       fullMatch: match[0],
       index: match.index,
-      originalText: match[0]
+      originalText: match[0],
+      lineNumber: content.substring(0, match.index).split('\n').length
     });
   }
   
@@ -58,41 +63,8 @@ export function extractSpecialElements(content) {
 }
 
 /**
- * PATCHED: Restores special elements to enhanced content without header duplication or repetition
- * @param {string} enhancedContent - The AI-enhanced content
- * @param {object} specialElements - The extracted special elements
- * @returns {string} - Content with special elements restored
- */
-export function restoreSpecialElements(enhancedContent, specialElements) {
-  let restored = enhancedContent || '';
-  
-  if (!specialElements || (!specialElements.promptWraps?.length && !specialElements.interactiveElements?.length)) {
-    return restored;
-  }
-  
-  const alreadyIncluded = new Set(restored.split('\n'));
-  
-  // Restore prompt wraps (append to end to avoid position conflicts)
-  specialElements.promptWraps.forEach(promptWrap => {
-    const cleanedPrompt = promptWrap.originalText.replace(/^#{1,6}\s+.*$/gm, '').trim();
-    if (cleanedPrompt && !alreadyIncluded.has(cleanedPrompt)) {
-      restored += `\n\n${cleanedPrompt}`;
-    }
-  });
-  
-  // Restore interactive elements (append to end)
-  specialElements.interactiveElements.forEach(interactive => {
-    const cleanedInteractive = interactive.originalText.replace(/^#{1,6}\s+.*$/gm, '').trim();
-    if (cleanedInteractive && !alreadyIncluded.has(cleanedInteractive)) {
-      restored += `\n\n${cleanedInteractive}`;
-    }
-  });
-  
-  return restored;
-}
-
-/**
- * NEW: Removes special elements from content for AI processing
+ * FIXED: Removes special elements from content for AI processing
+ * This ensures the AI doesn't see or process special elements
  * @param {string} content - The original content
  * @returns {string} - Content with special elements removed
  */
@@ -101,17 +73,129 @@ export function removeSpecialElements(content) {
   
   let cleaned = content;
   
-  // Remove prompt wraps
+  // Remove prompt wraps completely
   cleaned = cleaned.replace(/\[Prompt Wrap Start\].*?\[Prompt Wrap End\]/gs, '');
   
   // Remove interactive elements
   cleaned = cleaned.replace(/\[interactive element\]/g, '');
   
-  // Clean up extra whitespace
+  // Clean up extra whitespace but preserve paragraph structure
   cleaned = cleaned.replace(/\n{3,}/g, '\n\n').trim();
   
   return cleaned;
 }
+
+/**
+ * IMPROVED: Restores special elements to enhanced content with better deduplication
+ * @param {string} enhancedContent - The AI-enhanced content
+ * @param {object} specialElements - The extracted special elements
+ * @param {string} originalContent - The original content for reference
+ * @returns {string} - Content with special elements restored
+ */
+export function restoreSpecialElements(enhancedContent, specialElements, originalContent = '') {
+  let restored = enhancedContent || '';
+  
+  if (!specialElements || (!specialElements.promptWraps?.length && !specialElements.interactiveElements?.length)) {
+    return restored;
+  }
+  
+  // Create a more robust deduplication check
+  const normalizeText = (text) => text.replace(/\s+/g, ' ').trim().toLowerCase();
+  const restoredNormalized = normalizeText(restored);
+  
+  // Restore prompt wraps
+  specialElements.promptWraps.forEach(promptWrap => {
+    const cleanedPrompt = promptWrap.originalText.replace(/^#{1,6}\s+.*$/gm, '').trim();
+    const normalizedPrompt = normalizeText(cleanedPrompt);
+    
+    // Check if this prompt wrap is already in the content
+    if (cleanedPrompt && !restoredNormalized.includes(normalizedPrompt)) {
+      restored += `\n\n${cleanedPrompt}`;
+    }
+  });
+  
+  // Restore interactive elements
+  specialElements.interactiveElements.forEach(interactive => {
+    const cleanedInteractive = interactive.originalText.replace(/^#{1,6}\s+.*$/gm, '').trim();
+    const normalizedInteractive = normalizeText(cleanedInteractive);
+    
+    if (cleanedInteractive && !restoredNormalized.includes(normalizedInteractive)) {
+      restored += `\n\n${cleanedInteractive}`;
+    }
+  });
+  
+  return restored;
+}
+
+/**
+ * IMPROVED: Replaces a section under a specific header with new content
+ * Now handles special elements properly
+ * @param {string} originalContent - The original markdown content
+ * @param {string} header - The header text to find
+ * @param {string} newContent - The new content to replace with
+ * @returns {string} - The updated markdown content
+ */
+export function replaceSection(originalContent, header, newContent) {
+  if (!originalContent || !header) return originalContent;
+  
+  // First, extract special elements from the original content
+  const specialElements = extractSpecialElements(originalContent);
+  
+  const lines = originalContent.split('\n');
+  const headerIndex = lines.findIndex(line => {
+    const cleanLine = line.replace(/^#+\s*/, '');
+    return cleanLine === header;
+  });
+  
+  if (headerIndex === -1) return originalContent;
+
+  const currentLevel = (lines[headerIndex].match(/^#+/) || [''])[0].length;
+  const newLines = [...lines];
+  
+  // Find the end of this section
+  let endIndex = newLines.length;
+  for (let i = headerIndex + 1; i < newLines.length; i++) {
+    const line = newLines[i];
+    const lineLevel = (line.match(/^#+/) || [''])[0].length;
+    if (lineLevel && lineLevel <= currentLevel) {
+      endIndex = i;
+      break;
+    }
+  }
+  
+  // Remove the old section content (keep the header)
+  newLines.splice(headerIndex + 1, endIndex - headerIndex - 1);
+  
+  // Insert the new content
+  if (newContent && typeof newContent === 'string') {
+    // Clean the new content to ensure no header duplication
+    const cleanedContent = newContent
+      .replace(/^#{1,6}\s+.*$/gm, '') // Remove headers to prevent duplication
+      .replace(/^\n+/, '') // Remove leading newlines
+      .trim();
+    
+    if (cleanedContent) {
+      const enhancedLines = cleanedContent.split('\n');
+      newLines.splice(headerIndex + 1, 0, '', ...enhancedLines, '');
+    }
+  }
+  
+  const result = newLines.join('\n');
+  
+  // Restore special elements that might have been in this section
+  const sectionSpecialElements = {
+    promptWraps: specialElements.promptWraps.filter(pw => 
+      pw.lineNumber > headerIndex && pw.lineNumber < endIndex
+    ),
+    interactiveElements: specialElements.interactiveElements.filter(ie => 
+      ie.lineNumber > headerIndex && ie.lineNumber < endIndex
+    )
+  };
+  
+  return restoreSpecialElements(result, sectionSpecialElements, originalContent);
+}
+
+// ... (rest of the existing functions remain the same)
 
 /**
  * Extracts the content under a specific header in markdown text
@@ -141,58 +225,6 @@ export function extractSectionUnderHeader(text, header) {
   }
 
   return bodyLines.join('\n').trim();
-}
-
-/**
- * IMPROVED: Replaces a section under a specific header with new content
- * @param {string} originalContent - The original markdown content
- * @param {string} header - The header text to find
- * @param {string} newContent - The new content to replace with
- * @returns {string} - The updated markdown content
- */
-export function replaceSection(originalContent, header, newContent) {
-  if (!originalContent || !header) return originalContent;
-  
-  const lines = originalContent.split('\n');
-  const headerIndex = lines.findIndex(line => {
-    const cleanLine = line.replace(/^#+\s*/, '');
-    return cleanLine === header;
-  });
-  
-  if (headerIndex === -1) return originalContent;
-
-  const currentLevel = (lines[headerIndex].match(/^#+/) || [''])[0].length;
-  const newLines = [...lines];
-  
-  // Find the end of this section
-  let endIndex = newLines.length;
-  for (let i = headerIndex + 1; i < newLines.length; i++) {
-    const line = newLines[i];
-    const lineLevel = (line.match(/^#+/) || [''])[0].length;
-    if (lineLevel && lineLevel <= currentLevel) {
-      endIndex = i;
-      break;
-    }
-  }
-  
-  // Remove the old section content (keep the header)
-  newLines.splice(headerIndex + 1, endIndex - headerIndex - 1);
-  
-  // Insert the new content
-  if (newContent && typeof newContent === 'string') {
-    // IMPROVED: Clean the new content to ensure no header duplication
-    const cleanedContent = newContent
-      .replace(/^#+\s+.*$/gm, '') // Remove any headers that might cause duplication
-      .replace(/^\n+/, '') // Remove leading newlines
-      .trim();
-    
-    if (cleanedContent) {
-      const enhancedLines = cleanedContent.split('\n');
-      newLines.splice(headerIndex + 1, 0, '', ...enhancedLines, '');
-    }
-  }
-  
-  return newLines.join('\n');
 }
 
 /**
@@ -339,5 +371,8 @@ export function createEnhancementPrompt(header, content, action) {
     throw new Error(`Unknown enhancement action: ${action}`);
   }
   
-  return `${actionText}:\n\n## ${header.trim()}\n\n${content.trim()}`;
+  // Remove special elements from content before sending to AI
+  const cleanedContent = removeSpecialElements(content);
+  
+  return `${actionText}:\n\n## ${header.trim()}\n\n${cleanedContent.trim()}`;
 }
