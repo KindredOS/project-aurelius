@@ -75,6 +75,7 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
   };
 
   const toggleIconBar = (headerText) => {
+    console.log('Toggle icon bar clicked for:', headerText); // Debug log
     setExpandedHeader(prev => prev === headerText ? null : headerText);
   };
 
@@ -119,16 +120,16 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
 
       if (line.startsWith('# ')) {
         const headerText = line.substring(2);
-        elements.push(renderHeader(headerText, 1));
+        elements.push(renderHeader(headerText, 1, i));
       } else if (line.startsWith('## ')) {
         const headerText = line.substring(3);
-        elements.push(renderHeader(headerText, 2));
+        elements.push(renderHeader(headerText, 2, i));
       } else if (line.startsWith('### ')) {
         const headerText = line.substring(4);
-        elements.push(renderHeader(headerText, 3));
+        elements.push(renderHeader(headerText, 3, i));
       } else if (line.startsWith('#### ')) {
         const headerText = line.substring(5);
-        elements.push(renderHeader(headerText, 4));
+        elements.push(renderHeader(headerText, 4, i));
       } else if (line.includes('[interactive element]') || containsInteractiveElement(line)) {
         elements.push(
           <div key={`interactive-${i}`} className={styles.interactiveBox}>
@@ -154,7 +155,7 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
     return elements;
   };
 
-  const renderHeader = (headerText, level) => {
+  const renderHeader = (headerText, level, lineIndex) => {
     const enhancedText = enhancedSections[headerText] || null;
     const isExpanded = expandedHeader === headerText;
 
@@ -166,16 +167,21 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
     };
 
     return (
-      <div key={headerText} className={styles.headerBlock}>
+      <div key={`header-${lineIndex}-${headerText}`} className={styles.headerBlock}>
         <div className={styles.headerRow}>
           <div className={headerClasses[level]}>
             {headerText}
           </div>
 
           <button
-            onClick={() => toggleIconBar(headerText)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleIconBar(headerText);
+            }}
             className={styles.toggleButton}
             title="Show enhancement options"
+            type="button"
           >
             <Brain size={14} className={styles.toggleIcon} />
             <span className={styles.toggleText}>Learning Lens</span>
@@ -185,36 +191,56 @@ const AdaptiveTextbook = ({ content, onEnhance, onMarkdownUpdate }) => {
         {isExpanded && (
           <div className={styles.iconBar}>
             <button
-              onClick={() => handleEnhancement(headerText, 'simplify')}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleEnhancement(headerText, 'simplify');
+              }}
               className={`${styles.enhanceButton} ${styles.simplifyButton}`}
               title="Simplify explanation"
+              type="button"
             >
               <Sparkles size={16} />
               <span>Simplify</span>
             </button>
 
             <button
-              onClick={() => handleEnhancement(headerText, 'add_detail')}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleEnhancement(headerText, 'add_detail');
+              }}
               className={`${styles.enhanceButton} ${styles.detailButton}`}
               title="Add more detail"
+              type="button"
             >
               <Plus size={16} />
               <span>Detail</span>
             </button>
 
             <button
-              onClick={() => handleEnhancement(headerText, 'contract')}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleEnhancement(headerText, 'contract');
+              }}
               className={`${styles.enhanceButton} ${styles.contractButton}`}
               title="Make more concise"
+              type="button"
             >
               <Minimize size={16} />
               <span>Contract</span>
             </button>
 
             <button
-              onClick={() => handleEnhancement(headerText, 'reframe')}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleEnhancement(headerText, 'reframe');
+              }}
               className={`${styles.enhanceButton} ${styles.reframeButton}`}
               title="Reframe perspective"
+              type="button"
             >
               <Brain size={16} />
               <span>Reframe</span>
