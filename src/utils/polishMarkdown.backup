@@ -1,5 +1,4 @@
-// utils/polishMarkdown.js - IMPROVED VERSION
-
+// utils/polishMarkdown.js - FIXED VERSION
 import { getApiUrl } from '../api/ApiMaster';
 import {
   extractSpecialElements,
@@ -12,7 +11,30 @@ import {
 } from './contentProcessing';
 
 /**
- * IMPROVED: Process enhanced markdown with better special element handling
+ * FIXED: Clean existing debug stamps and processing artifacts
+ * @param {string} text - The text to clean
+ * @returns {string} - Cleaned text
+ */
+export const cleanExistingProcessingArtifacts = (text) => {
+  if (!text) return '';
+
+  // Remove existing debug stamps
+  let cleaned = text.replace(/\n\n---\n⚠️ \[SANITIZED at [^\]]+\]\n---\n/g, '');
+
+  // Remove duplicate processing indicators
+  cleaned = cleaned.replace(/\n\n---\n⚠️ \[SANITIZED at [^\]]+\]\n---\n/g, '');
+
+  // Remove any leftover processing markers
+  cleaned = cleaned.replace(/---\n⚠️ \[SANITIZED[^\]]*\]\n---/g, '');
+
+  // Clean up excessive whitespace
+  cleaned = cleaned.replace(/\n{3,}/g, '\n\n').trim();
+
+  return cleaned;
+};
+
+/**
+ * FIXED: Process enhanced markdown with artifact cleanup
  * @param {string} rawResult - The raw result from AI
  * @returns {string} - Processed markdown
  */
@@ -20,6 +42,9 @@ export const processEnhancedMarkdown = (rawResult) => {
   let processed = rawResult;
 
   if (typeof processed === 'string') {
+    // First, clean any existing processing artifacts
+    processed = cleanExistingProcessingArtifacts(processed);
+
     // Remove outer quotes if present
     if ((processed.startsWith('"') && processed.endsWith('"')) || 
         (processed.startsWith("'") && processed.endsWith("'"))) {
@@ -40,8 +65,8 @@ export const processEnhancedMarkdown = (rawResult) => {
 
     // Fix malformed headers that start with quotes
     processed = processed.replace(/^"#\s*/gm, '# ');
-    processed = processed.replace(/^"(#{1,6}\s+[^"]+)"$/gm, '$1');
-    processed = processed.replace(/^"([^"]*?)$/gm, '$1');
+    processed = processed.replace(/^"(#{1,6}\s+[^"}]+)"$/gm, '$1');
+    processed = processed.replace(/^"([^"}]*?)$/gm, '$1');
 
     // IMPROVED: Only remove headers that are likely duplicates
     const lines = processed.split('\n');
@@ -78,7 +103,7 @@ export const processEnhancedMarkdown = (rawResult) => {
 };
 
 /**
- * IMPROVED: Enhanced markdown polishing with better special element handling and deduplication
+ * FIXED: Enhanced markdown polishing with proper content replacement
  * @param {Object} params - Parameters for polishing
  * @param {string} params.text - The text to enhance
  * @param {string} params.action - The enhancement action
@@ -88,12 +113,10 @@ export const processEnhancedMarkdown = (rawResult) => {
  */
 export async function polishMarkdown({ text, action, personality = 'default', model_key = 'hermes' }) {
   try {
-    const specialElements = extractSpecialElements(text);
-    const cleanedText = removeSpecialElements(text);
+    const cleanedInputText = cleanExistingProcessingArtifacts(text);
 
-    console.log('Original text:', text);
-    console.log('Cleaned text for AI:', cleanedText);
-    console.log('Extracted special elements:', specialElements);
+    // Strip special elements before send (may be unnecessary now)
+    const cleanedText = cleanedInputText; // no longer stripping special elements
 
     const response = await fetch(`${getApiUrl()}/markdown/enhance`, {
       method: 'POST',
@@ -109,21 +132,14 @@ export async function polishMarkdown({ text, action, personality = 'default', mo
     const data = await response.json();
     let enhanced = processEnhancedMarkdown(data.result);
 
-    // 🔍 DEBUG STAMP TO TRACE STACKING
-    const debugStamp = `\n\n---\n⚠️ [SANITIZED at ${new Date().toISOString()}]\n---\n`;
-    enhanced += debugStamp;
-
-    console.log('Raw AI response:', data.result);
-    console.log('Processed enhanced text:', enhanced);
-
+    // Deduplicate internally
     if (detectContentDuplication(enhanced)) {
-      console.log('Duplicate content detected, removing...');
       enhanced = removeDuplicateContent(enhanced);
     }
 
-    const final = restoreSpecialElements(enhanced, specialElements, text);
-
-    console.log('Final text with special elements restored:', final);
+    // Restore special elements (currently commented out systemwide)
+    // const final = restoreSpecialElements(enhanced, extractSpecialElements(cleanedInputText), cleanedInputText);
+    const final = enhanced;
 
     return final;
   } catch (error) {
