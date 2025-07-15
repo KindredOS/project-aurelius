@@ -1,5 +1,6 @@
-// AdaptiveTextbook.jsx - Rebuilt with strict header filtering and flattening
+// AdaptiveTextbook.jsx - Rebuilt with smart flattening and restored styles
 import React, { useState, useEffect } from 'react';
+import styles from './AdaptiveTextbook.module.css';
 
 const AdaptiveTextbook = ({ content, onContentSave }) => {
   const [localContent, setLocalContent] = useState(content);
@@ -10,7 +11,6 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
   useEffect(() => {
     setLocalContent(content);
 
-    // On load, collect all headers in original content
     const headerMatches = [...content.matchAll(/^##\s+(.*)/gm)].map(match => match[1].trim());
     setKnownHeaders(headerMatches);
   }, [content]);
@@ -34,17 +34,16 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
       let result = data?.response?.trim();
 
       if (result) {
-        // 🧹 Flatten headers and remove repeated content
         const headerLine = `## ${header}`;
         const lines = result.split('\n');
         const filteredLines = lines.filter(line => {
           const trimmed = line.trim();
-          if (/^#{1,6}\s+/.test(trimmed)) return false; // Remove markdown headers
-          if (trimmed === headerLine) return false; // Remove echo of original header
+          if (/^#{1,6}\s+/.test(trimmed)) return false;
+          if (trimmed === headerLine) return false;
           return true;
         });
 
-        result = filteredLines.join(' ').replace(/\s+/g, ' ').trim();
+        result = filteredLines.join('\n').trim();
 
         setEnhancedSections(prev => ({ ...prev, [header]: result }));
 
@@ -74,10 +73,14 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         const paraText = currentParagraph.join(' ').trim();
         const enhanced = enhancedSections[currentHeader] || paraText;
         output.push(
-          <div key={currentHeader + '-body'} style={{ marginBottom: '1em' }}>
-            <p>{enhanced}</p>
+          <div key={currentHeader + '-body'} className={styles.sectionBlock}>
+            <p className={styles.paragraph}>{enhanced}</p>
             {knownHeaders.includes(currentHeader) && (
-              <button onClick={() => handleEnhancement(currentHeader, paraText)} disabled={isEnhancing[currentHeader]}>
+              <button
+                className={styles.enhanceButton}
+                onClick={() => handleEnhancement(currentHeader, paraText)}
+                disabled={isEnhancing[currentHeader]}
+              >
                 {isEnhancing[currentHeader] ? 'Enhancing...' : 'Enhance Section'}
               </button>
             )}
@@ -92,7 +95,11 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
       if (headerMatch) {
         flushParagraph();
         currentHeader = headerMatch[1].trim();
-        output.push(<h2 key={`header-${idx}`}>{currentHeader}</h2>);
+        output.push(
+          <div key={`header-${idx}`} className={styles.header}>
+            <h2>{currentHeader}</h2>
+          </div>
+        );
       } else {
         currentParagraph.push(line);
       }
@@ -102,8 +109,10 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
   };
 
   return (
-    <div style={{ padding: '1rem' }}>
-      {localContent ? parseContent(localContent) : <p>No content available.</p>}
+    <div className={styles.container}>
+      <div className={styles.content}>
+        {localContent ? parseContent(localContent) : <p className={styles.noContent}>No content available.</p>}
+      </div>
     </div>
   );
 };
