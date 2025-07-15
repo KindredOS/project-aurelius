@@ -1,6 +1,8 @@
-// AdaptiveTextbook.jsx - Rebuilt with smart flattening and restored styles
+// AdaptiveTextbook.jsx - Rebuilt with smart flattening, restored styles, and backend model query integration
 import React, { useState, useEffect } from 'react';
 import styles from './AdaptiveTextbook.module.css';
+import { generateAISection } from '../../utils/genAIContent';
+import { buildPromptWrap } from '../../utils/aiPromptTools';
 
 const AdaptiveTextbook = ({ content, onContentSave }) => {
   const [localContent, setLocalContent] = useState(content);
@@ -20,18 +22,8 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
 
     setIsEnhancing(prev => ({ ...prev, [header]: true }));
     try {
-      const res = await fetch('/api/model/query', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prompt: `Enhance this section titled "${header}":\n\n${paragraph}`,
-          model: 'hermes',
-          max_tokens: 750
-        })
-      });
-
-      const data = await res.json();
-      let result = data?.response?.trim();
+      const prompt = buildPromptWrap({ header, paragraph, action: 'enhance' });
+      let result = await generateAISection(prompt, 'hermes', 750);
 
       if (result) {
         const headerLine = `## ${header}`;
