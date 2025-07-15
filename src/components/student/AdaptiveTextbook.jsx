@@ -1,101 +1,281 @@
-// utils/polishMarkdown.js - RESTORED DEBUG VERSION (with full annotation return)
-import { getApiUrl } from '../api/ApiMaster';
-import {
-  extractSpecialElements,
-  removeSpecialElements,
-  restoreSpecialElements
-} from './specialElements';
-import {
-  detectContentDuplication,
-  removeDuplicateContent
-} from './contentProcessing';
+// AdaptiveTextbook.jsx - Now using modular utilities
+import React, { useState } from 'react';
+import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
+import styles from './AdaptiveTextbook.module.css';
 
-export const cleanExistingProcessingArtifacts = (text) => {
-  if (!text) return '';
+import { 
+  extractSpecialElements, 
+  restoreSpecialElements, 
+  removeSpecialElements 
+} from '../../utils/specialElements';
 
-  let cleaned = text.replace(/\n\n---\n⚠️ \[SANITIZED at [^\]]+\]\n---\n/g, '');
-  cleaned = cleaned.replace(/---\n⚠️ \[SANITIZED[^\]]*\]\n---/g, '');
-  cleaned = cleaned.replace(/\n{3,}/g, '\n\n').trim();
+import { 
+  extractSectionUnderHeader, 
+  replaceSection 
+} from '../../utils/contentProcessing';
 
-  return cleaned;
-};
+import { 
+  parseMarkdownElements, 
+  convertMarkdownBold, 
+  getEnhancementButtons 
+} from '../../utils/markdownParsing';
 
-export const processEnhancedMarkdown = (rawResult) => {
-  let processed = rawResult;
+import { generateAISection } from '../../utils/genAIContent';
+import { polishMarkdown } from '../../utils/polishMarkdown';
+import { buildPromptWrap } from '../../utils/aiPromptTools';
 
-  if (typeof processed === 'string') {
-    processed = cleanExistingProcessingArtifacts(processed);
+const AdaptiveTextbook = ({ content, onContentSave }) => {
+  const [localContent, setLocalContent] = useState(content);
+  const [enhancedSections, setEnhancedSections] = useState({});
+  const [expandedHeader, setExpandedHeader] = useState(null);
+  const [promptToggles, setPromptToggles] = useState({});
+  const [interactiveToggles, setInteractiveToggles] = useState({});
+  const [isEnhancing, setIsEnhancing] = useState({});
 
-    if ((processed.startsWith('"') && processed.endsWith('"')) || 
-        (processed.startsWith("'") && processed.endsWith("'"))) {
-      try {
-        processed = JSON.parse(processed);
-      } catch (e) {
-        processed = processed.slice(1, -1);
+  React.useEffect(() => {
+    setLocalContent(content);
+  }, [content]);
+
+  const togglePrompt = (key) => {
+    setPromptToggles(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const toggleInteractive = (key) => {
+    setInteractiveToggles(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const handleEnhancement = async (header, action) => {
+    if (enhancedSections[header]) {
+      console.log(`Skipping enhancement for "${header}" — already enhanced.`);
+      return;
+    }
+
+    console.log('Enhancement triggered:', header, action);
+    setIsEnhancing(prev => ({ ...prev, [header]: true }));
+
+    try {
+      const sectionBody = extractSectionUnderHeader(localContent, header);
+
+      if (!sectionBody || sectionBody.trim().length === 0) {
+        throw new Error('No content found under header');
       }
+
+      const cleanedSectionBody = sectionBody;
+
+      if (!cleanedSectionBody || cleanedSectionBody.trim().length === 0) {
+        console.log('No enhanceable content found, preserving original section');
+        return;
+      }
+
+      const prompt = buildPromptWrap({ 
+        header, 
+        paragraph: cleanedSectionBody,
+        action 
+      });
+
+      const rawAI = await generateAISection(prompt, 'hermes', 750);
+
+      let enhancedBody = await polishMarkdown({
+        text: rawAI,
+        action,
+        personality: 'default',
+        model_key: 'hermes'
+      });
+
+      // ✅ Extract only FINAL OUTPUT block from annotated return
+      const match = enhancedBody.match(/FINAL OUTPUT[^\n]*\n---\n([\s\S]*)$/);
+      if (match && match[1]) {
+        enhancedBody = match[1].trim();
+      }
+
+      const headerPattern = new RegExp(`^##\s+${header}\s*\n+`, 'i');
+      enhancedBody = enhancedBody.replace(headerPattern, '').trim();
+
+      if (!enhancedBody || typeof enhancedBody !== 'string' || enhancedBody.trim().length === 0) {
+        throw new Error('Invalid enhancement response');
+      }
+
+      if (enhancedBody.includes('404') || enhancedBody.includes('Failed to load')) {
+        throw new Error('Enhancement service unavailable');
+      }
+
+      const updatedContent = replaceSection(localContent, header, enhancedBody);
+      setLocalContent(updatedContent);
+      setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));
+
+      if (onContentSave) {
+        await onContentSave(updatedContent);
+      }
+
+      console.log('Enhancement successful for:', header);
+    } catch (error) {
+      console.error('Enhancement failed:', error);
+
+      let errorMessage = '⚠️ Enhancement failed. ';
+      if (error.message.includes('404') || error.message.includes('unavailable')) {
+        errorMessage += 'Service temporarily unavailable. Please try again later.';
+      } else if (error.message.includes('No response') || error.message.includes('empty')) {
+        errorMessage += 'No response from enhancement service. Please check your connection.';
+      } else if (error.message.includes('Invalid enhancement')) {
+        errorMessage += 'Invalid response received. Please try again.';
+      } else if (error.message.includes('No content found')) {
+        errorMessage += 'No content found under this header.';
+      } else {
+        errorMessage += 'Please try again later.';
+      }
+
+      setEnhancedSections(prev => ({ ...prev, [header]: errorMessage }));
+    } finally {
+      setIsEnhancing(prev => ({ ...prev, [header]: false }));
     }
+  };
 
-    processed = processed.replace(/\\n/g, '\n');
-    processed = processed.replace(/\\t/g, '\t');
-    processed = processed.replace(/\\r/g, '\r');
-    processed = processed.replace(/\\"/g, '"');
-    processed = processed.replace(/\\'/g, "'");
-    processed = processed.replace(/\\\\/g, '\\');
+  const toggleIconBar = (headerText) => {
+    setExpandedHeader(prev => prev === headerText ? null : headerText);
+  };
 
-    processed = processed.replace(/^"#\s*/gm, '# ');
-    processed = processed.replace(/^"(#{1,6}\s+[^"}]+)"$/gm, '$1');
-    processed = processed.replace(/^"([^"}]*?)$/gm, '$1');
+  const parseMarkdown = (text) => {
+    const elements = parseMarkdownElements(text);
+    const renderedElements = [];
+    let currentHeader = null;
 
-    const lines = processed.split('\n');
-    const cleanedLines = [];
-    let lastHeader = null;
+    elements.forEach((element, index) => {
+      switch (element.type) {
+        case 'header':
+          currentHeader = element.content;
+          renderedElements.push(renderHeader(currentHeader, element.level, element.lineIndex));
+          break;
 
-    for (const line of lines) {
-      const isHeader = /^#{1,6}\s+/.test(line);
-      if (isHeader && line === lastHeader) continue;
-      cleanedLines.push(line);
-      if (isHeader) lastHeader = line;
-    }
+        case 'prompt':
+          renderedElements.push(
+            <div key={`prompt-${element.lineIndex}`} className={styles.promptBox}>
+              <button
+                className={styles.promptToggle}
+                onClick={() => togglePrompt(element.lineIndex)}
+              >
+                {promptToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} 
+                <strong>Prompt</strong>
+              </button>
+              {promptToggles[element.lineIndex] && (
+                <div className={styles.promptContent}>{element.content}</div>
+              )}
+            </div>
+          );
+          break;
 
-    processed = cleanedLines.join('\n');
-    processed = processed.replace(/^\n+/, '').replace(/\n{3,}/g, '\n\n');
-    processed = processed.replace(/(#{1,6}\s+[^\n]+)\n([^\n#])/g, '$1\n\n$2');
-    processed = processed.trim();
-  }
+        case 'interactive':
+          renderedElements.push(
+            <div key={`interactive-${element.lineIndex}`} className={styles.interactiveBox}>
+              <button
+                className={styles.interactiveToggle}
+                onClick={() => toggleInteractive(element.lineIndex)}
+              >
+                {interactiveToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} 
+                <strong>Interactive Module</strong>
+              </button>
+              {interactiveToggles[element.lineIndex] && (
+                <div className={styles.interactiveContent}><em>Content coming soon...</em></div>
+              )}
+            </div>
+          );
+          break;
 
-  return processed;
-};
+        case 'paragraph':
+          const effectiveContent = enhancedSections[currentHeader] || element.content;
+          const htmlContent = convertMarkdownBold(effectiveContent);
+          renderedElements.push(
+            <p key={element.lineIndex} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
+          );
+          break;
 
-export async function polishMarkdown({ text, action, personality = 'default', model_key = 'hermes' }) {
-  try {
-    const cleanedInputText = cleanExistingProcessingArtifacts(text);
-    const cleanedText = cleanedInputText;
-
-    const response = await fetch(`${getApiUrl()}/markdown/enhance`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: cleanedText, action, personality, model_key })
+        default:
+          break;
+      }
     });
 
-    const data = await response.json();
-    let enhanced = processEnhancedMarkdown(data.result);
+    return renderedElements;
+  };
 
-    if (detectContentDuplication(enhanced)) {
-      enhanced = removeDuplicateContent(enhanced);
-    }
+  const renderHeader = (headerText, level, lineIndex) => {
+    const isExpanded = expandedHeader === headerText;
+    const isLoading = isEnhancing[headerText];
+    const enhancementButtons = getEnhancementButtons();
 
-    const final = enhanced;
-    const timestamp = new Date().toISOString();
+    const headerClasses = {
+      1: styles.heading1,
+      2: styles.heading2,
+      3: styles.heading3,
+      4: styles.heading4
+    };
 
-    const annotated = [
-      `---\n⚠️ [SANITIZED - ORIGINAL at ${timestamp}]\n---\n${text.trim()}`,
-      `---\n⚠️ [SANITIZED - ENHANCED at ${timestamp}]\n---\n${enhanced.trim()}`,
-      `---\n⚠️ [SANITIZED - FINAL OUTPUT at ${timestamp}]\n---\n${final.trim()}`
-    ].join('\n\n');
+    const iconMap = {
+      Sparkles,
+      Plus,
+      Minimize,
+      Brain
+    };
 
-    return annotated;
-  } catch (error) {
-    console.error('AI Markdown Enhancement failed:', error);
-    return 'Error enhancing content.';
+    return (
+      <div key={`header-${lineIndex}-${headerText}`} className={styles.headerBlock}>
+        <div className={styles.headerRow}>
+          <div className={headerClasses[level]}>
+            {headerText}
+          </div>
+
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleIconBar(headerText);
+            }}
+            className={styles.toggleButton}
+            title="Show enhancement options"
+            type="button"
+          >
+            <Brain size={14} className={styles.toggleIcon} />
+            <span className={styles.toggleText}>Learning Lens</span>
+          </button>
+        </div>
+
+        {isExpanded && (
+          <div className={styles.iconBar}>
+            {enhancementButtons.map((button) => {
+              const IconComponent = iconMap[button.icon];
+              return (
+                <button
+                  key={button.action}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleEnhancement(headerText, button.action);
+                  }}
+                  className={`${styles.enhanceButton} ${styles[button.className]}`}
+                  title={button.title}
+                  type="button"
+                  disabled={isLoading}
+                >
+                  <IconComponent size={16} />
+                  <span>{isLoading ? 'Loading...' : button.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  if (!localContent) {
+    return <div className={styles.noContent}>No content available</div>;
   }
-}
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.content}>
+        {parseMarkdown(localContent)}
+      </div>
+    </div>
+  );
+};
+
+export default AdaptiveTextbook;
