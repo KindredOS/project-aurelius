@@ -1,23 +1,36 @@
-// AdaptiveTextbook.jsx - Full style layering and backend integration
+// AdaptiveTextbook.jsx - Full style layering with prompt & interactive rendering
 import React, { useState, useEffect } from 'react';
 import styles from './AdaptiveTextbook.module.css';
 import { generateAISection } from '../../utils/genAIContent';
 import { buildPromptWrap } from '../../utils/aiPromptTools';
+import { parseMarkdownElements, convertMarkdownBold } from '../../utils/markdownParsing';
 
 const AdaptiveTextbook = ({ content, onContentSave }) => {
   const [localContent, setLocalContent] = useState(content);
   const [enhancedSections, setEnhancedSections] = useState({});
   const [isEnhancing, setIsEnhancing] = useState({});
-  const [knownHeaders, setKnownHeaders] = useState([]);
+  const [knownHeaders, setKnownHeaders] = useState({});
+  const [promptToggles, setPromptToggles] = useState({});
+  const [interactiveToggles, setInteractiveToggles] = useState({});
 
   useEffect(() => {
     setLocalContent(content);
     const headerMatches = [...content.matchAll(/^##\s+(.*)/gm)].map(match => match[1].trim());
-    setKnownHeaders(headerMatches);
+    const map = {};
+    headerMatches.forEach(h => map[h] = true);
+    setKnownHeaders(map);
   }, [content]);
 
+  const togglePrompt = (key) => {
+    setPromptToggles(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const toggleInteractive = (key) => {
+    setInteractiveToggles(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
   const handleEnhancement = async (header, paragraph) => {
-    if (isEnhancing[header] || !knownHeaders.includes(header)) return;
+    if (isEnhancing[header] || !knownHeaders[header]) return;
 
     setIsEnhancing(prev => ({ ...prev, [header]: true }));
     try {
@@ -54,54 +67,83 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
   };
 
   const parseContent = (text) => {
-    const lines = text.split('\n');
+    const elements = parseMarkdownElements(text);
     const output = [];
     let currentHeader = null;
-    let currentParagraph = [];
 
-    const flushParagraph = () => {
-      if (currentParagraph.length > 0 && currentHeader) {
-        const paraText = currentParagraph.join(' ').trim();
-        const enhanced = enhancedSections[currentHeader] || paraText;
-        output.push(
-          <div key={currentHeader + '-body'} className={styles.sectionBlock}>
-            <div className={styles.enhancedTextBox}>
-              <p className={styles.paragraph} dangerouslySetInnerHTML={{ __html: enhanced }} />
-            </div>
-            {knownHeaders.includes(currentHeader) && (
-              <div className={styles.enhanceButtonRow}>
-                <button
-                  className={styles.enhanceButton}
-                  onClick={() => handleEnhancement(currentHeader, paraText)}
-                  disabled={isEnhancing[currentHeader]}
-                >
-                  {isEnhancing[currentHeader] ? 'Enhancing...' : 'Enhance Section'}
-                </button>
+    elements.forEach((element, index) => {
+      switch (element.type) {
+        case 'header':
+          currentHeader = element.content;
+          output.push(
+            <div key={`header-${index}`} className={styles.headerBlock}>
+              <div className={styles.headerRow}>
+                <h2 className={styles.heading2}>{currentHeader}</h2>
               </div>
-            )}
-          </div>
-        );
-      }
-      currentParagraph = [];
-    };
-
-    lines.forEach((line, idx) => {
-      const headerMatch = line.match(/^##\s+(.*)/);
-      if (headerMatch) {
-        flushParagraph();
-        currentHeader = headerMatch[1].trim();
-        output.push(
-          <div key={`header-${idx}`} className={styles.headerBlock}>
-            <div className={styles.headerRow}>
-              <h2 className={styles.heading2}>{currentHeader}</h2>
             </div>
-          </div>
-        );
-      } else {
-        currentParagraph.push(line);
+          );
+          break;
+
+        case 'prompt':
+          output.push(
+            <div key={`prompt-${index}`} className={styles.promptBox}>
+              <button
+                className={styles.promptToggle}
+                onClick={() => togglePrompt(index)}
+              >
+                {promptToggles[index] ? '▼ Prompt' : '▶ Prompt'}
+              </button>
+              {promptToggles[index] && (
+                <div className={styles.promptContent}>{element.content}</div>
+              )}
+            </div>
+          );
+          break;
+
+        case 'interactive':
+          output.push(
+            <div key={`interactive-${index}`} className={styles.interactiveBox}>
+              <button
+                className={styles.interactiveToggle}
+                onClick={() => toggleInteractive(index)}
+              >
+                {interactiveToggles[index] ? '▼ Interactive Module' : '▶ Interactive Module'}
+              </button>
+              {interactiveToggles[index] && (
+                <div className={styles.interactiveContent}><em>Content coming soon...</em></div>
+              )}
+            </div>
+          );
+          break;
+
+        case 'paragraph':
+          const content = enhancedSections[currentHeader] || element.content;
+          const html = convertMarkdownBold(content);
+          output.push(
+            <div key={`para-${index}`} className={styles.sectionBlock}>
+              <div className={styles.enhancedTextBox}>
+                <p className={styles.paragraph} dangerouslySetInnerHTML={{ __html: html }} />
+              </div>
+              {knownHeaders[currentHeader] && (
+                <div className={styles.enhanceButtonRow}>
+                  <button
+                    className={styles.enhanceButton}
+                    onClick={() => handleEnhancement(currentHeader, element.content)}
+                    disabled={isEnhancing[currentHeader]}
+                  >
+                    {isEnhancing[currentHeader] ? 'Enhancing...' : 'Enhance Section'}
+                  </button>
+                </div>
+              )}
+            </div>
+          );
+          break;
+
+        default:
+          break;
       }
     });
-    flushParagraph();
+
     return output;
   };
 
