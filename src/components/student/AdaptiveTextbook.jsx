@@ -1,17 +1,22 @@
-// AdaptiveTextbook.jsx - Rebuilt to POST raw AI response directly, bypassing all utils
+// AdaptiveTextbook.jsx - Rebuilt with header-lockout to avoid enhancement loops
 import React, { useState, useEffect } from 'react';
 
 const AdaptiveTextbook = ({ content, onContentSave }) => {
   const [localContent, setLocalContent] = useState(content);
   const [enhancedSections, setEnhancedSections] = useState({});
   const [isEnhancing, setIsEnhancing] = useState({});
+  const [knownHeaders, setKnownHeaders] = useState([]);
 
   useEffect(() => {
     setLocalContent(content);
+
+    // On load, collect all headers in original content
+    const headerMatches = [...content.matchAll(/^##\s+(.*)/gm)].map(match => match[1].trim());
+    setKnownHeaders(headerMatches);
   }, [content]);
 
   const handleEnhancement = async (header, paragraph) => {
-    if (isEnhancing[header]) return;
+    if (isEnhancing[header] || !knownHeaders.includes(header)) return;
 
     setIsEnhancing(prev => ({ ...prev, [header]: true }));
     try {
@@ -29,8 +34,12 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
       const result = data?.response?.trim();
       if (result) {
         setEnhancedSections(prev => ({ ...prev, [header]: result }));
-        const newContent = localContent.replace(paragraph, result);
+
+        // Replace section based on header block, not paragraph string
+        const sectionRegex = new RegExp(`(##\s+${header}\s*\n)([\s\S]*?)(?=\n##\s+|$)`, 'i');
+        const newContent = localContent.replace(sectionRegex, `$1${result}\n`);
         setLocalContent(newContent);
+
         if (onContentSave) await onContentSave(newContent);
       } else {
         setEnhancedSections(prev => ({ ...prev, [header]: '⚠️ No response from AI.' }));
@@ -55,9 +64,11 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         output.push(
           <div key={currentHeader + '-body'} style={{ marginBottom: '1em' }}>
             <p>{enhanced}</p>
-            <button onClick={() => handleEnhancement(currentHeader, paraText)} disabled={isEnhancing[currentHeader]}>
-              {isEnhancing[currentHeader] ? 'Enhancing...' : 'Enhance Section'}
-            </button>
+            {knownHeaders.includes(currentHeader) && (
+              <button onClick={() => handleEnhancement(currentHeader, paraText)} disabled={isEnhancing[currentHeader]}>
+                {isEnhancing[currentHeader] ? 'Enhancing...' : 'Enhance Section'}
+              </button>
+            )}
           </div>
         );
       }
