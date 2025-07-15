@@ -102,11 +102,12 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
       }
 
       const updatedContent = replaceSection(localContent, header, enhancedBody);
-      setLocalContent(updatedContent);
+
       setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));
 
       if (onContentSave) {
         await onContentSave(updatedContent);
+        setLocalContent(updatedContent); // Force rerender after save
       }
 
       console.log('Enhancement successful for:', header);
