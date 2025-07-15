@@ -1,33 +1,47 @@
 // utils/cleanUp.js
 
 /**
- * Removes repeated headers and paragraphs from generative responses
- * @param {string} text
- * @returns {string} cleanedText
+ * Cleans up repetitive and malformed AI responses by:
+ * - Removing duplicate sections (header + paragraph block)
+ * - Normalizing spacing
+ *
+ * @param {string} text - Raw AI response to sanitize
+ * @returns {string} - Cleaned markdown
  */
 export const cleanUpResponse = (text) => {
-  if (!text) return '';
+  if (!text || typeof text !== 'string') return '';
 
-  let lines = text.split('\n');
-  const seenHeaders = new Set();
-  const seenParagraphs = new Set();
+  const lines = text.split('\n');
+  const seenBlocks = new Set();
   const cleanedLines = [];
+  let buffer = [];
 
-  for (let line of lines) {
-    const trimmed = line.trim();
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
 
-    // Deduplicate headers
-    if (/^#+\s+/.test(trimmed)) {
-      if (seenHeaders.has(trimmed)) continue;
-      seenHeaders.add(trimmed);
+    // Start a new section block when a header is found
+    if (/^#{2,}\s+/.test(line)) {
+      if (buffer.length > 0) {
+        const block = buffer.join('\n').trim();
+        if (!seenBlocks.has(block)) {
+          cleanedLines.push(...buffer);
+          seenBlocks.add(block);
+        }
+        buffer = [];
+      }
     }
 
-    // Deduplicate near-identical paragraphs
-    if (trimmed.length > 20 && seenParagraphs.has(trimmed)) continue;
-    seenParagraphs.add(trimmed);
-
-    cleanedLines.push(line);
+    buffer.push(lines[i]);
   }
 
-  return cleanedLines.join('\n').trim();
+  // Final block
+  if (buffer.length > 0) {
+    const block = buffer.join('\n').trim();
+    if (!seenBlocks.has(block)) {
+      cleanedLines.push(...buffer);
+    }
+  }
+
+  const final = cleanedLines.join('\n').replace(/\n{3,}/g, '\n\n');
+  return final.trim();
 };
