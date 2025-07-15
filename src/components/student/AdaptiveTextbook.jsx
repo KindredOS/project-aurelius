@@ -1,24 +1,39 @@
-// AdaptiveTextbook.jsx - Full style layering with prompt & interactive rendering
-import React, { useState, useEffect } from 'react';
+// AdaptiveTextbook.jsx - Now using modular utilities
+import React, { useState } from 'react';
+import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
 import styles from './AdaptiveTextbook.module.css';
+
+import { 
+  extractSpecialElements, 
+  restoreSpecialElements, 
+  removeSpecialElements 
+} from '../../utils/specialElements';
+
+import { 
+  extractSectionUnderHeader, 
+  replaceSection 
+} from '../../utils/contentProcessing';
+
+import { 
+  parseMarkdownElements, 
+  convertMarkdownBold, 
+  getEnhancementButtons 
+} from '../../utils/markdownParsing';
+
 import { generateAISection } from '../../utils/genAIContent';
+import { polishMarkdown } from '../../utils/polishMarkdown';
 import { buildPromptWrap } from '../../utils/aiPromptTools';
-import { parseMarkdownElements, convertMarkdownBold } from '../../utils/markdownParsing';
 
 const AdaptiveTextbook = ({ content, onContentSave }) => {
   const [localContent, setLocalContent] = useState(content);
   const [enhancedSections, setEnhancedSections] = useState({});
-  const [isEnhancing, setIsEnhancing] = useState({});
-  const [knownHeaders, setKnownHeaders] = useState({});
+  const [expandedHeader, setExpandedHeader] = useState(null);
   const [promptToggles, setPromptToggles] = useState({});
   const [interactiveToggles, setInteractiveToggles] = useState({});
+  const [isEnhancing, setIsEnhancing] = useState({});
 
-  useEffect(() => {
+  React.useEffect(() => {
     setLocalContent(content);
-    const headerMatches = [...content.matchAll(/^##\s+(.*)/gm)].map(match => match[1].trim());
-    const map = {};
-    headerMatches.forEach(h => map[h] = true);
-    setKnownHeaders(map);
   }, [content]);
 
   const togglePrompt = (key) => {
@@ -29,80 +44,119 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
     setInteractiveToggles(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const handleEnhancement = async (header, paragraph) => {
-    if (isEnhancing[header] || !knownHeaders[header]) return;
+  const handleEnhancement = async (header, action) => {
+    if (enhancedSections[header]) {
+      console.log(`Skipping enhancement for "${header}" — already enhanced.`);
+      return;
+    }
 
+    console.log('Enhancement triggered:', header, action);
     setIsEnhancing(prev => ({ ...prev, [header]: true }));
+
     try {
-      const prompt = buildPromptWrap({ header, paragraph, action: 'enhance' });
-      let result = await generateAISection(prompt, 'hermes', 750);
+      const sectionBody = extractSectionUnderHeader(localContent, header);
 
-      if (result) {
-        const headerLine = `## ${header}`;
-        const lines = result.split('\n');
-        const filteredLines = lines.filter(line => {
-          const trimmed = line.trim();
-          if (/^#{1,6}\s+/.test(trimmed)) return false;
-          if (trimmed === headerLine) return false;
-          return true;
-        });
-
-        result = filteredLines.join('\n').trim();
-
-        setEnhancedSections(prev => ({ ...prev, [header]: result }));
-
-        const sectionRegex = new RegExp(`(##\s+${header}\s*\n)([\s\S]*?)(?=\n##\s+|$)`, 'i');
-        const newContent = localContent.replace(sectionRegex, `$1${result}\n`);
-        setLocalContent(newContent);
-
-        if (onContentSave) await onContentSave(newContent);
-      } else {
-        setEnhancedSections(prev => ({ ...prev, [header]: '⚠️ No response from AI.' }));
+      if (!sectionBody || sectionBody.trim().length === 0) {
+        throw new Error('No content found under header');
       }
-    } catch (err) {
-      setEnhancedSections(prev => ({ ...prev, [header]: `⚠️ Error: ${err.message}` }));
+
+      const cleanedSectionBody = sectionBody;
+
+      if (!cleanedSectionBody || cleanedSectionBody.trim().length === 0) {
+        console.log('No enhanceable content found, preserving original section');
+        return;
+      }
+
+      const prompt = buildPromptWrap({ 
+        header, 
+        paragraph: cleanedSectionBody,
+        action 
+      });
+
+      const rawAI = await generateAISection(prompt, 'hermes', 750);
+
+      let enhancedBody = await polishMarkdown({
+        text: rawAI,
+        action,
+        personality: 'default',
+        model_key: 'hermes'
+      });
+
+      // ✅ Extract only FINAL OUTPUT block from annotated return
+      const match = enhancedBody.match(/FINAL OUTPUT[^\n]*\n---\n([\s\S]*)$/);
+      if (match && match[1]) {
+        enhancedBody = match[1].trim();
+      }
+
+      const headerPattern = new RegExp(`^##\s+${header}\s*\n+`, 'i');
+      enhancedBody = enhancedBody.replace(headerPattern, '').trim();
+
+      if (!enhancedBody || typeof enhancedBody !== 'string' || enhancedBody.trim().length === 0) {
+        throw new Error('Invalid enhancement response');
+      }
+
+      if (enhancedBody.includes('404') || enhancedBody.includes('Failed to load')) {
+        throw new Error('Enhancement service unavailable');
+      }
+
+      const updatedContent = replaceSection(localContent, header, enhancedBody);
+      setLocalContent(updatedContent);
+      setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));
+
+      if (onContentSave) {
+        await onContentSave(updatedContent);
+      }
+
+      console.log('Enhancement successful for:', header);
+    } catch (error) {
+      console.error('Enhancement failed:', error);
+
+      let errorMessage = '⚠️ Enhancement failed. ';
+      if (error.message.includes('404') || error.message.includes('unavailable')) {
+        errorMessage += 'Service temporarily unavailable. Please try again later.';
+      } else if (error.message.includes('No response') || error.message.includes('empty')) {
+        errorMessage += 'No response from enhancement service. Please check your connection.';
+      } else if (error.message.includes('Invalid enhancement')) {
+        errorMessage += 'Invalid response received. Please try again.';
+      } else if (error.message.includes('No content found')) {
+        errorMessage += 'No content found under this header.';
+      } else {
+        errorMessage += 'Please try again later.';
+      }
+
+      setEnhancedSections(prev => ({ ...prev, [header]: errorMessage }));
     } finally {
       setIsEnhancing(prev => ({ ...prev, [header]: false }));
     }
   };
 
-  const parseContent = (text) => {
+  const toggleIconBar = (headerText) => {
+    setExpandedHeader(prev => prev === headerText ? null : headerText);
+  };
+
+  const parseMarkdown = (text) => {
     const elements = parseMarkdownElements(text);
-    const output = [];
+    const renderedElements = [];
     let currentHeader = null;
 
     elements.forEach((element, index) => {
       switch (element.type) {
         case 'header':
           currentHeader = element.content;
-          output.push(
-            <div key={`header-${index}`} className={styles.headerBlock}>
-              <div className={styles.headerRow}>
-                <h2 className={styles.heading2}>
-  {currentHeader}
-  <button
-    className={styles.lessonLens}
-    title="Learning Lens"
-    onClick={() => console.log(`Lesson Lens: ${currentHeader}`)}
-  >
-    🧠
-  </button>
-</h2>
-              </div>
-            </div>
-          );
+          renderedElements.push(renderHeader(currentHeader, element.level, element.lineIndex));
           break;
 
         case 'prompt':
-          output.push(
-            <div key={`prompt-${index}`} className={styles.promptBox}>
+          renderedElements.push(
+            <div key={`prompt-${element.lineIndex}`} className={styles.promptBox}>
               <button
                 className={styles.promptToggle}
-                onClick={() => togglePrompt(index)}
+                onClick={() => togglePrompt(element.lineIndex)}
               >
-                {promptToggles[index] ? '▼ Prompt' : '▶ Prompt'}
+                {promptToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} 
+                <strong>Prompt</strong>
               </button>
-              {promptToggles[index] && (
+              {promptToggles[element.lineIndex] && (
                 <div className={styles.promptContent}>{element.content}</div>
               )}
             </div>
@@ -110,15 +164,16 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
           break;
 
         case 'interactive':
-          output.push(
-            <div key={`interactive-${index}`} className={styles.interactiveBox}>
+          renderedElements.push(
+            <div key={`interactive-${element.lineIndex}`} className={styles.interactiveBox}>
               <button
                 className={styles.interactiveToggle}
-                onClick={() => toggleInteractive(index)}
+                onClick={() => toggleInteractive(element.lineIndex)}
               >
-                {interactiveToggles[index] ? '▼ Interactive Module' : '▶ Interactive Module'}
+                {interactiveToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} 
+                <strong>Interactive Module</strong>
               </button>
-              {interactiveToggles[index] && (
+              {interactiveToggles[element.lineIndex] && (
                 <div className={styles.interactiveContent}><em>Content coming soon...</em></div>
               )}
             </div>
@@ -126,25 +181,10 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
           break;
 
         case 'paragraph':
-          const content = enhancedSections[currentHeader] || element.content;
-          const html = convertMarkdownBold(content);
-          output.push(
-            <div key={`para-${index}`} className={styles.sectionBlock}>
-              <div className={styles.enhancedTextBox}>
-                <p className={styles.paragraph} dangerouslySetInnerHTML={{ __html: html }} />
-              </div>
-              {knownHeaders[currentHeader] && (
-                <div className={styles.enhanceButtonRow}>
-                  <button
-                    className={styles.enhanceButton}
-                    onClick={() => handleEnhancement(currentHeader, element.content)}
-                    disabled={isEnhancing[currentHeader]}
-                  >
-                    {isEnhancing[currentHeader] ? 'Enhancing...' : 'Enhance Section'}
-                  </button>
-                </div>
-              )}
-            </div>
+          const effectiveContent = enhancedSections[currentHeader] || element.content;
+          const htmlContent = convertMarkdownBold(effectiveContent);
+          renderedElements.push(
+            <p key={element.lineIndex} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
           );
           break;
 
@@ -153,15 +193,86 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
       }
     });
 
-    return output;
+    return renderedElements;
   };
+
+  const renderHeader = (headerText, level, lineIndex) => {
+    const isExpanded = expandedHeader === headerText;
+    const isLoading = isEnhancing[headerText];
+    const enhancementButtons = getEnhancementButtons();
+
+    const headerClasses = {
+      1: styles.heading1,
+      2: styles.heading2,
+      3: styles.heading3,
+      4: styles.heading4
+    };
+
+    const iconMap = {
+      Sparkles,
+      Plus,
+      Minimize,
+      Brain
+    };
+
+    return (
+      <div key={`header-${lineIndex}-${headerText}`} className={styles.headerBlock}>
+        <div className={styles.headerRow}>
+          <div className={headerClasses[level]}>
+            {headerText}
+          </div>
+
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleIconBar(headerText);
+            }}
+            className={styles.toggleButton}
+            title="Show enhancement options"
+            type="button"
+          >
+            <Brain size={14} className={styles.toggleIcon} />
+            <span className={styles.toggleText}>Learning Lens</span>
+          </button>
+        </div>
+
+        {isExpanded && (
+          <div className={styles.iconBar}>
+            {enhancementButtons.map((button) => {
+              const IconComponent = iconMap[button.icon];
+              return (
+                <button
+                  key={button.action}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleEnhancement(headerText, button.action);
+                  }}
+                  className={`${styles.enhanceButton} ${styles[button.className]}`}
+                  title={button.title}
+                  type="button"
+                  disabled={isLoading}
+                >
+                  <IconComponent size={16} />
+                  <span>{isLoading ? 'Loading...' : button.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  if (!localContent) {
+    return <div className={styles.noContent}>No content available</div>;
+  }
 
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        {localContent ? parseContent(localContent) : (
-          <p className={styles.noContent}>No content available.</p>
-        )}
+        {parseMarkdown(localContent)}
       </div>
     </div>
   );
