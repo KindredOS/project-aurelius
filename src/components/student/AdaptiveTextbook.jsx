@@ -83,13 +83,11 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         model_key: 'hermes'
       });
 
-      // ✅ Extract only FINAL OUTPUT block from annotated return
       const match = enhancedBody.match(/FINAL OUTPUT[^\n]*\n---\n([\s\S]*)$/);
       if (match && match[1]) {
         enhancedBody = match[1].trim();
       }
 
-      // 🧼 Clean repetitive or malformed content
       enhancedBody = cleanUpResponse(enhancedBody);
 
       const headerPattern = new RegExp(`^##\s+${header}\s*\n+`, 'i');
@@ -185,7 +183,11 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
           break;
 
         case 'paragraph':
-          const effectiveContent = enhancedSections[currentHeader] || element.content;
+          const normalizedHeader = currentHeader?.trim().toLowerCase();
+          const enhancedKey = Object.keys(enhancedSections).find(
+            key => key.trim().toLowerCase() === normalizedHeader
+          );
+          const effectiveContent = (enhancedKey && enhancedSections[enhancedKey]) || element.content;
           const htmlContent = convertMarkdownBold(effectiveContent);
           renderedElements.push(
             <p key={element.lineIndex} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
