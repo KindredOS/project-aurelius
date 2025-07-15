@@ -23,6 +23,7 @@ import {
 import { generateAISection } from '../../utils/genAIContent';
 import { polishMarkdown } from '../../utils/polishMarkdown';
 import { buildPromptWrap } from '../../utils/aiPromptTools';
+import { cleanUpResponse } from '../../utils/cleanUp';
 
 const AdaptiveTextbook = ({ content, onContentSave }) => {
   const [localContent, setLocalContent] = useState(content);
@@ -87,6 +88,9 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
       if (match && match[1]) {
         enhancedBody = match[1].trim();
       }
+
+      // 🧼 Clean repetitive or malformed content
+      enhancedBody = cleanUpResponse(enhancedBody);
 
       const headerPattern = new RegExp(`^##\s+${header}\s*\n+`, 'i');
       enhancedBody = enhancedBody.replace(headerPattern, '').trim();
