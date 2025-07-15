@@ -36,7 +36,7 @@ const ContentManager = ({ selectedConcept, subject, userEmail }) => {
             setMarkdownText(fallbackText);
 
             // Save to user's storage (UNENCODED for internal match)
-            await saveStudentMarkdown(userEmail, selectedConcept.markdown, fallbackText);
+            await saveStudentMarkdown(userEmail, decodeURIComponent(selectedConcept.markdown), fallbackText);
           } else {
             throw new Error('Failed to load from public path');
           }
@@ -58,7 +58,8 @@ const ContentManager = ({ selectedConcept, subject, userEmail }) => {
     if (!selectedConcept?.markdown || !userEmail) return;
 
     try {
-      await saveStudentMarkdown(userEmail, selectedConcept.markdown, updatedContent);
+      const cleanPath = decodeURIComponent(selectedConcept.markdown);
+      await saveStudentMarkdown(userEmail, cleanPath, updatedContent);
       setMarkdownText(updatedContent);
     } catch (err) {
       console.error('Error saving markdown:', err);
