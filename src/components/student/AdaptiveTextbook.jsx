@@ -1,4 +1,4 @@
-// AdaptiveTextbook.jsx - Rebuilt with header-lockout to avoid enhancement loops
+// AdaptiveTextbook.jsx - Rebuilt with flattened AI response to prevent header injection
 import React, { useState, useEffect } from 'react';
 
 const AdaptiveTextbook = ({ content, onContentSave }) => {
@@ -31,8 +31,12 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
       });
 
       const data = await res.json();
-      const result = data?.response?.trim();
+      let result = data?.response?.trim();
+
       if (result) {
+        // 🧹 Flatten: Remove any injected markdown headers from AI output
+        result = result.replace(/^#{1,6}\s+.*$/gm, '').trim();
+
         setEnhancedSections(prev => ({ ...prev, [header]: result }));
 
         // Replace section based on header block, not paragraph string
