@@ -1,4 +1,4 @@
-// AdaptiveTextbook.jsx - Rebuilt with smart flattening, restored styles, and backend model query integration
+// AdaptiveTextbook.jsx - Full style layering and backend integration
 import React, { useState, useEffect } from 'react';
 import styles from './AdaptiveTextbook.module.css';
 import { generateAISection } from '../../utils/genAIContent';
@@ -12,7 +12,6 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
 
   useEffect(() => {
     setLocalContent(content);
-
     const headerMatches = [...content.matchAll(/^##\s+(.*)/gm)].map(match => match[1].trim());
     setKnownHeaders(headerMatches);
   }, [content]);
@@ -66,15 +65,19 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         const enhanced = enhancedSections[currentHeader] || paraText;
         output.push(
           <div key={currentHeader + '-body'} className={styles.sectionBlock}>
-            <p className={styles.paragraph}>{enhanced}</p>
+            <div className={styles.enhancedTextBox}>
+              <p className={styles.paragraph} dangerouslySetInnerHTML={{ __html: enhanced }} />
+            </div>
             {knownHeaders.includes(currentHeader) && (
-              <button
-                className={styles.enhanceButton}
-                onClick={() => handleEnhancement(currentHeader, paraText)}
-                disabled={isEnhancing[currentHeader]}
-              >
-                {isEnhancing[currentHeader] ? 'Enhancing...' : 'Enhance Section'}
-              </button>
+              <div className={styles.enhanceButtonRow}>
+                <button
+                  className={styles.enhanceButton}
+                  onClick={() => handleEnhancement(currentHeader, paraText)}
+                  disabled={isEnhancing[currentHeader]}
+                >
+                  {isEnhancing[currentHeader] ? 'Enhancing...' : 'Enhance Section'}
+                </button>
+              </div>
             )}
           </div>
         );
@@ -88,8 +91,10 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         flushParagraph();
         currentHeader = headerMatch[1].trim();
         output.push(
-          <div key={`header-${idx}`} className={styles.header}>
-            <h2>{currentHeader}</h2>
+          <div key={`header-${idx}`} className={styles.headerBlock}>
+            <div className={styles.headerRow}>
+              <h2 className={styles.heading2}>{currentHeader}</h2>
+            </div>
           </div>
         );
       } else {
@@ -103,7 +108,9 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        {localContent ? parseContent(localContent) : <p className={styles.noContent}>No content available.</p>}
+        {localContent ? parseContent(localContent) : (
+          <p className={styles.noContent}>No content available.</p>
+        )}
       </div>
     </div>
   );
