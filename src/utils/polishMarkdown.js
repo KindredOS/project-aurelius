@@ -17,19 +17,19 @@ import {
  */
 export const cleanExistingProcessingArtifacts = (text) => {
   if (!text) return '';
-  
+
   // Remove existing debug stamps
   let cleaned = text.replace(/\n\n---\n⚠️ \[SANITIZED at [^\]]+\]\n---\n/g, '');
-  
+
   // Remove duplicate processing indicators
   cleaned = cleaned.replace(/\n\n---\n⚠️ \[SANITIZED at [^\]]+\]\n---\n/g, '');
-  
+
   // Remove any leftover processing markers
   cleaned = cleaned.replace(/---\n⚠️ \[SANITIZED[^\]]*\]\n---/g, '');
-  
+
   // Clean up excessive whitespace
   cleaned = cleaned.replace(/\n{3,}/g, '\n\n').trim();
-  
+
   return cleaned;
 };
 
@@ -44,7 +44,7 @@ export const processEnhancedMarkdown = (rawResult) => {
   if (typeof processed === 'string') {
     // First, clean any existing processing artifacts
     processed = cleanExistingProcessingArtifacts(processed);
-    
+
     // Remove outer quotes if present
     if ((processed.startsWith('"') && processed.endsWith('"')) || 
         (processed.startsWith("'") && processed.endsWith("'"))) {
@@ -65,8 +65,8 @@ export const processEnhancedMarkdown = (rawResult) => {
 
     // Fix malformed headers that start with quotes
     processed = processed.replace(/^"#\s*/gm, '# ');
-    processed = processed.replace(/^"(#{1,6}\s+[^"]+)"$/gm, '$1');
-    processed = processed.replace(/^"([^"]*?)$/gm, '$1');
+    processed = processed.replace(/^"(#{1,6}\s+[^"}]+)"$/gm, '$1');
+    processed = processed.replace(/^"([^"}]*?)$/gm, '$1');
 
     // IMPROVED: Only remove headers that are likely duplicates
     const lines = processed.split('\n');
@@ -113,16 +113,10 @@ export const processEnhancedMarkdown = (rawResult) => {
  */
 export async function polishMarkdown({ text, action, personality = 'default', model_key = 'hermes' }) {
   try {
-    // FIXED: Clean the input text first
     const cleanedInputText = cleanExistingProcessingArtifacts(text);
-    
-    const specialElements = extractSpecialElements(cleanedInputText);
-    const cleanedText = removeSpecialElements(cleanedInputText);
 
-    console.log('Original text:', text);
-    console.log('Cleaned input text:', cleanedInputText);
-    console.log('Text for AI processing:', cleanedText);
-    console.log('Extracted special elements:', specialElements);
+    // Strip special elements before send (may be unnecessary now)
+    const cleanedText = cleanedInputText; // no longer stripping special elements
 
     const response = await fetch(`${getApiUrl()}/markdown/enhance`, {
       method: 'POST',
@@ -138,17 +132,14 @@ export async function polishMarkdown({ text, action, personality = 'default', mo
     const data = await response.json();
     let enhanced = processEnhancedMarkdown(data.result);
 
-    console.log('Raw AI response:', data.result);
-    console.log('Processed enhanced text:', enhanced);
-
+    // Deduplicate internally
     if (detectContentDuplication(enhanced)) {
-      console.log('Duplicate content detected, removing...');
       enhanced = removeDuplicateContent(enhanced);
     }
 
-    const final = restoreSpecialElements(enhanced, specialElements, cleanedInputText);
-
-    console.log('Final text with special elements restored:', final);
+    // Restore special elements (currently commented out systemwide)
+    // const final = restoreSpecialElements(enhanced, extractSpecialElements(cleanedInputText), cleanedInputText);
+    const final = enhanced;
 
     return final;
   } catch (error) {
@@ -156,4 +147,3 @@ export async function polishMarkdown({ text, action, personality = 'default', mo
     return 'Error enhancing content.';
   }
 }
-
