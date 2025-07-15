@@ -25,16 +25,17 @@ const ContentManager = ({ selectedConcept, subject, userEmail }) => {
         setMarkdownText(content);
       } catch (err) {
         console.error('Error loading markdown:', err);
-        
-        // Fallback to public path
+
+        // Fallback to public path (PATCHED)
         try {
-          const publicPath = `/data/${subject}/markdown/${selectedConcept.markdown}`;
+          const encodedPath = encodeURIComponent(selectedConcept.markdown);
+          const publicPath = `/data/${subject}/markdown/${encodedPath}`;
           const publicRes = await fetch(publicPath);
           if (publicRes.ok) {
             const fallbackText = await publicRes.text();
             setMarkdownText(fallbackText);
-            
-            // Save to user's storage
+
+            // Save to user's storage (UNENCODED for internal match)
             await saveStudentMarkdown(userEmail, selectedConcept.markdown, fallbackText);
           } else {
             throw new Error('Failed to load from public path');
