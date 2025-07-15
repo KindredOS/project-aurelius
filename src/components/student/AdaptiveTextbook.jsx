@@ -1,4 +1,4 @@
-// AdaptiveTextbook.jsx - Rebuilt with flattened AI response to prevent header injection
+// AdaptiveTextbook.jsx - Rebuilt with strict header filtering and flattening
 import React, { useState, useEffect } from 'react';
 
 const AdaptiveTextbook = ({ content, onContentSave }) => {
@@ -34,12 +34,20 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
       let result = data?.response?.trim();
 
       if (result) {
-        // 🧹 Flatten: Remove any injected markdown headers from AI output
-        result = result.replace(/^#{1,6}\s+.*$/gm, '').trim();
+        // 🧹 Flatten headers and remove repeated content
+        const headerLine = `## ${header}`;
+        const lines = result.split('\n');
+        const filteredLines = lines.filter(line => {
+          const trimmed = line.trim();
+          if (/^#{1,6}\s+/.test(trimmed)) return false; // Remove markdown headers
+          if (trimmed === headerLine) return false; // Remove echo of original header
+          return true;
+        });
+
+        result = filteredLines.join(' ').replace(/\s+/g, ' ').trim();
 
         setEnhancedSections(prev => ({ ...prev, [header]: result }));
 
-        // Replace section based on header block, not paragraph string
         const sectionRegex = new RegExp(`(##\s+${header}\s*\n)([\s\S]*?)(?=\n##\s+|$)`, 'i');
         const newContent = localContent.replace(sectionRegex, `$1${result}\n`);
         setLocalContent(newContent);
