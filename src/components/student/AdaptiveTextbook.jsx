@@ -78,7 +78,16 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
           output.push(
             <div key={`header-${index}`} className={styles.headerBlock}>
               <div className={styles.headerRow}>
-                <h2 className={styles.heading2}>{currentHeader}</h2>
+                <h2 className={styles.heading2}>
+  {currentHeader}
+  <button
+    className={styles.lessonLens}
+    title="Learning Lens"
+    onClick={() => console.log(`Lesson Lens: ${currentHeader}`)}
+  >
+    🧠
+  </button>
+</h2>
               </div>
             </div>
           );
