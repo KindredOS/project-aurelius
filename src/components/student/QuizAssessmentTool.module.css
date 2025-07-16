@@ -1,0 +1,836 @@
+/* QuizAssessment.module.css */
+
+.container {
+  width: calc(100% - 32px); /* Full width minus margins */
+  max-width: none; /* Remove max-width constraint */
+  margin: 16px;
+  padding: 0;
+  background-color: white; /* Changed from #f9fafb to white */
+  border-radius: 12px; /* Added border radius for elevated look */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Added proper elevation shadow */
+  border: 1px solid #e5e7eb; /* Added subtle border */
+  overflow: hidden; /* Ensure content respects border radius */
+  min-height: auto; /* Changed from 100vh to auto */
+}
+
+.header {
+  text-align: center;
+  padding: 32px 24px 24px 24px; /* Added horizontal padding */
+  border-bottom: 1px solid #f3f4f6; /* Added subtle divider */
+  background-color: #fafbfc; /* Subtle background variation for header */
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.tabNavigation {
+  display: flex;
+  justify-content: center;
+  padding: 16px 24px; /* Added horizontal padding */
+  background-color: #fafbfc; /* Match header background */
+  border-bottom: 1px solid #f3f4f6; /* Added divider */
+}
+
+.tabContainer {
+  background-color: white;
+  border-radius: 8px;
+  padding: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Reduced shadow */
+  border: 1px solid #e5e7eb;
+}
+
+.tabButton {
+  padding: 8px 24px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  background: none;
+}
+
+.tabButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tabButtonActive {
+  background-color: #2563eb;
+  color: white;
+}
+
+.tabButtonInactive {
+  color: #6b7280;
+}
+
+.tabButtonInactive:hover:not(:disabled) {
+  color: #374151;
+}
+
+.tabContent {
+  padding: 24px; /* Added padding to content area */
+  background-color: white; /* Ensure white background */
+  transition: all 0.3s;
+}
+
+/* Generator Styles */
+.generatorContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.generatorHeader {
+  text-align: center;
+  padding: 32px;
+}
+
+.generatorIcon {
+  margin: 0 auto 16px auto;
+  color: #3b82f6;
+  width: 48px;
+  height: 48px;
+}
+
+.generatorTitle {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.generatorSubtitle {
+  color: #6b7280;
+}
+
+.settingsCard {
+  background-color: white;
+  border-radius: 8px; /* Slightly smaller radius for nested cards */
+  padding: 20px; /* Consistent padding */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Reduced shadow intensity */
+  border: 1px solid #e5e7eb;
+}
+
+.settingsTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #111827;
+}
+
+.settingsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .settingsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.settingGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.settingLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.settingSelect {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: white;
+  color: #374151;
+}
+
+.settingSelect:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.checkboxGroup {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  color: #3b82f6;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.checkboxLabel {
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.contentSource {
+  margin-top: 24px;
+  padding: 16px;
+  background-color: #eff6ff;
+  border-radius: 8px;
+}
+
+.contentSourceHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #1d4ed8;
+  font-weight: 500;
+}
+
+.contentSourceText {
+  color: #2563eb;
+  margin-top: 4px;
+}
+
+.generateButton {
+  width: 100%;
+  margin-top: 24px;
+  background-color: #2563eb;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.2s;
+}
+
+.generateButton:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+.generateButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.loadingSpinner {
+  animation: spin 1s linear infinite;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Quiz Start Styles */
+.quizStart {
+  text-align: center;
+  padding: 32px;
+}
+
+.quizStartIcon {
+  margin: 0 auto 16px auto;
+  color: #10b981;
+  width: 48px;
+  height: 48px;
+}
+
+.quizStartTitle {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.quizStartSubtitle {
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+.instructionsCard {
+  background-color: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  max-width: 448px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Added subtle shadow */
+}
+
+.instructionsHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #92400e;
+  font-weight: 500;
+}
+
+.instructionsList {
+  color: #a16207;
+  margin-top: 8px;
+  font-size: 14px;
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.instructionsList li {
+  margin-bottom: 4px;
+}
+
+.startButton {
+  background-color: #10b981;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 auto;
+  transition: background-color 0.2s;
+}
+
+.startButton:hover {
+  background-color: #059669;
+}
+
+/* Quiz Question Styles */
+.quizContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.quizHeader {
+  background-color: white;
+  border-radius: 8px; /* Slightly smaller radius for nested cards */
+  padding: 20px; /* Consistent padding */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Reduced shadow intensity */
+  border: 1px solid #e5e7eb;
+}
+
+.quizHeaderTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.quizHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.questionCounter {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ea580c;
+}
+
+.timerText {
+  font-family: monospace;
+  font-weight: 500;
+}
+
+.progressBar {
+  width: 100%;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: #2563eb;
+  transition: width 0.3s ease;
+}
+
+.questionCard {
+  background-color: white;
+  border-radius: 8px; /* Slightly smaller radius for nested cards */
+  padding: 20px; /* Consistent padding */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Reduced shadow intensity */
+  border: 1px solid #e5e7eb;
+}
+
+.questionType {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.questionText {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #111827;
+}
+
+.optionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.optionLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.optionLabel:hover {
+  background-color: #f9fafb;
+}
+
+.optionInput {
+  width: 16px;
+  height: 16px;
+  color: #3b82f6;
+}
+
+.optionText {
+  color: #374151;
+}
+
+.textareaContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  resize: none;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.textareaHint {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.matchingContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.matchingInstructions {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+.matchingRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.matchingLeft {
+  flex: 1;
+  font-weight: 500;
+}
+
+.matchingArrow {
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.matchingSelect {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.matchingSelect:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.quizNavigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navButton {
+  padding: 8px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: white;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.navButton:hover:not(:disabled) {
+  background-color: #f9fafb;
+}
+
+.navButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.navButtonGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.nextButton {
+  padding: 8px 16px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.nextButton:hover {
+  background-color: #1d4ed8;
+}
+
+.submitButton {
+  padding: 8px 24px;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover {
+  background-color: #059669;
+}
+
+/* Results Styles */
+.resultsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.scoreCard {
+  background-color: white;
+  border-radius: 8px; /* Slightly smaller radius for nested cards */
+  padding: 20px; /* Consistent padding */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Reduced shadow intensity */
+  border: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.gradeLetter {
+  font-size: 96px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.gradeA {
+  color: #10b981;
+}
+
+.gradeB {
+  color: #3b82f6;
+}
+
+.gradeC {
+  color: #f59e0b;
+}
+
+.gradeD {
+  color: #ef4444;
+}
+
+.gradeF {
+  color: #ef4444;
+}
+
+.scoreDetails {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.timeDetails {
+  color: #6b7280;
+}
+
+.reviewSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.reviewTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.reviewCard {
+  background-color: white;
+  border-radius: 8px; /* Slightly smaller radius for nested cards */
+  padding: 20px; /* Consistent padding */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Reduced shadow intensity */
+  border: 1px solid #e5e7eb;
+}
+
+.reviewContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.reviewIcon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.reviewIconCorrect {
+  color: #10b981;
+}
+
+.reviewIconIncorrect {
+  color: #ef4444;
+}
+
+.reviewDetails {
+  flex: 1;
+}
+
+.reviewQuestion {
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.reviewAnswers {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.reviewUserAnswer {
+  color: #6b7280;
+}
+
+.reviewCorrectAnswer {
+  color: #10b981;
+}
+
+.reviewExplanation {
+  margin-top: 12px;
+  padding: 12px;
+  background-color: #eff6ff;
+  border-radius: 8px;
+}
+
+.reviewExplanationText {
+  font-size: 14px;
+  color: #1d4ed8;
+}
+
+.reviewExplanationLabel {
+  font-weight: 600;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.actionButton {
+  padding: 8px 24px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: white;
+  color: #374151;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s;
+}
+
+.actionButton:hover {
+  background-color: #f9fafb;
+}
+
+.actionButtonPrimary {
+  background-color: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.actionButtonPrimary:hover {
+  background-color: #1d4ed8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    margin: 8px; /* Reduced from 16px for better mobile utilization */
+    width: calc(100% - 16px); /* Account for margins */
+    border-radius: 8px; /* Smaller radius on mobile */
+  }
+  
+  .header {
+    padding: 24px 16px 16px 16px;
+  }
+  
+  .tabNavigation {
+    padding: 12px 16px;
+  }
+  
+  .tabContent {
+    padding: 16px;
+  }
+
+  .settingsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .quizHeaderTop {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .quizHeaderLeft {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .quizNavigation {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .actionButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .actionButton {
+    width: 100%;
+    max-width: 200px;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1232px) {
+  .container {
+    margin: 16px; /* Use side margins on medium screens */
+    width: calc(100% - 32px);
+  }
+}
+
+@media (min-width: 1233px) {
+  .container {
+    margin: 16px;
+    width: calc(100% - 32px); /* Still stretch on large screens */
+  }
+}
+
+/* Accessibility */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus styles */
+.tabButton:focus,
+.generateButton:focus,
+.startButton:focus,
+.navButton:focus,
+.nextButton:focus,
+.submitButton:focus,
+.actionButton:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.optionLabel:focus-within {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}

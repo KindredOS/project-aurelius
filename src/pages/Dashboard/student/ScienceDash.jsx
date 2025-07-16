@@ -3,10 +3,10 @@ import React, { useMemo } from 'react';
 import { BookOpen, Atom, Calculator, Dna, Globe, Star, Play, RotateCcw, Microscope } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
 import Sidebar from '../../../components/student/Sidebar';
-import Quiz from '../../../components/student/Quiz';
 import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
+import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
 import styles from './ScienceDash.module.css';
 
 const ScienceDash = () => {
@@ -131,17 +131,9 @@ const ScienceDash = () => {
           {learningMode === 'interactive' && renderSimulation(selectedTopic)}
 
           {learningMode === 'assessment' && (
-            <Quiz
-              currentQuiz={currentQuiz}
-              topics={topics}
-              answerQuestion={answerQuestion}
-              setCurrentQuiz={setCurrentQuiz}
-              startQuiz={startQuiz}
-              selectedTopic={selectedTopic}
-              quizData={quizData}
-              styles={styles}
-              completionTitle="Quiz Complete!"
-              startTitle="Ready for a Quiz?"
+            <QuizAssessmentTool
+              content={currentTopicData?.content || "This section covers key concepts in science."}
+              sectionTitle={currentTopicData?.title || "Science Assessment"}
             />
           )}
 

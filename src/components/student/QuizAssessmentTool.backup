@@ -1,0 +1,660 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Award, 
+  Brain, 
+  CheckCircle, 
+  XCircle, 
+  Clock, 
+  RotateCcw, 
+  Play,
+  BookOpen,
+  Target,
+  AlertCircle,
+  ChevronRight
+} from 'lucide-react';
+import styles from './QuizAssessmentTool.module.css';
+
+// Mock AI content generation
+const generateQuizContent = async (content, difficulty = 'medium', questionCount = 5) => {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  return {
+    questions: [
+      {
+        id: 1,
+        type: 'multiple-choice',
+        question: "What is the main concept discussed in this section?",
+        options: [
+          "Basic principles of the topic",
+          "Advanced applications only",
+          "Historical context exclusively",
+          "Future predictions"
+        ],
+        correct: 0,
+        explanation: "The section focuses on establishing fundamental understanding before moving to applications."
+      },
+      {
+        id: 2,
+        type: 'true-false',
+        question: "The concepts presented build upon each other sequentially.",
+        correct: true,
+        explanation: "Yes, the material is structured to build knowledge progressively."
+      },
+      {
+        id: 3,
+        type: 'short-answer',
+        question: "Explain the key takeaway from this section in your own words.",
+        sampleAnswer: "The key takeaway involves understanding the fundamental principles and their practical applications.",
+        explanation: "Look for understanding of core concepts and ability to synthesize information."
+      },
+      {
+        id: 4,
+        type: 'multiple-choice',
+        question: "Which of the following best describes the relationship between the concepts?",
+        options: [
+          "They are completely independent",
+          "They build upon each other",
+          "They contradict each other",
+          "They are only theoretically related"
+        ],
+        correct: 1,
+        explanation: "The concepts are designed to build upon each other for comprehensive understanding."
+      },
+      {
+        id: 5,
+        type: 'matching',
+        question: "Match the concepts with their descriptions:",
+        pairs: [
+          { left: "Concept A", right: "Primary foundation" },
+          { left: "Concept B", right: "Secondary application" },
+          { left: "Concept C", right: "Advanced implementation" }
+        ],
+        explanation: "Understanding these relationships helps grasp the overall structure of the material."
+      }
+    ],
+    metadata: {
+      difficulty,
+      estimatedTime: questionCount * 2,
+      totalPoints: questionCount * 10
+    }
+  };
+};
+
+const QuizAssessmentTool = ({ content, sectionTitle = "Overview" }) => {
+  const [activeTab, setActiveTab] = useState('generator');
+  const [quiz, setQuiz] = useState(null);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [userAnswers, setUserAnswers] = useState({});
+  const [showResults, setShowResults] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [quizStarted, setQuizStarted] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(null);
+  const [quizSettings, setQuizSettings] = useState({
+    difficulty: 'medium',
+    questionCount: 5,
+    timeLimit: 10,
+    showExplanations: true
+  });
+
+  // Timer effect
+  useEffect(() => {
+    let interval;
+    if (quizStarted && timeRemaining > 0 && !showResults) {
+      interval = setInterval(() => {
+        setTimeRemaining(prev => {
+          if (prev <= 1) {
+            handleSubmitQuiz();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [quizStarted, timeRemaining, showResults]);
+
+  const handleGenerateQuiz = async () => {
+    setIsGenerating(true);
+    try {
+      const generatedQuiz = await generateQuizContent(
+        content, 
+        quizSettings.difficulty, 
+        quizSettings.questionCount
+      );
+      setQuiz(generatedQuiz);
+      setUserAnswers({});
+      setCurrentQuestion(0);
+      setShowResults(false);
+      setQuizStarted(false);
+      setActiveTab('quiz');
+    } catch (error) {
+      console.error('Failed to generate quiz:', error);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleStartQuiz = () => {
+    setQuizStarted(true);
+    setTimeRemaining(quizSettings.timeLimit * 60);
+    setCurrentQuestion(0);
+    setUserAnswers({});
+    setShowResults(false);
+  };
+
+  const handleAnswerChange = (questionId, answer) => {
+    setUserAnswers(prev => ({
+      ...prev,
+      [questionId]: answer
+    }));
+  };
+
+  const handleSubmitQuiz = () => {
+    setQuizStarted(false);
+    setShowResults(true);
+    setActiveTab('results');
+  };
+
+  const calculateScore = () => {
+    if (!quiz || !quiz.questions) return { score: 0, total: 0, percentage: 0 };
+    
+    let correct = 0;
+    quiz.questions.forEach(question => {
+      const userAnswer = userAnswers[question.id];
+      if (question.type === 'multiple-choice' || question.type === 'true-false') {
+        if (userAnswer === question.correct) correct++;
+      } else if (question.type === 'matching') {
+        if (userAnswer && Object.keys(userAnswer).length === question.pairs.length) {
+          correct++;
+        }
+      } else if (question.type === 'short-answer') {
+        if (userAnswer && userAnswer.trim().length > 10) correct += 0.5;
+      }
+    });
+    
+    const total = quiz.questions.length;
+    const percentage = Math.round((correct / total) * 100);
+    
+    return { score: correct, total, percentage };
+  };
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const renderQuestionType = (question) => {
+    const userAnswer = userAnswers[question.id];
+    
+    switch (question.type) {
+      case 'multiple-choice':
+        return (
+          <div className={styles.optionsContainer}>
+            {question.options.map((option, index) => (
+              <label key={index} className={styles.optionLabel}>
+                <input
+                  type="radio"
+                  name={`question-${question.id}`}
+                  value={index}
+                  checked={userAnswer === index}
+                  onChange={() => handleAnswerChange(question.id, index)}
+                  className={styles.optionInput}
+                />
+                <span className={styles.optionText}>{option}</span>
+              </label>
+            ))}
+          </div>
+        );
+      
+      case 'true-false':
+        return (
+          <div className={styles.optionsContainer}>
+            {[true, false].map((option) => (
+              <label key={option.toString()} className={styles.optionLabel}>
+                <input
+                  type="radio"
+                  name={`question-${question.id}`}
+                  value={option}
+                  checked={userAnswer === option}
+                  onChange={() => handleAnswerChange(question.id, option)}
+                  className={styles.optionInput}
+                />
+                <span className={styles.optionText}>{option ? 'True' : 'False'}</span>
+              </label>
+            ))}
+          </div>
+        );
+      
+      case 'short-answer':
+        return (
+          <div className={styles.textareaContainer}>
+            <textarea
+              value={userAnswer || ''}
+              onChange={(e) => handleAnswerChange(question.id, e.target.value)}
+              placeholder="Enter your answer here..."
+              className={styles.textarea}
+              rows="4"
+            />
+            <div className={styles.textareaHint}>
+              Minimum 10 characters required
+            </div>
+          </div>
+        );
+      
+      case 'matching':
+        return (
+          <div className={styles.matchingContainer}>
+            <div className={styles.matchingInstructions}>
+              Match each item on the left with the correct description on the right:
+            </div>
+            {question.pairs.map((pair, index) => (
+              <div key={index} className={styles.matchingRow}>
+                <div className={styles.matchingLeft}>{pair.left}</div>
+                <ChevronRight size={16} className={styles.matchingArrow} />
+                <select
+                  value={userAnswer?.[pair.left] || ''}
+                  onChange={(e) => handleAnswerChange(question.id, {
+                    ...userAnswer,
+                    [pair.left]: e.target.value
+                  })}
+                  className={styles.matchingSelect}
+                >
+                  <option value="">Select match...</option>
+                  {question.pairs.map((p, i) => (
+                    <option key={i} value={p.right}>{p.right}</option>
+                  ))}
+                </select>
+              </div>
+            ))}
+          </div>
+        );
+      
+      default:
+        return <div>Unsupported question type</div>;
+    }
+  };
+
+  const getGradeClass = (percent) => {
+    if (percent >= 90) return styles.gradeA;
+    if (percent >= 80) return styles.gradeB;
+    if (percent >= 70) return styles.gradeC;
+    return styles.gradeD;
+  };
+
+  const getGradeLetter = (percent) => {
+    if (percent >= 90) return 'A';
+    if (percent >= 80) return 'B';
+    if (percent >= 70) return 'C';
+    if (percent >= 60) return 'D';
+    return 'F';
+  };
+
+  const renderQuizGenerator = () => (
+    <div className={styles.generatorContainer}>
+      <div className={styles.generatorHeader}>
+        <Award className={styles.generatorIcon} size={48} />
+        <h2 className={styles.generatorTitle}>Generate Quiz</h2>
+        <p className={styles.generatorSubtitle}>Create a personalized quiz from your textbook content</p>
+      </div>
+
+      <div className={styles.settingsCard}>
+        <h3 className={styles.settingsTitle}>Quiz Settings</h3>
+        
+        <div className={styles.settingsGrid}>
+          <div className={styles.settingGroup}>
+            <label className={styles.settingLabel}>
+              Difficulty Level
+            </label>
+            <select
+              value={quizSettings.difficulty}
+              onChange={(e) => setQuizSettings(prev => ({ ...prev, difficulty: e.target.value }))}
+              className={styles.settingSelect}
+            >
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+
+          <div className={styles.settingGroup}>
+            <label className={styles.settingLabel}>
+              Number of Questions
+            </label>
+            <select
+              value={quizSettings.questionCount}
+              onChange={(e) => setQuizSettings(prev => ({ ...prev, questionCount: parseInt(e.target.value) }))}
+              className={styles.settingSelect}
+            >
+              <option value="5">5 Questions</option>
+              <option value="10">10 Questions</option>
+              <option value="15">15 Questions</option>
+              <option value="20">20 Questions</option>
+            </select>
+          </div>
+
+          <div className={styles.settingGroup}>
+            <label className={styles.settingLabel}>
+              Time Limit (minutes)
+            </label>
+            <select
+              value={quizSettings.timeLimit}
+              onChange={(e) => setQuizSettings(prev => ({ ...prev, timeLimit: parseInt(e.target.value) }))}
+              className={styles.settingSelect}
+            >
+              <option value="5">5 minutes</option>
+              <option value="10">10 minutes</option>
+              <option value="15">15 minutes</option>
+              <option value="20">20 minutes</option>
+              <option value="30">30 minutes</option>
+            </select>
+          </div>
+
+          <div className={styles.checkboxGroup}>
+            <input
+              type="checkbox"
+              id="showExplanations"
+              checked={quizSettings.showExplanations}
+              onChange={(e) => setQuizSettings(prev => ({ ...prev, showExplanations: e.target.checked }))}
+              className={styles.checkbox}
+            />
+            <label htmlFor="showExplanations" className={styles.checkboxLabel}>
+              Show explanations after quiz
+            </label>
+          </div>
+        </div>
+
+        <div className={styles.contentSource}>
+          <div className={styles.contentSourceHeader}>
+            <BookOpen size={16} />
+            <span>Content Source</span>
+          </div>
+          <p className={styles.contentSourceText}>
+            Quiz will be generated from: <strong>{sectionTitle}</strong>
+          </p>
+        </div>
+
+        <button
+          onClick={handleGenerateQuiz}
+          disabled={isGenerating}
+          className={styles.generateButton}
+        >
+          {isGenerating ? (
+            <>
+              <div className={styles.loadingSpinner}></div>
+              <span>Generating Quiz...</span>
+            </>
+          ) : (
+            <>
+              <Brain size={16} />
+              <span>Generate Quiz</span>
+            </>
+          )}
+        </button>
+      </div>
+    </div>
+  );
+
+  const renderQuiz = () => {
+    if (!quiz) return null;
+
+    if (!quizStarted) {
+      return (
+        <div className={styles.quizStart}>
+          <Target className={styles.quizStartIcon} size={48} />
+          <h2 className={styles.quizStartTitle}>Quiz Ready!</h2>
+          <p className={styles.quizStartSubtitle}>
+            {quiz.questions.length} questions • {quiz.metadata.estimatedTime} minutes • {quiz.metadata.totalPoints} points
+          </p>
+          
+          <div className={styles.instructionsCard}>
+            <div className={styles.instructionsHeader}>
+              <AlertCircle size={16} />
+              <span>Quiz Instructions</span>
+            </div>
+            <ul className={styles.instructionsList}>
+              <li>• Answer all questions to the best of your ability</li>
+              <li>• You have {quizSettings.timeLimit} minutes to complete</li>
+              <li>• Review your answers before submitting</li>
+            </ul>
+          </div>
+
+          <button
+            onClick={handleStartQuiz}
+            className={styles.startButton}
+          >
+            <Play size={16} />
+            <span>Start Quiz</span>
+          </button>
+        </div>
+      );
+    }
+
+    const currentQ = quiz.questions[currentQuestion];
+    const progress = ((currentQuestion + 1) / quiz.questions.length) * 100;
+
+    return (
+      <div className={styles.quizContainer}>
+        <div className={styles.quizHeader}>
+          <div className={styles.quizHeaderTop}>
+            <div className={styles.quizHeaderLeft}>
+              <div className={styles.questionCounter}>
+                Question {currentQuestion + 1} of {quiz.questions.length}
+              </div>
+              <div className={styles.timer}>
+                <Clock size={16} />
+                <span className={styles.timerText}>{formatTime(timeRemaining)}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className={styles.progressBar}>
+            <div 
+              className={styles.progressFill}
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
+
+        <div className={styles.questionCard}>
+          <div>
+            <span className={styles.questionType}>
+              {currentQ.type.replace('-', ' ')}
+            </span>
+            <h3 className={styles.questionText}>{currentQ.question}</h3>
+          </div>
+
+          {renderQuestionType(currentQ)}
+        </div>
+
+        <div className={styles.quizNavigation}>
+          <button
+            onClick={() => setCurrentQuestion(Math.max(0, currentQuestion - 1))}
+            disabled={currentQuestion === 0}
+            className={styles.navButton}
+          >
+            Previous
+          </button>
+
+          <div className={styles.navButtonGroup}>
+            {currentQuestion < quiz.questions.length - 1 ? (
+              <button
+                onClick={() => setCurrentQuestion(currentQuestion + 1)}
+                className={styles.nextButton}
+              >
+                Next
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmitQuiz}
+                className={styles.submitButton}
+              >
+                Submit Quiz
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderResults = () => {
+    if (!showResults || !quiz) return null;
+
+    const { score, total, percentage } = calculateScore();
+
+    return (
+      <div className={styles.resultsContainer}>
+        <div className={styles.scoreCard}>
+          <div className={`${styles.gradeLetter} ${getGradeClass(percentage)}`}>
+            {getGradeLetter(percentage)}
+          </div>
+          <div className={styles.scoreDetails}>
+            {score.toFixed(1)} / {total} ({percentage}%)
+          </div>
+          <div className={styles.timeDetails}>
+            Quiz completed in {formatTime((quizSettings.timeLimit * 60) - timeRemaining)}
+          </div>
+        </div>
+
+        {quizSettings.showExplanations && (
+          <div className={styles.reviewSection}>
+            <h3 className={styles.reviewTitle}>Question Review</h3>
+            {quiz.questions.map((question, index) => {
+              const userAnswer = userAnswers[question.id];
+              const isCorrect = question.type === 'multiple-choice' || question.type === 'true-false' 
+                ? userAnswer === question.correct 
+                : userAnswer && userAnswer.toString().trim().length > 0;
+
+              return (
+                <div key={question.id} className={styles.reviewCard}>
+                  <div className={styles.reviewContent}>
+                    <div className={styles.reviewIcon}>
+                      {isCorrect ? (
+                        <CheckCircle className={styles.reviewIconCorrect} size={20} />
+                      ) : (
+                        <XCircle className={styles.reviewIconIncorrect} size={20} />
+                      )}
+                    </div>
+                    <div className={styles.reviewDetails}>
+                      <div className={styles.reviewQuestion}>
+                        Question {index + 1}: {question.question}
+                      </div>
+                      
+                      {question.type === 'multiple-choice' && (
+                        <div className={styles.reviewAnswers}>
+                          <div className={styles.reviewUserAnswer}>
+                            Your answer: {userAnswer !== undefined ? question.options[userAnswer] : 'Not answered'}
+                          </div>
+                          <div className={styles.reviewCorrectAnswer}>
+                            Correct answer: {question.options[question.correct]}
+                          </div>
+                        </div>
+                      )}
+
+                      {question.type === 'true-false' && (
+                        <div className={styles.reviewAnswers}>
+                          <div className={styles.reviewUserAnswer}>
+                            Your answer: {userAnswer !== undefined ? (userAnswer ? 'True' : 'False') : 'Not answered'}
+                          </div>
+                          <div className={styles.reviewCorrectAnswer}>
+                            Correct answer: {question.correct ? 'True' : 'False'}
+                          </div>
+                        </div>
+                      )}
+
+                      {question.explanation && (
+                        <div className={styles.reviewExplanation}>
+                          <div className={styles.reviewExplanationText}>
+                            <span className={styles.reviewExplanationLabel}>Explanation:</span> {question.explanation}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <div className={styles.actionButtons}>
+          <button
+            onClick={() => {
+              setShowResults(false);
+              setQuizStarted(false);
+              setCurrentQuestion(0);
+              setUserAnswers({});
+              setActiveTab('generator');
+            }}
+            className={styles.actionButton}
+          >
+            <RotateCcw size={16} />
+            <span>New Quiz</span>
+          </button>
+          
+          <button
+            onClick={() => {
+              setShowResults(false);
+              setQuizStarted(false);
+              setCurrentQuestion(0);
+              setUserAnswers({});
+            }}
+            className={`${styles.actionButton} ${styles.actionButtonPrimary}`}
+          >
+            <RotateCcw size={16} />
+            <span>Retake Quiz</span>
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Quiz & Assessment Tool</h1>
+        <p className={styles.subtitle}>Test your knowledge of {sectionTitle}</p>
+      </div>
+
+      <div className={styles.tabNavigation}>
+        <div className={styles.tabContainer}>
+          <button
+            onClick={() => setActiveTab('generator')}
+            className={`${styles.tabButton} ${
+              activeTab === 'generator' ? styles.tabButtonActive : styles.tabButtonInactive
+            }`}
+          >
+            Generator
+          </button>
+          <button
+            onClick={() => setActiveTab('quiz')}
+            disabled={!quiz}
+            className={`${styles.tabButton} ${
+              activeTab === 'quiz' ? styles.tabButtonActive : styles.tabButtonInactive
+            }`}
+          >
+            Quiz
+          </button>
+          <button
+            onClick={() => setActiveTab('results')}
+            disabled={!showResults}
+            className={`${styles.tabButton} ${
+              activeTab === 'results' ? styles.tabButtonActive : styles.tabButtonInactive
+            }`}
+          >
+            Results
+          </button>
+        </div>
+      </div>
+
+      <div className={styles.tabContent}>
+        {activeTab === 'generator' && renderQuizGenerator()}
+        {activeTab === 'quiz' && renderQuiz()}
+        {activeTab === 'results' && renderResults()}
+      </div>
+    </div>
+  );
+};
+
+export default QuizAssessmentTool;

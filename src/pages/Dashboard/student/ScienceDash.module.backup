@@ -1,4 +1,4 @@
-/* ScienceDash.module.css - Science Dashboard Specific Styles */
+/* ScienceDash.module.css - Science Dashboard Specific Styles (Refactored) */
 
 /* Main Container */
 .sciencePageContainer {
@@ -94,16 +94,18 @@
   border: none;
   cursor: pointer;
   background-color: #f3f4f6;
+  color: #374151; /* Dark text for light background */
 }
 
 .learningModeButton:hover {
   background-color: #e5e7eb;
+  color: #1f2937; /* Darker text on hover */
   transform: translateY(-1px);
 }
 
 .learningModeButton.active {
   background-color: #3b82f6;
-  color: #ffffff;
+  color: #ffffff; /* White text for blue background */
   transform: scale(1.02);
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
@@ -162,17 +164,19 @@
   border: none;
   cursor: pointer;
   background-color: #f3f4f6;
+  color: #374151; /* Dark text for light background */
   position: relative;
 }
 
 .topicButton:hover {
   background-color: #e5e7eb;
+  color: #1f2937; /* Darker text on hover */
   transform: translateX(4px);
 }
 
 .topicButton.active {
   background-color: #3b82f6;
-  color: #ffffff;
+  color: #ffffff; /* White text for blue background */
   transform: scale(1.05) translateX(4px);
   box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
 }
@@ -284,105 +288,6 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-}
-
-/* Topic Header Card */
-.topicHeaderCard {
-  background-color: #ffffff;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.topicHeader {
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.topicHeaderIcon {
-  width: 32px;
-  height: 32px;
-  color: #3b82f6;
-  margin-right: 12px;
-}
-
-.topicHeaderContent h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0 0 4px 0;
-}
-
-.topicHeaderContent p {
-  color: #6b7280;
-  margin: 0;
-}
-
-.topicProgressSection {
-  margin-bottom: 16px;
-}
-
-.progressHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.progressLabel {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #374151;
-}
-
-.progressPercentage {
-  font-size: 0.875rem;
-  color: #6b7280;
-}
-
-.mainProgressBar {
-  width: 100%;
-  height: 8px;
-  background-color: #e5e7eb;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.mainProgressFill {
-  height: 100%;
-  background-color: #10b981;
-  border-radius: 4px;
-  transition: width 0.5s ease;
-}
-
-/* Concepts Grid */
-.conceptsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.conceptCard {
-  background-color: #f9fafb;
-  padding: 12px;
-  border-radius: 8px;
-  text-align: center;
-  border: 1px solid #e5e7eb;
-  transition: all 0.2s ease;
-}
-
-.conceptCard:hover {
-  background-color: #f3f4f6;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.conceptText {
-  font-size: 0.875rem;
-  color: #6b7280;
-  font-weight: 500;
 }
 
 /* Simulation Card */
@@ -765,11 +670,6 @@
     max-height: 300px;
   }
   
-  .conceptsGrid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px;
-  }
-  
   .visualResourcesGrid {
     grid-template-columns: 1fr;
   }
@@ -785,14 +685,9 @@
     padding: 16px;
   }
   
-  .topicHeaderCard,
   .simulationCard,
   .quizCard,
   .visualResourcesCard {
     padding: 16px;
-  }
-  
-  .conceptsGrid {
-    grid-template-columns: 1fr;
   }
 }

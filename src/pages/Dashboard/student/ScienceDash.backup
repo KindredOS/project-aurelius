@@ -1,3 +1,4 @@
+// ScienceDash.jsx
 import React, { useMemo } from 'react';
 import { BookOpen, Atom, Calculator, Dna, Globe, Star, Play, RotateCcw, Microscope } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
@@ -26,11 +27,13 @@ const ScienceDash = () => {
     learningMode, setLearningMode,
     userProgress, setUserProgress,
     currentQuiz, setCurrentQuiz,
-    chatHistory, userInput, setUserInput,
+    chatHistory, setChatHistory,
+    userInput, setUserInput,
     achievements, studyStreak,
     topics, currentTopicData, quizData, projectData, learningResources, learningModes,
-    loading, error,
-    startQuiz, answerQuestion, sendMessage
+    loading,
+    startQuiz, answerQuestion, sendMessage,
+    user
   } = dashboardState;
 
   const runSimulation = (topicId) => {
@@ -107,10 +110,10 @@ const ScienceDash = () => {
         topics={topics}
         selectedTopic={selectedTopic}
         setSelectedTopic={setSelectedTopic}
-        userProgress={userProgress}
         achievements={achievements}
         renderProgressBar={renderProgressBar}
         styles={styles}
+        email={user.email}
       />
 
       <div className={styles.mainContent}>
@@ -122,6 +125,7 @@ const ScienceDash = () => {
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}
             subject="science"
+            userEmail={user.email}
           />
 
           {learningMode === 'interactive' && renderSimulation(selectedTopic)}
@@ -144,12 +148,15 @@ const ScienceDash = () => {
           {learningMode === 'collaborative' && (
             <ChatWindow
               chatHistory={chatHistory}
+              setChatHistory={setChatHistory}
               userInput={userInput}
               setUserInput={setUserInput}
               sendMessage={sendMessage}
               styles={styles}
               tutorName="AI Science Tutor"
               placeholder="Ask me anything about science..."
+              subject="science"
+              user={user}
             />
           )}
 
