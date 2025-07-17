@@ -1,4 +1,6 @@
 // utils/quizScoring.js
+import React from 'react';
+import { CheckCircle, XCircle, RotateCcw, Play } from 'lucide-react';
 
 /**
  * Calculates the score for a completed quiz
@@ -146,4 +148,99 @@ export const generatePerformanceFeedback = (percentage) => {
       "Take your time with each concept before moving on"
     ]
   };
+};
+
+/**
+ * Renders the quiz results component
+ * @param {Object} params - Parameters object
+ * @param {Object} params.quiz - The quiz object
+ * @param {Object} params.userAnswers - User answers keyed by question ID
+ * @param {Object} params.quizSettings - Quiz settings including showExplanations
+ * @param {Function} params.resetQuiz - Function to reset the quiz
+ * @param {Function} params.retakeQuiz - Function to retake the quiz
+ * @param {Function} params.getAnswerDisplayText - Function to get display text for user answer
+ * @param {Function} params.getCorrectAnswerDisplayText - Function to get display text for correct answer
+ * @param {Object} params.styles - CSS styles object
+ * @returns {JSX.Element} The rendered results component
+ */
+export const renderResults = ({
+  quiz,
+  userAnswers,
+  quizSettings,
+  resetQuiz,
+  retakeQuiz,
+  getAnswerDisplayText,
+  getCorrectAnswerDisplayText,
+  styles
+}) => {
+  const { score, total, percentage } = calculateQuizScore(quiz, userAnswers);
+  
+  return (
+    <div className={styles.resultsContainer}>
+      <div className={styles.scoreCard}>
+        <div className={styles.scoreDisplay}>
+          <div className={styles.scoreNumber}>{score}</div>
+          <div className={styles.scoreTotal}>/ {total}</div>
+        </div>
+        <div className={styles.scorePercentage}>
+          {percentage}%
+        </div>
+        <div className={styles.scoreLabel}>
+          Questions Correct
+        </div>
+      </div>
+
+      {quizSettings.showExplanations && (
+        <div className={styles.reviewSection}>
+          <h3 className={styles.reviewTitle}>Question Review</h3>
+          {quiz.questions.map((question, index) => {
+            const userAnswer = userAnswers[question.id];
+            const isCorrect = userAnswer === question.correctAnswer;
+            
+            return (
+              <div key={question.id} className={styles.reviewCard}>
+                <div className={styles.reviewContent}>
+                  <div className={`${styles.reviewIcon} ${isCorrect ? styles.reviewIconCorrect : styles.reviewIconIncorrect}`}>
+                    {isCorrect ? <CheckCircle size={20} /> : <XCircle size={20} />}
+                  </div>
+                  <div className={styles.reviewDetails}>
+                    <div className={styles.reviewQuestion}>
+                      {index + 1}. {question.question}
+                    </div>
+                    <div className={styles.reviewAnswers}>
+                      <div className={styles.reviewUserAnswer}>
+                        Your answer: {getAnswerDisplayText(question, userAnswer)}
+                      </div>
+                      {!isCorrect && (
+                        <div className={styles.reviewCorrectAnswer}>
+                          Correct answer: {getCorrectAnswerDisplayText(question)}
+                        </div>
+                      )}
+                    </div>
+                    {question.explanation && (
+                      <div className={styles.reviewExplanation}>
+                        <div className={styles.reviewExplanationLabel}>Explanation:</div>
+                        <div className={styles.reviewExplanationText}>{question.explanation}</div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div className={styles.actionButtons}>
+        <button onClick={resetQuiz} className={styles.actionButton}>
+          <RotateCcw size={16} />
+          New Quiz
+        </button>
+        <button onClick={retakeQuiz} className={`${styles.actionButton} ${styles.actionButtonPrimary}`}>
+          <Play size={16} />
+          Retake Quiz
+        </button>
+      </div>
+    </div>
+  );
 };
