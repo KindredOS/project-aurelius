@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemistry Lab - Interactive Science Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .game-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 120px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .game-area {
+            display: grid;
+            grid-template-columns: 1fr 300px 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .elements-panel {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid #e1e5f2;
+        }
+
+        .mixing-chamber {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .beaker {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(102,126,234,0.1) 100%);
+            border: 5px solid #667eea;
+            border-radius: 0 0 100px 100px;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .beaker-liquid {
+            width: 90%;
+            height: 0%;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border-radius: 0 0 90px 90px;
+            transition: all 0.8s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .beaker-liquid.bubbling::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 50%;
+            animation: bubble 1s infinite;
+        }
+
+        @keyframes bubble {
+            0% { transform: translateX(-50%) translateY(0) scale(1); opacity: 0.7; }
+            100% { transform: translateX(-50%) translateY(-40px) scale(1.5); opacity: 0; }
+        }
+
+        .element-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+        }
+
+        .element {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 15px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .element:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .element:active {
+            transform: scale(0.95);
+        }
+
+        .mix-btn {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mix-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .mix-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-panel {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid #e1e5f2;
+        }
+
+        .reaction-result {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .selected-elements {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            min-height: 60px;
+            border: 2px dashed #667eea;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .selected-element {
+            background: #667eea;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            animation: bounceIn 0.3s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .clear-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .discovery {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 5px solid #fdcb6e;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px rgba(253, 203, 110, 0.5); }
+            to { box-shadow: 0 0 20px rgba(253, 203, 110, 0.8); }
+        }
+
+        @media (max-width: 768px) {
+            .game-area {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .game-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>🧪 Chemistry Lab Adventure</h1>
+            <p>Mix elements to create compounds and discover amazing reactions!</p>
+        </div>
+
+        <div class="game-stats">
+            <div class="stat-card">
+                <h3 id="score">0</h3>
+                <p>Score</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="discoveries">0</h3>
+                <p>Discoveries</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="experiments">0</h3>
+                <p>Experiments</p>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="elements-panel">
+                <h3>🔬 Available Elements</h3>
+                <div class="element-grid" id="elementGrid">
+                    <!-- Elements will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="mixing-chamber">
+                <div class="beaker">
+                    <div class="beaker-liquid" id="beakerLiquid"></div>
+                </div>
+                
+                <div class="selected-elements" id="selectedElements">
+                    <p style="color: #999;">Select elements to mix...</p>
+                </div>
+                
+                <button class="mix-btn" id="mixBtn" disabled>Mix Elements!</button>
+                <button class="clear-btn" id="clearBtn">Clear All</button>
+            </div>
+
+            <div class="results-panel">
+                <h3>📋 Experiment Results</h3>
+                <div id="resultsArea">
+                    <p style="color: #999; text-align: center;">Results will appear here...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        let gameState = {
+            score: 0,
+            discoveries: 0,
+            experiments: 0,
+            selectedElements: [],
+            discoveredCompounds: new Set()
+        };
+
+        // Elements data
+        const elements = [
+            { symbol: 'H', name: 'Hydrogen', color: '#ff6b6b' },
+            { symbol: 'O', name: 'Oxygen', color: '#4ecdc4' },
+            { symbol: 'C', name: 'Carbon', color: '#45b7d1' },
+            { symbol: 'N', name: 'Nitrogen', color: '#96ceb4' },
+            { symbol: 'Na', name: 'Sodium', color: '#feca57' },
+            { symbol: 'Cl', name: 'Chlorine', color: '#ff9ff3' },
+            { symbol: 'Ca', name: 'Calcium', color: '#54a0ff' },
+            { symbol: 'Fe', name: 'Iron', color: '#5f27cd' },
+            { symbol: 'S', name: 'Sulfur', color: '#00d2d3' },
+            { symbol: 'Mg', name: 'Magnesium', color: '#ff6348' }
+        ];
+
+        // Chemical reactions database
+        const reactions = {
+            'H,H,O': { name: 'Water', formula: 'H₂O', description: 'The essential molecule of life!', points: 10 },
+            'Na,Cl': { name: 'Salt', formula: 'NaCl', description: 'Common table salt - essential for life!', points: 8 },
+            'C,O,O': { name: 'Carbon Dioxide', formula: 'CO₂', description: 'The gas we breathe out!', points: 12 },
+            'Ca,C,O,O,O': { name: 'Calcium Carbonate', formula: 'CaCO₃', description: 'Found in seashells and limestone!', points: 15 },
+            'H,Cl': { name: 'Hydrochloric Acid', formula: 'HCl', description: 'A strong acid found in your stomach!', points: 10 },
+            'H,H,S': { name: 'Hydrogen Sulfide', formula: 'H₂S', description: 'Smells like rotten eggs!', points: 9 },
+            'Fe,O,O,O': { name: 'Iron Oxide', formula: 'Fe₂O₃', description: 'Rust! Iron exposed to oxygen and water.', points: 13 },
+            'Mg,O': { name: 'Magnesium Oxide', formula: 'MgO', description: 'Burns with brilliant white light!', points: 11 },
+            'H,N,N,N': { name: 'Ammonia', formula: 'NH₃', description: 'Strong-smelling gas used in cleaning products!', points: 14 },
+            'C,H,H,H,H': { name: 'Methane', formula: 'CH₄', description: 'Natural gas - a clean burning fuel!', points: 16 }
+        };
+
+        // Initialize game
+        function initGame() {
+            populateElements();
+            updateStats();
+            setupEventListeners();
+        }
+
+        function populateElements() {
+            const grid = document.getElementById('elementGrid');
+            grid.innerHTML = '';
+            
+            elements.forEach(element => {
+                const btn = document.createElement('button');
+                btn.className = 'element';
+                btn.style.background = `linear-gradient(135deg, ${element.color}88, ${element.color}cc)`;
+                btn.innerHTML = `<div style="font-size: 20px; font-weight: bold;">${element.symbol}</div><div style="font-size: 10px;">${element.name}</div>`;
+                btn.addEventListener('click', () => selectElement(element));
+                grid.appendChild(btn);
+            });
+        }
+
+        function selectElement(element) {
+            if (gameState.selectedElements.length < 5) {
+                gameState.selectedElements.push(element);
+                updateSelectedElements();
+                updateMixButton();
+            }
+        }
+
+        function updateSelectedElements() {
+            const container = document.getElementById('selectedElements');
+            if (gameState.selectedElements.length === 0) {
+                container.innerHTML = '<p style="color: #999;">Select elements to mix...</p>';
+            } else {
+                container.innerHTML = gameState.selectedElements.map(el => 
+                    `<div class="selected-element">${el.symbol}</div>`
+                ).join('');
+            }
+        }
+
+        function updateMixButton() {
+            const btn = document.getElementById('mixBtn');
+            btn.disabled = gameState.selectedElements.length < 2;
+        }
+
+        function mixElements() {
+            const symbols = gameState.selectedElements.map(el => el.symbol).sort();
+            const key = symbols.join(',');
+            
+            gameState.experiments++;
+            
+            animateReaction();
+            
+            setTimeout(() => {
+                if (reactions[key]) {
+                    const reaction = reactions[key];
+                    if (!gameState.discoveredCompounds.has(key)) {
+                        gameState.discoveredCompounds.add(key);
+                        gameState.discoveries++;
+                        gameState.score += reaction.points;
+                        showResult(reaction, true);
+                    } else {
+                        gameState.score += Math.floor(reaction.points / 2);
+                        showResult(reaction, false);
+                    }
+                } else {
+                    showFailedReaction();
+                }
+                
+                clearSelection();
+                updateStats();
+            }, 2000);
+        }
+
+        function animateReaction() {
+            const beaker = document.getElementById('beakerLiquid');
+            const colors = gameState.selectedElements.map(el => el.color);
+            const gradient = `linear-gradient(45deg, ${colors.join(', ')})`;
+            
+            beaker.style.background = gradient;
+            beaker.style.height = '60%';
+            beaker.classList.add('bubbling');
+            beaker.textContent = '🧪 Mixing...';
+        }
+
+        function showResult(reaction, isNew) {
+            const resultsArea = document.getElementById('resultsArea');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = isNew ? 'discovery' : 'reaction-result';
+            
+            resultDiv.innerHTML = `
+                <h4>${isNew ? '🎉 New Discovery!' : '✅ Known Compound'} ${reaction.name}</h4>
+                <p><strong>Formula:</strong> ${reaction.formula}</p>
+                <p>${reaction.description}</p>
+                <p><strong>Points:</strong> +${isNew ? reaction.points : Math.floor(reaction.points / 2)}</p>
+            `;
+            
+            resultsArea.insertBefore(resultDiv, resultsArea.firstChild);
+            
+            // Keep only last 5 results
+            while (resultsArea.children.length > 6) {
+                resultsArea.removeChild(resultsArea.lastChild);
+            }
+        }
+
+        function showFailedReaction() {
+            const resultsArea = document.getElementById('resultsArea');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'reaction-result';
+            resultDiv.style.background = 'linear-gradient(135deg, #ffb3ba 0%, #ffdfba 100%)';
+            
+            resultDiv.innerHTML = `
+                <h4>❌ No Reaction</h4>
+                <p>These elements don't form a stable compound. Try a different combination!</p>
+                <p><strong>Points:</strong> +1 for trying!</p>
+            `;
+            
+            gameState.score += 1;
+            resultsArea.insertBefore(resultDiv, resultsArea.firstChild);
+            
+            while (resultsArea.children.length > 6) {
+                resultsArea.removeChild(resultsArea.lastChild);
+            }
+        }
+
+        function clearSelection() {
+            gameState.selectedElements = [];
+            updateSelectedElements();
+            updateMixButton();
+            
+            const beaker = document.getElementById('beakerLiquid');
+            beaker.style.height = '0%';
+            beaker.classList.remove('bubbling');
+            beaker.textContent = '';
+        }
+
+        function updateStats() {
+            document.getElementById('score').textContent = gameState.score;
+            document.getElementById('discoveries').textContent = gameState.discoveries;
+            document.getElementById('experiments').textContent = gameState.experiments;
+        }
+
+        function setupEventListeners() {
+            document.getElementById('mixBtn').addEventListener('click', mixElements);
+            document.getElementById('clearBtn').addEventListener('click', clearSelection);
+        }
+
+        // Start the game
+        initGame();
+    </script>
+</body>
+</html>

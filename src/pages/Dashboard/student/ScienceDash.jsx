@@ -1,12 +1,13 @@
 // ScienceDash.jsx
 import React, { useMemo } from 'react';
-import { BookOpen, Atom, Calculator, Dna, Globe, Star, Play, RotateCcw, Microscope } from 'lucide-react';
+import { BookOpen, Atom, Calculator, Dna, Globe, Star } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
 import Sidebar from '../../../components/student/Sidebar';
 import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
+import ChemistryGame from '../../../components/student/science/game/ChemistryGame';
 import styles from './ScienceDash.module.css';
 
 const ScienceDash = () => {
@@ -30,20 +31,11 @@ const ScienceDash = () => {
     chatHistory, setChatHistory,
     userInput, setUserInput,
     achievements, studyStreak,
-    topics, currentTopicData, quizData, projectData, learningResources, learningModes,
+    topics, currentTopicData, quizData, learningResources, learningModes,
     loading,
     startQuiz, answerQuestion, sendMessage,
     user
   } = dashboardState;
-
-  const runSimulation = (topicId) => {
-    setTimeout(() => {
-      setUserProgress(prev => ({
-        ...prev,
-        [topicId]: Math.min(100, prev[topicId] + 5)
-      }));
-    }, 3000);
-  };
 
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
@@ -57,36 +49,10 @@ const ScienceDash = () => {
     </div>
   );
 
-  const renderSimulation = (topicId) => {
-    if (!projectData) return null;
-
+  const runGame = () => {
     return (
       <div className={styles.simulationCard}>
-        <div className={styles.simulationHeader}>
-          <h3 className={styles.simulationTitle}>{projectData.name}</h3>
-          <Microscope className={styles.simulationIcon} />
-        </div>
-        <p className={styles.simulationDescription}>{projectData.description}</p>
-
-        <div className={styles.simulationWindow}>
-          <p className={styles.simulationPlaceholder}>
-            {projectData.placeholder || "Click 'Run Simulation' to start"}
-          </p>
-        </div>
-
-        <div className={styles.simulationControls}>
-          <button
-            onClick={() => runSimulation(topicId)}
-            className={`${styles.simulationButton} ${styles.simulationButtonPrimary}`}
-          >
-            <Play className={styles.buttonIcon} />
-            Run Simulation
-          </button>
-          <button className={`${styles.simulationButton} ${styles.simulationButtonSecondary}`}>
-            <RotateCcw className={styles.buttonIcon} />
-            Reset
-          </button>
-        </div>
+        <ChemistryGame />
       </div>
     );
   };
@@ -128,7 +94,7 @@ const ScienceDash = () => {
             userEmail={user.email}
           />
 
-          {learningMode === 'interactive' && renderSimulation(selectedTopic)}
+          {learningMode === 'interactive' && runGame()}
 
           {learningMode === 'assessment' && (
             <QuizAssessmentTool
