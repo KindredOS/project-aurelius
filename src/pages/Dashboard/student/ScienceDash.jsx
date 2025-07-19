@@ -1,4 +1,4 @@
-// ScienceDash.jsx
+// Updated ScienceDash.jsx - Now passes proper data to QuizAssessmentTool
 import React, { useMemo } from 'react';
 import { BookOpen, Atom, Calculator, Dna, Globe, Star } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
@@ -26,14 +26,12 @@ const ScienceDash = () => {
     selectedTopic, setSelectedTopic,
     gradeLevel, setGradeLevel,
     learningMode, setLearningMode,
-    userProgress, setUserProgress,
-    currentQuiz, setCurrentQuiz,
+    userProgress,
     chatHistory, setChatHistory,
     userInput, setUserInput,
     achievements, studyStreak,
-    topics, currentTopicData, quizData, learningResources, learningModes,
+    topics, currentTopicData, learningResources, learningModes,
     loading,
-    startQuiz, answerQuestion, sendMessage,
     user
   } = dashboardState;
 
@@ -99,7 +97,11 @@ const ScienceDash = () => {
           {learningMode === 'assessment' && (
             <QuizAssessmentTool
               content={currentTopicData?.content || "This section covers key concepts in science."}
+              subject="science"
               sectionTitle={currentTopicData?.title || "Science Assessment"}
+              topicId={selectedTopic}
+              topicData={topic}
+              userEmail={user.email}
             />
           )}
 
@@ -109,7 +111,7 @@ const ScienceDash = () => {
               setChatHistory={setChatHistory}
               userInput={userInput}
               setUserInput={setUserInput}
-              sendMessage={sendMessage}
+              sendMessage={dashboardState.sendMessage}
               styles={styles}
               tutorName="AI Science Tutor"
               placeholder="Ask me anything about science..."

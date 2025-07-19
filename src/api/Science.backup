@@ -22,6 +22,19 @@ function cleanMarkdownContent(content) {
     .replace(/\\"/g, '"')
     .replace(/\\'/g, "'")
     .replace(/\\\\/g, '\\');
+  
+  // FIX: Handle malformed headers that start with quotes
+  // This fixes the "# What is Science? issue
+  cleaned = cleaned.replace(/^"#\s*/gm, '# ');
+  
+  // Also handle cases where the entire header line is quoted
+  cleaned = cleaned.replace(/^"(#{1,6}\s+[^"]+)"$/gm, '$1');
+  
+  // Clean up any remaining quotes at the start of lines that shouldn't be there
+  cleaned = cleaned.replace(/^"([^"]*?)$/gm, '$1');
+  
+  // Ensure proper spacing after headers
+  cleaned = cleaned.replace(/(#{1,6}\s+[^\n]+)\n([^\n#])/g, '$1\n\n$2');
     
   return cleaned;
 }

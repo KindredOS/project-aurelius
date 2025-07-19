@@ -1,0 +1,337 @@
+{
+  "id": "module 1",
+  "title": "Module 1 Problem Set",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple-choice",
+      "question": "What is matter made of?",
+      "correctAnswer": 0,
+      "explanation": "All matter is composed of atoms.",
+      "options": [
+        "Atoms",
+        "Light",
+        "Sound",
+        "Energy"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "true-false",
+      "question": "True or false: Electrons are found in the nucleus of an atom.",
+      "correctAnswer": false,
+      "explanation": "Electrons orbit around the nucleus."
+    },
+    {
+      "id": 3,
+      "type": "short-answer",
+      "question": "Describe the difference between an element and a compound.",
+      "correctAnswer": "sample answer",
+      "explanation": "Elements are pure substances, while compounds are bonded atoms.",
+      "sampleAnswer": "Elements are made of one kind of atom; compounds are bonded atoms of different elements."
+    },
+    {
+      "id": 4,
+      "type": "matching",
+      "question": "Match the form of energy with its source.",
+      "correctAnswer": {
+        "Kinetic": "Motion",
+        "Chemical": "Bonds",
+        "Thermal": "Heat"
+      },
+      "explanation": "Each form of energy has a unique origin.",
+      "pairs": [
+        {
+          "left": "Kinetic",
+          "right": "Motion"
+        },
+        {
+          "left": "Chemical",
+          "right": "Bonds"
+        },
+        {
+          "left": "Thermal",
+          "right": "Heat"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "type": "multiple-choice",
+      "question": "What is matter made of?",
+      "correctAnswer": 0,
+      "explanation": "All matter is composed of atoms.",
+      "options": [
+        "Atoms",
+        "Light",
+        "Sound",
+        "Energy"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "true-false",
+      "question": "True or false: Electrons are found in the nucleus of an atom.",
+      "correctAnswer": false,
+      "explanation": "Electrons orbit around the nucleus."
+    },
+    {
+      "id": 7,
+      "type": "short-answer",
+      "question": "Describe the difference between an element and a compound.",
+      "correctAnswer": "sample answer",
+      "explanation": "Elements are pure substances, while compounds are bonded atoms.",
+      "sampleAnswer": "Elements are made of one kind of atom; compounds are bonded atoms of different elements."
+    },
+    {
+      "id": 8,
+      "type": "matching",
+      "question": "Match the form of energy with its source.",
+      "correctAnswer": {
+        "Kinetic": "Motion",
+        "Chemical": "Bonds",
+        "Thermal": "Heat"
+      },
+      "explanation": "Each form of energy has a unique origin.",
+      "pairs": [
+        {
+          "left": "Kinetic",
+          "right": "Motion"
+        },
+        {
+          "left": "Chemical",
+          "right": "Bonds"
+        },
+        {
+          "left": "Thermal",
+          "right": "Heat"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "type": "multiple-choice",
+      "question": "What is matter made of?",
+      "correctAnswer": 0,
+      "explanation": "All matter is composed of atoms.",
+      "options": [
+        "Atoms",
+        "Light",
+        "Sound",
+        "Energy"
+      ]
+    },
+    {
+      "id": 10,
+      "type": "true-false",
+      "question": "True or false: Electrons are found in the nucleus of an atom.",
+      "correctAnswer": false,
+      "explanation": "Electrons orbit around the nucleus."
+    },
+    {
+      "id": 11,
+      "type": "short-answer",
+      "question": "Describe the difference between an element and a compound.",
+      "correctAnswer": "sample answer",
+      "explanation": "Elements are pure substances, while compounds are bonded atoms.",
+      "sampleAnswer": "Elements are made of one kind of atom; compounds are bonded atoms of different elements."
+    },
+    {
+      "id": 12,
+      "type": "matching",
+      "question": "Match the form of energy with its source.",
+      "correctAnswer": {
+        "Kinetic": "Motion",
+        "Chemical": "Bonds",
+        "Thermal": "Heat"
+      },
+      "explanation": "Each form of energy has a unique origin.",
+      "pairs": [
+        {
+          "left": "Kinetic",
+          "right": "Motion"
+        },
+        {
+          "left": "Chemical",
+          "right": "Bonds"
+        },
+        {
+          "left": "Thermal",
+          "right": "Heat"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "type": "multiple-choice",
+      "question": "What is matter made of?",
+      "correctAnswer": 0,
+      "explanation": "All matter is composed of atoms.",
+      "options": [
+        "Atoms",
+        "Light",
+        "Sound",
+        "Energy"
+      ]
+    },
+    {
+      "id": 14,
+      "type": "true-false",
+      "question": "True or false: Electrons are found in the nucleus of an atom.",
+      "correctAnswer": false,
+      "explanation": "Electrons orbit around the nucleus."
+    },
+    {
+      "id": 15,
+      "type": "short-answer",
+      "question": "Describe the difference between an element and a compound.",
+      "correctAnswer": "sample answer",
+      "explanation": "Elements are pure substances, while compounds are bonded atoms.",
+      "sampleAnswer": "Elements are made of one kind of atom; compounds are bonded atoms of different elements."
+    },
+    {
+      "id": 16,
+      "type": "matching",
+      "question": "Match the form of energy with its source.",
+      "correctAnswer": {
+        "Kinetic": "Motion",
+        "Chemical": "Bonds",
+        "Thermal": "Heat"
+      },
+      "explanation": "Each form of energy has a unique origin.",
+      "pairs": [
+        {
+          "left": "Kinetic",
+          "right": "Motion"
+        },
+        {
+          "left": "Chemical",
+          "right": "Bonds"
+        },
+        {
+          "left": "Thermal",
+          "right": "Heat"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "type": "multiple-choice",
+      "question": "What is matter made of?",
+      "correctAnswer": 0,
+      "explanation": "All matter is composed of atoms.",
+      "options": [
+        "Atoms",
+        "Light",
+        "Sound",
+        "Energy"
+      ]
+    },
+    {
+      "id": 18,
+      "type": "true-false",
+      "question": "True or false: Electrons are found in the nucleus of an atom.",
+      "correctAnswer": false,
+      "explanation": "Electrons orbit around the nucleus."
+    },
+    {
+      "id": 19,
+      "type": "short-answer",
+      "question": "Describe the difference between an element and a compound.",
+      "correctAnswer": "sample answer",
+      "explanation": "Elements are pure substances, while compounds are bonded atoms.",
+      "sampleAnswer": "Elements are made of one kind of atom; compounds are bonded atoms of different elements."
+    },
+    {
+      "id": 20,
+      "type": "matching",
+      "question": "Match the form of energy with its source.",
+      "correctAnswer": {
+        "Kinetic": "Motion",
+        "Chemical": "Bonds",
+        "Thermal": "Heat"
+      },
+      "explanation": "Each form of energy has a unique origin.",
+      "pairs": [
+        {
+          "left": "Kinetic",
+          "right": "Motion"
+        },
+        {
+          "left": "Chemical",
+          "right": "Bonds"
+        },
+        {
+          "left": "Thermal",
+          "right": "Heat"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "type": "multiple-choice",
+      "question": "What is matter made of?",
+      "correctAnswer": 0,
+      "explanation": "All matter is composed of atoms.",
+      "options": [
+        "Atoms",
+        "Light",
+        "Sound",
+        "Energy"
+      ]
+    },
+    {
+      "id": 22,
+      "type": "true-false",
+      "question": "True or false: Electrons are found in the nucleus of an atom.",
+      "correctAnswer": false,
+      "explanation": "Electrons orbit around the nucleus."
+    },
+    {
+      "id": 23,
+      "type": "short-answer",
+      "question": "Describe the difference between an element and a compound.",
+      "correctAnswer": "sample answer",
+      "explanation": "Elements are pure substances, while compounds are bonded atoms.",
+      "sampleAnswer": "Elements are made of one kind of atom; compounds are bonded atoms of different elements."
+    },
+    {
+      "id": 24,
+      "type": "matching",
+      "question": "Match the form of energy with its source.",
+      "correctAnswer": {
+        "Kinetic": "Motion",
+        "Chemical": "Bonds",
+        "Thermal": "Heat"
+      },
+      "explanation": "Each form of energy has a unique origin.",
+      "pairs": [
+        {
+          "left": "Kinetic",
+          "right": "Motion"
+        },
+        {
+          "left": "Chemical",
+          "right": "Bonds"
+        },
+        {
+          "left": "Thermal",
+          "right": "Heat"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "type": "multiple-choice",
+      "question": "What is matter made of?",
+      "correctAnswer": 0,
+      "explanation": "All matter is composed of atoms.",
+      "options": [
+        "Atoms",
+        "Light",
+        "Sound",
+        "Energy"
+      ]
+    }
+  ]
+}
