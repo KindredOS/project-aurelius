@@ -46,7 +46,7 @@ function Login() {
           email: userEmail,
           password: 'google_oauth',
           role: role,
-          inviteCode: role === 'student' ? inviteCode : undefined,
+          inviteCode: (role === 'student' && inviteCode) ? inviteCode : undefined,
         }),
       });
 
@@ -62,8 +62,11 @@ function Login() {
       localStorage.setItem('userName', userName);
       localStorage.setItem('userEmail', data.email);
       localStorage.setItem('userRole', data.role);
+      localStorage.setItem('accessRole', data.accessRole || data.role);
 
-      navigate(`/dashboard/${data.role}`);
+      // Navigate to the appropriate dashboard
+      const dashboardRole = data.accessRole || data.role;
+      navigate(`/dashboard/${dashboardRole}`);
     } catch (err) {
       console.error('Google Login Failed', err);
       alert(err.message || 'Google login failed.');
@@ -93,7 +96,7 @@ function Login() {
           email,
           password,
           role,
-          inviteCode: role === 'student' ? inviteCode : undefined
+          inviteCode: (role === 'student' && inviteCode) ? inviteCode : undefined,
         }),
       });
 
@@ -106,10 +109,18 @@ function Login() {
 
       localStorage.setItem('userRole', data.role);
       localStorage.setItem('userEmail', data.email);
-      navigate(`/dashboard/${data.role}`);
+      localStorage.setItem('accessRole', data.accessRole || data.role);
+      
+      // Navigate to the appropriate dashboard
+      const dashboardRole = data.accessRole || data.role;
+      navigate(`/dashboard/${dashboardRole}`);
     } catch (error) {
       alert(error.message || 'Login failed.');
     }
+  };
+
+  const handleNewUserClick = () => {
+    navigate('/onboarding');
   };
 
   return (
@@ -118,6 +129,26 @@ function Login() {
         <div className={styles['login-form-area']}>
           <div className={styles['login-container']}>
             <h1>Login</h1>
+
+            <div style={{ marginBottom: '20px', textAlign: 'center' }}>
+              <button
+                onClick={handleNewUserClick}
+                style={{
+                  backgroundColor: '#17a2b8',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                  padding: '12px 20px',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  border: 'none',
+                  width: '100%'
+                }}
+              >
+                New User? Start Onboarding Here
+              </button>
+            </div>
+
             <div className={styles['form-group']}>
               <label>Select Role:</label>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px', gap: '10px' }}>
@@ -147,13 +178,13 @@ function Login() {
 
             {role === 'student' && (
               <div className={styles['form-group']}>
-                <label htmlFor="invite">Invite Code:</label>
+                <label htmlFor="invite">Invite Code (Optional):</label>
                 <input
                   type="text"
                   id="invite"
                   value={inviteCode}
                   onChange={(e) => setInviteCode(e.target.value)}
-                  required
+                  placeholder="Enter invite code to connect with teacher/parent (optional)"
                 />
               </div>
             )}

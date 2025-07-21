@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { isOnline } from '../../../utils/networkStatus';
 import styles from './GlobalNavigation.module.css';
+import SubscribeModal from '../../SubscribeModal'; // Adjust the path accordingly
 
 const GlobalNavigation = ({ user: propUser }) => {
   const navigate = useNavigate();
   const [isConnected, setIsConnected] = useState(false);
   const [user, setUser] = useState(propUser || {});
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [showSubscribeModal, setShowSubscribeModal] = useState(false);
 
   useEffect(() => {
     if (!propUser) {
@@ -101,7 +103,7 @@ const GlobalNavigation = ({ user: propUser }) => {
 
           <button 
             className={styles.subscribeButton} 
-            onClick={() => window.open('https://yb8bhot2zodnchlt.vercel.app/', '_blank')}
+            onClick={() => setShowSubscribeModal(true)}
           >
             <span className={styles.subscribeIcon}>✨</span>
             Subscribe
@@ -140,6 +142,15 @@ const GlobalNavigation = ({ user: propUser }) => {
           </div>
         </div>
       )}
+
+      <SubscribeModal
+        isOpen={showSubscribeModal}
+        onClose={() => setShowSubscribeModal(false)}
+        title="Subscribe to KOSEdu SDK"
+        user={user}
+      >
+        <p>Unlock full features, premium tools, and priority support by subscribing.</p>
+      </SubscribeModal>
     </>
   );
 };
