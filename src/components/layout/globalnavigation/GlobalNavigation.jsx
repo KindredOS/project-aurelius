@@ -15,7 +15,8 @@ const GlobalNavigation = ({ user: propUser }) => {
     if (!propUser) {
       const storedRole = localStorage.getItem('userRole');
       const imageUrl = localStorage.getItem('userImageUrl');
-      setUser({ role: storedRole, imageUrl });
+      const email = localStorage.getItem('userEmail'); // <-- Ensure email is included
+      setUser({ role: storedRole, imageUrl, email });
     }
   }, [propUser]);
 
@@ -39,6 +40,7 @@ const GlobalNavigation = ({ user: propUser }) => {
   const handleLogout = () => {
     localStorage.removeItem('googleLoggedIn');
     localStorage.removeItem('userRole');
+    localStorage.removeItem('userEmail');
     setShowLogoutConfirm(false);
     setTimeout(() => navigate('/'), 100);
   };
@@ -61,7 +63,7 @@ const GlobalNavigation = ({ user: propUser }) => {
             <span className={styles.logoIcon}>🎓</span>
             <span className={styles.logoText}>KOSEdu SDK</span>
           </div>
-          
+
           <div className={styles.connectionIndicator}>
             <div className={`${styles.statusDot} ${isConnected ? styles.connected : styles.disconnected}`}></div>
             <span className={styles.statusText}>
