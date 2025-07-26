@@ -1,15 +1,29 @@
-// 2. ContentManager.jsx - NEW component for data orchestration
+// ContentManager.jsx - Handles 500 Failover to Template Markdown
 import React, { useState, useEffect } from 'react';
 import AdaptiveTextbook from './AdaptiveTextbook';
-import { fetchStudentMarkdown, saveStudentMarkdown } from '../../api/Science';
+import { fetchStudentMarkdown, saveStudentMarkdown } from '../../api/ApiMaster';
 import styles from './TopicHeader.module.css';
+
+const cleanMarkdownContent = (content) => {
+  if (typeof content !== 'string') return content;
+  return content
+    .replace(/^\"(#{1,6}\s+.*?)\"$/gm, '$1')
+    .replace(/^\"([^\"]*?)$/gm, '$1')
+    .replace(/\\n/g, '\n')
+    .replace(/\\r/g, '\r')
+    .replace(/\\t/g, '\t')
+    .replace(/\"/g, '"')
+    .replace(/\\'/g, "'")
+    .replace(/\\\\/g, '\\')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/(#{1,6}\s+[^\n]+)\n([^\n#])/g, '$1\n\n$2');
+};
 
 const ContentManager = ({ selectedConcept, subject, userEmail }) => {
   const [markdownText, setMarkdownText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Load content when concept changes
   useEffect(() => {
     const loadMarkdown = async () => {
       if (!selectedConcept?.markdown || !subject || !userEmail) {
@@ -21,27 +35,29 @@ const ContentManager = ({ selectedConcept, subject, userEmail }) => {
       setError(null);
 
       try {
-        const content = await fetchStudentMarkdown(userEmail, selectedConcept.markdown);
-        setMarkdownText(content);
+        const raw = await fetchStudentMarkdown(subject, userEmail, selectedConcept.markdown);
+        if (!raw || raw.toLowerCase().includes('error') || raw.trim() === '') {
+          throw new Error('Primary fetch failed with backend 500 or invalid content');
+        }
+        setMarkdownText(cleanMarkdownContent(raw));
       } catch (err) {
-        console.error('Error loading markdown:', err);
-
-        // Fallback to public path (PATCHED)
+        console.warn('[Primary] Markdown fetch failed, loading template:', err);
         try {
-          const encodedPath = encodeURIComponent(selectedConcept.markdown);
-          const publicPath = `/data/${subject}/markdown/${encodedPath}`;
-          const publicRes = await fetch(publicPath);
-          if (publicRes.ok) {
-            const fallbackText = await publicRes.text();
-            setMarkdownText(fallbackText);
+          const publicPath = `/data/${subject}/markdown/${encodeURIComponent(selectedConcept.markdown)}`;
+          const res = await fetch(publicPath);
+          if (!res.ok) throw new Error(`Template fallback fetch failed with ${res.status}`);
 
-            // Save to user's storage (UNENCODED for internal match)
-            await saveStudentMarkdown(userEmail, decodeURIComponent(selectedConcept.markdown), fallbackText);
-          } else {
-            throw new Error('Failed to load from public path');
+          const fallbackText = await res.text();
+          const cleaned = cleanMarkdownContent(fallbackText);
+          setMarkdownText(cleaned);
+
+          try {
+            await saveStudentMarkdown(subject, userEmail, decodeURIComponent(selectedConcept.markdown), cleaned);
+          } catch (saveErr) {
+            console.warn('[Template Save] Failed:', saveErr);
           }
-        } catch (fallbackErr) {
-          console.error('Fallback failed:', fallbackErr);
+        } catch (templateErr) {
+          console.error('[Template Fallback] Failed:', templateErr);
           setError('Error loading content.');
           setMarkdownText('');
         }
@@ -53,13 +69,11 @@ const ContentManager = ({ selectedConcept, subject, userEmail }) => {
     loadMarkdown();
   }, [selectedConcept, subject, userEmail]);
 
-  // Save content when it's updated
   const handleContentSave = async (updatedContent) => {
     if (!selectedConcept?.markdown || !userEmail) return;
-
     try {
       const cleanPath = decodeURIComponent(selectedConcept.markdown);
-      await saveStudentMarkdown(userEmail, cleanPath, updatedContent);
+      await saveStudentMarkdown(subject, userEmail, cleanPath, updatedContent);
       setMarkdownText(updatedContent);
     } catch (err) {
       console.error('Error saving markdown:', err);
@@ -67,39 +81,33 @@ const ContentManager = ({ selectedConcept, subject, userEmail }) => {
     }
   };
 
-  if (isLoading) {
+  const renderBody = () => {
+    if (isLoading) {
+      return <div className={styles.loadingState}>Loading content...</div>;
+    }
+    if (error) {
+      return <div className={styles.errorState}>{error}</div>;
+    }
+    if (selectedConcept.markdown) {
+      return (
+        <AdaptiveTextbook 
+          content={markdownText} 
+          onContentSave={handleContentSave} 
+          subject={subject} 
+        />
+      );
+    }
     return (
-      <div className={styles.conceptDetailCard}>
-        <h3>{selectedConcept.title || selectedConcept}</h3>
-        <div className={styles.loadingState}>Loading content...</div>
-      </div>
+      <p>
+        {selectedConcept.content || `Here we'll show details, activities, or lessons for: ${selectedConcept.title || selectedConcept}`}
+      </p>
     );
-  }
-
-  if (error) {
-    return (
-      <div className={styles.conceptDetailCard}>
-        <h3>{selectedConcept.title || selectedConcept}</h3>
-        <div className={styles.errorState}>{error}</div>
-      </div>
-    );
-  }
+  };
 
   return (
     <div className={styles.conceptDetailCard}>
       <h3>{selectedConcept.title || selectedConcept}</h3>
-      {selectedConcept.markdown ? (
-        <AdaptiveTextbook 
-          content={markdownText} 
-          onContentSave={handleContentSave}
-        />
-      ) : (
-        <p>
-          {selectedConcept.content || 
-            `Here we'll show details, activities, or lessons for: ${selectedConcept.title || selectedConcept}`
-          }
-        </p>
-      )}
+      {renderBody()}
     </div>
   );
 };

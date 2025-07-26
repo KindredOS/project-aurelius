@@ -2,7 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { Brain, Menu } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
-import { queryModel, saveChatThread, fetchChatThreads, fetchChatThread } from '../../api/Science';
+import {
+  queryModel,
+  saveChatThread,
+  fetchChatThreads,
+  fetchChatThread
+} from '../../api/ApiMaster';
 import ChatSidebar from './ChatSidebar';
 import styles from './ChatWindow.module.css';
 
@@ -33,7 +38,7 @@ const ChatWindow = ({
 
   const fetchThreadsData = async () => {
     try {
-      const threadsData = await fetchChatThreads(user.email);
+      const threadsData = await fetchChatThreads(subject, user.email);
       setThreads(threadsData);
     } catch (err) {
       console.error('❌ Failed to fetch threads:', err);
@@ -42,7 +47,7 @@ const ChatWindow = ({
 
   const saveChatToThread = async (messageLog) => {
     try {
-      await saveChatThread({
+      await saveChatThread(subject, {
         email: user.email,
         threadId,
         subject,
@@ -56,7 +61,7 @@ const ChatWindow = ({
 
   const loadChatThread = async (id) => {
     try {
-      const threadData = await fetchChatThread(user.email, id);
+      const threadData = await fetchChatThread(subject, user.email, id);
       if (threadData) {
         setChatHistory(threadData.history || []);
       }
@@ -76,7 +81,7 @@ const ChatWindow = ({
 
     try {
       const subjectPrompt = `[${subject.toUpperCase()}] ${userInput}`;
-      const aiResponse = await queryModel(subjectPrompt);
+      const aiResponse = await queryModel(subject, subjectPrompt);
       const assistantMessage = { role: 'assistant', content: aiResponse };
 
       const updatedHistory = [...newHistory, assistantMessage];
@@ -147,8 +152,8 @@ const ChatWindow = ({
           {chatHistory.length === 0 && (
             <div className={styles.chatMessagesEmpty}>
               <Brain className={styles.emptyIcon} />
-              <p className={styles.emptyTitle}>Welcome to AI Science Tutor!</p>
-              <p className={styles.emptySubtitle}>Ask me anything about science and I'll help you learn.</p>
+              <p className={styles.emptyTitle}>Welcome to {tutorName}!</p>
+              <p className={styles.emptySubtitle}>{placeholder}</p>
             </div>
           )}
 

@@ -1,17 +1,17 @@
 // components/student/ChatSidebar.jsx
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { MessageSquare, Clock, X, Plus } from 'lucide-react';
-import { fetchChatThreads } from '../../api/Science';
 
-const ChatSidebar = ({ email, activeThreadId, onSelectThread, isOpen, onClose, styles }) => {
-  const [threads, setThreads] = useState([]);
-
-  useEffect(() => {
-    if (email) {
-      fetchChatThreads(email).then(setThreads);
-    }
-  }, [email]);
-
+const ChatSidebar = ({
+  email,
+  subject = 'general',
+  threads = [],
+  activeThreadId,
+  onSelectThread,
+  isOpen,
+  onClose,
+  styles
+}) => {
   const handleNewChat = () => {
     const newThreadId = crypto.randomUUID();
     onSelectThread(newThreadId);

@@ -68,22 +68,19 @@ export const processEnhancedMarkdown = (rawResult) => {
     processed = processed.replace(/^"(#{1,6}\s+[^"}]+)"$/gm, '$1');
     processed = processed.replace(/^"([^"}]*?)$/gm, '$1');
 
-    // IMPROVED: Only remove headers that are likely duplicates
+    // Deduplicate consecutive identical headers
     const lines = processed.split('\n');
     const cleanedLines = [];
-    let skipInitialHeaders = true;
+    let lastHeader = null;
 
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
+    for (const line of lines) {
       const isHeader = /^#{1,6}\s+/.test(line);
-
-      if (skipInitialHeaders && isHeader) {
-        continue;
-      } else if (skipInitialHeaders && line.trim() !== '') {
-        skipInitialHeaders = false;
-        cleanedLines.push(line);
-      } else {
-        cleanedLines.push(line);
+      if (isHeader && line === lastHeader) {
+        continue; // skip duplicate header
+      }
+      cleanedLines.push(line);
+      if (isHeader) {
+        lastHeader = line;
       }
     }
 
@@ -141,7 +138,15 @@ export async function polishMarkdown({ text, action, personality = 'default', mo
     // const final = restoreSpecialElements(enhanced, extractSpecialElements(cleanedInputText), cleanedInputText);
     const final = enhanced;
 
-    return final;
+    const timestamp = new Date().toISOString();
+
+    const annotated = [
+      `---\n⚠️ [SANITIZED - ORIGINAL at ${timestamp}]\n---\n${text.trim()}`,
+      `---\n⚠️ [SANITIZED - ENHANCED at ${timestamp}]\n---\n${enhanced.trim()}`,
+      `---\n⚠️ [SANITIZED - FINAL OUTPUT at ${timestamp}]\n---\n${final.trim()}`
+    ].join('\n\n');
+
+    return annotated;
   } catch (error) {
     console.error('AI Markdown Enhancement failed:', error);
     return 'Error enhancing content.';

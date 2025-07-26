@@ -1,15 +1,30 @@
-// Now your ArtsDash.jsx becomes much smaller:
-import React, { useMemo } from 'react';
-import { BookOpen, Palette, Music, Mic, Users, Camera, Play, RotateCcw, Brush } from 'lucide-react';
+import React, { useMemo, useState, useEffect } from 'react';
+import { BookOpen, Palette, Music, Mic, Users, Camera, RotateCcw, Brush, Play } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
 import Sidebar from '../../../components/student/Sidebar';
-import Quiz from '../../../components/student/Quiz';
 import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
+import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
+import SubscribeModal from '../../../components/SubscribeModal';
+import ArtsGame from '../../../components/student/arts/game/ArtsGame';
+import { MODE } from '../../../api/ApiMaster';
 import styles from './ArtsDash.module.css';
 
 const ArtsDash = () => {
+  const [showSubscribe, setShowSubscribe] = useState(false);
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
+  useEffect(() => {
+    const updateStatus = () => setIsOffline(!navigator.onLine);
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+    return () => {
+      window.removeEventListener('online', updateStatus);
+      window.removeEventListener('offline', updateStatus);
+    };
+  }, []);
+
   const iconMap = useMemo(() => ({
     'overview': BookOpen,
     'visual': Palette,
@@ -26,22 +41,22 @@ const ArtsDash = () => {
     gradeLevel, setGradeLevel,
     learningMode, setLearningMode,
     userProgress, setUserProgress,
-    currentQuiz, setCurrentQuiz,
-    chatHistory, userInput, setUserInput,
-    achievements, studyStreak,
-    topics, currentTopicData, quizData, projectData, learningResources, learningModes,
-    loading, error,
-    startQuiz, answerQuestion, sendMessage
+    currentTopicData, chatHistory, userInput, setUserInput,
+    learningResources, learningModes, achievements, studyStreak,
+    topics, loading, user,
+    sendMessage
   } = dashboardState;
 
-  const runProject = (topicId) => {
-    setTimeout(() => {
-      setUserProgress(prev => ({
-        ...prev,
-        [topicId]: Math.min(100, prev[topicId] + 5)
-      }));
-    }, 3000);
-  };
+  const localPremiumCache = localStorage.getItem('isPremiumCached') === 'true';
+  const isEdge = MODE === 'EDGE';
+  const isPremium = isEdge || user?.isPremium || localPremiumCache || isOffline;
+
+  if (user?.isPremium) {
+    localStorage.setItem('isPremiumCached', 'true');
+  }
+
+  const freeProjectAccessIds = ['overview', 'visual', 'music', 'theater'];
+  const isProjectFree = freeProjectAccessIds.includes(selectedTopic);
 
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
@@ -55,39 +70,11 @@ const ArtsDash = () => {
     </div>
   );
 
-  const renderProject = (topicId) => {
-    if (!projectData) return null;
-
-    return (
-      <div className={styles.projectCard}>
-        <div className={styles.projectHeader}>
-          <h3 className={styles.projectTitle}>{projectData.name}</h3>
-          <Brush className={styles.projectIcon} />
-        </div>
-        <p className={styles.projectDescription}>{projectData.description}</p>
-
-        <div className={styles.projectWindow}>
-          <p className={styles.projectPlaceholder}>
-            {projectData.placeholder || "Click 'Start Project' to begin creating"}
-          </p>
-        </div>
-
-        <div className={styles.projectControls}>
-          <button
-            onClick={() => runProject(topicId)}
-            className={`${styles.projectButton} ${styles.projectButtonPrimary}`}
-          >
-            <Play className={styles.buttonIcon} />
-            Start Project
-          </button>
-          <button className={`${styles.projectButton} ${styles.projectButtonSecondary}`}>
-            <RotateCcw className={styles.buttonIcon} />
-            Reset
-          </button>
-        </div>
-      </div>
-    );
-  };
+  const renderProject = () => (
+    <div className={styles.simulationCard}>
+      <ArtsGame />
+    </div>
+  );
 
   if (loading) {
     return <div className={styles.loadingContainer}>Loading Arts Dashboard...</div>;
@@ -112,6 +99,7 @@ const ArtsDash = () => {
         achievements={achievements}
         renderProgressBar={renderProgressBar}
         styles={styles}
+        email={user.email}
       />
 
       <div className={styles.mainContent}>
@@ -123,25 +111,35 @@ const ArtsDash = () => {
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}
             subject="arts"
+            userEmail={user.email}
           />
 
-          {learningMode === 'interactive' && renderProject(selectedTopic)}
+          {/* 🎨 Interactive Art Game */}
+          {learningMode === 'interactive' && (
+            isPremium || isProjectFree ? renderProject() : (
+              <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
+                <div className={styles.lockedOverlay}>
+                  🔒 This creative project is a Premium feature.
+                  <button className={styles.subscribeButton}>Learn More</button>
+                </div>
+              </div>
+            )
+          )}
 
+          {/* 📝 Quiz & Assessment */}
           {learningMode === 'assessment' && (
-            <Quiz
-              currentQuiz={currentQuiz}
-              topics={topics}
-              answerQuestion={answerQuestion}
-              setCurrentQuiz={setCurrentQuiz}
-              startQuiz={startQuiz}
-              selectedTopic={selectedTopic}
-              quizData={quizData}
-              styles={styles}
-              completionTitle="Portfolio Review Complete!"
-              startTitle="Ready for Portfolio Review?"
+            <QuizAssessmentTool
+              content={currentTopicData?.content || "This section evaluates your knowledge of the arts."}
+              subject="arts"
+              sectionTitle={currentTopicData?.title || "Arts Portfolio Review"}
+              topicId={selectedTopic}
+              topicData={topic}
+              userEmail={user.email}
+              isLimited={!isPremium}
             />
           )}
 
+          {/* 🧠 AI Arts Mentor */}
           {learningMode === 'collaborative' && (
             <ChatWindow
               chatHistory={chatHistory}
@@ -151,18 +149,39 @@ const ArtsDash = () => {
               styles={styles}
               tutorName="AI Arts Mentor"
               placeholder="Ask about art techniques, history, or inspiration..."
+              subject="arts"
+              user={user}
+              isLimited={!isPremium}
             />
           )}
 
+          {/* 🎥 Visual Resources */}
           {learningMode === 'visual' && (
-            <VisualResources
-              resources={learningResources}
-              styles={styles}
-              title="Visual Inspiration Gallery"
-            />
+            isPremium ? (
+              <VisualResources
+                resources={learningResources}
+                styles={styles}
+                title="Visual Inspiration Gallery"
+              />
+            ) : (
+              <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
+                <div className={styles.lockedOverlay}>
+                  🔒 Visual gallery is available with Premium Access.
+                  <button className={styles.subscribeButton}>Unlock</button>
+                </div>
+              </div>
+            )
           )}
         </div>
       </div>
+
+      {showSubscribe && (
+        <SubscribeModal
+          isOpen={true}
+          onClose={() => setShowSubscribe(false)}
+          user={user}
+        />
+      )}
     </div>
   );
 };

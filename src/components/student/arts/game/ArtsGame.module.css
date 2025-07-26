@@ -1,0 +1,55 @@
+.artsGameContainer {
+  background-color: #fffdf5;
+  border: 2px solid #ddd;
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.description {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.canvasArea {
+  border: 2px dashed #ccc;
+  height: 200px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+  border-radius: 8px;
+}
+
+.placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.toolButton {
+  background-color: #ffecd1;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.toolButton:hover {
+  background-color: #ffd8a9;
+}

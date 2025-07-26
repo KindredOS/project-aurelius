@@ -1,4 +1,4 @@
-// AdaptiveTextbook.jsx - Now using modular utilities
+// AdaptiveTextbook.jsx - FIXED VERSION - Preserves all content during enhancement
 import React, { useState } from 'react';
 import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
 import styles from './AdaptiveTextbook.module.css';
@@ -25,12 +25,29 @@ import { polishMarkdown } from '../../utils/polishMarkdown';
 import { buildPromptWrap } from '../../utils/aiPromptTools';
 import { cleanUpResponse } from '../../utils/cleanUp';
 
-const AdaptiveTextbook = ({ content, onContentSave }) => {
+const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
   const [enhancedSections, setEnhancedSections] = useState({});
   const [expandedHeader, setExpandedHeader] = useState(null);
   const [promptToggles, setPromptToggles] = useState({});
   const [interactiveToggles, setInteractiveToggles] = useState({});
   const [isEnhancing, setIsEnhancing] = useState({});
+  // Keep track of the current full content
+  const [currentContent, setCurrentContent] = useState(content);
+
+  // Debug: Track when content prop changes
+  React.useEffect(() => {
+    console.log('=== CONTENT PROP CHANGED ===');
+    console.log('New content length:', content?.length || 0);
+    console.log('Current internal content length:', currentContent?.length || 0);
+    console.log('Are they different?', content !== currentContent);
+    
+    // If the parent is passing different content, we might need to update our state
+    if (content !== currentContent) {
+      console.log('Content prop differs from internal state - this might be the problem!');
+      // Uncomment the line below if you want to sync with parent changes
+      // setCurrentContent(content);
+    }
+  }, [content, currentContent]);
 
   const togglePrompt = (key) => {
     setPromptToggles(prev => ({ ...prev, [key]: !prev[key] }));
@@ -50,7 +67,8 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
     setIsEnhancing(prev => ({ ...prev, [header]: true }));
 
     try {
-      const sectionBody = extractSectionUnderHeader(content, header);
+      // Use currentContent instead of the original content prop
+      const sectionBody = extractSectionUnderHeader(currentContent, header);
 
       if (!sectionBody || sectionBody.trim().length === 0) {
         throw new Error('No content found under header');
@@ -69,13 +87,11 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         action 
       });
 
-      const rawAI = await generateAISection(prompt, 'hermes', 750);
+      const rawAI = await generateAISection(prompt, subject, 'hermes', 750);
 
       let enhancedBody = await polishMarkdown({
         text: rawAI,
-        action,
-        personality: 'default',
-        model_key: 'hermes'
+        action
       });
 
       const match = enhancedBody.match(/FINAL OUTPUT[^\n]*\n---\n([\s\S]*)$/);
@@ -96,15 +112,32 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         throw new Error('Enhancement service unavailable');
       }
 
-      const updatedContent = replaceSection(content, header, enhancedBody);
-
+      // FIXED: Replace section in currentContent, not original content
+      console.log('=== BEFORE REPLACE SECTION ===');
+      console.log('currentContent length:', currentContent.length);
+      console.log('currentContent preview:', currentContent.substring(0, 300));
+      console.log('enhancedBody:', enhancedBody);
+      
+      const updatedContent = replaceSection(currentContent, header, enhancedBody);
+      
+      console.log('=== AFTER REPLACE SECTION ===');
+      console.log('updatedContent length:', updatedContent.length);
+      console.log('updatedContent preview:', updatedContent.substring(0, 500));
+      
+      // Update our internal state
+      setCurrentContent(updatedContent);
       setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));
 
+      // Save the full updated content (preserving all sections)
       if (onContentSave) {
+        console.log('=== CALLING onContentSave ===');
+        console.log('Content being saved:', updatedContent.length, 'characters');
         await onContentSave(updatedContent);
+        console.log('=== onContentSave COMPLETED ===');
       }
 
       console.log('Enhancement successful for:', header);
+      console.log('Updated content length:', updatedContent.length);
     } catch (error) {
       console.error('Enhancement failed:', error);
 
@@ -266,14 +299,15 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
     );
   };
 
-  if (!content) {
+  // Use currentContent for parsing instead of the original content prop
+  if (!currentContent) {
     return <div className={styles.noContent}>No content available</div>;
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        {parseMarkdown(content)}
+        {parseMarkdown(currentContent)}
       </div>
     </div>
   );

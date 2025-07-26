@@ -10,9 +10,9 @@ import { queryModel } from '../api/ApiMaster';
  * @param {number} maxTokens - Maximum number of tokens to generate.
  * @returns {Promise<string>} - The model's response.
  */
-export async function generateAISection(prompt, model_key = 'hermes', maxTokens = 750) {
+export async function generateAISection(prompt, subject, model_key = 'hermes', maxTokens = 750) {
   try {
-    const response = await queryModel(prompt, model_key, maxTokens);
+    const response = await queryModel(subject, prompt, model_key, maxTokens);
     return response;
   } catch (error) {
     console.error('generateAISection error:', error);

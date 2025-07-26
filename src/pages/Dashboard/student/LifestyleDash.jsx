@@ -1,14 +1,30 @@
-import React, { useMemo } from 'react';
-import { Home, Heart, Users, Award, Play, Pause, RotateCcw, Dumbbell, Activity, Utensils, Smile } from 'lucide-react';
+import React, { useMemo, useState, useEffect } from 'react';
+import { Home, Dumbbell, Utensils, Smile, Activity, Heart } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
 import Sidebar from '../../../components/student/Sidebar';
-import Quiz from '../../../components/student/Quiz';
 import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
+import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
+import LifestyleGame from '../../../components/student/lifestyle/game/LifestyleGame';
+import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './LifestyleDash.module.css';
+import { MODE } from '../../../api/ApiMaster';
 
 const LifestyleDash = () => {
+  const [showSubscribe, setShowSubscribe] = useState(false);
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
+  useEffect(() => {
+    const updateStatus = () => setIsOffline(!navigator.onLine);
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+    return () => {
+      window.removeEventListener('online', updateStatus);
+      window.removeEventListener('offline', updateStatus);
+    };
+  }, []);
+
   const iconMap = useMemo(() => ({
     'overview': Home,
     'fitness': Dumbbell,
@@ -24,23 +40,22 @@ const LifestyleDash = () => {
     selectedTopic, setSelectedTopic,
     experienceLevel, setExperienceLevel,
     learningMode, setLearningMode,
-    userProgress, setUserProgress,
-    currentQuiz, setCurrentQuiz,
-    chatHistory, userInput, setUserInput,
+    userProgress,
+    chatHistory, setChatHistory,
+    userInput, setUserInput,
     achievements, lifestyleStreak,
-    topics, currentTopicData, quizData, activityData, learningResources, learningModes,
-    loading, error,
-    startQuiz, answerQuestion, sendMessage
+    topics, currentTopicData, learningResources, learningModes,
+    loading,
+    user
   } = dashboardState;
 
-  const runActivity = (topicId) => {
-    setTimeout(() => {
-      setUserProgress(prev => ({
-        ...prev,
-        [topicId]: Math.min(100, prev[topicId] + 5)
-      }));
-    }, 3000);
-  };
+  const localPremiumCache = localStorage.getItem('isPremiumCached') === 'true';
+  const isEdge = MODE === 'EDGE';
+  const isPremium = isEdge || user?.isPremium || localPremiumCache || isOffline;
+
+  if (user?.isPremium) {
+    localStorage.setItem('isPremiumCached', 'true');
+  }
 
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
@@ -54,45 +69,19 @@ const LifestyleDash = () => {
     </div>
   );
 
-  const renderActivity = (topicId) => {
-    if (!activityData) return null;
-
-    return (
-      <div className={styles.activityCard}>
-        <div className={styles.activityHeader}>
-          <h3 className={styles.activityTitle}>{activityData.name}</h3>
-          <Activity className={styles.activityIcon} />
-        </div>
-        <p className={styles.activityDescription}>{activityData.description}</p>
-
-        <div className={styles.activityWindow}>
-          <p className={styles.activityPlaceholder}>
-            {activityData.placeholder || "Click 'Start Activity' to begin"}
-          </p>
-        </div>
-
-        <div className={styles.activityControls}>
-          <button
-            onClick={() => runActivity(topicId)}
-            className={`${styles.activityButton} ${styles.activityButtonPrimary}`}
-          >
-            <Play className={styles.buttonIcon} />
-            Start Activity
-          </button>
-          <button className={`${styles.activityButton} ${styles.activityButtonSecondary}`}>
-            <RotateCcw className={styles.buttonIcon} />
-            Reset
-          </button>
-        </div>
-      </div>
-    );
-  };
+  const runGame = () => (
+    <div className={styles.simulationCard}>
+      <LifestyleGame />
+    </div>
+  );
 
   if (loading) {
     return <div className={styles.loadingContainer}>Loading Lifestyle Dashboard...</div>;
   }
 
   const topic = topics.find(t => t.id === selectedTopic) || currentTopicData;
+  const freeGameAccessIds = ['overview', 'fitness', 'nutrition', 'mindfulness'];
+  const isGameFree = freeGameAccessIds.includes(selectedTopic);
 
   return (
     <div className={styles.lifestylePageContainer}>
@@ -107,12 +96,12 @@ const LifestyleDash = () => {
         topics={topics}
         selectedTopic={selectedTopic}
         setSelectedTopic={setSelectedTopic}
-        userProgress={userProgress}
         achievements={achievements}
         renderProgressBar={renderProgressBar}
         styles={styles}
         gradeLevelLabel="Experience Level"
         gradeLevels={['beginner', 'intermediate', 'advanced']}
+        email={user.email}
       />
 
       <div className={styles.mainContent}>
@@ -124,46 +113,74 @@ const LifestyleDash = () => {
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}
             subject="lifestyle"
+            userEmail={user.email}
           />
-
-          {learningMode === 'interactive' && renderActivity(selectedTopic)}
-
-          {learningMode === 'assessment' && (
-            <Quiz
-              currentQuiz={currentQuiz}
-              topics={topics}
-              answerQuestion={answerQuestion}
-              setCurrentQuiz={setCurrentQuiz}
-              startQuiz={startQuiz}
-              selectedTopic={selectedTopic}
-              quizData={quizData}
-              styles={styles}
-              completionTitle="Assessment Complete!"
-              startTitle="Ready for an Assessment?"
-            />
-          )}
 
           {learningMode === 'collaborative' && (
             <ChatWindow
               chatHistory={chatHistory}
+              setChatHistory={setChatHistory}
               userInput={userInput}
               setUserInput={setUserInput}
-              sendMessage={sendMessage}
+              sendMessage={dashboardState.sendMessage}
               styles={styles}
               tutorName="AI Lifestyle Coach"
               placeholder="Ask about lifestyle improvements..."
+              subject="lifestyle"
+              user={user}
+              isLimited={!isPremium}
             />
           )}
 
-          {learningMode === 'visual' && (
-            <VisualResources
-              resources={learningResources}
-              styles={styles}
-              title="Visual Learning Resources"
+          {learningMode === 'assessment' && (
+            <QuizAssessmentTool
+              content={currentTopicData?.content || "This section covers key concepts in lifestyle topics."}
+              subject="lifestyle"
+              sectionTitle={currentTopicData?.title || "Lifestyle Assessment"}
+              topicId={selectedTopic}
+              topicData={topic}
+              userEmail={user.email}
+              isLimited={!isPremium}
             />
+          )}
+
+          {learningMode === 'interactive' && (
+            isPremium || isGameFree ? runGame() : (
+              <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
+                <div className={styles.lockedOverlay}>
+                  🔒 This interactive simulation is a Premium feature.
+                  <button className={styles.subscribeButton}>Learn More</button>
+                </div>
+              </div>
+            )
+          )}
+
+          {learningMode === 'visual' && (
+            isPremium ? (
+              <VisualResources
+                resources={learningResources}
+                styles={styles}
+                title="Visual Learning Resources"
+              />
+            ) : (
+              <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
+                <div className={styles.lockedOverlay}>
+                  🔒 Visual resources are part of Premium Access.
+                  <button className={styles.subscribeButton}>Unlock</button>
+                </div>
+              </div>
+            )
           )}
         </div>
       </div>
+
+      {showSubscribe && (
+        <SubscribeModal
+          isOpen={true}
+          onClose={() => setShowSubscribe(false)}
+          user={user}
+        />
+      )}
     </div>
   );
 };

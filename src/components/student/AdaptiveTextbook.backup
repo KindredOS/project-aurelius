@@ -26,16 +26,11 @@ import { buildPromptWrap } from '../../utils/aiPromptTools';
 import { cleanUpResponse } from '../../utils/cleanUp';
 
 const AdaptiveTextbook = ({ content, onContentSave }) => {
-  const [localContent, setLocalContent] = useState(content);
   const [enhancedSections, setEnhancedSections] = useState({});
   const [expandedHeader, setExpandedHeader] = useState(null);
   const [promptToggles, setPromptToggles] = useState({});
   const [interactiveToggles, setInteractiveToggles] = useState({});
   const [isEnhancing, setIsEnhancing] = useState({});
-
-  React.useEffect(() => {
-    setLocalContent(content);
-  }, [content]);
 
   const togglePrompt = (key) => {
     setPromptToggles(prev => ({ ...prev, [key]: !prev[key] }));
@@ -55,7 +50,7 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
     setIsEnhancing(prev => ({ ...prev, [header]: true }));
 
     try {
-      const sectionBody = extractSectionUnderHeader(localContent, header);
+      const sectionBody = extractSectionUnderHeader(content, header);
 
       if (!sectionBody || sectionBody.trim().length === 0) {
         throw new Error('No content found under header');
@@ -101,13 +96,12 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
         throw new Error('Enhancement service unavailable');
       }
 
-      const updatedContent = replaceSection(localContent, header, enhancedBody);
+      const updatedContent = replaceSection(content, header, enhancedBody);
 
       setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));
 
       if (onContentSave) {
         await onContentSave(updatedContent);
-        setLocalContent(updatedContent); // Force rerender after save
       }
 
       console.log('Enhancement successful for:', header);
@@ -272,14 +266,14 @@ const AdaptiveTextbook = ({ content, onContentSave }) => {
     );
   };
 
-  if (!localContent) {
+  if (!content) {
     return <div className={styles.noContent}>No content available</div>;
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        {parseMarkdown(localContent)}
+        {parseMarkdown(content)}
       </div>
     </div>
   );

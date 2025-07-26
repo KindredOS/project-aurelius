@@ -1,0 +1,65 @@
+// APIMaster.js — Hybrid Router Index and Config for Frontend API
+// Acts as central config and optional single-import hub
+import { useState } from "react";
+
+export const MODE = (typeof process !== 'undefined' && process.env?.REACT_APP_MODE) || 'LOCAL';
+
+if (!process.env?.REACT_APP_MODE) {
+  console.warn('[API] ⚠️ No REACT_APP_MODE set. Falling back to LOCAL.');
+}
+
+export const API_BASE = process.env.REACT_APP_API_URL || (
+  MODE === 'LOCAL'
+    ? 'http://localhost:8000/api'
+    : 'https://eduos-worker.shepherdn.workers.dev/api'
+);
+
+// Static route constants for safe imports
+export const EDU_SCIENCE = `${API_BASE}/edu/science`;
+export const EDU_TECHNOLOGY = `${API_BASE}/edu/technology`;
+export const EDU_ENGINEERING = `${API_BASE}/edu/engineering`;
+export const EDU_ARTS = `${API_BASE}/edu/arts`;
+export const EDU_MATH = `${API_BASE}/edu/math`;
+export const EDU_LIFESTYLE = `${API_BASE}/edu/lifestyle`;
+export const OPENAI_ROUTE = `${API_BASE}/openai`;
+
+console.log('[API] MODE:', MODE);
+console.log('[API] BASE:', API_BASE);
+console.log('[API] EDU_SCIENCE:', EDU_SCIENCE);
+console.log('[API] EDU_TECHNOLOGY:', EDU_TECHNOLOGY);
+console.log('[API] EDU_ENGINEERING:', EDU_ENGINEERING);
+console.log('[API] EDU_ARTS:', EDU_ARTS);
+console.log('[API] EDU_MATH:', EDU_MATH);
+console.log('[API] EDU_LIFESTYLE:', EDU_LIFESTYLE);
+console.log('[API] OpenAI Route:', OPENAI_ROUTE);
+
+// Reactive Hook Support for Dynamic API URL
+let apiUrl = API_BASE;
+
+export const setApiUrl = (newUrl) => {
+  apiUrl = newUrl;
+};
+
+export const getApiUrl = () => apiUrl;
+
+export const useApiUrl = () => {
+  const [currentApiUrl, setCurrentApiUrl] = useState(apiUrl);
+
+  const updateApiUrl = (newUrl) => {
+    setApiUrl(newUrl);
+    setCurrentApiUrl(newUrl);
+  };
+
+  return [currentApiUrl, updateApiUrl];
+};
+
+// Central re-exports (hybrid style) - Namespaced re-exports to avoid star export conflicts
+export * as ScienceAPI from './Science.js';
+export * as TechnologyAPI from './Technology.js';
+export * as EngineeringAPI from './Engineering.js';
+export * as ArtsAPI from './Arts.js';
+export * as MathAPI from './Math.js';
+export * as LifestyleAPI from './Lifestyle.js';
+
+export * from './User.js';
+export * from './Admin.js';

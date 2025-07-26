@@ -1,4 +1,4 @@
-// ScienceDash.jsx
+// Updated ScienceDash.jsx - Now passes proper data to QuizAssessmentTool
 import React, { useMemo } from 'react';
 import { BookOpen, Atom, Calculator, Dna, Globe, Star } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
@@ -97,7 +97,11 @@ const ScienceDash = () => {
           {learningMode === 'assessment' && (
             <QuizAssessmentTool
               content={currentTopicData?.content || "This section covers key concepts in science."}
+              subject="science"
               sectionTitle={currentTopicData?.title || "Science Assessment"}
+              topicId={selectedTopic}
+              topicData={topic}
+              userEmail={user.email}
             />
           )}
 

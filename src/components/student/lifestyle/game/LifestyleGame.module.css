@@ -1,0 +1,59 @@
+.lifestyleGameContainer {
+  padding: 2rem;
+  border: 2px solid #4caf50;
+  border-radius: 1rem;
+  background-color: #f0fff4;
+  text-align: center;
+}
+
+.title {
+  font-size: 1.8rem;
+  color: #2e7d32;
+  margin-bottom: 1rem;
+}
+
+.description {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.primaryButton {
+  background-color: #66bb6a;
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.primaryButton:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+.secondaryButton {
+  background-color: #eeeeee;
+  color: #333;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.simulationWindow {
+  padding: 1rem;
+  background-color: #ffffff;
+  border: 1px dashed #81c784;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: #388e3c;
+}

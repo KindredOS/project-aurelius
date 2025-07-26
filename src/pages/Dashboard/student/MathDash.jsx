@@ -1,14 +1,30 @@
-import React, { useMemo } from 'react';
-import { BookOpen, Calculator, Target, BarChart3, TrendingUp, Sigma, Play, RotateCcw } from 'lucide-react';
+import React, { useMemo, useState, useEffect } from 'react';
+import { BookOpen, Calculator, Target, BarChart3, TrendingUp, Sigma } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
 import Sidebar from '../../../components/student/Sidebar';
-import Quiz from '../../../components/student/Quiz';
 import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
+import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
+import SubscribeModal from '../../../components/SubscribeModal';
+import MathGame from '../../../components/student/math/game/MathGame';
 import styles from './MathDash.module.css';
+import { MODE } from '../../../api/ApiMaster';
 
 const MathDash = () => {
+  const [showSubscribe, setShowSubscribe] = useState(false);
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
+  useEffect(() => {
+    const updateStatus = () => setIsOffline(!navigator.onLine);
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+    return () => {
+      window.removeEventListener('online', updateStatus);
+      window.removeEventListener('offline', updateStatus);
+    };
+  }, []);
+
   const iconMap = useMemo(() => ({
     'overview': BookOpen,
     'algebra': Calculator,
@@ -24,23 +40,22 @@ const MathDash = () => {
     selectedTopic, setSelectedTopic,
     gradeLevel, setGradeLevel,
     learningMode, setLearningMode,
-    userProgress, setUserProgress,
-    currentQuiz, setCurrentQuiz,
-    chatHistory, userInput, setUserInput,
+    userProgress,
+    chatHistory, setChatHistory,
+    userInput, setUserInput,
     achievements, studyStreak,
-    topics, currentTopicData, quizData, projectData, learningResources, learningModes,
-    loading, error,
-    startQuiz, answerQuestion, sendMessage
+    topics, currentTopicData, learningResources, learningModes,
+    loading,
+    user
   } = dashboardState;
 
-  const runSimulation = (topicId) => {
-    setTimeout(() => {
-      setUserProgress(prev => ({
-        ...prev,
-        [topicId]: Math.min(100, prev[topicId] + 5)
-      }));
-    }, 3000);
-  };
+  const localPremiumCache = localStorage.getItem('isPremiumCached') === 'true';
+  const isEdge = MODE === 'EDGE';
+  const isPremium = isEdge || user?.isPremium || localPremiumCache || isOffline;
+
+  if (user?.isPremium) {
+    localStorage.setItem('isPremiumCached', 'true');
+  }
 
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
@@ -54,49 +69,20 @@ const MathDash = () => {
     </div>
   );
 
-  const renderSimulation = (topicId) => {
-    if (!projectData) return null;
-
-    return (
-      <div className={styles.simulationCard}>
-        <div className={styles.simulationHeader}>
-          <h3 className={styles.simulationTitle}>{projectData.name}</h3>
-          <Calculator className={styles.simulationIcon} />
-        </div>
-        <p className={styles.simulationDescription}>{projectData.description}</p>
-
-        <div className={styles.simulationWindow}>
-          <p className={styles.simulationPlaceholder}>
-            {projectData.placeholder || "Click 'Start Calculator' to begin"}
-          </p>
-        </div>
-
-        <div className={styles.simulationControls}>
-          <button
-            onClick={() => runSimulation(topicId)}
-            className={`${styles.simulationButton} ${styles.simulationButtonPrimary}`}
-          >
-            <Play className={styles.buttonIcon} />
-            Start Calculator
-          </button>
-          <button className={`${styles.simulationButton} ${styles.simulationButtonSecondary}`}>
-            <RotateCcw className={styles.buttonIcon} />
-            Reset
-          </button>
-        </div>
-      </div>
-    );
-  };
+  const runGame = () => (
+    <div className={styles.simulationCard}>
+      <MathGame />
+    </div>
+  );
 
   if (loading) {
     return <div className={styles.loadingContainer}>Loading Math Dashboard...</div>;
   }
 
-  if (error) {
-    return <div className={styles.errorContainer}>Error: {error}</div>;
-  }
-
   const topic = topics.find(t => t.id === selectedTopic) || currentTopicData;
+
+  const freeGameAccessIds = ['overview', 'algebra', 'geometry', 'statistics'];
+  const isGameFree = freeGameAccessIds.includes(selectedTopic);
 
   return (
     <div className={styles.mathPageContainer}>
@@ -111,10 +97,10 @@ const MathDash = () => {
         topics={topics}
         selectedTopic={selectedTopic}
         setSelectedTopic={setSelectedTopic}
-        userProgress={userProgress}
         achievements={achievements}
         renderProgressBar={renderProgressBar}
         styles={styles}
+        email={user.email}
       />
 
       <div className={styles.mainContent}>
@@ -126,46 +112,74 @@ const MathDash = () => {
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}
             subject="math"
+            userEmail={user.email}
           />
-
-          {learningMode === 'interactive' && renderSimulation(selectedTopic)}
-
-          {learningMode === 'assessment' && (
-            <Quiz
-              currentQuiz={currentQuiz}
-              topics={topics}
-              answerQuestion={answerQuestion}
-              setCurrentQuiz={setCurrentQuiz}
-              startQuiz={startQuiz}
-              selectedTopic={selectedTopic}
-              quizData={quizData}
-              styles={styles}
-              completionTitle="Quiz Complete!"
-              startTitle="Ready for a Quiz?"
-            />
-          )}
 
           {learningMode === 'collaborative' && (
             <ChatWindow
               chatHistory={chatHistory}
+              setChatHistory={setChatHistory}
               userInput={userInput}
               setUserInput={setUserInput}
-              sendMessage={sendMessage}
+              sendMessage={dashboardState.sendMessage}
               styles={styles}
               tutorName="AI Math Tutor"
               placeholder="Ask me anything about math! I'm here to help you solve problems."
+              subject="math"
+              user={user}
+              isLimited={!isPremium}
             />
           )}
 
-          {learningMode === 'visual' && (
-            <VisualResources
-              resources={learningResources}
-              styles={styles}
-              title="Visual Learning Resources"
+          {learningMode === 'assessment' && (
+            <QuizAssessmentTool
+              content={currentTopicData?.content || "This section covers key concepts in math."}
+              subject="math"
+              sectionTitle={currentTopicData?.title || "Math Assessment"}
+              topicId={selectedTopic}
+              topicData={topic}
+              userEmail={user.email}
+              isLimited={!isPremium}
             />
+          )}
+
+          {learningMode === 'interactive' && (
+            isPremium || isGameFree ? runGame() : (
+              <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
+                <div className={styles.lockedOverlay}>
+                  🔒 This interactive simulation is a Premium feature.
+                  <button className={styles.subscribeButton}>Learn More</button>
+                </div>
+              </div>
+            )
+          )}
+
+          {learningMode === 'visual' && (
+            isPremium ? (
+              <VisualResources
+                resources={learningResources}
+                styles={styles}
+                title="Visual Learning Resources"
+              />
+            ) : (
+              <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
+                <div className={styles.lockedOverlay}>
+                  🔒 Visual resources are part of Premium Access.
+                  <button className={styles.subscribeButton}>Unlock</button>
+                </div>
+              </div>
+            )
           )}
         </div>
       </div>
+
+      {showSubscribe && (
+        <SubscribeModal
+          isOpen={true}
+          onClose={() => setShowSubscribe(false)}
+          user={user}
+        />
+      )}
     </div>
   );
 };

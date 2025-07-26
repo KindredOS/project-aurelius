@@ -82,7 +82,14 @@ const SubscribeModal = ({
             </div>
 
             {onConfirm && (
-              <button className={styles.confirmButton} onClick={() => onConfirm(user)}>
+              <button
+                className={styles.confirmButton}
+                onClick={() => onConfirm({
+                  username: user?.username || user?.id || 'guest',
+                  email: user?.email,
+                  planKey: 'premium_yearly'
+                })}
+              >
                 {confirmText}
               </button>
             )}

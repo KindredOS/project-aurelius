@@ -1,4 +1,4 @@
-// utils/contentProcessing.js - Handles content structure, deduplication, and section management
+// utils/contentProcessing.js - FIXED VERSION - Properly handles section replacement
 
 import { extractSpecialElements, restoreSpecialElements } from './specialElements.js';
 
@@ -154,7 +154,7 @@ export function removeDuplicateContent(content) {
 }
 
 /**
- * Replaces a section under a specific header with new content
+ * FIXED - Replaces a section under a specific header with new content
  * Handles special elements properly and prevents duplication
  * @param {string} originalContent - The original markdown content
  * @param {string} header - The header text to find
@@ -162,9 +162,11 @@ export function removeDuplicateContent(content) {
  * @returns {string} - The updated markdown content
  */
 export function replaceSection(originalContent, header, newContent) {
+  console.log(`[REPLACE_SECTION] Replacing section "${header}"`);
+  console.log(`[REPLACE_SECTION] Original content length: ${originalContent?.length || 0}`);
+  console.log(`[REPLACE_SECTION] New content length: ${newContent?.length || 0}`);
+  
   if (!originalContent || !header) return originalContent;
-
-  const specialElements = extractSpecialElements(originalContent);
 
   const lines = originalContent.split('\n');
   const headerIndex = lines.findIndex(line => {
@@ -172,50 +174,69 @@ export function replaceSection(originalContent, header, newContent) {
     return cleanLine === header;
   });
 
-  if (headerIndex === -1) return originalContent;
+  if (headerIndex === -1) {
+    console.log(`[REPLACE_SECTION] Header "${header}" not found`);
+    return originalContent;
+  }
+
+  console.log(`[REPLACE_SECTION] Found header at line ${headerIndex}: "${lines[headerIndex]}"`);
 
   const currentLevel = (lines[headerIndex].match(/^#+/) || [''])[0].length;
-  const newLines = [...lines];
+  console.log(`[REPLACE_SECTION] Header level: ${currentLevel}`);
 
-  let endIndex = newLines.length;
-  for (let i = headerIndex + 1; i < newLines.length; i++) {
-    const line = newLines[i];
-    const lineLevel = (line.match(/^#+/) || [''])[0].length;
-    if (lineLevel && lineLevel <= currentLevel) {
-      endIndex = i;
-      break;
+  // Find the end of this section (next header of same or higher level)
+  let endIndex = lines.length;
+  for (let i = headerIndex + 1; i < lines.length; i++) {
+    const line = lines[i];
+    const headerMatch = line.match(/^#+/);
+    if (headerMatch) {
+      const lineLevel = headerMatch[0].length;
+      console.log(`[REPLACE_SECTION] Found header at line ${i} with level ${lineLevel}: "${line}"`);
+      if (lineLevel <= currentLevel) {
+        endIndex = i;
+        console.log(`[REPLACE_SECTION] Section ends at line ${endIndex}`);
+        break;
+      }
     }
   }
 
-  newLines.splice(headerIndex + 1, endIndex - headerIndex - 1);
-
+  // Build the new content array
+  const newLines = [];
+  
+  // Add everything BEFORE the header
+  for (let i = 0; i < headerIndex; i++) {
+    newLines.push(lines[i]);
+  }
+  
+  // Add the header itself
+  newLines.push(lines[headerIndex]);
+  
+  // Add the new content (if any)
   if (newContent && typeof newContent === 'string') {
     let cleanedContent = newContent
-      .replace(/^#{1,6}\s+.*$/gm, '')
-      .replace(/^\n+/, '')
+      .replace(/^#{1,6}\s+.*$/gm, '') // Remove any headers from the new content
+      .replace(/^\n+/, '') // Remove leading newlines
       .trim();
 
-    cleanedContent = removeDuplicateContent(cleanedContent);
-
     if (cleanedContent) {
+      newLines.push(''); // Add spacing after header
       const enhancedLines = cleanedContent.split('\n');
-      newLines.splice(headerIndex + 1, 0, '', ...enhancedLines, '');
+      newLines.push(...enhancedLines);
+      newLines.push(''); // Add spacing after content
     }
   }
+  
+  // Add everything AFTER the original section
+  for (let i = endIndex; i < lines.length; i++) {
+    newLines.push(lines[i]);
+  }
 
-  let result = newLines.join('\n');
-
-  // const sectionSpecialElements = {
-  //   promptWraps: specialElements.promptWraps.filter(pw =>
-  //     pw.lineNumber > headerIndex && pw.lineNumber < endIndex
-  //   ),
-  //   interactiveElements: specialElements.interactiveElements.filter(ie =>
-  //     ie.lineNumber > headerIndex && ie.lineNumber < endIndex
-  //   )
-  // };
-
-  // const restored = restoreSpecialElements(result, sectionSpecialElements, originalContent);
-
-  // return removeDuplicateContent(restored);
-  return removeDuplicateContent(result);
+  const result = newLines.join('\n');
+  console.log(`[REPLACE_SECTION] Result length: ${result.length}`);
+  
+  // Clean up excessive whitespace
+  const cleanResult = result.replace(/\n{3,}/g, '\n\n');
+  console.log(`[REPLACE_SECTION] Final result length: ${cleanResult.length}`);
+  
+  return cleanResult;
 }

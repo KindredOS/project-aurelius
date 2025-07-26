@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Star, ChevronRight, Trophy } from 'lucide-react';
-import { getApiUrl, UserAPI, fetchUserScienceProgress } from '../../api/ApiMaster';
+import { fetchUserProgress } from '../../api/ApiMaster';
 
 const Sidebar = ({ 
   title, 
@@ -18,7 +18,8 @@ const Sidebar = ({
   topics, 
   selectedTopic, 
   setSelectedTopic, 
-  email, // NEW PROP
+  email,
+  subject,
   achievements, 
   renderProgressBar,
   styles 
@@ -27,12 +28,12 @@ const Sidebar = ({
 
   useEffect(() => {
     async function loadProgress() {
-      if (!email) return;
-      const data = await fetchUserScienceProgress(email);
+      if (!email || !subject) return;
+      const data = await fetchUserProgress(subject, email);
       setUserProgress(data);
     }
     loadProgress();
-  }, [email]);
+  }, [email, subject]);
 
   return (
     <div className={styles.sidebar}>

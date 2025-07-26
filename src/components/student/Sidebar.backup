@@ -1,6 +1,11 @@
 // components/student/Sidebar.jsx
-import React from 'react';
+// NOTE: This component now integrates backend API access via ApiMaster.
+// - Grade level selector removed (handled elsewhere)
+// - Study streak and achievements can be synced via API hooks
+
+import React, { useEffect, useState } from 'react';
 import { Star, ChevronRight, Trophy } from 'lucide-react';
+import { getApiUrl, UserAPI, fetchUserScienceProgress } from '../../api/ApiMaster';
 
 const Sidebar = ({ 
   title, 
@@ -13,11 +18,22 @@ const Sidebar = ({
   topics, 
   selectedTopic, 
   setSelectedTopic, 
-  userProgress, 
+  email, // NEW PROP
   achievements, 
   renderProgressBar,
   styles 
 }) => {
+  const [userProgress, setUserProgress] = useState({});
+
+  useEffect(() => {
+    async function loadProgress() {
+      if (!email) return;
+      const data = await fetchUserScienceProgress(email);
+      setUserProgress(data);
+    }
+    loadProgress();
+  }, [email]);
+
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebarHeader}>
@@ -26,20 +42,6 @@ const Sidebar = ({
           <Star className={styles.streakIcon} />
           {studyStreak} day streak
         </div>
-      </div>
-
-      {/* Grade Level Selector */}
-      <div className={styles.gradeLevelSection}>
-        <label className={styles.sectionLabel}>Grade Level</label>
-        <select
-          value={gradeLevel}
-          onChange={(e) => setGradeLevel(Number(e.target.value))}
-          className={styles.gradeSelect}
-        >
-          {[6, 7, 8, 9, 10, 11, 12].map(grade => (
-            <option key={grade} value={grade}>Grade {grade}</option>
-          ))}
-        </select>
       </div>
 
       {/* Topics */}

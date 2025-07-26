@@ -1,5 +1,4 @@
-// APIMaster.js — Hybrid Router Index and Config for Frontend API
-// Acts as central config and optional single-import hub
+// ApiMaster.js — Updated with Dispatcher Layer for Cross-Subject Compatibility
 import { useState } from "react";
 
 export const MODE = (typeof process !== 'undefined' && process.env?.REACT_APP_MODE) || 'LOCAL';
@@ -16,14 +15,24 @@ export const API_BASE = process.env.REACT_APP_API_URL || (
 
 // Static route constants for safe imports
 export const EDU_SCIENCE = `${API_BASE}/edu/science`;
+export const EDU_TECHNOLOGY = `${API_BASE}/edu/technology`;
+export const EDU_ENGINEERING = `${API_BASE}/edu/engineering`;
+export const EDU_ARTS = `${API_BASE}/edu/arts`;
+export const EDU_MATH = `${API_BASE}/edu/math`;
+export const EDU_LIFESTYLE = `${API_BASE}/edu/lifestyle`;
 export const OPENAI_ROUTE = `${API_BASE}/openai`;
 
 console.log('[API] MODE:', MODE);
 console.log('[API] BASE:', API_BASE);
 console.log('[API] EDU_SCIENCE:', EDU_SCIENCE);
+console.log('[API] EDU_TECHNOLOGY:', EDU_TECHNOLOGY);
+console.log('[API] EDU_ENGINEERING:', EDU_ENGINEERING);
+console.log('[API] EDU_ARTS:', EDU_ARTS);
+console.log('[API] EDU_MATH:', EDU_MATH);
+console.log('[API] EDU_LIFESTYLE:', EDU_LIFESTYLE);
 console.log('[API] OpenAI Route:', OPENAI_ROUTE);
 
-// Reactive Hook Support for Dynamic API URL
+// Reactive Hook Support
 let apiUrl = API_BASE;
 
 export const setApiUrl = (newUrl) => {
@@ -34,17 +43,88 @@ export const getApiUrl = () => apiUrl;
 
 export const useApiUrl = () => {
   const [currentApiUrl, setCurrentApiUrl] = useState(apiUrl);
-
   const updateApiUrl = (newUrl) => {
     setApiUrl(newUrl);
     setCurrentApiUrl(newUrl);
   };
-
   return [currentApiUrl, updateApiUrl];
 };
 
-// Central re-exports (hybrid style) - like your other app
+// Subject-specific APIs
+export * as ScienceAPI from './Science.js';
+export * as TechnologyAPI from './Technology.js';
+export * as EngineeringAPI from './Engineering.js';
+export * as ArtsAPI from './Arts.js';
+export * as MathAPI from './Math.js';
+export * as LifestyleAPI from './Lifestyle.js';
+
+// User/Admin APIs
 export * from './User.js';
-export * from './Math.js';
 export * from './Admin.js';
-export * from './Science.js';
+
+// === Dispatcher Layer ===
+const subjectMap = {
+  science: () => import('./Science.js'),
+  math: () => import('./Math.js'),
+  technology: () => import('./Technology.js'),
+  engineering: () => import('./Engineering.js'),
+  arts: () => import('./Arts.js'),
+  lifestyle: () => import('./Lifestyle.js')
+};
+
+const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
+
+export async function fetchChatThread(subject, email, threadId) {
+  const mod = await subjectMap[subject]?.();
+  return mod?.[`fetch${capitalize(subject)}ChatThread`](email, threadId);
+}
+
+export async function fetchChatThreads(subject, email) {
+  const mod = await subjectMap[subject]?.();
+  return mod?.[`fetch${capitalize(subject)}ChatThreads`](email);
+}
+
+export async function saveChatThread(subject, payload) {
+  const mod = await subjectMap[subject]?.();
+  return mod?.[`save${capitalize(subject)}ChatThread`](payload);
+}
+
+export async function fetchStudentMarkdown(subject, email, filepath) {
+  const mod = await subjectMap[subject]?.();
+  return mod?.[`fetch${capitalize(subject)}StudentMarkdown`](email, filepath);
+}
+
+export async function saveStudentMarkdown(subject, email, filepath, content) {
+  const mod = await subjectMap[subject]?.();
+  return mod?.[`save${capitalize(subject)}StudentMarkdown`](email, filepath, content);
+}
+
+export async function logStudyStreak(subject, userId, streakCount) {
+  const mod = await subjectMap[subject]?.();
+  return mod?.[`log${capitalize(subject)}StudyStreak`](userId, streakCount);
+}
+
+export async function submitQuizResult(subject, data) {
+  const mod = await subjectMap[subject]?.();
+  return mod?.[`submit${capitalize(subject)}QuizResult`](data);
+}
+
+export async function logQuizAnalytics(subject, payload) {
+  const mod = await subjectMap[subject]?.();
+  return mod?.[`log${capitalize(subject)}QuizAnalytics`](payload);
+}
+
+export async function fetchTopics(subject) {
+  const mod = await subjectMap[subject]?.();
+  return mod?.[`fetch${capitalize(subject)}Topics`]();
+}
+
+export async function fetchUserProgress(subject, email) {
+  const mod = await subjectMap[subject]?.();
+  return mod?.[`fetchUser${capitalize(subject)}Progress`](email);
+}
+
+export async function queryModel(subject, prompt, modelKey = 'hermes', max_new_tokens = 750) {
+  const mod = await subjectMap[subject]?.();
+  return mod?.[`query${capitalize(subject)}Model`](prompt, modelKey, max_new_tokens);
+}

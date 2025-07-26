@@ -53,6 +53,20 @@ export async function submitQuizResult({ topicId, score, total, percentage }) {
   }
 }
 
+export async function logQuizAnalytics(payload) {
+  try {
+    const response = await fetch(`${getBase()}/quiz/analytics`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    return await response.json();
+  } catch (err) {
+    console.error('[ScienceAPI] logQuizAnalytics error:', err);
+    return null;
+  }
+}
+
 export async function fetchScienceTopics() {
   try {
     const response = await fetch(`${getBase()}/topics`);

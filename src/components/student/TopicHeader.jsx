@@ -19,7 +19,7 @@ const TopicHeader = ({
   useEffect(() => {
     const fetchProgressIndex = async () => {
       try {
-        const res = await fetch(`${getApiUrl()}/edu/science/user-index?email=${encodeURIComponent(userEmail)}`);
+        const res = await fetch(`${getApiUrl()}/edu/${subject}/user-index?email=${encodeURIComponent(userEmail)}`);
         if (res.ok) {
           const data = await res.json();
           setProgressData(data);
@@ -29,12 +29,12 @@ const TopicHeader = ({
       }
     };
 
-    if (userEmail) fetchProgressIndex();
-  }, [userEmail]);
+    if (userEmail && subject) fetchProgressIndex();
+  }, [userEmail, subject]);
 
   const saveProgressIndex = async (updated) => {
     try {
-      await fetch(`${getApiUrl()}/edu/science/user-index/save`, {
+      await fetch(`${getApiUrl()}/edu/${subject}/user-index/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -51,7 +51,6 @@ const TopicHeader = ({
     setSelectedConcept(conceptObj);
     onConceptClick?.(conceptObj, index);
 
-    // Update progress
     const topicId = topic?.id;
     if (topicId && userEmail) {
       const updated = {
