@@ -1,11 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './DashboardStudent.module.css'; // Import corresponding styles
+import styles from './DashboardStudent.module.css';
+import MBTISetupModal from '../../components/student/MBTISetupModal';
+import { fetchUserMBTI } from '../../api/User';
 
 function StudyBuddyDashboard() {
     const navigate = useNavigate();
+    const user = {
+        email: localStorage.getItem('userEmail'),
+        name: localStorage.getItem('userName'),
+    };
+    const [showModal, setShowModal] = useState(false);
 
-    // Grouped tiles by STEAM-L categories
+    useEffect(() => {
+        const checkMBTIStatus = async () => {
+            if (user && user.email) {
+                console.log("Checking MBTI for:", user.email);
+                try {
+                    const data = await fetchUserMBTI(user.email);
+                    console.log("Fetched MBTI data:", data);
+                    if (!data.mbti) {
+                        console.log("No MBTI found. Showing modal.");
+                        setShowModal(true);
+                    } else {
+                        console.log("MBTI exists:", data.mbti);
+                    }
+                } catch (error) {
+                    console.error("Error fetching MBTI data:", error);
+                    console.log("Falling back to force modal open for debug.");
+                    setShowModal(true); // force open for debug
+                }
+            } else {
+                console.log("User or email is missing:", user);
+            }
+        };
+
+        checkMBTIStatus();
+    }, [user]);
+
     const categories = [
         {
             header: "Science",
@@ -47,6 +79,7 @@ function StudyBuddyDashboard() {
 
     return (
         <div className={styles.dashboardContainer}>
+            {showModal && <MBTISetupModal user={user} onClose={() => setShowModal(false)} />}
             <h1 className={styles.dashboardHeader}>Study Buddy Dashboard</h1>
             <div className={styles.categoriesGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '20px' }}>
                 {categories.map((category) => (

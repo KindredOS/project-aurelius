@@ -43,11 +43,21 @@ const ContentManager = ({ selectedConcept, subject, userEmail }) => {
       } catch (err) {
         console.warn('[Primary] Markdown fetch failed, loading template:', err);
         try {
-          const publicPath = `/data/${subject}/markdown/${encodeURIComponent(selectedConcept.markdown)}`;
-          const res = await fetch(publicPath);
-          if (!res.ok) throw new Error(`Template fallback fetch failed with ${res.status}`);
+          let fallbackText = '';
+          let attemptedPaths = [];
 
-          const fallbackText = await res.text();
+          const rawPath = `/data/${subject}/markdown/${selectedConcept.markdown}`;
+          attemptedPaths.push(rawPath);
+          let res = await fetch(rawPath);
+
+          if (!res.ok) {
+            const encodedPath = `/data/${subject}/markdown/${encodeURIComponent(selectedConcept.markdown)}`;
+            attemptedPaths.push(encodedPath);
+            res = await fetch(encodedPath);
+            if (!res.ok) throw new Error(`Both fetch attempts failed: ${res.status}`);
+          }
+
+          fallbackText = await res.text();
           const cleaned = cleanMarkdownContent(fallbackText);
           setMarkdownText(cleaned);
 

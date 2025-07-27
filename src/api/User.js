@@ -58,3 +58,20 @@ export async function getFleetData(userId) {
   if (!response.ok) throw new Error(`Fetching fleet data failed: ${response.statusText}`);
   return await response.json();
 }
+
+// MBTI & Profile Enrichment
+export async function updateUserData(email, data) {
+  const response = await fetch(`${getApiUrl()}/edu/users/data/${encodeURIComponent(email)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) throw new Error(`Updating user data failed: ${response.statusText}`);
+  return await response.json();
+}
+
+export async function fetchUserMBTI(email) {
+  const response = await fetch(`${getApiUrl()}/edu/users/data/${encodeURIComponent(email)}`);
+  if (!response.ok) throw new Error(`Fetching MBTI data failed: ${response.statusText}`);
+  return await response.json();
+}
