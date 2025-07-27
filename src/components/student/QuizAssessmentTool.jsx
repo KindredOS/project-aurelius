@@ -11,7 +11,7 @@ import {
   getCorrectAnswerDisplayText,
   renderGenerator
 } from '../../utils/quizGenerator';
-import { renderResults } from '../../utils/quizScoring';
+import { renderResults, calculateQuizScore } from '../../utils/quizScoring';
 import { validateQuizCompletion } from '../../utils/quizValidation';
 import { logQuizAnalytics } from '../../api/ApiMaster';
 
@@ -167,17 +167,16 @@ const QuizAssessmentTool = ({
 
     const endTime = Date.now();
     const timeSpentMs = endTime - (quizStartTimeRef.current || endTime);
-    const totalQuestions = quiz.questions.length;
+    
+    // Use the new calculateQuizScore function for consistent scoring
+    const scoreResult = calculateQuizScore(quiz, userAnswers);
+    const { score, total, percentage, details } = scoreResult;
+    
+    // Calculate additional metrics for analytics
     const totalAttempts = Object.keys(userAnswers).length;
-    let correctAnswers = 0;
-
-    quiz.questions.forEach(q => {
-      if (userAnswers[q.id] === q.correctAnswer) {
-        correctAnswers++;
-      }
-    });
-
+    const correctAnswers = details.filter(d => d.isCorrect).length;
     const incorrectAnswers = totalAttempts - correctAnswers;
+    const partialCreditQuestions = details.filter(d => d.points > 0 && d.points < 1).length;
 
     const analyticsPayload = {
       subject,
@@ -187,11 +186,15 @@ const QuizAssessmentTool = ({
       timestamp: new Date().toISOString(),
       quizSettings,
       timeSpentMs,
-      totalQuestions,
+      totalQuestions: total,
       totalAttempts,
       correctAnswers,
       incorrectAnswers,
-      loadMethod: 'static'
+      partialCreditQuestions,
+      finalScore: score,
+      percentage,
+      loadMethod: 'static',
+      scoreDetails: details
     };
 
     await logQuizAnalytics(analyticsPayload);
