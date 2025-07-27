@@ -1,5 +1,5 @@
-// AdaptiveTextbook.jsx - Now using modular utilities
-import React, { useState } from 'react';
+// AdaptiveTextbook.jsx - FIXED VERSION - Direct content manipulation approach
+import React, { useState, useCallback } from 'react';
 import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
 import styles from './AdaptiveTextbook.module.css';
 
@@ -31,6 +31,17 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
   const [promptToggles, setPromptToggles] = useState({});
   const [interactiveToggles, setInteractiveToggles] = useState({});
   const [isEnhancing, setIsEnhancing] = useState({});
+  const [currentContent, setCurrentContent] = useState(content);
+  const [forceRenderCounter, setForceRenderCounter] = useState(0);
+
+  // Sync with parent content changes
+  React.useEffect(() => {
+    if (content !== currentContent) {
+      console.log('Content prop changed, syncing internal state');
+      setCurrentContent(content);
+      setForceRenderCounter(prev => prev + 1);
+    }
+  }, [content, currentContent]);
 
   const togglePrompt = (key) => {
     setPromptToggles(prev => ({ ...prev, [key]: !prev[key] }));
@@ -40,8 +51,28 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     setInteractiveToggles(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
+  // Memoized function to get the effective content for rendering
+  const getEffectiveContent = useCallback(() => {
+    console.log('=== GETTING EFFECTIVE CONTENT ===');
+    console.log('Current content length:', currentContent?.length || 0);
+    console.log('Enhanced sections:', Object.keys(enhancedSections));
+    
+    let effectiveContent = currentContent;
+    
+    // Apply all enhancements to the content before parsing
+    Object.entries(enhancedSections).forEach(([header, enhancedBody]) => {
+      if (enhancedBody && !enhancedBody.includes('⚠️')) {
+        console.log(`Applying enhancement for header: ${header}`);
+        effectiveContent = replaceSection(effectiveContent, header, enhancedBody);
+      }
+    });
+    
+    console.log('Final effective content length:', effectiveContent?.length || 0);
+    return effectiveContent;
+  }, [currentContent, enhancedSections, forceRenderCounter]);
+
   const handleEnhancement = async (header, action) => {
-    if (enhancedSections[header]) {
+    if (enhancedSections[header] && !enhancedSections[header].includes('⚠️')) {
       console.log(`Skipping enhancement for "${header}" — already enhanced.`);
       return;
     }
@@ -50,22 +81,15 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     setIsEnhancing(prev => ({ ...prev, [header]: true }));
 
     try {
-      const sectionBody = extractSectionUnderHeader(content, header);
+      const sectionBody = extractSectionUnderHeader(currentContent, header);
 
       if (!sectionBody || sectionBody.trim().length === 0) {
         throw new Error('No content found under header');
       }
 
-      const cleanedSectionBody = sectionBody;
-
-      if (!cleanedSectionBody || cleanedSectionBody.trim().length === 0) {
-        console.log('No enhanceable content found, preserving original section');
-        return;
-      }
-
       const prompt = buildPromptWrap({ 
         header, 
-        paragraph: cleanedSectionBody,
+        paragraph: sectionBody,
         action 
       });
 
@@ -94,15 +118,33 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
         throw new Error('Enhancement service unavailable');
       }
 
-      const updatedContent = replaceSection(content, header, enhancedBody);
+      console.log('=== ENHANCEMENT SUCCESSFUL ===');
+      console.log('Enhanced body:', enhancedBody.substring(0, 200) + '...');
 
-      setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));
+      // Update enhanced sections first
+      setEnhancedSections(prev => {
+        const updated = { ...prev, [header]: enhancedBody };
+        console.log('Updated enhanced sections:', Object.keys(updated));
+        return updated;
+      });
+
+      // Force a re-render by incrementing the counter
+      setForceRenderCounter(prev => {
+        const newValue = prev + 1;
+        console.log('Force render counter updated to:', newValue);
+        return newValue;
+      });
+
+      // Update the actual content and save
+      const updatedContent = replaceSection(currentContent, header, enhancedBody);
+      setCurrentContent(updatedContent);
 
       if (onContentSave) {
+        console.log('Saving updated content...');
         await onContentSave(updatedContent);
       }
 
-      console.log('Enhancement successful for:', header);
+      console.log('Enhancement and save completed successfully');
     } catch (error) {
       console.error('Enhancement failed:', error);
 
@@ -120,6 +162,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
       }
 
       setEnhancedSections(prev => ({ ...prev, [header]: errorMessage }));
+      setForceRenderCounter(prev => prev + 1);
     } finally {
       setIsEnhancing(prev => ({ ...prev, [header]: false }));
     }
@@ -130,11 +173,19 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
   };
 
   const parseMarkdown = (text) => {
+    console.log('=== PARSING MARKDOWN ===');
+    console.log('Input text length:', text?.length || 0);
+    console.log('Force render counter:', forceRenderCounter);
+    
+    if (!text) return [];
+
     const elements = parseMarkdownElements(text);
     const renderedElements = [];
     let currentHeader = null;
 
     elements.forEach((element, index) => {
+      const elementKey = `${element.type}-${element.lineIndex}-${forceRenderCounter}`;
+      
       switch (element.type) {
         case 'header':
           currentHeader = element.content;
@@ -143,7 +194,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
 
         case 'prompt':
           renderedElements.push(
-            <div key={`prompt-${element.lineIndex}`} className={styles.promptBox}>
+            <div key={elementKey} className={styles.promptBox}>
               <button
                 className={styles.promptToggle}
                 onClick={() => togglePrompt(element.lineIndex)}
@@ -160,7 +211,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
 
         case 'interactive':
           renderedElements.push(
-            <div key={`interactive-${element.lineIndex}`} className={styles.interactiveBox}>
+            <div key={elementKey} className={styles.interactiveBox}>
               <button
                 className={styles.interactiveToggle}
                 onClick={() => toggleInteractive(element.lineIndex)}
@@ -176,14 +227,10 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
           break;
 
         case 'paragraph':
-          const normalizedHeader = currentHeader?.trim().toLowerCase();
-          const enhancedKey = Object.keys(enhancedSections).find(
-            key => key.trim().toLowerCase() === normalizedHeader
-          );
-          const effectiveContent = (enhancedKey && enhancedSections[enhancedKey]) || element.content;
-          const htmlContent = convertMarkdownBold(effectiveContent);
+          // The content should already have enhancements applied via getEffectiveContent
+          const htmlContent = convertMarkdownBold(element.content);
           renderedElements.push(
-            <p key={element.lineIndex} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
+            <p key={elementKey} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
           );
           break;
 
@@ -192,6 +239,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
       }
     });
 
+    console.log('Rendered elements count:', renderedElements.length);
     return renderedElements;
   };
 
@@ -215,7 +263,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     };
 
     return (
-      <div key={`header-${lineIndex}-${headerText}`} className={styles.headerBlock}>
+      <div key={`header-${lineIndex}-${headerText}-${forceRenderCounter}`} className={styles.headerBlock}>
         <div className={styles.headerRow}>
           <div className={headerClasses[level]}>
             {headerText}
@@ -264,14 +312,17 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     );
   };
 
-  if (!content) {
+  if (!currentContent) {
     return <div className={styles.noContent}>No content available</div>;
   }
 
+  // Use the effective content that has all enhancements applied
+  const contentToRender = getEffectiveContent();
+
   return (
     <div className={styles.container}>
-      <div className={styles.content}>
-        {parseMarkdown(content)}
+      <div className={styles.content} key={`content-${forceRenderCounter}`}>
+        {parseMarkdown(contentToRender)}
       </div>
     </div>
   );
