@@ -1,9 +1,9 @@
-// utils/quizScoring.js
+// utils/quizScoring.js - TARGETED DEBUG VERSION
 import React from 'react';
 import { CheckCircle, XCircle, RotateCcw, Play } from 'lucide-react';
 
 /**
- * Calculates the score for a completed quiz
+ * Calculates the score for a completed quiz - DEBUG VERSION
  * @param {Object} quiz - The quiz object
  * @param {Object} userAnswers - Object containing user answers keyed by question ID
  * @returns {Object} Score calculation result
@@ -13,65 +13,141 @@ export const calculateQuizScore = (quiz, userAnswers) => {
     return { score: 0, total: 0, percentage: 0, details: [] };
   }
   
-  let correct = 0;
+  console.log('🔍 TARGETED DEBUG - Looking for the 0.5 point issue');
+  console.log('Quiz has', quiz.questions.length, 'questions');
+  console.log('UserAnswers keys:', Object.keys(userAnswers));
+  
+  let totalScore = 0;
   const details = [];
   
   quiz.questions.forEach((question, index) => {
     const userAnswer = userAnswers[question.id];
     let isCorrect = false;
     let points = 0;
+    const maxPoints = 1;
+    
+    console.log(`\n--- Question ${index + 1} (ID: ${question.id}) ---`);
+    console.log('Type:', question.type);
+    console.log('User Answer:', JSON.stringify(userAnswer), typeof userAnswer);
+    console.log('Correct Answer:', JSON.stringify(question.correctAnswer), typeof question.correctAnswer);
     
     switch (question.type) {
-      case 'multiple-choice':
-        isCorrect = userAnswer === question.correct;
+      case 'multiple-choice': {
+        console.log('Processing multiple-choice...');
+        if (question.options) {
+          console.log('Options:', question.options);
+          if (typeof question.correctAnswer === 'number') {
+            console.log('Correct option text:', question.options[question.correctAnswer]);
+          }
+        }
+        
+        if (typeof userAnswer === 'number' && typeof question.correctAnswer === 'number') {
+          isCorrect = userAnswer === question.correctAnswer;
+          console.log('✓ Number comparison:', isCorrect);
+        } else if (question.options && typeof question.correctAnswer === 'number') {
+          const correctText = question.options[question.correctAnswer];
+          const method1 = userAnswer === correctText;
+          const method2 = question.options.indexOf(userAnswer) === question.correctAnswer;
+          isCorrect = method1 || method2;
+          console.log('✓ Text comparison - Method 1 (user === correctText):', method1);
+          console.log('✓ Text comparison - Method 2 (indexOf):', method2);
+          console.log('✓ Final result:', isCorrect);
+        } else {
+          isCorrect = userAnswer === question.correctAnswer;
+          console.log('✓ Direct comparison:', isCorrect);
+        }
         points = isCorrect ? 1 : 0;
         break;
+      }
+      
+      case 'true-false': {
+        console.log('Processing true-false...');
+        const method1 = userAnswer === question.correctAnswer;
+        const method2 = Boolean(userAnswer) === Boolean(question.correctAnswer);
+        const method3 = String(userAnswer).toLowerCase() === String(question.correctAnswer).toLowerCase();
         
-      case 'true-false':
-        isCorrect = userAnswer === question.correct;
+        console.log('✓ Method 1 (direct):', method1);
+        console.log('✓ Method 2 (Boolean conversion):', method2); 
+        console.log('✓ Method 3 (string comparison):', method3);
+        
+        isCorrect = method1 || method2 || method3;
+        console.log('✓ Final true/false result:', isCorrect);
         points = isCorrect ? 1 : 0;
         break;
-        
-      case 'matching':
-        if (userAnswer && question.pairs) {
-          const correctPairs = question.pairs.filter(pair => 
-            userAnswer[pair.left] === pair.right
-          );
-          points = correctPairs.length / question.pairs.length;
-          isCorrect = points === 1;
+      }
+      
+      case 'matching': {
+        console.log('Processing matching...');
+        if (userAnswer && question.correctAnswer && typeof question.correctAnswer === 'object') {
+          console.log('User matches:', userAnswer);
+          console.log('Correct matches:', question.correctAnswer);
+          const userKeys = Object.keys(userAnswer);
+          const correctMatches = userKeys.filter(
+            key => userAnswer[key] === question.correctAnswer[key]
+          ).length;
+          points = correctMatches / userKeys.length;
+          isCorrect = points >= 1;
+          console.log('✓ Matching - correct matches:', correctMatches, 'out of', userKeys.length);
+          console.log('✓ Matching points:', points);
         }
         break;
-        
-      case 'short-answer':
-        // Basic validation for short answers
-        if (userAnswer && userAnswer.trim().length > 10) {
-          points = 0.5; // Partial credit for attempt
-          isCorrect = true;
+      }
+      
+      case 'short-answer': {
+        console.log('Processing short-answer...');
+        if (userAnswer && typeof userAnswer === 'string') {
+          const trimmed = userAnswer.trim().toLowerCase();
+          const expected = question.correctAnswer?.trim().toLowerCase();
+          console.log('✓ Trimmed user answer:', JSON.stringify(trimmed));
+          console.log('✓ Expected answer:', JSON.stringify(expected));
+          
+          if (expected && trimmed === expected) {
+            points = 1;
+            isCorrect = true;
+            console.log('✓ Exact match found - full credit');
+          } else if (trimmed.length >= 5) {
+            points = 0.5;
+            isCorrect = false;
+            console.log('✓ Partial credit - answer length >= 5');
+          } else {
+            console.log('✓ No credit - answer too short or empty');
+          }
         }
         break;
-        
+      }
+      
       default:
+        console.log('❌ Unknown question type:', question.type);
         points = 0;
         isCorrect = false;
     }
     
-    correct += points;
+    console.log(`🎯 FINAL: isCorrect=${isCorrect}, points=${points}`);
+    console.log('=====================================');
+    
+    totalScore += points;
     details.push({
       questionIndex: index,
       questionId: question.id,
-      isCorrect,
+      isCorrect: points >= 1,
       points,
-      maxPoints: 1,
+      maxPoints,
       userAnswer,
-      correctAnswer: question.correct
+      correctAnswer: question.correctAnswer
     });
   });
   
   const total = quiz.questions.length;
-  const percentage = Math.round((correct / total) * 100);
+  const percentage = Math.round((totalScore / total) * 100);
+  
+  console.log('\n🎯 FINAL SUMMARY:');
+  console.log('Total score:', totalScore);
+  console.log('Total questions:', total);
+  console.log('Percentage:', percentage);
+  console.log('Details:', details.map(d => ({ id: d.questionId, points: d.points, isCorrect: d.isCorrect })));
   
   return {
-    score: correct,
+    score: totalScore,
     total,
     percentage,
     details
@@ -173,29 +249,57 @@ export const renderResults = ({
   getCorrectAnswerDisplayText,
   styles
 }) => {
-  const { score, total, percentage } = calculateQuizScore(quiz, userAnswers);
+  const scoreResult = calculateQuizScore(quiz, userAnswers);
+  const { score, total, percentage, details } = scoreResult;
+  const feedback = generatePerformanceFeedback(percentage);
+  const letterGrade = getLetterGrade(percentage);
   
   return (
     <div className={styles.resultsContainer}>
       <div className={styles.scoreCard}>
         <div className={styles.scoreDisplay}>
-          <div className={styles.scoreNumber}>{score}</div>
+          <div className={styles.scoreNumber}>{score.toFixed(1)}</div>
           <div className={styles.scoreTotal}>/ {total}</div>
         </div>
         <div className={styles.scorePercentage}>
           {percentage}%
         </div>
+        <div className={styles.scoreGrade}>
+          Grade: {letterGrade}
+        </div>
         <div className={styles.scoreLabel}>
           Questions Correct
         </div>
+        {/* DEBUG INFO */}
+        <div style={{fontSize: '12px', color: '#666', marginTop: '10px'}}>
+          DEBUG: Check console for detailed scoring breakdown
+        </div>
+      </div>
+
+      <div className={styles.feedbackSection}>
+        <div className={styles.feedbackMessage}>
+          {feedback.message}
+        </div>
+        {feedback.suggestions.length > 0 && (
+          <div className={styles.feedbackSuggestions}>
+            <h4>Suggestions for improvement:</h4>
+            <ul>
+              {feedback.suggestions.map((suggestion, index) => (
+                <li key={index}>{suggestion}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       {quizSettings.showExplanations && (
         <div className={styles.reviewSection}>
           <h3 className={styles.reviewTitle}>Question Review</h3>
           {quiz.questions.map((question, index) => {
+            const questionDetail = details.find(d => d.questionId === question.id);
             const userAnswer = userAnswers[question.id];
-            const isCorrect = userAnswer === question.correctAnswer;
+            const isCorrect = questionDetail ? questionDetail.isCorrect : false;
+            const points = questionDetail ? questionDetail.points : 0;
             
             return (
               <div key={question.id} className={styles.reviewCard}>
@@ -216,6 +320,15 @@ export const renderResults = ({
                           Correct answer: {getCorrectAnswerDisplayText(question)}
                         </div>
                       )}
+                      {points > 0 && points < 1 && (
+                        <div className={styles.reviewPartialCredit}>
+                          Partial credit: {points.toFixed(2)} / 1.0 points
+                        </div>
+                      )}
+                      {/* DEBUG INFO */}
+                      <div style={{fontSize: '11px', color: '#999', marginTop: '5px'}}>
+                        DEBUG: Points={points} | Type={question.type} | User={JSON.stringify(userAnswer)} | Correct={JSON.stringify(question.correctAnswer)}
+                      </div>
                     </div>
                     {question.explanation && (
                       <div className={styles.reviewExplanation}>

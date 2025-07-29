@@ -1,4 +1,4 @@
-// Updated ScienceDash.jsx - Now includes monetization click triggers, AI tutor prioritization, offline premium caching, and free access to first 4 games
+// Updated ScienceDash.jsx - Includes AI Tutor name normalization
 import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, Atom, Calculator, Dna, Globe, Star } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
@@ -81,9 +81,15 @@ const ScienceDash = () => {
   }
 
   const topic = topics.find(t => t.id === selectedTopic) || currentTopicData;
-
   const freeGameAccessIds = ['overview', 'physics', 'chemistry', 'biology'];
   const isGameFree = freeGameAccessIds.includes(selectedTopic);
+
+  // Normalize AI Tutor naming
+  const normalizedLearningModes = learningModes.map(mode =>
+    mode.name === 'Studio' || mode.name === 'Studio Group'
+      ? { ...mode, name: 'AI Tutor' }
+      : mode
+  );
 
   return (
     <div className={styles.sciencePageContainer}>
@@ -94,7 +100,7 @@ const ScienceDash = () => {
         setGradeLevel={setGradeLevel}
         learningMode={learningMode}
         setLearningMode={setLearningMode}
-        learningModes={learningModes}
+        learningModes={normalizedLearningModes}
         topics={topics}
         selectedTopic={selectedTopic}
         setSelectedTopic={setSelectedTopic}
@@ -128,11 +134,10 @@ const ScienceDash = () => {
               placeholder="Ask me anything about science..."
               subject="science"
               user={user}
-              isLimited={!isPremium} // capped to 50 prompts for free
+              isLimited={!isPremium}
             />
           )}
 
-          {/* 📊 Quiz & Assessment - Limited but available */}
           {learningMode === 'assessment' && (
             <QuizAssessmentTool
               content={currentTopicData?.content || "This section covers key concepts in science."}
@@ -145,7 +150,6 @@ const ScienceDash = () => {
             />
           )}
 
-          {/* 🎮 Interactive Sim - Free for first 4 topics */}
           {learningMode === 'interactive' && (
             isPremium || isGameFree ? runGame() : (
               <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
@@ -157,7 +161,6 @@ const ScienceDash = () => {
             )
           )}
 
-          {/* 📽️ Visual Learning Resources - Paywalled */}
           {learningMode === 'visual' && (
             isPremium ? (
               <VisualResources

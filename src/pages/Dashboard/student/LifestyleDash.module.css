@@ -44,36 +44,6 @@
   color: #eab308;
 }
 
-/* Experience Level Selector */
-.experienceLevelSection {
-  margin-bottom: 24px;
-}
-
-.sectionLabel {
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #374151;
-  margin-bottom: 8px;
-}
-
-.experienceSelect {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background-color: #ffffff;
-  font-size: 0.875rem;
-  transition: all 0.2s ease;
-}
-
-.experienceSelect:focus {
-  outline: none;
-  ring: 2px;
-  ring-color: #10b981;
-  border-color: #10b981;
-}
-
 /* Learning Mode Selector */
 .learningModeSection {
   margin-bottom: 24px;

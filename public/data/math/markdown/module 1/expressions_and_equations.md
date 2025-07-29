@@ -1,7 +1,7 @@
 ## What Are Expressions?
 
 \[Prompt Wrap Start]
-This section introduces expressions as math phrases. Prompt: How is a math expression like a sentence?
+Prompt: please generate me a content section based on mathematical expressions and focused on users with a grade [grade]. Definite important discussion items, each as a subheader, in markdown format. Add numbering or bulleting format for complex information, and and bold key terms. 
 \[Prompt Wrap End]
 
 An expression is a math phrase made of numbers, operations, and sometimes variables. It doesn't have an equal sign. For example, 4 + x or 2n − 5 are expressions. They're like sentences that describe a calculation.

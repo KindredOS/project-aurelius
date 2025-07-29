@@ -44,34 +44,9 @@
   color: #eab308;
 }
 
-/* Grade Level Selector */
-.gradeLevelSection {
-  margin-bottom: 24px;
-}
-
-.sectionLabel {
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #374151;
-  margin-bottom: 8px;
-}
-
-.gradeSelect {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background-color: #ffffff;
-  font-size: 0.875rem;
-  transition: all 0.2s ease;
-}
-
-.gradeSelect:focus {
-  outline: none;
-  ring: 2px;
-  ring-color: #3b82f6;
-  border-color: #3b82f6;
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Learning Mode Selector */

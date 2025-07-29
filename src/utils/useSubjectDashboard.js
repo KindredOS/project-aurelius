@@ -13,7 +13,7 @@ import {
 export const useSubjectDashboard = (subject, iconMap) => {
   const [selectedTopic, setSelectedTopic] = useState('overview');
   const [gradeLevel, setGradeLevel] = useState(6);
-  const [learningMode, setLearningMode] = useState('interactive');
+  const [learningMode, setLearningMode] = useState(null);
   const [userProgress, setUserProgress] = useState({});
   const [currentQuiz, setCurrentQuiz] = useState(null);
   const [quizScore, setQuizScore] = useState(0);

@@ -10,8 +10,6 @@ import { fetchUserProgress } from '../../api/ApiMaster';
 const Sidebar = ({ 
   title, 
   studyStreak, 
-  gradeLevel, 
-  setGradeLevel, 
   learningMode, 
   setLearningMode, 
   learningModes, 
@@ -34,6 +32,19 @@ const Sidebar = ({
     }
     loadProgress();
   }, [email, subject]);
+
+  const sortedLearningModes = [...learningModes].sort((a, b) => {
+    if (a.name === "AI Tutor") return -1;
+    if (b.name === "AI Tutor") return 1;
+    return 0;
+  });
+
+  useEffect(() => {
+    if (!learningMode && sortedLearningModes.length > 0) {
+      const aiTutor = sortedLearningModes.find(mode => mode.name === "AI Tutor");
+      if (aiTutor) setLearningMode(aiTutor.id);
+    }
+  }, [learningMode, sortedLearningModes, setLearningMode]);
 
   return (
     <div className={styles.sidebar}>
@@ -77,11 +88,12 @@ const Sidebar = ({
       <div className={styles.learningModeSection}>
         <label className={styles.sectionLabel}>Tools and Assessments</label>
         <div className={styles.learningModeList}>
-          {learningModes.map(mode => (
+          {sortedLearningModes.map(mode => (
             <button
               key={mode.id}
-              onClick={() => setLearningMode(mode.id)}
-              className={`${styles.learningModeButton} ${learningMode === mode.id ? styles.active : ''}`}
+              onClick={() => !mode.disabled && setLearningMode(learningMode === mode.id ? null : mode.id)}
+              className={`${styles.learningModeButton} ${learningMode === mode.id ? styles.active : ''} ${mode.disabled ? styles.disabled : ''}`}
+              disabled={mode.disabled}
             >
               <div className={styles.modeContent}>
                 {mode.icon && <mode.icon className={styles.modeIcon} />}

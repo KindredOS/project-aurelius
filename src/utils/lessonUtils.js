@@ -156,21 +156,31 @@ export const findLessonCached = async (subject, topicId, forceRefresh = false) =
 };
 
 /**
- * Clear the lesson cache (useful for development or when content updates)
- */
-export const clearLessonCache = () => {
-  lessonCache.clear();
-};
-
-/**
  * Get learning mode configuration
  * @returns {Array} - Array of learning modes
  */
 export const getLearningModes = () => {
   return [
-    { id: 'interactive', name: 'Interactive', description: 'Hands-on projects and creative activities' },
-    { id: 'visual', name: 'Visual', description: 'Gallery tours, visual references, and inspiration' },
-    { id: 'collaborative', name: 'Studio Group', description: 'Group critiques and collaborative projects' },
-    { id: 'assessment', name: 'Assessment', description: 'Portfolio reviews and knowledge testing' }
+    {
+      id: 'collaborative',
+      name: 'AI Tutor',
+      description: 'Ask questions, get answers, and explore ideas with your intelligent assistant.'
+    },
+    {
+      id: 'interactive',
+      name: 'Play & Learn',
+      description: 'Dive into games, challenges, and interactive tools to reinforce key concepts.'
+    },
+    {
+      id: 'visual',
+      name: 'Coming Soon',
+      description: 'Visual journeys and media-rich experiences are on the way!',
+      disabled: true
+    },
+    {
+      id: 'assessment',
+      name: 'Quiz Yourself!',
+      description: 'Test your knowledge with fun quizzes and challenges.'
+    }
   ];
 };

@@ -1,9 +1,233 @@
-// utils/quizScoring.js - TARGETED DEBUG VERSION
+// utils/quizScoring.js - PRODUCTION VERSION WITH ENHANCED SHORT ANSWER
 import React from 'react';
 import { CheckCircle, XCircle, RotateCcw, Play } from 'lucide-react';
 
 /**
- * Calculates the score for a completed quiz - DEBUG VERSION
+ * Calculates similarity between two strings using various methods
+ */
+const calculateStringSimilarity = (str1, str2) => {
+  if (!str1 || !str2) return 0;
+  
+  const s1 = str1.toLowerCase().trim();
+  const s2 = str2.toLowerCase().trim();
+  
+  // Exact match
+  if (s1 === s2) return 1.0;
+  
+  // Levenshtein distance similarity
+  const levenshteinSimilarity = 1 - (levenshteinDistance(s1, s2) / Math.max(s1.length, s2.length));
+  
+  // Word overlap similarity
+  const wordOverlapSimilarity = calculateWordOverlap(s1, s2);
+  
+  // Substring similarity
+  const substringSimilarity = calculateSubstringSimilarity(s1, s2);
+  
+  // Return the highest similarity score
+  return Math.max(levenshteinSimilarity, wordOverlapSimilarity, substringSimilarity);
+};
+
+/**
+ * Calculates Levenshtein distance between two strings
+ */
+const levenshteinDistance = (str1, str2) => {
+  const matrix = [];
+  
+  for (let i = 0; i <= str2.length; i++) {
+    matrix[i] = [i];
+  }
+  
+  for (let j = 0; j <= str1.length; j++) {
+    matrix[0][j] = j;
+  }
+  
+  for (let i = 1; i <= str2.length; i++) {
+    for (let j = 1; j <= str1.length; j++) {
+      if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j] + 1
+        );
+      }
+    }
+  }
+  
+  return matrix[str2.length][str1.length];
+};
+
+/**
+ * Calculates word overlap similarity
+ */
+const calculateWordOverlap = (str1, str2) => {
+  const words1 = str1.split(/\s+/).filter(word => word.length > 2);
+  const words2 = str2.split(/\s+/).filter(word => word.length > 2);
+  
+  if (words1.length === 0 || words2.length === 0) return 0;
+  
+  const commonWords = words1.filter(word => words2.includes(word));
+  return (2 * commonWords.length) / (words1.length + words2.length);
+};
+
+/**
+ * Calculates substring similarity
+ */
+const calculateSubstringSimilarity = (str1, str2) => {
+  const longer = str1.length > str2.length ? str1 : str2;
+  const shorter = str1.length > str2.length ? str2 : str1;
+  
+  if (longer.length === 0) return 1.0;
+  
+  const longestCommonSubstring = findLongestCommonSubstring(longer, shorter);
+  return longestCommonSubstring.length / longer.length;
+};
+
+/**
+ * Finds the longest common substring
+ */
+const findLongestCommonSubstring = (str1, str2) => {
+  let longest = '';
+  
+  for (let i = 0; i < str1.length; i++) {
+    for (let j = i + 1; j <= str1.length; j++) {
+      const substring = str1.substring(i, j);
+      if (str2.includes(substring) && substring.length > longest.length) {
+        longest = substring;
+      }
+    }
+  }
+  
+  return longest;
+};
+
+/**
+ * Calculates bonus points for including key terms
+ */
+const calculateKeywordBonus = (userAnswer, correctAnswer) => {
+  const userWords = userAnswer.toLowerCase().split(/\s+/);
+  const correctWords = correctAnswer.toLowerCase().split(/\s+/);
+  
+  // Identify important words (longer than 3 characters)
+  const keyWords = correctWords.filter(word => word.length > 3);
+  const keyWordsFound = keyWords.filter(word => 
+    userWords.some(userWord => userWord.includes(word) || word.includes(userWord))
+  );
+  
+  if (keyWords.length === 0) return 0;
+  
+  const keywordRatio = keyWordsFound.length / keyWords.length;
+  return keywordRatio * 0.1; // Up to 10% bonus
+};
+
+/**
+ * Enhanced short answer scoring with multiple approaches
+ */
+const scoreShortAnswer = (userAnswer, correctAnswer, options = {}) => {
+  const {
+    exactMatchPoints = 1.0,
+    highSimilarityThreshold = 0.85,
+    highSimilarityPoints = 0.9,
+    mediumSimilarityThreshold = 0.70,
+    mediumSimilarityPoints = 0.75,
+    lowSimilarityThreshold = 0.50,
+    lowSimilarityPoints = 0.5,
+    minimumLength = 3,
+    keywordWeighting = true,
+    alternativeAnswers = []
+  } = options;
+  
+  if (!userAnswer || typeof userAnswer !== 'string') {
+    return { points: 0, feedback: 'No answer provided', similarity: 0 };
+  }
+  
+  const trimmedAnswer = userAnswer.trim();
+  
+  if (trimmedAnswer.length < minimumLength) {
+    return { 
+      points: 0, 
+      feedback: `Answer too short (minimum ${minimumLength} characters)`, 
+      similarity: 0 
+    };
+  }
+  
+  // Check against all possible correct answers
+  const allCorrectAnswers = [correctAnswer, ...alternativeAnswers].filter(Boolean);
+  let bestMatch = { points: 0, similarity: 0, matchedAnswer: '' };
+  
+  for (const correct of allCorrectAnswers) {
+    const similarity = calculateStringSimilarity(trimmedAnswer, correct);
+    
+    let points = 0;
+    let feedback = '';
+    
+    // Determine points based on similarity
+    if (similarity >= 0.99) {
+      points = exactMatchPoints;
+      feedback = 'Exact match';
+    } else if (similarity >= highSimilarityThreshold) {
+      points = highSimilarityPoints;
+      feedback = 'Very close match';
+    } else if (similarity >= mediumSimilarityThreshold) {
+      points = mediumSimilarityPoints;
+      feedback = 'Good match with minor differences';
+    } else if (similarity >= lowSimilarityThreshold) {
+      points = lowSimilarityPoints;
+      feedback = 'Partial match';
+    } else if (trimmedAnswer.length >= 5) {
+      points = 0.25;
+      feedback = 'Answer provided but does not match expected response';
+    } else {
+      points = 0;
+      feedback = 'Answer does not match expected response';
+    }
+    
+    // Apply keyword weighting if enabled
+    if (keywordWeighting && points > 0) {
+      const keywordBonus = calculateKeywordBonus(trimmedAnswer, correct);
+      points = Math.min(exactMatchPoints, points + keywordBonus);
+    }
+    
+    if (points > bestMatch.points) {
+      bestMatch = {
+        points,
+        similarity,
+        feedback,
+        matchedAnswer: correct
+      };
+    }
+  }
+  
+  return bestMatch;
+};
+
+/**
+ * Enhanced short answer case for the main scoring function
+ */
+const enhancedShortAnswerCase = (question, userAnswer) => {
+  const options = {
+    alternativeAnswers: question.alternativeAnswers || [],
+    keywordWeighting: question.keywordWeighting !== false,
+    exactMatchPoints: 1.0,
+    highSimilarityThreshold: question.highSimilarityThreshold || 0.85,
+    mediumSimilarityThreshold: question.mediumSimilarityThreshold || 0.70,
+    lowSimilarityThreshold: question.lowSimilarityThreshold || 0.50,
+    minimumLength: question.minimumLength || 3
+  };
+  
+  const result = scoreShortAnswer(userAnswer, question.correctAnswer, options);
+  
+  return {
+    isCorrect: result.points >= 1.0,
+    points: result.points,
+    feedback: result.feedback,
+    similarity: result.similarity
+  };
+};
+
+/**
+ * Calculates the score for a completed quiz
  * @param {Object} quiz - The quiz object
  * @param {Object} userAnswers - Object containing user answers keyed by question ID
  * @returns {Object} Score calculation result
@@ -13,10 +237,6 @@ export const calculateQuizScore = (quiz, userAnswers) => {
     return { score: 0, total: 0, percentage: 0, details: [] };
   }
   
-  console.log('🔍 TARGETED DEBUG - Looking for the 0.5 point issue');
-  console.log('Quiz has', quiz.questions.length, 'questions');
-  console.log('UserAnswers keys:', Object.keys(userAnswers));
-  
   let totalScore = 0;
   const details = [];
   
@@ -24,106 +244,56 @@ export const calculateQuizScore = (quiz, userAnswers) => {
     const userAnswer = userAnswers[question.id];
     let isCorrect = false;
     let points = 0;
+    let feedback = '';
     const maxPoints = 1;
-    
-    console.log(`\n--- Question ${index + 1} (ID: ${question.id}) ---`);
-    console.log('Type:', question.type);
-    console.log('User Answer:', JSON.stringify(userAnswer), typeof userAnswer);
-    console.log('Correct Answer:', JSON.stringify(question.correctAnswer), typeof question.correctAnswer);
     
     switch (question.type) {
       case 'multiple-choice': {
-        console.log('Processing multiple-choice...');
-        if (question.options) {
-          console.log('Options:', question.options);
-          if (typeof question.correctAnswer === 'number') {
-            console.log('Correct option text:', question.options[question.correctAnswer]);
-          }
-        }
-        
         if (typeof userAnswer === 'number' && typeof question.correctAnswer === 'number') {
           isCorrect = userAnswer === question.correctAnswer;
-          console.log('✓ Number comparison:', isCorrect);
         } else if (question.options && typeof question.correctAnswer === 'number') {
           const correctText = question.options[question.correctAnswer];
-          const method1 = userAnswer === correctText;
-          const method2 = question.options.indexOf(userAnswer) === question.correctAnswer;
-          isCorrect = method1 || method2;
-          console.log('✓ Text comparison - Method 1 (user === correctText):', method1);
-          console.log('✓ Text comparison - Method 2 (indexOf):', method2);
-          console.log('✓ Final result:', isCorrect);
+          isCorrect = userAnswer === correctText || question.options.indexOf(userAnswer) === question.correctAnswer;
         } else {
           isCorrect = userAnswer === question.correctAnswer;
-          console.log('✓ Direct comparison:', isCorrect);
         }
         points = isCorrect ? 1 : 0;
         break;
       }
       
       case 'true-false': {
-        console.log('Processing true-false...');
-        const method1 = userAnswer === question.correctAnswer;
-        const method2 = Boolean(userAnswer) === Boolean(question.correctAnswer);
-        const method3 = String(userAnswer).toLowerCase() === String(question.correctAnswer).toLowerCase();
-        
-        console.log('✓ Method 1 (direct):', method1);
-        console.log('✓ Method 2 (Boolean conversion):', method2); 
-        console.log('✓ Method 3 (string comparison):', method3);
-        
-        isCorrect = method1 || method2 || method3;
-        console.log('✓ Final true/false result:', isCorrect);
+        isCorrect =
+          userAnswer === question.correctAnswer ||
+          Boolean(userAnswer) === Boolean(question.correctAnswer) ||
+          String(userAnswer).toLowerCase() === String(question.correctAnswer).toLowerCase();
         points = isCorrect ? 1 : 0;
         break;
       }
       
       case 'matching': {
-        console.log('Processing matching...');
         if (userAnswer && question.correctAnswer && typeof question.correctAnswer === 'object') {
-          console.log('User matches:', userAnswer);
-          console.log('Correct matches:', question.correctAnswer);
           const userKeys = Object.keys(userAnswer);
           const correctMatches = userKeys.filter(
             key => userAnswer[key] === question.correctAnswer[key]
           ).length;
           points = correctMatches / userKeys.length;
           isCorrect = points >= 1;
-          console.log('✓ Matching - correct matches:', correctMatches, 'out of', userKeys.length);
-          console.log('✓ Matching points:', points);
         }
         break;
       }
       
       case 'short-answer': {
-        console.log('Processing short-answer...');
-        if (userAnswer && typeof userAnswer === 'string') {
-          const trimmed = userAnswer.trim().toLowerCase();
-          const expected = question.correctAnswer?.trim().toLowerCase();
-          console.log('✓ Trimmed user answer:', JSON.stringify(trimmed));
-          console.log('✓ Expected answer:', JSON.stringify(expected));
-          
-          if (expected && trimmed === expected) {
-            points = 1;
-            isCorrect = true;
-            console.log('✓ Exact match found - full credit');
-          } else if (trimmed.length >= 5) {
-            points = 0.5;
-            isCorrect = false;
-            console.log('✓ Partial credit - answer length >= 5');
-          } else {
-            console.log('✓ No credit - answer too short or empty');
-          }
-        }
+        const result = enhancedShortAnswerCase(question, userAnswer);
+        isCorrect = result.isCorrect;
+        points = result.points;
+        feedback = result.feedback;
         break;
       }
       
       default:
-        console.log('❌ Unknown question type:', question.type);
         points = 0;
         isCorrect = false;
     }
-    
-    console.log(`🎯 FINAL: isCorrect=${isCorrect}, points=${points}`);
-    console.log('=====================================');
     
     totalScore += points;
     details.push({
@@ -133,18 +303,13 @@ export const calculateQuizScore = (quiz, userAnswers) => {
       points,
       maxPoints,
       userAnswer,
-      correctAnswer: question.correctAnswer
+      correctAnswer: question.correctAnswer,
+      feedback: feedback || undefined
     });
   });
   
   const total = quiz.questions.length;
   const percentage = Math.round((totalScore / total) * 100);
-  
-  console.log('\n🎯 FINAL SUMMARY:');
-  console.log('Total score:', totalScore);
-  console.log('Total questions:', total);
-  console.log('Percentage:', percentage);
-  console.log('Details:', details.map(d => ({ id: d.questionId, points: d.points, isCorrect: d.isCorrect })));
   
   return {
     score: totalScore,
@@ -270,10 +435,6 @@ export const renderResults = ({
         <div className={styles.scoreLabel}>
           Questions Correct
         </div>
-        {/* DEBUG INFO */}
-        <div style={{fontSize: '12px', color: '#666', marginTop: '10px'}}>
-          DEBUG: Check console for detailed scoring breakdown
-        </div>
       </div>
 
       <div className={styles.feedbackSection}>
@@ -300,6 +461,7 @@ export const renderResults = ({
             const userAnswer = userAnswers[question.id];
             const isCorrect = questionDetail ? questionDetail.isCorrect : false;
             const points = questionDetail ? questionDetail.points : 0;
+            const questionFeedback = questionDetail ? questionDetail.feedback : '';
             
             return (
               <div key={question.id} className={styles.reviewCard}>
@@ -323,12 +485,16 @@ export const renderResults = ({
                       {points > 0 && points < 1 && (
                         <div className={styles.reviewPartialCredit}>
                           Partial credit: {points.toFixed(2)} / 1.0 points
+                          {questionFeedback && (
+                            <span className={styles.feedbackText}> - {questionFeedback}</span>
+                          )}
                         </div>
                       )}
-                      {/* DEBUG INFO */}
-                      <div style={{fontSize: '11px', color: '#999', marginTop: '5px'}}>
-                        DEBUG: Points={points} | Type={question.type} | User={JSON.stringify(userAnswer)} | Correct={JSON.stringify(question.correctAnswer)}
-                      </div>
+                      {questionFeedback && points >= 1 && question.type === 'short-answer' && (
+                        <div className={styles.reviewFeedback}>
+                          ✓ {questionFeedback}
+                        </div>
+                      )}
                     </div>
                     {question.explanation && (
                       <div className={styles.reviewExplanation}>

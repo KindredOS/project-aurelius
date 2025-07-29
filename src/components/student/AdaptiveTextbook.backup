@@ -1,5 +1,5 @@
-// AdaptiveTextbook.jsx - FIXED VERSION - Preserves all content during enhancement
-import React, { useState } from 'react';
+// AdaptiveTextbook.jsx - FIXED VERSION with Enhanced Bracket Cleanup
+import React, { useState, useCallback } from 'react';
 import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
 import styles from './AdaptiveTextbook.module.css';
 
@@ -25,27 +25,68 @@ import { polishMarkdown } from '../../utils/polishMarkdown';
 import { buildPromptWrap } from '../../utils/aiPromptTools';
 import { cleanUpResponse } from '../../utils/cleanUp';
 
+/**
+ * Enhanced cleanup function specifically for removing AI metadata brackets
+ * This addresses the [Mathematical Inquiry: Detailed] type artifacts
+ */
+const removeAIMetadataBrackets = (text) => {
+  if (!text || typeof text !== 'string') {
+    return '';
+  }
+
+  let cleaned = text;
+
+  console.log('[BRACKET_CLEANUP] Starting bracket removal...');
+  console.log('[BRACKET_CLEANUP] Input preview:', text.substring(0, 200));
+
+  // Remove AI metadata patterns like [Mathematical Inquiry: Detailed], [Analysis: Complete], etc.
+  cleaned = cleaned.replace(/\[[A-Za-z\s]*:\s*[A-Za-z\s]*\]/g, '');
+  
+  // Remove standalone bracket words like [Summary], [Analysis], [Overview], etc.
+  cleaned = cleaned.replace(/\[[A-Za-z\s]+\]/g, '');
+  
+  // Remove brackets with numbers like [1], [2] at line ends (citations)
+  cleaned = cleaned.replace(/\[\d+\]\s*$/gm, '');
+  
+  // Remove empty bracket lines
+  cleaned = cleaned.replace(/^\s*\[\s*\]\s*$/gm, '');
+  
+  // Remove lines that are just brackets with content
+  cleaned = cleaned.replace(/^\s*\[[^\]]+\]\s*$/gm, '');
+  
+  // Remove any remaining isolated brackets at start of lines
+  cleaned = cleaned.replace(/^\[[^\]]*\]\s*/gm, '');
+  
+  // Clean up multiple consecutive newlines that may result from bracket removal
+  cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+  
+  // Remove empty lines at the start
+  cleaned = cleaned.replace(/^\s*\n+/, '');
+  
+  // Trim whitespace but preserve internal structure
+  cleaned = cleaned.trim();
+
+  console.log('[BRACKET_CLEANUP] After cleanup preview:', cleaned.substring(0, 200));
+  console.log('[BRACKET_CLEANUP] Removed', text.length - cleaned.length, 'characters');
+
+  return cleaned;
+};
+
 const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
   const [enhancedSections, setEnhancedSections] = useState({});
   const [expandedHeader, setExpandedHeader] = useState(null);
   const [promptToggles, setPromptToggles] = useState({});
   const [interactiveToggles, setInteractiveToggles] = useState({});
   const [isEnhancing, setIsEnhancing] = useState({});
-  // Keep track of the current full content
   const [currentContent, setCurrentContent] = useState(content);
+  const [forceRenderCounter, setForceRenderCounter] = useState(0);
 
-  // Debug: Track when content prop changes
+  // Sync with parent content changes
   React.useEffect(() => {
-    console.log('=== CONTENT PROP CHANGED ===');
-    console.log('New content length:', content?.length || 0);
-    console.log('Current internal content length:', currentContent?.length || 0);
-    console.log('Are they different?', content !== currentContent);
-    
-    // If the parent is passing different content, we might need to update our state
     if (content !== currentContent) {
-      console.log('Content prop differs from internal state - this might be the problem!');
-      // Uncomment the line below if you want to sync with parent changes
-      // setCurrentContent(content);
+      console.log('Content prop changed, syncing internal state');
+      setCurrentContent(content);
+      setForceRenderCounter(prev => prev + 1);
     }
   }, [content, currentContent]);
 
@@ -57,8 +98,28 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     setInteractiveToggles(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
+  // Memoized function to get the effective content for rendering
+  const getEffectiveContent = useCallback(() => {
+    console.log('=== GETTING EFFECTIVE CONTENT ===');
+    console.log('Current content length:', currentContent?.length || 0);
+    console.log('Enhanced sections:', Object.keys(enhancedSections));
+    
+    let effectiveContent = currentContent;
+    
+    // Apply all enhancements to the content before parsing
+    Object.entries(enhancedSections).forEach(([header, enhancedBody]) => {
+      if (enhancedBody && !enhancedBody.includes('⚠️')) {
+        console.log(`Applying enhancement for header: ${header}`);
+        effectiveContent = replaceSection(effectiveContent, header, enhancedBody);
+      }
+    });
+    
+    console.log('Final effective content length:', effectiveContent?.length || 0);
+    return effectiveContent;
+  }, [currentContent, enhancedSections, forceRenderCounter]);
+
   const handleEnhancement = async (header, action) => {
-    if (enhancedSections[header]) {
+    if (enhancedSections[header] && !enhancedSections[header].includes('⚠️')) {
       console.log(`Skipping enhancement for "${header}" — already enhanced.`);
       return;
     }
@@ -67,23 +128,15 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     setIsEnhancing(prev => ({ ...prev, [header]: true }));
 
     try {
-      // Use currentContent instead of the original content prop
       const sectionBody = extractSectionUnderHeader(currentContent, header);
 
       if (!sectionBody || sectionBody.trim().length === 0) {
         throw new Error('No content found under header');
       }
 
-      const cleanedSectionBody = sectionBody;
-
-      if (!cleanedSectionBody || cleanedSectionBody.trim().length === 0) {
-        console.log('No enhanceable content found, preserving original section');
-        return;
-      }
-
       const prompt = buildPromptWrap({ 
         header, 
-        paragraph: cleanedSectionBody,
+        paragraph: sectionBody,
         action 
       });
 
@@ -94,16 +147,25 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
         action
       });
 
+      // Extract final output if wrapped
       const match = enhancedBody.match(/FINAL OUTPUT[^\n]*\n---\n([\s\S]*)$/);
       if (match && match[1]) {
         enhancedBody = match[1].trim();
       }
 
+      // CRITICAL FIX: Enhanced bracket cleanup - this removes the [Mathematical Inquiry: Detailed] artifacts
+      console.log('[ENHANCEMENT] Before bracket cleanup:', enhancedBody.substring(0, 200));
+      enhancedBody = removeAIMetadataBrackets(enhancedBody);
+      console.log('[ENHANCEMENT] After bracket cleanup:', enhancedBody.substring(0, 200));
+
+      // Apply existing cleanup
       enhancedBody = cleanUpResponse(enhancedBody);
 
+      // Remove header if it was accidentally included
       const headerPattern = new RegExp(`^##\s+${header}\s*\n+`, 'i');
       enhancedBody = enhancedBody.replace(headerPattern, '').trim();
 
+      // Final validation and cleanup
       if (!enhancedBody || typeof enhancedBody !== 'string' || enhancedBody.trim().length === 0) {
         throw new Error('Invalid enhancement response');
       }
@@ -112,32 +174,53 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
         throw new Error('Enhancement service unavailable');
       }
 
-      // FIXED: Replace section in currentContent, not original content
-      console.log('=== BEFORE REPLACE SECTION ===');
-      console.log('currentContent length:', currentContent.length);
-      console.log('currentContent preview:', currentContent.substring(0, 300));
-      console.log('enhancedBody:', enhancedBody);
-      
-      const updatedContent = replaceSection(currentContent, header, enhancedBody);
-      
-      console.log('=== AFTER REPLACE SECTION ===');
-      console.log('updatedContent length:', updatedContent.length);
-      console.log('updatedContent preview:', updatedContent.substring(0, 500));
-      
-      // Update our internal state
-      setCurrentContent(updatedContent);
-      setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));
-
-      // Save the full updated content (preserving all sections)
-      if (onContentSave) {
-        console.log('=== CALLING onContentSave ===');
-        console.log('Content being saved:', updatedContent.length, 'characters');
-        await onContentSave(updatedContent);
-        console.log('=== onContentSave COMPLETED ===');
+      // Additional safety check for common AI response artifacts
+      if (enhancedBody.toLowerCase().includes('i cannot') || 
+          enhancedBody.toLowerCase().includes('i apologize') ||
+          enhancedBody.toLowerCase().includes('as an ai')) {
+        console.warn('[ENHANCEMENT] AI response contains refusal patterns, cleaning...');
+        // Try to extract useful content after common refusal patterns
+        const lines = enhancedBody.split('\n');
+        const cleanLines = lines.filter(line => 
+          !line.toLowerCase().includes('i cannot') &&
+          !line.toLowerCase().includes('i apologize') &&
+          !line.toLowerCase().includes('as an ai') &&
+          line.trim().length > 0
+        );
+        enhancedBody = cleanLines.join('\n').trim();
+        
+        if (enhancedBody.length === 0) {
+          throw new Error('No usable content after cleaning AI refusal patterns');
+        }
       }
 
-      console.log('Enhancement successful for:', header);
-      console.log('Updated content length:', updatedContent.length);
+      console.log('=== ENHANCEMENT SUCCESSFUL ===');
+      console.log('Enhanced body (final):', enhancedBody.substring(0, 200) + '...');
+
+      // Update enhanced sections first
+      setEnhancedSections(prev => {
+        const updated = { ...prev, [header]: enhancedBody };
+        console.log('Updated enhanced sections:', Object.keys(updated));
+        return updated;
+      });
+
+      // Force a re-render by incrementing the counter
+      setForceRenderCounter(prev => {
+        const newValue = prev + 1;
+        console.log('Force render counter updated to:', newValue);
+        return newValue;
+      });
+
+      // Update the actual content and save
+      const updatedContent = replaceSection(currentContent, header, enhancedBody);
+      setCurrentContent(updatedContent);
+
+      if (onContentSave) {
+        console.log('Saving updated content...');
+        await onContentSave(updatedContent);
+      }
+
+      console.log('Enhancement and save completed successfully');
     } catch (error) {
       console.error('Enhancement failed:', error);
 
@@ -146,7 +229,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
         errorMessage += 'Service temporarily unavailable. Please try again later.';
       } else if (error.message.includes('No response') || error.message.includes('empty')) {
         errorMessage += 'No response from enhancement service. Please check your connection.';
-      } else if (error.message.includes('Invalid enhancement')) {
+      } else if (error.message.includes('Invalid enhancement') || error.message.includes('No usable content')) {
         errorMessage += 'Invalid response received. Please try again.';
       } else if (error.message.includes('No content found')) {
         errorMessage += 'No content found under this header.';
@@ -155,6 +238,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
       }
 
       setEnhancedSections(prev => ({ ...prev, [header]: errorMessage }));
+      setForceRenderCounter(prev => prev + 1);
     } finally {
       setIsEnhancing(prev => ({ ...prev, [header]: false }));
     }
@@ -165,11 +249,19 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
   };
 
   const parseMarkdown = (text) => {
+    console.log('=== PARSING MARKDOWN ===');
+    console.log('Input text length:', text?.length || 0);
+    console.log('Force render counter:', forceRenderCounter);
+    
+    if (!text) return [];
+
     const elements = parseMarkdownElements(text);
     const renderedElements = [];
     let currentHeader = null;
 
     elements.forEach((element, index) => {
+      const elementKey = `${element.type}-${element.lineIndex}-${forceRenderCounter}`;
+      
       switch (element.type) {
         case 'header':
           currentHeader = element.content;
@@ -178,7 +270,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
 
         case 'prompt':
           renderedElements.push(
-            <div key={`prompt-${element.lineIndex}`} className={styles.promptBox}>
+            <div key={elementKey} className={styles.promptBox}>
               <button
                 className={styles.promptToggle}
                 onClick={() => togglePrompt(element.lineIndex)}
@@ -195,7 +287,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
 
         case 'interactive':
           renderedElements.push(
-            <div key={`interactive-${element.lineIndex}`} className={styles.interactiveBox}>
+            <div key={elementKey} className={styles.interactiveBox}>
               <button
                 className={styles.interactiveToggle}
                 onClick={() => toggleInteractive(element.lineIndex)}
@@ -211,14 +303,13 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
           break;
 
         case 'paragraph':
-          const normalizedHeader = currentHeader?.trim().toLowerCase();
-          const enhancedKey = Object.keys(enhancedSections).find(
-            key => key.trim().toLowerCase() === normalizedHeader
-          );
-          const effectiveContent = (enhancedKey && enhancedSections[enhancedKey]) || element.content;
-          const htmlContent = convertMarkdownBold(effectiveContent);
+          // Apply additional bracket cleanup to paragraph content before rendering
+          let paragraphContent = element.content;
+          paragraphContent = removeAIMetadataBrackets(paragraphContent);
+          
+          const htmlContent = convertMarkdownBold(paragraphContent);
           renderedElements.push(
-            <p key={element.lineIndex} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
+            <p key={elementKey} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
           );
           break;
 
@@ -227,6 +318,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
       }
     });
 
+    console.log('Rendered elements count:', renderedElements.length);
     return renderedElements;
   };
 
@@ -250,7 +342,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     };
 
     return (
-      <div key={`header-${lineIndex}-${headerText}`} className={styles.headerBlock}>
+      <div key={`header-${lineIndex}-${headerText}-${forceRenderCounter}`} className={styles.headerBlock}>
         <div className={styles.headerRow}>
           <div className={headerClasses[level]}>
             {headerText}
@@ -299,15 +391,17 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     );
   };
 
-  // Use currentContent for parsing instead of the original content prop
   if (!currentContent) {
     return <div className={styles.noContent}>No content available</div>;
   }
 
+  // Use the effective content that has all enhancements applied
+  const contentToRender = getEffectiveContent();
+
   return (
     <div className={styles.container}>
-      <div className={styles.content}>
-        {parseMarkdown(currentContent)}
+      <div className={styles.content} key={`content-${forceRenderCounter}`}>
+        {parseMarkdown(contentToRender)}
       </div>
     </div>
   );

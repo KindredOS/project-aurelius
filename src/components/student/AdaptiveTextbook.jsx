@@ -1,4 +1,4 @@
-// AdaptiveTextbook.jsx - FIXED VERSION with Enhanced Bracket Cleanup
+// AdaptiveTextbook.jsx - Enhanced with Collapsible Headers and Side Scroll
 import React, { useState, useCallback } from 'react';
 import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
 import styles from './AdaptiveTextbook.module.css';
@@ -75,6 +75,7 @@ const removeAIMetadataBrackets = (text) => {
 const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
   const [enhancedSections, setEnhancedSections] = useState({});
   const [expandedHeader, setExpandedHeader] = useState(null);
+  const [collapsedHeaders, setCollapsedHeaders] = useState({}); // New state for collapsed headers
   const [promptToggles, setPromptToggles] = useState({});
   const [interactiveToggles, setInteractiveToggles] = useState({});
   const [isEnhancing, setIsEnhancing] = useState({});
@@ -96,6 +97,11 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
 
   const toggleInteractive = (key) => {
     setInteractiveToggles(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  // New function to toggle header collapse
+  const toggleHeaderCollapse = (headerText) => {
+    setCollapsedHeaders(prev => ({ ...prev, [headerText]: !prev[headerText] }));
   };
 
   // Memoized function to get the effective content for rendering
@@ -248,6 +254,43 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     setExpandedHeader(prev => prev === headerText ? null : headerText);
   };
 
+  // Group content into sections based on h1 headers
+  const groupContentIntoSections = (elements) => {
+    const sections = [];
+    let currentSection = null;
+
+    elements.forEach((element) => {
+      if (element.type === 'header' && element.level === 1) {
+        // Start a new section
+        if (currentSection) {
+          sections.push(currentSection);
+        }
+        currentSection = {
+          header: element.content,
+          elements: [element]
+        };
+      } else if (currentSection) {
+        // Add to current section
+        currentSection.elements.push(element);
+      } else {
+        // Content before first h1 - create a default section
+        if (sections.length === 0) {
+          currentSection = {
+            header: 'Introduction',
+            elements: [element]
+          };
+        }
+      }
+    });
+
+    // Don't forget the last section
+    if (currentSection) {
+      sections.push(currentSection);
+    }
+
+    return sections;
+  };
+
   const parseMarkdown = (text) => {
     console.log('=== PARSING MARKDOWN ===');
     console.log('Input text length:', text?.length || 0);
@@ -256,74 +299,66 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     if (!text) return [];
 
     const elements = parseMarkdownElements(text);
-    const renderedElements = [];
-    let currentHeader = null;
+    return elements;
+  };
 
-    elements.forEach((element, index) => {
-      const elementKey = `${element.type}-${element.lineIndex}-${forceRenderCounter}`;
-      
-      switch (element.type) {
-        case 'header':
-          currentHeader = element.content;
-          renderedElements.push(renderHeader(currentHeader, element.level, element.lineIndex));
-          break;
+  const renderElement = (element, index, currentHeader) => {
+    const elementKey = `${element.type}-${element.lineIndex}-${forceRenderCounter}`;
+    
+    switch (element.type) {
+      case 'header':
+        return renderHeader(element.content, element.level, element.lineIndex);
 
-        case 'prompt':
-          renderedElements.push(
-            <div key={elementKey} className={styles.promptBox}>
-              <button
-                className={styles.promptToggle}
-                onClick={() => togglePrompt(element.lineIndex)}
-              >
-                {promptToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} 
-                <strong>Prompt</strong>
-              </button>
-              {promptToggles[element.lineIndex] && (
-                <div className={styles.promptContent}>{element.content}</div>
-              )}
-            </div>
-          );
-          break;
+      case 'prompt':
+        return (
+          <div key={elementKey} className={styles.promptBox}>
+            <button
+              className={styles.promptToggle}
+              onClick={() => togglePrompt(element.lineIndex)}
+            >
+              {promptToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} 
+              <strong>Prompt</strong>
+            </button>
+            {promptToggles[element.lineIndex] && (
+              <div className={styles.promptContent}>{element.content}</div>
+            )}
+          </div>
+        );
 
-        case 'interactive':
-          renderedElements.push(
-            <div key={elementKey} className={styles.interactiveBox}>
-              <button
-                className={styles.interactiveToggle}
-                onClick={() => toggleInteractive(element.lineIndex)}
-              >
-                {interactiveToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} 
-                <strong>Interactive Module</strong>
-              </button>
-              {interactiveToggles[element.lineIndex] && (
-                <div className={styles.interactiveContent}><em>Content coming soon...</em></div>
-              )}
-            </div>
-          );
-          break;
+      case 'interactive':
+        return (
+          <div key={elementKey} className={styles.interactiveBox}>
+            <button
+              className={styles.interactiveToggle}
+              onClick={() => toggleInteractive(element.lineIndex)}
+            >
+              {interactiveToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} 
+              <strong>Interactive Module</strong>
+            </button>
+            {interactiveToggles[element.lineIndex] && (
+              <div className={styles.interactiveContent}><em>Content coming soon...</em></div>
+            )}
+          </div>
+        );
 
-        case 'paragraph':
-          // Apply additional bracket cleanup to paragraph content before rendering
-          let paragraphContent = element.content;
-          paragraphContent = removeAIMetadataBrackets(paragraphContent);
-          
-          const htmlContent = convertMarkdownBold(paragraphContent);
-          renderedElements.push(
-            <p key={elementKey} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
-          );
-          break;
+      case 'paragraph':
+        // Apply additional bracket cleanup to paragraph content before rendering
+        let paragraphContent = element.content;
+        paragraphContent = removeAIMetadataBrackets(paragraphContent);
+        
+        const htmlContent = convertMarkdownBold(paragraphContent);
+        return (
+          <p key={elementKey} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
+        );
 
-        default:
-          break;
-      }
-    });
-
-    console.log('Rendered elements count:', renderedElements.length);
-    return renderedElements;
+      default:
+        return null;
+    }
   };
 
   const renderHeader = (headerText, level, lineIndex) => {
     const isExpanded = expandedHeader === headerText;
+    const isCollapsed = collapsedHeaders[headerText];
     const isLoading = isEnhancing[headerText];
     const enhancementButtons = getEnhancementButtons();
 
@@ -344,8 +379,20 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     return (
       <div key={`header-${lineIndex}-${headerText}-${forceRenderCounter}`} className={styles.headerBlock}>
         <div className={styles.headerRow}>
-          <div className={headerClasses[level]}>
-            {headerText}
+          <div className={styles.headerLeft}>
+            {/* Collapse toggle button */}
+            <button
+              onClick={() => toggleHeaderCollapse(headerText)}
+              className={styles.collapseToggle}
+              title={isCollapsed ? "Expand section" : "Collapse section"}
+              type="button"
+            >
+              {isCollapsed ? <ChevronRight size={16} /> : <ChevronDown size={16} />}
+            </button>
+            
+            <div className={headerClasses[level]}>
+              {headerText}
+            </div>
           </div>
 
           <button
@@ -397,14 +444,55 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
 
   // Use the effective content that has all enhancements applied
   const contentToRender = getEffectiveContent();
+  const elements = parseMarkdown(contentToRender);
+  const sections = groupContentIntoSections(elements);
 
   return (
     <div className={styles.container}>
-      <div className={styles.content} key={`content-${forceRenderCounter}`}>
-        {parseMarkdown(contentToRender)}
+      <div className={styles.sideScrollContainer}>
+        {sections.map((section, sectionIndex) => (
+          <div key={`section-${sectionIndex}-${forceRenderCounter}`} className={styles.contentSection}>
+            {section.elements.map((element, elementIndex) => {
+              // For headers, check if they should be collapsed
+              if (element.type === 'header') {
+                const renderedHeader = renderElement(element, elementIndex);
+                const isCollapsed = collapsedHeaders[element.content];
+                
+                // If this is a collapsed header, only show the header itself
+                if (isCollapsed && element.level <= 2) {
+                  return (
+                    <div key={`collapsed-${elementIndex}`}>
+                      {renderedHeader}
+                    </div>
+                  );
+                }
+                
+                return renderedHeader;
+              }
+              
+              // For non-header elements, check if they should be hidden due to collapsed parent
+              const parentHeader = findParentHeader(section.elements, elementIndex);
+              if (parentHeader && collapsedHeaders[parentHeader]) {
+                return null; // Hide content under collapsed headers
+              }
+              
+              return renderElement(element, elementIndex);
+            })}
+          </div>
+        ))}
       </div>
     </div>
   );
+};
+
+// Helper function to find the parent header for an element
+const findParentHeader = (elements, currentIndex) => {
+  for (let i = currentIndex - 1; i >= 0; i--) {
+    if (elements[i].type === 'header' && elements[i].level <= 2) {
+      return elements[i].content;
+    }
+  }
+  return null;
 };
 
 export default AdaptiveTextbook;

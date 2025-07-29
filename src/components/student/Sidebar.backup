@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Star, ChevronRight, Trophy } from 'lucide-react';
-import { getApiUrl, UserAPI, fetchUserScienceProgress } from '../../api/ApiMaster';
+import { fetchUserProgress } from '../../api/ApiMaster';
 
 const Sidebar = ({ 
   title, 
@@ -18,7 +18,8 @@ const Sidebar = ({
   topics, 
   selectedTopic, 
   setSelectedTopic, 
-  email, // NEW PROP
+  email,
+  subject,
   achievements, 
   renderProgressBar,
   styles 
@@ -27,12 +28,59 @@ const Sidebar = ({
 
   useEffect(() => {
     async function loadProgress() {
-      if (!email) return;
-      const data = await fetchUserScienceProgress(email);
+      if (!email || !subject) return;
+      const data = await fetchUserProgress(subject, email);
       setUserProgress(data);
     }
     loadProgress();
-  }, [email]);
+  }, [email, subject]);
+
+  // Apply visual name overrides and disabled states
+  const updatedLearningModes = learningModes.map(mode => {
+    if (mode.name === 'Studio' || mode.name === 'Studio Group') {
+      return {
+        ...mode,
+        name: 'AI Tutor',
+        description: 'Ask questions, get answers, and explore ideas with your intelligent assistant.'
+      };
+    }
+    if (mode.id === 'interactive') {
+      return {
+        ...mode,
+        name: 'Play & Learn',
+        description: 'Dive into games, challenges, and interactive tools to reinforce key concepts.'
+      };
+    }
+    if (mode.id === 'visual') {
+      return {
+        ...mode,
+        name: 'Coming Soon',
+        description: 'Visual journeys and media-rich experiences are on the way!',
+        disabled: true
+      };
+    }
+    if (mode.id === 'assessment') {
+      return {
+        ...mode,
+        name: 'Quiz Yourself!',
+        description: 'Test your knowledge with fun quizzes and challenges.'
+      };
+    }
+    return mode;
+  });
+
+  const sortedLearningModes = [...updatedLearningModes].sort((a, b) => {
+    if (a.name === "AI Tutor") return -1;
+    if (b.name === "AI Tutor") return 1;
+    return 0;
+  });
+
+  useEffect(() => {
+    if (!learningMode && sortedLearningModes.length > 0) {
+      const aiTutor = sortedLearningModes.find(mode => mode.name === "AI Tutor");
+      if (aiTutor) setLearningMode(aiTutor.id);
+    }
+  }, [learningMode, sortedLearningModes, setLearningMode]);
 
   return (
     <div className={styles.sidebar}>
@@ -76,11 +124,12 @@ const Sidebar = ({
       <div className={styles.learningModeSection}>
         <label className={styles.sectionLabel}>Tools and Assessments</label>
         <div className={styles.learningModeList}>
-          {learningModes.map(mode => (
+          {sortedLearningModes.map(mode => (
             <button
               key={mode.id}
-              onClick={() => setLearningMode(mode.id)}
-              className={`${styles.learningModeButton} ${learningMode === mode.id ? styles.active : ''}`}
+              onClick={() => !mode.disabled && setLearningMode(learningMode === mode.id ? null : mode.id)}
+              className={`${styles.learningModeButton} ${learningMode === mode.id ? styles.active : ''} ${mode.disabled ? styles.disabled : ''}`}
+              disabled={mode.disabled}
             >
               <div className={styles.modeContent}>
                 {mode.icon && <mode.icon className={styles.modeIcon} />}
