@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { isOnline } from '../../../utils/networkStatus';
 import styles from './GlobalNavigation.module.css';
-import SubscribeModal from '../../SubscribeModal'; // Adjust the path accordingly
+import SubscribeModal from '../../SubscribeModal';
+import kindredLogo from '../../../assets/images/kindred-logo.png';
+import LessonPlanner from '../../student/LessonPlanner';
 
 const GlobalNavigation = ({ user: propUser }) => {
   const navigate = useNavigate();
@@ -10,12 +12,13 @@ const GlobalNavigation = ({ user: propUser }) => {
   const [user, setUser] = useState(propUser || {});
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
+  const [showLessonMenu, setShowLessonMenu] = useState(false);
 
   useEffect(() => {
     if (!propUser) {
       const storedRole = localStorage.getItem('userRole');
       const imageUrl = localStorage.getItem('userImageUrl');
-      const email = localStorage.getItem('userEmail'); // <-- Ensure email is included
+      const email = localStorage.getItem('userEmail');
       setUser({ role: storedRole, imageUrl, email });
     }
   }, [propUser]);
@@ -45,22 +48,16 @@ const GlobalNavigation = ({ user: propUser }) => {
     setTimeout(() => navigate('/'), 100);
   };
 
-  const handleDashboardNavigation = () => {
-    const role = user?.role;
-    if (['student', 'teacher', 'admin'].includes(role)) {
-      navigate(`/dashboard/${role}`);
-    } else {
-      console.warn('No valid role found for dashboard navigation. Redirecting to home.');
-      navigate('/');
-    }
+  const toggleLessonMenu = () => {
+    setShowLessonMenu(prev => !prev);
   };
 
   return (
     <>
       <nav className={styles.navbar}>
         <div className={styles.leftSection}>
-          <div className={styles.logo} onClick={handleDashboardNavigation}>
-            <span className={styles.logoIcon}>🎓</span>
+          <div className={styles.logo} onClick={() => navigate(`/dashboard/${user?.role || 'student'}`)}> {/* Logo Click Home */}
+            <img src={kindredLogo} alt="Kindred Logo" className={styles.logoImage} />
             <span className={styles.logoText}>KOSEdu SDK</span>
           </div>
 
@@ -73,16 +70,22 @@ const GlobalNavigation = ({ user: propUser }) => {
         </div>
 
         <div className={styles.centerSection}>
-          <button
-            onClick={handleDashboardNavigation}
-            className={styles.dashboardButton}
-          >
-            <span className={styles.dashboardIcon}>📊</span>
-            Dashboard
-          </button>
+          <input
+            type="text"
+            placeholder="Search..."
+            className={styles.searchBar}
+          />
         </div>
 
         <div className={styles.rightSection}>
+          <button
+            className={styles.iconButton}
+            onClick={toggleLessonMenu}
+            title="Lesson Planner"
+          >
+            📘
+          </button>
+
           <NavLink
             to="/settings"
             className={({ isActive }) => 
@@ -121,6 +124,12 @@ const GlobalNavigation = ({ user: propUser }) => {
           </button>
         </div>
       </nav>
+
+      {showLessonMenu && (
+        <div className={styles.lessonMenuDropdown}>
+          <LessonPlanner onClose={() => setShowLessonMenu(false)} />
+        </div>
+      )}
 
       {showLogoutConfirm && (
         <div className={styles.modalOverlay}>

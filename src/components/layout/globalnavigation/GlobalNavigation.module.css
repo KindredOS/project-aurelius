@@ -61,6 +61,13 @@
   letter-spacing: 0.3px;
 }
 
+.logoImage {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
 .connectionIndicator {
   display: flex;
   align-items: center;
@@ -95,30 +102,27 @@
   white-space: nowrap;
 }
 
-.dashboardButton {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.12);
-  color: white;
-  border: none;
-  padding: 0.6rem 1.2rem;
+.searchBar {
+  width: 100%;
+  max-width: 280px;
+  padding: 0.5rem 1rem;
   border-radius: 20px;
-  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
   font-size: 0.9rem;
-  cursor: pointer;
   transition: all 0.2s ease;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  white-space: nowrap;
+  outline: none;
 }
 
-.dashboardButton:hover {
-  background: rgba(255, 255, 255, 0.18);
-  transform: translateY(-1px);
+.searchBar::placeholder {
+  color: rgba(255, 255, 255, 0.6);
 }
 
-.dashboardIcon {
-  font-size: 1rem;
+.searchBar:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
 }
 
 .iconButton {
