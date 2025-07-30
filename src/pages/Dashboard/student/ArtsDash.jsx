@@ -1,15 +1,18 @@
+// Pathing: src/pages/Dashboard/student/ArtDash.jsx
+// Focus: An aggregated file for the various components, utils, and functionalities to make the Arts Learning Hub Work. 
+// VerisonUpdate: Updated ArtsDash.jsx - Includes AI Tutor name normalization
 import React, { useMemo, useState, useEffect } from 'react';
-import { BookOpen, Palette, Music, Mic, Users, Camera, RotateCcw, Brush, Play } from 'lucide-react';
+import { BookOpen, Palette, Music, Mic, Users, Camera } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
 import Sidebar from '../../../components/student/Sidebar';
 import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
-import SubscribeModal from '../../../components/SubscribeModal';
 import ArtsGame from '../../../components/student/arts/game/ArtsGame';
-import { MODE } from '../../../api/ApiMaster';
+import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './ArtsDash.module.css';
+import { MODE } from '../../../api/ApiMaster';
 
 const ArtsDash = () => {
   const [showSubscribe, setShowSubscribe] = useState(false);
@@ -25,6 +28,7 @@ const ArtsDash = () => {
     };
   }, []);
 
+  //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
   const iconMap = useMemo(() => ({
     'overview': BookOpen,
     'visual': Palette,
@@ -35,18 +39,22 @@ const ArtsDash = () => {
     'default': BookOpen
   }), []);
 
+  //Passes hooks to our various programs and applications, although I suspect doubling in a number of places, and we may want to do a review. 
   const dashboardState = useSubjectDashboard('arts', iconMap);
   const {
     selectedTopic, setSelectedTopic,
     gradeLevel, setGradeLevel,
     learningMode, setLearningMode,
     userProgress, setUserProgress,
-    currentTopicData, chatHistory, userInput, setUserInput,
-    learningResources, learningModes, achievements, studyStreak,
-    topics, loading, user,
-    sendMessage
+    chatHistory, setChatHistory,
+    userInput, setUserInput,
+    achievements, studyStreak,
+    topics, currentTopicData, learningResources, learningModes,  
+    loading, 
+    user
   } = dashboardState;
 
+  //Edge use case, and protections on montization of content in a off line mode. 
   const localPremiumCache = localStorage.getItem('isPremiumCached') === 'true';
   const isEdge = MODE === 'EDGE';
   const isPremium = isEdge || user?.isPremium || localPremiumCache || isOffline;
@@ -55,9 +63,7 @@ const ArtsDash = () => {
     localStorage.setItem('isPremiumCached', 'true');
   }
 
-  const freeProjectAccessIds = ['overview', 'visual', 'music', 'theater'];
-  const isProjectFree = freeProjectAccessIds.includes(selectedTopic);
-
+  //Render progressbar, needs updating, I think there might be a conflict somewhere in there. 
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
       <div className={styles.progressFill} style={{ width: `${progress}%` }}></div>
@@ -70,7 +76,8 @@ const ArtsDash = () => {
     </div>
   );
 
-  const renderProject = () => (
+  //Run game interactive element, with a focus on being the start of a game loader component.
+  const runGame = () => (
     <div className={styles.simulationCard}>
       <ArtsGame />
     </div>
@@ -81,21 +88,22 @@ const ArtsDash = () => {
   }
 
   const topic = topics.find(t => t.id === selectedTopic) || currentTopicData;
+  const freeGameAccessIds = ['overview', 'visual', 'music', 'theater'];
+  const isGameFree = freeGameAccessIds.includes(selectedTopic);
 
+   //Sidebard, topic header, and AI Tutor, Quiz Assessment, Game, and Visual component variable pass. 
   return (
     <div className={styles.artsPageContainer}>
       <Sidebar
         title="Arts Learning Studio"
         studyStreak={studyStreak}
-        gradeLevel={gradeLevel}
-        setGradeLevel={setGradeLevel}
         learningMode={learningMode}
         setLearningMode={setLearningMode}
         learningModes={learningModes}
         topics={topics}
         selectedTopic={selectedTopic}
         setSelectedTopic={setSelectedTopic}
-        userProgress={userProgress}
+        userProgress={userProgress} //<----- Must check
         achievements={achievements}
         renderProgressBar={renderProgressBar}
         styles={styles}
@@ -114,16 +122,21 @@ const ArtsDash = () => {
             userEmail={user.email}
           />
 
-          {/* 🎨 Interactive Art Game */}
-          {learningMode === 'interactive' && (
-            isPremium || isProjectFree ? renderProject() : (
-              <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
-                <div className={styles.lockedOverlay}>
-                  🔒 This creative project is a Premium feature.
-                  <button className={styles.subscribeButton}>Learn More</button>
-                </div>
-              </div>
-            )
+          {/* 🧠 AI Arts Mentor */}
+          {learningMode === 'collaborative' && (
+            <ChatWindow
+              chatHistory={chatHistory}
+              setChatHistory={setChatHistory}
+              userInput={userInput}
+              setUserInput={setUserInput}
+              sendMessage={dashboardState.sendMessage}
+              styles={styles}
+              tutorName="AI Arts Mentor"
+              placeholder="Ask about art techniques, history, or inspiration..."
+              subject="arts"
+              user={user}
+              isLimited={!isPremium}
+            />
           )}
 
           {/* 📝 Quiz & Assessment */}
@@ -139,21 +152,17 @@ const ArtsDash = () => {
             />
           )}
 
-          {/* 🧠 AI Arts Mentor */}
-          {learningMode === 'collaborative' && (
-            <ChatWindow
-              chatHistory={chatHistory}
-              userInput={userInput}
-              setUserInput={setUserInput}
-              sendMessage={sendMessage}
-              styles={styles}
-              tutorName="AI Arts Mentor"
-              placeholder="Ask about art techniques, history, or inspiration..."
-              subject="arts"
-              user={user}
-              isLimited={!isPremium}
-            />
-          )}
+          {/* 🎨 Interactive Art Game */}
+          {learningMode === 'interactive' && (
+            isPremium || isGameFree ? runGame() : (
+              <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
+                <div className={styles.lockedOverlay}>
+                  🔒 This creative project is a Premium feature.
+                  <button className={styles.subscribeButton}>Learn More</button>
+                </div>
+              </div>
+            )
+          )}               
 
           {/* 🎥 Visual Resources */}
           {learningMode === 'visual' && (

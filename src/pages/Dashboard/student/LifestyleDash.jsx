@@ -1,3 +1,6 @@
+// Pathing: src/pages/Dashboard/student/LifestyleDash.jsx
+// Focus: An aggregated file for the various components, utils, and functionalities to make the Lifestyle Learning Hub Work. 
+// VerisonUpdate: Updated LifestyleDash.jsx - Includes AI Tutor name normalization
 import React, { useMemo, useState, useEffect } from 'react';
 import { Home, Dumbbell, Utensils, Smile, Activity, Heart } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
@@ -25,6 +28,7 @@ const LifestyleDash = () => {
     };
   }, []);
 
+  //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
   const iconMap = useMemo(() => ({
     'overview': Home,
     'fitness': Dumbbell,
@@ -35,10 +39,11 @@ const LifestyleDash = () => {
     'default': Home
   }), []);
 
+  //Passes hooks to our various programs and applications, although I suspect doubling in a number of places, and we may want to do a review. 
   const dashboardState = useSubjectDashboard('lifestyle', iconMap);
   const {
     selectedTopic, setSelectedTopic,
-    experienceLevel, setExperienceLevel,
+    gradeLevel, setGradeLevel,
     learningMode, setLearningMode,
     userProgress,
     chatHistory, setChatHistory,
@@ -49,6 +54,7 @@ const LifestyleDash = () => {
     user
   } = dashboardState;
 
+  //Edge use case, and protections on montization of content in a off line mode. 
   const localPremiumCache = localStorage.getItem('isPremiumCached') === 'true';
   const isEdge = MODE === 'EDGE';
   const isPremium = isEdge || user?.isPremium || localPremiumCache || isOffline;
@@ -57,6 +63,7 @@ const LifestyleDash = () => {
     localStorage.setItem('isPremiumCached', 'true');
   }
 
+   //Render progressbar, needs updating, I think there might be a conflict somewhere in there. 
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
       <div className={styles.progressFill} style={{ width: `${progress}%` }}></div>
@@ -69,6 +76,7 @@ const LifestyleDash = () => {
     </div>
   );
 
+  //Run game interactive element, with a focus on being the start of a game loader component.
   const runGame = () => (
     <div className={styles.simulationCard}>
       <LifestyleGame />
@@ -83,13 +91,12 @@ const LifestyleDash = () => {
   const freeGameAccessIds = ['overview', 'fitness', 'nutrition', 'mindfulness'];
   const isGameFree = freeGameAccessIds.includes(selectedTopic);
 
+  //Sidebard, topic header, and AI Tutor, Quiz Assessment, Game, and Visual component variable pass. 
   return (
     <div className={styles.lifestylePageContainer}>
       <Sidebar
         title="Lifestyle Hub"
         studyStreak={lifestyleStreak}
-        gradeLevel={experienceLevel}
-        setGradeLevel={setExperienceLevel}
         learningMode={learningMode}
         setLearningMode={setLearningMode}
         learningModes={learningModes}
@@ -99,8 +106,6 @@ const LifestyleDash = () => {
         achievements={achievements}
         renderProgressBar={renderProgressBar}
         styles={styles}
-        gradeLevelLabel="Experience Level"
-        gradeLevels={['beginner', 'intermediate', 'advanced']}
         email={user.email}
       />
 

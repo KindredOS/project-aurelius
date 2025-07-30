@@ -1,3 +1,6 @@
+// Pathing: src/pages/Dashboard/student/EngineeringDash.jsx
+// Focus: An aggregated file for the various components, utils, and functionalities to make the Engineering Learning Hub Work. 
+// VerisonUpdate: Updated EngineeringDash.jsx - Includes AI Tutor name normalization
 import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, Cog, Zap, Settings, Calculator, Wrench, } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
@@ -6,10 +9,10 @@ import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
-import MathGame from '../../../components/student/engineering/game/EngineeringGame';
+import EngineeringGame from '../../../components/student/engineering/game/EngineeringGame';
 import SubscribeModal from '../../../components/SubscribeModal';
-import { MODE } from '../../../api/ApiMaster';
 import styles from './EngineeringDash.module.css';
+import { MODE } from '../../../api/ApiMaster';
 
 const EngineeringDash = () => {
   const [showSubscribe, setShowSubscribe] = useState(false);
@@ -25,6 +28,7 @@ const EngineeringDash = () => {
     };
   }, []);
 
+  //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
   const iconMap = useMemo(() => ({
     'overview': BookOpen,
     'mechanical': Cog,
@@ -35,6 +39,7 @@ const EngineeringDash = () => {
     'default': BookOpen
   }), []);
 
+  //Passes hooks to our various programs and applications, although I suspect doubling in a number of places, and we may want to do a review. 
   const dashboardState = useSubjectDashboard('engineering', iconMap);
   const {
     selectedTopic, setSelectedTopic,
@@ -49,15 +54,16 @@ const EngineeringDash = () => {
     user
   } = dashboardState;
 
+   //Edge use case, and protections on montization of content in a off line mode. 
   const localPremiumCache = localStorage.getItem('isPremiumCached') === 'true';
   const isEdge = MODE === 'EDGE';
   const isPremium = isEdge || user?.isPremium || localPremiumCache || isOffline;
-  if (user?.isPremium) localStorage.setItem('isPremiumCached', 'true');
+  
+  if (user?.isPremium) {
+    localStorage.setItem('isPremiumCached', 'true');
+  }
 
-  const topic = topics.find(t => t.id === selectedTopic) || currentTopicData;
-  const freeGameAccessIds = ['overview', 'mechanical', 'electrical', 'civil'];
-  const isGameFree = freeGameAccessIds.includes(selectedTopic);
-
+  //Render progressbar, needs updating, I think there might be a conflict somewhere in there. 
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
       <div className={styles.progressBarFill} style={{ width: `${progress}%` }}></div>
@@ -70,23 +76,27 @@ const EngineeringDash = () => {
     </div>
   );
 
+  //Run game interactive element, with a focus on being the start of a game loader component.
   const runGame = () => (
     <div className={styles.simulationCard}>
-      <MathGame />
+      <EngineeringGame />
     </div>
   );
-
+  
   if (loading) {
     return <div className={styles.loadingContainer}>Loading Engineering Dashboard...</div>;
   }
 
+  const topic = topics.find(t => t.id === selectedTopic) || currentTopicData;
+  const freeGameAccessIds = ['overview', 'mechanical', 'electrical', 'civil'];
+  const isGameFree = freeGameAccessIds.includes(selectedTopic);
+
+  // Normalize AI Tutor naming (probably depricated: need to review in association with lessonUtil, useSubjectDashboard, and Sidebar)
   return (
     <div className={styles.container}>
       <Sidebar
         title="Engineering Learning Hub"
         studyStreak={studyStreak}
-        gradeLevel={gradeLevel}
-        setGradeLevel={setGradeLevel}
         learningMode={learningMode}
         setLearningMode={setLearningMode}
         learningModes={learningModes}

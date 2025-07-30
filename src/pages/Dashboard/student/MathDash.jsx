@@ -1,3 +1,6 @@
+// Pathing: src/pages/Dashboard/student/MathDash.jsx
+// Focus: An aggregated file for the various components, utils, and functionalities to make the Math Learning Hub Work. 
+// VerisonUpdate: Updated MathDash.jsx - Includes AI Tutor name normalization
 import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, Calculator, Target, BarChart3, TrendingUp, Sigma } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
@@ -6,8 +9,8 @@ import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
-import SubscribeModal from '../../../components/SubscribeModal';
 import MathGame from '../../../components/student/math/game/MathGame';
+import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './MathDash.module.css';
 import { MODE } from '../../../api/ApiMaster';
 
@@ -25,6 +28,7 @@ const MathDash = () => {
     };
   }, []);
 
+  //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
   const iconMap = useMemo(() => ({
     'overview': BookOpen,
     'algebra': Calculator,
@@ -35,6 +39,7 @@ const MathDash = () => {
     'default': BookOpen
   }), []);
 
+  //Passes hooks to our various programs and applications, although I suspect doubling in a number of places, and we may want to do a review. 
   const dashboardState = useSubjectDashboard('math', iconMap);
   const {
     selectedTopic, setSelectedTopic,
@@ -49,6 +54,7 @@ const MathDash = () => {
     user
   } = dashboardState;
 
+  //Edge use case, and protections on montization of content in a off line mode. 
   const localPremiumCache = localStorage.getItem('isPremiumCached') === 'true';
   const isEdge = MODE === 'EDGE';
   const isPremium = isEdge || user?.isPremium || localPremiumCache || isOffline;
@@ -57,6 +63,7 @@ const MathDash = () => {
     localStorage.setItem('isPremiumCached', 'true');
   }
 
+   //Render progressbar, needs updating, I think there might be a conflict somewhere in there. 
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
       <div className={styles.progressFill} style={{ width: `${progress}%` }}></div>
@@ -69,6 +76,7 @@ const MathDash = () => {
     </div>
   );
 
+  //Run game interactive element, with a focus on being the start of a game loader component.
   const runGame = () => (
     <div className={styles.simulationCard}>
       <MathGame />
@@ -80,17 +88,15 @@ const MathDash = () => {
   }
 
   const topic = topics.find(t => t.id === selectedTopic) || currentTopicData;
-
   const freeGameAccessIds = ['overview', 'algebra', 'geometry', 'statistics'];
   const isGameFree = freeGameAccessIds.includes(selectedTopic);
 
+  //Sidebard, topic header, and AI Tutor, Quiz Assessment, Game, and Visual component variable pass. 
   return (
     <div className={styles.mathPageContainer}>
       <Sidebar
         title="Math Learning Hub"
         studyStreak={studyStreak}
-        gradeLevel={gradeLevel}
-        setGradeLevel={setGradeLevel}
         learningMode={learningMode}
         setLearningMode={setLearningMode}
         learningModes={learningModes}

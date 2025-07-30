@@ -1,3 +1,5 @@
+// Pathing: src/pages/Dashboard/student/TechnologyDash.jsx
+// Focus: An aggregated file for the various components, utils, and functionalities to make the Technology Learning Hub Work.
 // Refactored TechnologyDash.jsx - Simulation aligned to match ChemistryGame-style logic
 import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, Brain, Globe, Smartphone, Code, Monitor } from 'lucide-react';
@@ -7,6 +9,7 @@ import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
+import TechnologyGame from '../../../components/student/technology/game/TechnologyGame';
 import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './TechnologyDash.module.css';
 import { MODE } from '../../../api/ApiMaster';
@@ -25,6 +28,7 @@ const TechnologyDash = () => {
     };
   }, []);
 
+   //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
   const iconMap = useMemo(() => ({
     'overview': BookOpen,
     'programming': Code,
@@ -35,6 +39,7 @@ const TechnologyDash = () => {
     'default': BookOpen
   }), []);
 
+  //Passes hooks to our various programs and applications, although I suspect doubling in a number of places, and we may want to do a review. 
   const dashboardState = useSubjectDashboard('technology', iconMap);
   const {
     selectedTopic, setSelectedTopic,
@@ -49,6 +54,7 @@ const TechnologyDash = () => {
     user
   } = dashboardState;
 
+    //Edge use case, and protections on montization of content in a off line mode. 
   const localPremiumCache = localStorage.getItem('isPremiumCached') === 'true';
   const isEdge = MODE === 'EDGE';
   const isPremium = isEdge || user?.isPremium || localPremiumCache || isOffline;
@@ -57,6 +63,7 @@ const TechnologyDash = () => {
     localStorage.setItem('isPremiumCached', 'true');
   }
 
+  //Render progressbar, needs updating, I think there might be a conflict somewhere in there. 
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
       <div className={styles.progressFill} style={{ width: `${progress}%` }}></div>
@@ -69,30 +76,28 @@ const TechnologyDash = () => {
     </div>
   );
 
+  //Run game interactive element, with a focus on being the start of a game loader component.
   const runGame = () => (
     <div className={styles.simulationCard}>
-      <div className={styles.simulationWindow}>
-        <p className={styles.simulationPlaceholder}>🕹️ Technology simulation coming soon! This module will teach you how to code a basic app and explore system interactions.</p>
-      </div>
+      <TechnologyGame />
     </div>
   );
+
 
   if (loading) {
     return <div className={styles.loadingContainer}>Loading Technology Dashboard...</div>;
   }
 
   const topic = topics.find(t => t.id === selectedTopic) || currentTopicData;
-
   const freeGameAccessIds = ['overview', 'programming', 'ai', 'web'];
   const isGameFree = freeGameAccessIds.includes(selectedTopic);
 
+  //Sidebard, topic header, and AI Tutor, Quiz Assessment, Game, and Visual component variable pass. 
   return (
     <div className={styles.techPageContainer}>
       <Sidebar
         title="Technology Learning Hub"
         studyStreak={studyStreak}
-        gradeLevel={gradeLevel}
-        setGradeLevel={setGradeLevel}
         learningMode={learningMode}
         setLearningMode={setLearningMode}
         learningModes={learningModes}
