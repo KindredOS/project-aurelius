@@ -1,10 +1,10 @@
 ## What Are Expressions and Equations?
 
 \[Prompt Wrap Start]
-This section introduces the basic definitions. Prompt: How is an equation different from an expression?
+Please generate a content section based on **What Are Expressions?** and focused on users with a grade [grade], with interests in [interests], and identity type [mbti]. Define important discussion items, each as a subheader, in markdown format. Add numbering or bulleting format for complex information, and bold key terms.
 \[Prompt Wrap End]
 
-An expression is a math phrase made of numbers, variables, and operations (like 3x + 2). An equation is like a math sentence that says two things are equal (like 3x + 2 = 11). Expressions show relationships; equations solve problems.
+An expression is a math phrase made of numbers, operations, and sometimes variables. It doesn't have an equal sign. For example, 4 + x or 2n − 5 are expressions. They're like sentences that describe a calculation.
 
 \[interactive element]
 

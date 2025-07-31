@@ -1,4 +1,4 @@
-// Fixed QuizAssessmentTool.jsx - Now properly integrated with dashboard data
+// Updated QuizAssessmentTool.jsx - Static file based with dynamic question selection
 import React, { useState, useRef } from 'react';
 import { Award, Play, AlertCircle } from 'lucide-react';
 import styles from './QuizAssessmentTool.module.css';
@@ -9,7 +9,8 @@ import {
   calculateProgress,
   getAnswerDisplayText,
   getCorrectAnswerDisplayText,
-  renderGenerator
+  renderQuizSettings,
+  selectQuestionsFromStatic
 } from '../../utils/quizGenerator';
 import { renderResults, calculateQuizScore } from '../../utils/quizScoring';
 import { validateQuizCompletion } from '../../utils/quizValidation';
@@ -19,15 +20,16 @@ const QuizAssessmentTool = ({
   content, 
   subject = 'science', 
   sectionTitle = 'Overview',
-  topicId = null,           // NEW: Get the actual topic ID from dashboard
-  topicData = null,         // NEW: Get the full topic data object
-  userEmail = null          // NEW: For analytics
+  topicId = null,
+  topicData = null,
+  userEmail = null
 }) => {
   const [quiz, setQuiz] = useState(null);
+  const [rawQuizData, setRawQuizData] = useState(null); // Store full question bank
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [quizStarted, setQuizStarted] = useState(false);
   const [quizSettings, setQuizSettings] = useState({
     difficulty: 'medium',
@@ -45,19 +47,16 @@ const QuizAssessmentTool = ({
     console.log('  topicData:', topicData);
     console.log('  sectionTitle:', sectionTitle);
     
-    // Priority 1: Use topicId if available (most reliable for modular structure)
     if (topicId) {
       console.log('🎯 Using topicId directly:', topicId);
       return topicId;
     }
     
-    // Priority 2: Use topic data ID if available
     if (topicData && topicData.id) {
       console.log('🎯 Using topicData.id:', topicData.id);
       return topicData.id;
     }
     
-    // Priority 3: Try to extract module info from sectionTitle
     const moduleMatch = sectionTitle.match(/module\s*(\d+)/i);
     if (moduleMatch) {
       const moduleId = `module${moduleMatch[1]}`;
@@ -65,7 +64,6 @@ const QuizAssessmentTool = ({
       return moduleId;
     }
     
-    // Priority 4: Generic fallbacks for common titles
     const titleMap = {
       'Science Assessment': 'overview',
       'Overview': 'overview',
@@ -78,19 +76,17 @@ const QuizAssessmentTool = ({
       return mapped;
     }
     
-    // Priority 5: Default fallback
     console.log('🎯 Using default fallback: overview');
     return 'overview';
   };
 
-  const fetchStaticQuiz = async () => {
-    setIsGenerating(true);
+  const loadStaticQuizData = async () => {
+    setIsLoading(true);
     setLoadError(null);
     
     const filename = getQuizFilename();
     const filePath = `/data/${subject}/quiz/${encodeURIComponent(filename)}.json`;
     
-    // Debug logging
     console.log('=== QUIZ LOADING DEBUG ===');
     console.log('Subject:', subject);
     console.log('Section Title:', sectionTitle);
@@ -122,27 +118,73 @@ const QuizAssessmentTool = ({
       console.log('Questions found:', data.questions.length);
       console.log('First question sample:', data.questions[0]);
       
-      setQuiz({ questions: data.questions });
-      const initialState = createInitialQuizState({ questions: data.questions });
-      setCurrentQuestion(initialState.currentQuestion);
-      setUserAnswers(initialState.userAnswers);
-      setShowResults(initialState.showResults);
-      setQuizStarted(initialState.quizStarted);
+      // Store the raw data for dynamic selection
+      setRawQuizData(data);
       
-      console.log('Quiz loaded successfully!');
+      console.log('Quiz data loaded successfully!');
       
     } catch (err) {
       console.error('Quiz loading failed:', err);
       setLoadError(`Failed to load quiz: ${err.message}`);
-      setQuiz(null);
+      setRawQuizData(null);
     } finally {
-      setIsGenerating(false);
+      setIsLoading(false);
     }
+  };
+
+  const createDynamicQuiz = () => {
+    if (!rawQuizData || !rawQuizData.questions) {
+      console.error('No raw quiz data available');
+      return;
+    }
+
+    console.log('Creating dynamic quiz with settings:', quizSettings);
+    console.log('Available questions:', rawQuizData.questions.length);
+
+    // Select questions based on settings
+    const selectedQuestions = selectQuestionsFromStatic(rawQuizData.questions, quizSettings);
+    
+    console.log('Selected questions:', selectedQuestions.length);
+
+    // Create the quiz object
+    const dynamicQuiz = {
+      questions: selectedQuestions,
+      metadata: {
+        ...rawQuizData.metadata,
+        selectedDifficulty: quizSettings.difficulty,
+        requestedCount: quizSettings.questionCount,
+        actualCount: selectedQuestions.length
+      }
+    };
+
+    setQuiz(dynamicQuiz);
+    const initialState = createInitialQuizState(dynamicQuiz);
+    setCurrentQuestion(initialState.currentQuestion);
+    setUserAnswers(initialState.userAnswers);
+    setShowResults(initialState.showResults);
+    setQuizStarted(initialState.quizStarted);
   };
 
   const handleSettingsChange = (key, value) => {
     setQuizSettings(prev => ({ ...prev, [key]: value }));
   };
+
+  const handleLoadQuiz = () => {
+    if (rawQuizData) {
+      // We already have the data, just create the dynamic quiz
+      createDynamicQuiz();
+    } else {
+      // Need to load the data first
+      loadStaticQuizData();
+    }
+  };
+
+  // Effect to create quiz once data is loaded
+  React.useEffect(() => {
+    if (rawQuizData && !quiz) {
+      createDynamicQuiz();
+    }
+  }, [rawQuizData]);
 
   const handleStartQuiz = () => {
     quizStartTimeRef.current = Date.now();
@@ -168,11 +210,9 @@ const QuizAssessmentTool = ({
     const endTime = Date.now();
     const timeSpentMs = endTime - (quizStartTimeRef.current || endTime);
     
-    // Use the new calculateQuizScore function for consistent scoring
     const scoreResult = calculateQuizScore(quiz, userAnswers);
     const { score, total, percentage, details } = scoreResult;
     
-    // Calculate additional metrics for analytics
     const totalAttempts = Object.keys(userAnswers).length;
     const correctAnswers = details.filter(d => d.isCorrect).length;
     const incorrectAnswers = totalAttempts - correctAnswers;
@@ -193,8 +233,9 @@ const QuizAssessmentTool = ({
       partialCreditQuestions,
       finalScore: score,
       percentage,
-      loadMethod: 'static',
-      scoreDetails: details
+      loadMethod: 'static-dynamic',
+      scoreDetails: details,
+      availableQuestions: rawQuizData?.questions?.length || 0
     };
 
     await logQuizAnalytics(analyticsPayload);
@@ -209,6 +250,7 @@ const QuizAssessmentTool = ({
   const resetQuiz = () => {
     setShowResults(false);
     setQuiz(null);
+    setRawQuizData(null);
     setUserAnswers({});
     setCurrentQuestion(0);
     setQuizStarted(false);
@@ -217,6 +259,8 @@ const QuizAssessmentTool = ({
   };
   
   const retakeQuiz = () => {
+    // Regenerate quiz with same settings
+    createDynamicQuiz();
     const initialState = createInitialQuizState(quiz);
     setQuizStarted(initialState.quizStarted);
     setShowResults(initialState.showResults);
@@ -224,7 +268,6 @@ const QuizAssessmentTool = ({
     setCurrentQuestion(initialState.currentQuestion);
   };
 
-  // Get display title for the quiz
   const getDisplayTitle = () => {
     if (topicData && topicData.title) {
       return topicData.title;
@@ -243,16 +286,17 @@ const QuizAssessmentTool = ({
       <div className={styles.instructionsCard}>
         <div className={styles.instructionsHeader}>
           <AlertCircle size={16} />
-          <span>Instructions</span>
+          <span>Quiz Details</span>
         </div>
         <ul className={styles.instructionsList}>
+          <li>• {quiz.questions.length} questions selected from {rawQuizData.questions.length} available</li>
+          <li>• Difficulty: {quizSettings.difficulty === 'mixed' ? 'All levels' : quizSettings.difficulty}</li>
           <li>• Read each question carefully before answering</li>
           <li>• You can navigate between questions using the navigation buttons</li>
           <li>• Make sure to answer all questions before submitting</li>
-          <li>• Your progress will be saved automatically</li>
         </ul>
         <div className={styles.loadMethodTag}>
-          Quiz file: {getQuizFilename()}.json
+          Quiz source: {getQuizFilename()}.json ({rawQuizData.questions.length} total questions)
         </div>
       </div>
 
@@ -279,7 +323,7 @@ const QuizAssessmentTool = ({
           Determined filename: {getQuizFilename()}
         </div>
       </div>
-      <button onClick={fetchStaticQuiz} className={styles.startButton}>
+      <button onClick={loadStaticQuizData} className={styles.startButton}>
         Try Again
       </button>
     </div>
@@ -296,6 +340,9 @@ const QuizAssessmentTool = ({
           <div className={styles.quizHeaderTop}>
             <div className={styles.questionCounter}>
               Question {currentQuestion + 1} of {quiz.questions.length}
+            </div>
+            <div className={styles.difficultyBadge}>
+              {question.difficulty || 'Standard'}
             </div>
           </div>
           <div className={styles.progressBar}>
@@ -351,12 +398,11 @@ const QuizAssessmentTool = ({
       </div>
 
       <div className={styles.content}>
-        {!quiz && !loadError && renderGenerator({
+        {!rawQuizData && !loadError && renderQuizSettings({
           quizSettings,
           onSettingsChange: handleSettingsChange,
-          onGenerateQuiz: fetchStaticQuiz,
-          isGenerating,
-          content,
+          onLoadQuiz: handleLoadQuiz,
+          isLoading,
           styles
         })}
         {loadError && renderLoadError()}

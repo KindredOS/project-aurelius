@@ -1,126 +1,65 @@
-// utils/quizGenerator.js
+// utils/quizGenerator.js - Updated to use static files with dynamic selection
 
 import React from 'react';
-import { ChevronRight, Brain } from 'lucide-react';
+import { ChevronRight, Settings } from 'lucide-react';
 
 /**
- * Generates quiz content based on provided content and settings
- * @param {string} content - The source content to generate quiz from
+ * Filters and selects questions from static quiz data based on settings
+ * @param {Array} allQuestions - All available questions from JSON file
  * @param {Object} settings - Quiz generation settings
- * @returns {Promise<Object>} Generated quiz object
+ * @returns {Array} Selected and filtered questions
  */
-export const generateQuizContent = async (content, settings = {}) => {
+export const selectQuestionsFromStatic = (allQuestions, settings = {}) => {
   const {
     difficulty = 'medium',
-    questionCount = 5,
-    showExplanations = true
+    questionCount = 5
   } = settings;
 
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  
-  // Mock quiz generation - in real implementation, this would call an AI service
-  const mockQuestions = [
-    {
-      id: 1,
-      type: 'multiple-choice',
-      question: "What is the main concept discussed in this section?",
-      options: [
-        "Basic principles of the topic",
-        "Advanced applications only",
-        "Historical context exclusively",
-        "Future predictions"
-      ],
-      correctAnswer: 0, // Fixed: changed from 'correct' to 'correctAnswer'
-      explanation: "The section focuses on establishing fundamental understanding before moving to applications."
-    },
-    {
-      id: 2,
-      type: 'true-false',
-      question: "The concepts presented build upon each other sequentially.",
-      correctAnswer: true, // Fixed: changed from 'correct' to 'correctAnswer'
-      explanation: "Yes, the material is structured to build knowledge progressively."
-    },
-    {
-      id: 3,
-      type: 'short-answer',
-      question: "Explain the key takeaway from this section in your own words.",
-      sampleAnswer: "The key takeaway involves understanding the fundamental principles and their practical applications.",
-      correctAnswer: "sample answer", // Add this for consistency
-      explanation: "Look for understanding of core concepts and ability to synthesize information."
-    },
-    {
-      id: 4,
-      type: 'multiple-choice',
-      question: "Which of the following best describes the relationship between the concepts?",
-      options: [
-        "They are completely independent",
-        "They build upon each other",
-        "They contradict each other",
-        "They are only theoretically related"
-      ],
-      correctAnswer: 1, // Fixed: changed from 'correct' to 'correctAnswer'
-      explanation: "The concepts are designed to build upon each other for comprehensive understanding."
-    },
-    {
-      id: 5,
-      type: 'matching',
-      question: "Match the concepts with their descriptions:",
-      pairs: [
-        { left: "Concept A", right: "Primary foundation" },
-        { left: "Concept B", right: "Secondary application" },
-        { left: "Concept C", right: "Advanced implementation" }
-      ],
-      correctAnswer: { // Add correct matching structure
-        "Concept A": "Primary foundation",
-        "Concept B": "Secondary application", 
-        "Concept C": "Advanced implementation"
-      },
-      explanation: "Understanding these relationships helps grasp the overall structure of the material."
+  // Filter questions by difficulty if difficulty metadata exists
+  let filteredQuestions = allQuestions.filter(question => {
+    if (question.difficulty) {
+      return question.difficulty === difficulty;
     }
-  ];
+    // If no difficulty metadata, include all questions
+    return true;
+  });
 
-  // Select questions based on count
-  const selectedQuestions = mockQuestions.slice(0, questionCount);
+  // If we don't have enough questions after filtering, fall back to all questions
+  if (filteredQuestions.length < questionCount) {
+    console.warn(`Not enough ${difficulty} questions (${filteredQuestions.length}), using all available questions`);
+    filteredQuestions = allQuestions;
+  }
 
-  return {
-    questions: selectedQuestions,
-    metadata: {
-      difficulty,
-      estimatedTime: questionCount * 2,
-      totalPoints: questionCount * 10,
-      showExplanations
-    }
-  };
+  // Shuffle and select the requested number of questions
+  const shuffled = [...filteredQuestions].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, Math.min(questionCount, shuffled.length));
 };
 
 /**
- * Renders the quiz generator interface
+ * Renders the quiz settings interface (simplified from AI generator)
  * @param {Object} props - Component props
  * @param {Object} props.quizSettings - Current quiz settings
  * @param {Function} props.onSettingsChange - Callback for settings changes
- * @param {Function} props.onGenerateQuiz - Callback for quiz generation
- * @param {boolean} props.isGenerating - Whether quiz is currently being generated
- * @param {string} props.content - Content to generate quiz from
+ * @param {Function} props.onLoadQuiz - Callback for loading quiz
+ * @param {boolean} props.isLoading - Whether quiz is currently being loaded
  * @param {Object} props.styles - CSS modules styles object
- * @returns {JSX.Element} Rendered generator component
+ * @returns {JSX.Element} Rendered settings component
  */
-export const renderGenerator = ({
+export const renderQuizSettings = ({
   quizSettings,
   onSettingsChange,
-  onGenerateQuiz,
-  isGenerating,
-  content,
+  onLoadQuiz,
+  isLoading,
   styles
 }) => (
   <div className={styles.generatorContainer}>
     <div className={styles.generatorHeader}>
-      <Brain className={styles.generatorIcon} size={48} />
-      <h2 className={styles.generatorTitle}>Quiz Generator</h2>
+      <Settings className={styles.generatorIcon} size={48} />
+      <h2 className={styles.generatorTitle}>Quiz Settings</h2>
     </div>
 
     <div className={styles.settingsCard}>
-      <h3 className={styles.settingsTitle}>Quiz Settings</h3>
+      <h3 className={styles.settingsTitle}>Customize Your Quiz</h3>
       <div className={styles.settingsGrid}>
         <div className={styles.settingGroup}>
           <label className={styles.settingLabel}>Difficulty Level</label>
@@ -132,6 +71,7 @@ export const renderGenerator = ({
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
             <option value="hard">Hard</option>
+            <option value="mixed">Mixed (All Levels)</option>
           </select>
         </div>
 
@@ -146,6 +86,7 @@ export const renderGenerator = ({
             <option value="10">10 Questions</option>
             <option value="15">15 Questions</option>
             <option value="20">20 Questions</option>
+            <option value="25">25 Questions</option>
           </select>
         </div>
 
@@ -166,19 +107,19 @@ export const renderGenerator = ({
       </div>
 
       <button
-        onClick={onGenerateQuiz}
-        disabled={isGenerating || !content}
+        onClick={onLoadQuiz}
+        disabled={isLoading}
         className={styles.generateButton}
       >
-        {isGenerating ? (
+        {isLoading ? (
           <>
             <div className={styles.loadingSpinner} />
-            Generating Quiz...
+            Loading Quiz...
           </>
         ) : (
           <>
-            <Brain size={16} />
-            Generate Quiz
+            <Settings size={16} />
+            Create Quiz
           </>
         )}
       </button>
@@ -187,7 +128,7 @@ export const renderGenerator = ({
 );
 
 /**
- * Validates quiz generation settings
+ * Validates quiz settings
  * @param {Object} settings - Settings to validate
  * @returns {Object} Validation result with isValid and errors
  */
@@ -198,8 +139,8 @@ export const validateQuizSettings = (settings) => {
     errors.push('Question count must be between 1 and 50');
   }
   
-  if (!['easy', 'medium', 'hard'].includes(settings.difficulty)) {
-    errors.push('Difficulty must be easy, medium, or hard');
+  if (!['easy', 'medium', 'hard', 'mixed'].includes(settings.difficulty)) {
+    errors.push('Difficulty must be easy, medium, hard, or mixed');
   }
   
   return {
