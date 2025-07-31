@@ -4,7 +4,7 @@ import styles from './LearningSession.module.css';
 import { getNextProblem, submitAnswer, getMasteryLog } from '../../../utils/LessonEngine';
 import CalculatorMath from './CalculatorMath';
 import AITutor from './utils/useAITutor';
-import feedbackMessages from './data/MotivationBank.json';
+import feedbackMessages from './MotivationBank.json';
 import { getApiUrl } from '../../../api/ApiMaster';
 
 const LOCAL_STORAGE_KEY = 'studybuddy_math_attempt_log';
