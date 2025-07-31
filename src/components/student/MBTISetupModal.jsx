@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as ApiMaster from '../../api/ApiMaster';
 import styles from './MBTISetupModal.module.css';
-import activities from '../../data/activities.json';
+import activities from './activities.json';
 
 const MBTISetupModal = ({ user, onClose }) => {
   const [age, setAge] = useState('');
