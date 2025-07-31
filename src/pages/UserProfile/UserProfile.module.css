@@ -1,85 +1,507 @@
 /* File: UserProfile.module.css */
-/* Updated Version */
+/* Dashboard-Aligned Design System */
 
+/* Global styles for the component */
 .userProfilePage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #f9f9f9;
-  height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #f8f9fa;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  animation: fadeInUp 0.4s ease-out;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
-h1 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 20px;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.userDetails {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 800px;
-  text-align: left;
-  font-size: 1.2rem;
-  color: #555;
-  margin-bottom: 20px;
-  box-sizing: border-box;
+/* Header section styling - match navigation bar */
+.profileHeader {
+  background: linear-gradient(135deg, #2c5f66 0%, #3e686f 50%, #4a7480 100%);
+  padding: 32px 40px;
+  text-align: center;
+  position: relative;
 }
 
-.userDetails p {
-  margin: 10px 0;
+.profileHeader h1 {
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.editProfileButton {
-  padding: 10px 20px;
+.profileSubtitle {
+  color: rgba(255, 255, 255, 0.9);
   font-size: 1rem;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  margin-bottom: 8px;
 }
 
-.editProfileButton:hover {
-  background-color: #0056b3;
-}
-
+/* Avatar section styling - cleaner approach */
 .avatarContainer {
+  position: relative;
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
 }
 
 .avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background-color: #ddd;
+  width: 100px;
+  height: 100px;
+  border-radius: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  margin: 0 auto 16px;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
-  color: #666;
-  margin-bottom: 10px;
-  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.avatar:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 17px;
 }
 
 .changeAvatarButton {
-  font-size: 1rem;
-  color: #007bff;
-  background: none;
-  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
   cursor: pointer;
-  text-decoration: underline;
-  padding: 5px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .changeAvatarButton:hover {
-  color: #0056b3;
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Content section styling - match dashboard grid */
+.profileContent {
+  padding: 40px;
+  background: #f8f9fa;
+}
+
+.profileGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+/* Card styling - simplified to match dashboard cards */
+.userDetails {
+  background: white;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.userDetails:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Section header with edit button */
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  color: #2d3748;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.editSectionButton {
+  background: #5a6c7d;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 50px;
+  width: auto;
+  white-space: nowrap;
+}
+
+.editSectionButton:hover {
+  background: #4a5a6b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(90, 108, 125, 0.3);
+}
+
+.editSectionButton:active {
+  transform: translateY(0);
+}
+
+/* Update standalone h2 styling */
+.userDetails h2:not(.sectionHeader h2) {
+  color: #2d3748;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  letter-spacing: -0.3px;
+}
+
+.userDetails p {
+  color: #4a5568;
+  margin: 12px 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.userDetails strong {
+  color: #2d3748;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+/* Interest tags styling - match dashboard category colors */
+.userDetails ul {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.userDetails li {
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-block;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+/* Category-inspired colors for interest tags */
+.userDetails li:nth-child(6n+1) {
+  background: #7bb3c7; /* Science blue */
+}
+
+.userDetails li:nth-child(6n+2) {
+  background: #6b5b95; /* Technology purple */
+}
+
+.userDetails li:nth-child(6n+3) {
+  background: #d4a574; /* Engineering orange */
+}
+
+.userDetails li:nth-child(6n+4) {
+  background: #c49490; /* Arts rose */
+}
+
+.userDetails li:nth-child(6n+5) {
+  background: #d65757; /* Math red */
+}
+
+.userDetails li:nth-child(6n) {
+  background: #7cb342; /* Lifestyle green */
+}
+
+.userDetails li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Identity explanation styling - subtle */
+.identityExplanation {
+  background: #f7f8fa;
+  padding: 18px;
+  border-radius: 12px;
+  margin-top: 16px;
+  border-left: 4px solid #5a6c7d;
+}
+
+.identityExplanation p {
+  margin: 10px 0;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+/* Subscription card special styling - match dashboard accent */
+.subscriptionCard {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #2c5f66 0%, #3e686f 50%, #4a7480 100%);
+  color: white;
+  position: relative;
+}
+
+.subscriptionCard h2,
+.subscriptionCard p {
+  position: relative;
+}
+
+.subscriptionCard .sectionHeader h2 {
+  color: white;
+}
+
+.subscriptionCard p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.subscriptionCard strong {
+  color: white;
+}
+
+.subscriptionCard .editSectionButton {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.subscriptionCard .editSectionButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Status badge styling - cleaner */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.statusBadge.active {
+  background: #e6fffa;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.statusBadge.free {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+.statusBadge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Button styling - match dashboard style */
+.buttonGroup {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.editProfileButton {
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #5a6c7d;
+  color: white;
+  box-shadow: 0 4px 12px rgba(90, 108, 125, 0.3);
+  min-width: 140px;
+}
+
+.editProfileButton:hover {
+  background: #4a5a6b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(90, 108, 125, 0.4);
+}
+
+.editProfileButton:active {
+  transform: translateY(0);
+}
+
+.editProfileButton.secondary {
+  background: white;
+  color: #5a6c7d;
+  border: 2px solid #5a6c7d;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.editProfileButton.secondary:hover {
+  background: #5a6c7d;
+  color: white;
+}
+
+/* Loading states - simplified */
+.loadingState {
+  text-align: center;
+  padding: 60px 40px;
+  color: #5a6c7d;
+  font-size: 1.1rem;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(90, 108, 125, 0.2);
+  border-top: 3px solid #5a6c7d;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 24px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .profileGrid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .profileContent {
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .profileGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .profileHeader {
+    padding: 32px 20px;
+  }
+  
+  .profileContent {
+    padding: 24px 20px;
+  }
+  
+  .profileHeader h1 {
+    font-size: 2rem;
+  }
+  
+  .avatar {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .userDetails {
+    padding: 24px;
+  }
+  
+  .buttonGroup {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .editProfileButton {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profileHeader {
+    padding: 24px 16px;
+  }
+  
+  .profileContent {
+    padding: 20px 16px;
+  }
+  
+  .userDetails {
+    padding: 20px;
+  }
+  
+  .profileHeader h1 {
+    font-size: 1.8rem;
+  }
+  
+  .profileSubtitle {
+    font-size: 0.95rem;
+  }
+  
+  .avatar {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .sectionHeader h2 {
+    font-size: 1.2rem;
+  }
+  
+  .editSectionButton {
+    align-self: flex-end;
+    font-size: 0.75rem;
+    padding: 5px 12px;
+  }
+  
+  .userDetails p {
+    font-size: 0.95rem;
+  }
 }

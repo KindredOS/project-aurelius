@@ -1,15 +1,15 @@
 // lessonEngine.js - Adaptive Learning Engine
 
-import exponentsData from '../dataseries/organizeddata/exponents_and_powers.json';
-import expressionsData from '../dataseries/organizeddata/expressions_and_equations.json';
-import factoringData from '../dataseries/organizeddata/factoring.json';
-import geometryData from '../dataseries/organizeddata/geometry_connections_with_algebra.json';
-import inequalitiesData from '../dataseries/organizeddata/inequalities.json';
-import linearData from '../dataseries/organizeddata/linear_functions.json';
-import rationalData from '../dataseries/organizeddata/rational_expressions.json';
-import ratiosData from '../dataseries/organizeddata/ratios_and_proportional_relationships.json';
-import statsData from '../dataseries/organizeddata/statistics_and_data_representations.json';
-import systemsData from '../dataseries/organizeddata/systems_of_equations.json';
+import exponentsData from '../pages/Dashboard/mathmodule/dataseries/organizeddata/exponents_and_powers.json';
+import expressionsData from '../pages/Dashboard/mathmodule/dataseries/organizeddata/expressions_and_equations.json';
+import factoringData from '../pages/Dashboard/mathmodule/dataseries/organizeddata/factoring.json';
+import geometryData from '../pages/Dashboard/mathmodule/dataseries/organizeddata/geometry_connections_with_algebra.json';
+import inequalitiesData from '../pages/Dashboard/mathmodule/dataseries/organizeddata/inequalities.json';
+import linearData from '../pages/Dashboard/mathmodule/dataseries/organizeddata/linear_functions.json';
+import rationalData from '../pages/Dashboard/mathmodule/dataseries/organizeddata/rational_expressions.json';
+import ratiosData from '../pages/Dashboard/mathmodule/dataseries/organizeddata/ratios_and_proportional_relationships.json';
+import statsData from '../pages/Dashboard/mathmodule/dataseries/organizeddata/statistics_and_data_representations.json';
+import systemsData from '../pages/Dashboard/mathmodule/dataseries/organizeddata/systems_of_equations.json';
 
 let conceptGraph = [
   ...exponentsData.problems,

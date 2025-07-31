@@ -1,172 +1,234 @@
-// File: UserProfile.jsx
-// Updated Version
+// Pathing: src/pages/Dashboard/UserProfile/UserProfile.jsx
+// Focus: Polished User Profile with Modern Design
+// VersionUpdate: StudyBuddy Version — Enhanced UI/UX, Integrated SubscribeModal, Login Required
 
 import React, { useState, useEffect } from 'react';
-import { getBillingApiUrl } from '../../config/ApiConfig';
 import styles from './UserProfile.module.css';
-import { useGoogleLogin } from '@react-oauth/google';
-import { loadStripe } from '@stripe/stripe-js';
-
-const stripePromise = loadStripe('pk_live_51QZz55Dasl4Ek9fMi1GBDxyP4xWVK8psazWpNumMWQPve8Wspit2CbQFaonG49GkjO4RAsHk320oE9o6I23Y8kPE00TNeDQZRZ'); // Replace with your Stripe publishable key
+import { fetchUserMBTI } from '../../api/ApiMaster';
+import SubscribeModal from '../../components/SubscribeModal';
+import identityTypes from '../../data/IdentityTypes.json';
 
 const UserProfile = ({ user, setUser }) => {
-  const [subscription, setSubscription] = useState({ plan: 'StoryBook Lite', status: 'Free Plan' });
+  const [subscription, setSubscription] = useState({ plan: 'Basic', status: 'Free Plan' });
+  const [showSubscribe, setShowSubscribe] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUserData = () => {
-      if (user && user.email !== 'guest@example.com') {
-        console.log("User already set:", user); // Debugging log
-        setSubscription({
-          plan: 'StoryBook Premium',
-          status: 'Active',
+    const storedEmail = localStorage.getItem('userEmail');
+    const storedName = localStorage.getItem('userName');
+    const storedAvatar = localStorage.getItem('userAvatar');
+    
+    if (storedEmail) {
+      setUser((prev) => ({
+        ...prev,
+        email: storedEmail,
+        name: storedName || storedEmail.split('@')[0],
+        avatar: prev?.avatar || storedAvatar || 'https://via.placeholder.com/150',
+      }));
+    } else {
+      console.warn('No stored userEmail found. Cannot populate profile.');
+      setIsLoading(false);
+    }
+  }, [setUser]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        if (!user || !user.email) {
+          setIsLoading(false);
+          return;
+        }
+
+        setIsLoading(true);
+        const data = await fetchUserMBTI(user.email);
+        console.log("Fetched enriched user profile:", data);
+
+        setUser({
+          name: data.name || user.name,
+          email: data.email || user.email,
+          avatar: user.avatar || 'https://via.placeholder.com/150',
+          mbti: data.mbti || 'Not set',
+          age: data.age || 'Not provided',
+          interests: data.interests || [],
+          identityScore: data.identityScore || 0,
+          identityType: data.identityType || data.mbti || 'Not set',
         });
-      } else {
-        console.log("Setting default Guest user."); // Debugging log
-        setUser((prevUser) => {
-          if (prevUser && prevUser.email !== 'guest@example.com') {
-            return prevUser; // Do not overwrite if user is already set
-          }
-          return {
-            name: 'Guest',
-            email: 'guest@example.com',
-            savedStories: 0,
-            avatar: '',
-          };
-        });
-        setSubscription({
-          plan: 'StoryBook Lite',
-          status: 'Free Plan',
-        });
+
+        // Determine subscription status based on user data
+        if (data.mbti || (data.interests && data.interests.length)) {
+          setSubscription({ plan: 'Premium', status: 'Active' });
+        } else {
+          setSubscription({ plan: 'Basic', status: 'Free Plan' });
+        }
+      } catch (err) {
+        console.error("User profile load error:", err);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchUserData();
-  }, [user, setUser]);
+  }, [user?.email, setUser]);
 
-  const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      console.log("Google login successful:", tokenResponse); // Debugging log
-      fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-        headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-      })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${res.status}`);
-          }
-          return res.json();
-        })
-        .then((data) => {
-          console.log("Fetched user info:", data); // Debugging log
-          const avatarUrl = data.picture || 'https://via.placeholder.com/150'; // Fallback if picture is missing
-          setUser({
-            name: data.name,
-            email: data.email,
-            savedStories: JSON.parse(localStorage.getItem('library'))?.length || 0,
-            avatar: avatarUrl,
-          });
-          console.log("Avatar URL:", avatarUrl); // Debugging log
-        })
-        .catch((error) => {
-          console.error("Failed to fetch user info:", error);
-          alert("Error fetching user information. Please try again.");
-        });
-    },
-    onError: (error) => {
-      console.error("Login Failed:", error);
-      alert("Google Login failed. Please try again.");
-    },
-  });
-
-  const handleBilling = async () => {
-  try {
-    const stripe = await stripePromise;
-    let billingApiUrl = getBillingApiUrl();
-    console.log("Original Billing API URL:", billingApiUrl);
-
-    // Sanitize URL
-    billingApiUrl = billingApiUrl.replace(/\/+$/, '');
-    console.log("Sanitized Billing API URL:", billingApiUrl);
-    console.log("Billing API URL used in fetch:", billingApiUrl); // Get the Billing API URL dynamically
-          const response = await fetch(`${billingApiUrl}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Origin': 'http://localhost:3000',
-      },
-      body: JSON.stringify({
-        name: 'Test Product',
-        price: 9.99,
-      }),
-    });
-    console.log("Response from fetch:", response);
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-      const session = await response.json();
-    console.log("Stripe Session:", session);
-
-    // Redirect to Stripe Checkout
-    const result = await stripe.redirectToCheckout({ sessionId: session.id });
-        if (result.error) {
-      console.error("Stripe Checkout Error:", result.error.message);
-    }
-  } catch (error) {
-    console.error("Billing Error:", error.message);
-    alert("Error with billing. Please try again later.");
-  }
+  const openBillingModal = () => {
+    setShowSubscribe(true);
   };
+
+  const handleEditPersonalInfo = () => {
+    // TODO: Implement edit personal info functionality
+    alert('Edit Personal Information functionality coming soon!');
+  };
+
+  const handleEditInterests = () => {
+    // TODO: Implement edit interests functionality
+    alert('Edit Interests functionality coming soon!');
+  };
+
+  const handleEditPersonalityType = () => {
+    // TODO: Implement edit personality type functionality
+    alert('Edit Personality Type functionality coming soon!');
+  };
+
+  const handleChangeAvatar = () => {
+    // TODO: Implement avatar change functionality
+    alert('Avatar change functionality coming soon!');
+  };
+
+  if (isLoading) {
+    return (
+      <div className={styles.userProfilePage}>
+        <div className={styles.loadingState}>
+          <div className={styles.loadingSpinner}></div>
+          <p>Loading your profile...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user || !user.email) {
+    return (
+      <div className={styles.userProfilePage}>
+        <div className={styles.loadingState}>
+          <p>You are not currently logged in.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const statusBadgeClass = subscription.status === 'Active' ? styles.active : styles.free;
 
   return (
     <div className={styles.userProfilePage}>
-      <h1>Account Settings</h1>
-
-      {!user || user.email === 'guest@example.com' ? (
-        <button className={styles.googleLoginButton} onClick={() => login()}>Login with Google</button>
-      ) : (
-        <>
-          {/* Avatar Section */}
-          <div className={styles.avatarContainer}>
-            <div className={styles.avatar}>
-              {user.avatar ? (
-                <img src={user.avatar} alt="User Avatar" style={{ width: '100%', height: '100%' }} />
-              ) : (
-                <img
-                  src="https://via.placeholder.com/150" // Placeholder avatar
-                  alt="Default Avatar"
-                  style={{ width: '100%', height: '100%' }}
-                />
-              )}
-            </div>
-            <button className={styles.changeAvatarButton} onClick={() => alert('Avatar change functionality coming soon!')}>
-              Change Avatar
-            </button>
+      <div className={styles.profileHeader}>
+        <h1>Account Settings</h1>
+        <p className={styles.profileSubtitle}>Manage your profile and preferences</p>
+        
+        <div className={styles.avatarContainer}>
+          <div className={styles.avatar}>
+            <img
+              src={user.avatar || 'https://via.placeholder.com/150'}
+              alt="User Avatar"
+              style={{ width: '100%', height: '100%' }}
+            />
           </div>
+          <button
+            className={styles.changeAvatarButton}
+            onClick={handleChangeAvatar}
+          >
+            Change Avatar
+          </button>
+        </div>
+      </div>
 
-          {/* User Details Section */}
+      <div className={styles.profileContent}>
+        <div className={styles.profileGrid}>
           <div className={styles.userDetails}>
+            <div className={styles.sectionHeader}>
+              <h2>Personal Information</h2>
+              <button 
+                className={styles.editSectionButton}
+                onClick={handleEditPersonalInfo}
+                title="Edit Personal Information"
+              >
+                Edit
+              </button>
+            </div>
             <p><strong>Name:</strong> {user.name}</p>
             <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Saved Stories:</strong> {user.savedStories}</p>
+            <p><strong>MBTI:</strong> {user.mbti}</p>
+            <p><strong>Age:</strong> {user.age}</p>
           </div>
 
-          {/* Subscription Section */}
           <div className={styles.userDetails}>
-            <h2>Subscription Plan</h2>
-            <p><strong>Current Plan:</strong> {subscription.plan}</p>
-            <p><strong>Status:</strong> {subscription.status}</p>
-            <button className={styles.editProfileButton} onClick={handleBilling}>
+            <div className={styles.sectionHeader}>
+              <h2>Interests</h2>
+              <button 
+                className={styles.editSectionButton}
+                onClick={handleEditInterests}
+                title="Edit Interests"
+              >
+                Edit
+              </button>
+            </div>
+            {Array.isArray(user.interests) && user.interests.length > 0 ? (
+              <ul>
+                {user.interests.map((interest, index) => (
+                  <li key={index}>{interest}</li>
+                ))}
+              </ul>
+            ) : (
+              <p>No interests provided.</p>
+            )}
+          </div>
+
+          <div className={styles.userDetails}>
+            <div className={styles.sectionHeader}>
+              <h2>Personality Type</h2>
+              <button 
+                className={styles.editSectionButton}
+                onClick={handleEditPersonalityType}
+                title="Edit Personality Type"
+              >
+                Edit
+              </button>
+            </div>
+            <p><strong>Type:</strong> {user.mbti}</p>
+            {identityTypes[user.mbti] && (
+              <div className={styles.identityExplanation}>
+                <p><strong>Tone:</strong> {identityTypes[user.mbti]?.tone}</p>
+                <p><strong>Style:</strong> {identityTypes[user.mbti]?.style}</p>
+                <p><strong>Structure:</strong> {identityTypes[user.mbti]?.structure}</p>
+                <p><strong>Engagement:</strong> {identityTypes[user.mbti]?.engagement}</p>
+              </div>
+            )}
+          </div>
+
+          <div className={`${styles.userDetails} ${styles.subscriptionCard}`}>
+            <div className={styles.sectionHeader}>
+              <h2>Subscription Plan</h2>
+            </div>
+            <p>
+              <strong>Current Plan:</strong> {subscription.plan}
+              <span className={`${styles.statusBadge} ${statusBadgeClass}`}>
+                {subscription.status}
+              </span>
+            </p>
+            <button 
+              className={`${styles.editProfileButton} ${styles.secondary}`} 
+              onClick={openBillingModal}
+              style={{ marginTop: '15px' }}
+            >
               Manage Billing
             </button>
           </div>
+        </div>
+      </div>
 
-          <button
-            className={styles.editProfileButton}
-            onClick={() => alert('Edit Profile functionality coming soon!')}
-          >
-            Edit Profile
-          </button>
-        </>
-      )}
+      <SubscribeModal
+        isOpen={showSubscribe}
+        onClose={() => setShowSubscribe(false)}
+        user={user}
+      />
     </div>
   );
 };

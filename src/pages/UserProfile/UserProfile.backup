@@ -1,0 +1,152 @@
+// Pathing: src/pages/Dashboard/UserProfile/UserProfile.jsx
+// Focus:
+// VerisonUpdate: StudyBuddy Version — Integrated SubscribeModal, Login Required
+
+import React, { useState, useEffect } from 'react';
+import styles from './UserProfile.module.css';
+import { fetchUserMBTI } from '../../api/ApiMaster';
+import SubscribeModal from '../../components/SubscribeModal';
+import identityTypes from '../../data/IdentityTypes.json';
+
+const UserProfile = ({ user, setUser }) => {
+  const [subscription, setSubscription] = useState({ plan: 'Basic', status: 'Free Plan' });
+  const [showSubscribe, setShowSubscribe] = useState(false);
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem('userEmail');
+    const storedName = localStorage.getItem('userName');
+    const storedAvatar = localStorage.getItem('userAvatar');
+    if (storedEmail) {
+      setUser((prev) => ({
+        ...prev,
+        email: storedEmail,
+        name: storedName || storedEmail.split('@')[0],
+        avatar: prev?.avatar || storedAvatar || 'https://via.placeholder.com/150',
+      }));
+    } else {
+      console.warn('No stored userEmail found. Cannot populate profile.');
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        if (!user || !user.email) return;
+
+        const data = await fetchUserMBTI(user.email);
+        console.log("Fetched enriched user profile:", data);
+
+        setUser({
+          name: data.name || user.name,
+          email: data.email || user.email,
+          avatar: user.avatar || 'https://via.placeholder.com/150',
+          mbti: data.mbti || 'Not set',
+          age: data.age || 'Not provided',
+          interests: data.interests || [],
+          identityScore: data.identityScore || 0,
+          identityType: data.identityType || data.mbti || 'Not set',
+          mbti: data.mbti || 'Not set',
+          age: data.age || 'Not provided',
+          interests: data.interests || [],
+        });
+
+        if (data.mbti || (data.interests && data.interests.length)) {
+          setSubscription({ plan: 'Premium', status: 'Active' });
+        } else {
+          setSubscription({ plan: 'Basic', status: 'Free Plan' });
+        }
+      } catch (err) {
+        console.error("User profile load error:", err);
+      }
+    };
+
+    fetchUserData();
+  }, [user?.email]);
+
+  const openBillingModal = () => {
+    setShowSubscribe(true);
+  };
+
+  if (!user || !user.email) {
+    return <p>You are not currently logged in.</p>;
+  }
+
+  return (
+    <div className={styles.userProfilePage}>
+      <h1>Account Settings</h1>
+
+      <div className={styles.avatarContainer}>
+        <div className={styles.avatar}>
+          <img
+            src={user.avatar || 'https://via.placeholder.com/150'}
+            alt="User Avatar"
+            style={{ width: '100%', height: '100%' }}
+          />
+        </div>
+        <button
+          className={styles.changeAvatarButton}
+          onClick={() => alert('Avatar change functionality coming soon!')}
+        >
+          Change Avatar
+        </button>
+      </div>
+
+      <div className={styles.userDetails}>
+        <p><strong>Name:</strong> {user.name}</p>
+        <p><strong>Email:</strong> {user.email}</p>
+        <p><strong>MBTI:</strong> {user.mbti}</p>
+        <p><strong>Age:</strong> {user.age}</p>
+      </div>
+
+      <div className={styles.userDetails}>
+        <h2>Interests</h2>
+        {Array.isArray(user.interests) && user.interests.length > 0 ? (
+          <ul>
+            {user.interests.map((interest, index) => (
+              <li key={index}>{interest}</li>
+            ))}
+          </ul>
+        ) : (
+          <p>No interests provided.</p>
+        )}
+      </div>
+
+      <div className={styles.userDetails}>
+        <h2>Identity</h2>
+        <p><strong>Type:</strong> {user.mbti}</p>
+        {identityTypes[user.mbti] && (
+          <div className={styles.identityExplanation}>
+            <p><strong>Tone:</strong> {identityTypes[user.mbti]?.tone}</p>
+            <p><strong>Style:</strong> {identityTypes[user.mbti]?.style}</p>
+            <p><strong>Structure:</strong> {identityTypes[user.mbti]?.structure}</p>
+            <p><strong>Engagement:</strong> {identityTypes[user.mbti]?.engagement}</p>
+          </div>
+        )}
+      </div>
+
+      <div className={styles.userDetails}>
+        <h2>Subscription Plan</h2>
+        <p><strong>Current Plan:</strong> {subscription.plan}</p>
+        <p><strong>Status:</strong> {subscription.status}</p>
+        <button className={styles.editProfileButton} onClick={openBillingModal}>
+          Manage Billing
+        </button>
+      </div>
+
+      <button
+        className={styles.editProfileButton}
+        onClick={() => alert('Edit Profile functionality coming soon!')}
+      >
+        Edit Profile
+      </button>
+
+      <SubscribeModal
+        isOpen={showSubscribe}
+        onClose={() => setShowSubscribe(false)}
+        user={user}
+      />
+    </div>
+  );
+};
+
+export default UserProfile;
