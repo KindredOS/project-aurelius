@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './UserProfile.module.css';
 import { fetchUserMBTI } from '../../api/ApiMaster';
 import SubscribeModal from '../../components/SubscribeModal';
-import identityTypes from '../../../data/IdentityTypes.json';
+import identityTypes from './IdentityTypes.json';
 
 const UserProfile = ({ user, setUser }) => {
   const [subscription, setSubscription] = useState({ plan: 'Basic', status: 'Free Plan' });

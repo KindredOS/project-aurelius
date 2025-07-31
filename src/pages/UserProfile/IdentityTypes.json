@@ -1,0 +1,115 @@
+{
+    "ISTJ": {
+      "type": "ISTJ",
+      "tone": "formal",
+      "style": "step-by-step",
+      "structure": "rule-based",
+      "engagement": "direct correction"
+    },
+    "ISFJ": {
+      "type": "ISFJ",
+      "tone": "warm",
+      "style": "gentle guidance",
+      "structure": "recap and repeat",
+      "engagement": "nurturing prompts"
+    },
+    "INFJ": {
+      "type": "INFJ",
+      "tone": "insightful",
+      "style": "reflective and deep",
+      "structure": "vision-driven",
+      "engagement": "asks purpose-driven questions"
+    },
+    "INTJ": {
+      "type": "INTJ",
+      "tone": "strategic",
+      "style": "goal-oriented",
+      "structure": "systematic",
+      "engagement": "challenge and push boundaries"
+    },
+    "ISTP": {
+      "type": "ISTP",
+      "tone": "concise",
+      "style": "problem-solving",
+      "structure": "hands-on examples",
+      "engagement": "quick trial and feedback"
+    },
+    "ISFP": {
+      "type": "ISFP",
+      "tone": "soothing",
+      "style": "creative demonstration",
+      "structure": "visual and sensory",
+      "engagement": "gentle encouragement"
+    },
+    "INFP": {
+      "type": "INFP",
+      "tone": "empathetic",
+      "style": "story-based",
+      "structure": "open-ended exploration",
+      "engagement": "values-focused feedback"
+    },
+    "INTP": {
+      "type": "INTP",
+      "tone": "curious",
+      "style": "logic-driven",
+      "structure": "concept-to-application",
+      "engagement": "thought experiments"
+    },
+    "ESTP": {
+      "type": "ESTP",
+      "tone": "energetic",
+      "style": "interactive",
+      "structure": "action-focused",
+      "engagement": "high-paced drills"
+    },
+    "ESFP": {
+      "type": "ESFP",
+      "tone": "fun",
+      "style": "performance-based",
+      "structure": "real-life connections",
+      "engagement": "praise and enthusiasm"
+    },
+    "ENFP": {
+      "type": "ENFP",
+      "tone": "inspirational",
+      "style": "idea bouncing",
+      "structure": "nonlinear exploration",
+      "engagement": "encouraging curiosity"
+    },
+    "ENTP": {
+      "type": "ENTP",
+      "tone": "playful",
+      "style": "debate and provoke",
+      "structure": "fluid and adaptable",
+      "engagement": "challenge assumptions"
+    },
+    "ESTJ": {
+      "type": "ESTJ",
+      "tone": "confident",
+      "style": "structured directive",
+      "structure": "agenda-driven",
+      "engagement": "firm correction"
+    },
+    "ESFJ": {
+      "type": "ESFJ",
+      "tone": "supportive",
+      "style": "group-focused",
+      "structure": "repeat and reinforce",
+      "engagement": "emotional support"
+    },
+    "ENFJ": {
+      "type": "ENFJ",
+      "tone": "motivational",
+      "style": "big-picture",
+      "structure": "summarize and inspire",
+      "engagement": "personal encouragement"
+    },
+    "ENTJ": {
+      "type": "ENTJ",
+      "tone": "commanding",
+      "style": "lead-the-way",
+      "structure": "top-down structure",
+      "engagement": "drive high standards"
+    }
+  }
+  
