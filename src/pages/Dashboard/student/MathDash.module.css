@@ -2,9 +2,9 @@
 
 /* Main Container */
 .mathPageContainer {
-  min-height: 100vh;
-  background-color: #f9fafb;
   display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f44336 0%, #e53935 100%);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
@@ -42,6 +42,11 @@
   height: 16px;
   margin-right: 4px;
   color: #f59e0b;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Learning Mode Selector */

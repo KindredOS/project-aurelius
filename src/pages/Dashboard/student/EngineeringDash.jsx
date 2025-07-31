@@ -93,7 +93,7 @@ const EngineeringDash = () => {
 
   // Normalize AI Tutor naming (probably depricated: need to review in association with lessonUtil, useSubjectDashboard, and Sidebar)
   return (
-    <div className={styles.container}>
+    <div className={styles.engineeringPageContainer}>
       <Sidebar
         title="Engineering Learning Hub"
         studyStreak={studyStreak}

@@ -115,6 +115,7 @@ const TechnologyDash = () => {
           <TopicHeader
             topic={topic}
             userProgress={userProgress}
+            gradeLevel={gradeLevel}
             selectedTopic={selectedTopic}
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}

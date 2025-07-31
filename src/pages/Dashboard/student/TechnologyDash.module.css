@@ -46,6 +46,11 @@
   color: #eab308;
 }
 
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* Learning Mode Section - Aligned with Science Dashboard */
 .learningModeSection {
   margin-bottom: 24px;
