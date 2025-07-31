@@ -38,8 +38,8 @@ const MBTISetupModal = ({ user, onClose }) => {
     setIsLoading(true);
     try {
       const questionSet = ageNum >= 14
-        ? await import('../../data/mbti_advanced.json')
-        : await import('../../data/mbti_basic.json');
+        ? await import('./mbti_advanced.json')
+        : await import('./data/mbti_basic.json');
 
       setQuestions(questionSet.default);
       setStep(2);

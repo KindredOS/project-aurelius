@@ -1,0 +1,117 @@
+[
+  {
+    "id": 17,
+    "question": "You feel comfortable speaking up even when others disagree.",
+    "dimension": "E/I",
+    "typeIfAgree": "E",
+    "typeIfDisagree": "I"
+  },
+  {
+    "id": 18,
+    "question": "You prefer deep conversations over small talk.",
+    "dimension": "E/I",
+    "typeIfAgree": "I",
+    "typeIfDisagree": "E"
+  },
+  {
+    "id": 19,
+    "question": "You enjoy leading group projects or organizing events.",
+    "dimension": "E/I",
+    "typeIfAgree": "E",
+    "typeIfDisagree": "I"
+  },
+  {
+    "id": 20,
+    "question": "You often reflect before reacting or sharing your opinion.",
+    "dimension": "E/I",
+    "typeIfAgree": "I",
+    "typeIfDisagree": "E"
+  },
+
+  {
+    "id": 21,
+    "question": "You like learning how things work more than why they exist.",
+    "dimension": "S/N",
+    "typeIfAgree": "S",
+    "typeIfDisagree": "N"
+  },
+  {
+    "id": 22,
+    "question": "You enjoy exploring abstract ideas even without clear answers.",
+    "dimension": "S/N",
+    "typeIfAgree": "N",
+    "typeIfDisagree": "S"
+  },
+  {
+    "id": 23,
+    "question": "You prefer clear instructions over open-ended challenges.",
+    "dimension": "S/N",
+    "typeIfAgree": "S",
+    "typeIfDisagree": "N"
+  },
+  {
+    "id": 24,
+    "question": "You often notice patterns others don’t see.",
+    "dimension": "S/N",
+    "typeIfAgree": "N",
+    "typeIfDisagree": "S"
+  },
+
+  {
+    "id": 25,
+    "question": "You tend to keep your feelings private when making decisions.",
+    "dimension": "T/F",
+    "typeIfAgree": "T",
+    "typeIfDisagree": "F"
+  },
+  {
+    "id": 26,
+    "question": "You value empathy more than efficiency in a group.",
+    "dimension": "T/F",
+    "typeIfAgree": "F",
+    "typeIfDisagree": "T"
+  },
+  {
+    "id": 27,
+    "question": "You’d rather solve a problem than comfort someone about it.",
+    "dimension": "T/F",
+    "typeIfAgree": "T",
+    "typeIfDisagree": "F"
+  },
+  {
+    "id": 28,
+    "question": "You often change your plans to help others feel better.",
+    "dimension": "T/F",
+    "typeIfAgree": "F",
+    "typeIfDisagree": "T"
+  },
+
+  {
+    "id": 29,
+    "question": "You like having a clear to-do list before starting your day.",
+    "dimension": "J/P",
+    "typeIfAgree": "J",
+    "typeIfDisagree": "P"
+  },
+  {
+    "id": 30,
+    "question": "You often leave projects unfinished to explore new ideas.",
+    "dimension": "J/P",
+    "typeIfAgree": "P",
+    "typeIfDisagree": "J"
+  },
+  {
+    "id": 31,
+    "question": "You feel stressed when things don't go according to plan.",
+    "dimension": "J/P",
+    "typeIfAgree": "J",
+    "typeIfDisagree": "P"
+  },
+  {
+    "id": 32,
+    "question": "You prefer going with the flow over setting strict deadlines.",
+    "dimension": "J/P",
+    "typeIfAgree": "P",
+    "typeIfDisagree": "J"
+  }
+]
