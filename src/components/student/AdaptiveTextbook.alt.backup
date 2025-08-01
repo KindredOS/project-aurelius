@@ -1,4 +1,4 @@
-// AdaptiveTextbook.jsx - FIXED VERSION - Direct content manipulation approach
+// AdaptiveTextbook.jsx - Production Ready Version
 import React, { useState, useCallback } from 'react';
 import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
 import styles from './AdaptiveTextbook.module.css';
@@ -25,9 +25,50 @@ import { polishMarkdown } from '../../utils/polishMarkdown';
 import { buildPromptWrap } from '../../utils/aiPromptTools';
 import { cleanUpResponse } from '../../utils/cleanUp';
 
+/**
+ * Enhanced cleanup function for removing AI metadata brackets
+ */
+const removeAIMetadataBrackets = (text) => {
+  if (!text || typeof text !== 'string') {
+    return '';
+  }
+
+  let cleaned = text;
+
+  // Remove AI metadata patterns like [Mathematical Inquiry: Detailed], [Analysis: Complete], etc.
+  cleaned = cleaned.replace(/\[[A-Za-z\s]*:\s*[A-Za-z\s]*\]/g, '');
+  
+  // Remove standalone bracket words like [Summary], [Analysis], [Overview], etc.
+  cleaned = cleaned.replace(/\[[A-Za-z\s]+\]/g, '');
+  
+  // Remove brackets with numbers like [1], [2] at line ends (citations)
+  cleaned = cleaned.replace(/\[\d+\]\s*$/gm, '');
+  
+  // Remove empty bracket lines
+  cleaned = cleaned.replace(/^\s*\[\s*\]\s*$/gm, '');
+  
+  // Remove lines that are just brackets with content
+  cleaned = cleaned.replace(/^\s*\[[^\]]+\]\s*$/gm, '');
+  
+  // Remove any remaining isolated brackets at start of lines
+  cleaned = cleaned.replace(/^\[[^\]]*\]\s*/gm, '');
+  
+  // Clean up multiple consecutive newlines
+  cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+  
+  // Remove empty lines at the start
+  cleaned = cleaned.replace(/^\s*\n+/, '');
+  
+  // Trim whitespace but preserve internal structure
+  cleaned = cleaned.trim();
+
+  return cleaned;
+};
+
 const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
   const [enhancedSections, setEnhancedSections] = useState({});
   const [expandedHeader, setExpandedHeader] = useState(null);
+  const [collapsedHeaders, setCollapsedHeaders] = useState({});
   const [promptToggles, setPromptToggles] = useState({});
   const [interactiveToggles, setInteractiveToggles] = useState({});
   const [isEnhancing, setIsEnhancing] = useState({});
@@ -37,7 +78,6 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
   // Sync with parent content changes
   React.useEffect(() => {
     if (content !== currentContent) {
-      console.log('Content prop changed, syncing internal state');
       setCurrentContent(content);
       setForceRenderCounter(prev => prev + 1);
     }
@@ -51,33 +91,29 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     setInteractiveToggles(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const toggleHeaderCollapse = (headerText) => {
+    setCollapsedHeaders(prev => ({ ...prev, [headerText]: !prev[headerText] }));
+  };
+
   // Memoized function to get the effective content for rendering
   const getEffectiveContent = useCallback(() => {
-    console.log('=== GETTING EFFECTIVE CONTENT ===');
-    console.log('Current content length:', currentContent?.length || 0);
-    console.log('Enhanced sections:', Object.keys(enhancedSections));
-    
     let effectiveContent = currentContent;
     
     // Apply all enhancements to the content before parsing
     Object.entries(enhancedSections).forEach(([header, enhancedBody]) => {
       if (enhancedBody && !enhancedBody.includes('⚠️')) {
-        console.log(`Applying enhancement for header: ${header}`);
         effectiveContent = replaceSection(effectiveContent, header, enhancedBody);
       }
     });
     
-    console.log('Final effective content length:', effectiveContent?.length || 0);
     return effectiveContent;
   }, [currentContent, enhancedSections, forceRenderCounter]);
 
   const handleEnhancement = async (header, action) => {
     if (enhancedSections[header] && !enhancedSections[header].includes('⚠️')) {
-      console.log(`Skipping enhancement for "${header}" — already enhanced.`);
       return;
     }
 
-    console.log('Enhancement triggered:', header, action);
     setIsEnhancing(prev => ({ ...prev, [header]: true }));
 
     try {
@@ -100,16 +136,23 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
         action
       });
 
+      // Extract final output if wrapped
       const match = enhancedBody.match(/FINAL OUTPUT[^\n]*\n---\n([\s\S]*)$/);
       if (match && match[1]) {
         enhancedBody = match[1].trim();
       }
 
+      // Enhanced bracket cleanup
+      enhancedBody = removeAIMetadataBrackets(enhancedBody);
+
+      // Apply existing cleanup
       enhancedBody = cleanUpResponse(enhancedBody);
 
+      // Remove header if it was accidentally included
       const headerPattern = new RegExp(`^##\s+${header}\s*\n+`, 'i');
       enhancedBody = enhancedBody.replace(headerPattern, '').trim();
 
+      // Final validation and cleanup
       if (!enhancedBody || typeof enhancedBody !== 'string' || enhancedBody.trim().length === 0) {
         throw new Error('Invalid enhancement response');
       }
@@ -118,42 +161,51 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
         throw new Error('Enhancement service unavailable');
       }
 
-      console.log('=== ENHANCEMENT SUCCESSFUL ===');
-      console.log('Enhanced body:', enhancedBody.substring(0, 200) + '...');
+      // Additional safety check for common AI response artifacts
+      if (enhancedBody.toLowerCase().includes('i cannot') || 
+          enhancedBody.toLowerCase().includes('i apologize') ||
+          enhancedBody.toLowerCase().includes('as an ai')) {
+        const lines = enhancedBody.split('\n');
+        const cleanLines = lines.filter(line => 
+          !line.toLowerCase().includes('i cannot') &&
+          !line.toLowerCase().includes('i apologize') &&
+          !line.toLowerCase().includes('as an ai') &&
+          line.trim().length > 0
+        );
+        enhancedBody = cleanLines.join('\n').trim();
+        
+        if (enhancedBody.length === 0) {
+          throw new Error('No usable content after cleaning AI refusal patterns');
+        }
+      }
 
       // Update enhanced sections first
-      setEnhancedSections(prev => {
-        const updated = { ...prev, [header]: enhancedBody };
-        console.log('Updated enhanced sections:', Object.keys(updated));
-        return updated;
-      });
+      setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));
 
-      // Force a re-render by incrementing the counter
-      setForceRenderCounter(prev => {
-        const newValue = prev + 1;
-        console.log('Force render counter updated to:', newValue);
-        return newValue;
-      });
+      // Force a re-render
+      setForceRenderCounter(prev => prev + 1);
 
       // Update the actual content and save
       const updatedContent = replaceSection(currentContent, header, enhancedBody);
       setCurrentContent(updatedContent);
 
       if (onContentSave) {
-        console.log('Saving updated content...');
         await onContentSave(updatedContent);
       }
 
-      console.log('Enhancement and save completed successfully');
     } catch (error) {
-      console.error('Enhancement failed:', error);
+      // Reset the expanded header state to allow re-clicking
+      setExpandedHeader(null);
+      setTimeout(() => {
+        setExpandedHeader(header);
+      }, 50);
 
       let errorMessage = '⚠️ Enhancement failed. ';
       if (error.message.includes('404') || error.message.includes('unavailable')) {
         errorMessage += 'Service temporarily unavailable. Please try again later.';
       } else if (error.message.includes('No response') || error.message.includes('empty')) {
         errorMessage += 'No response from enhancement service. Please check your connection.';
-      } else if (error.message.includes('Invalid enhancement')) {
+      } else if (error.message.includes('Invalid enhancement') || error.message.includes('No usable content')) {
         errorMessage += 'Invalid response received. Please try again.';
       } else if (error.message.includes('No content found')) {
         errorMessage += 'No content found under this header.';
@@ -168,83 +220,109 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     }
   };
 
+  // FIX: Improved toggle function that properly handles state transitions
   const toggleIconBar = (headerText) => {
-    setExpandedHeader(prev => prev === headerText ? null : headerText);
+    setExpandedHeader(prev => {
+      const newValue = prev === headerText ? null : headerText;
+      return newValue;
+    });
   };
 
-  const parseMarkdown = (text) => {
-    console.log('=== PARSING MARKDOWN ===');
-    console.log('Input text length:', text?.length || 0);
-    console.log('Force render counter:', forceRenderCounter);
-    
-    if (!text) return [];
+  // Group content into sections based on h1 headers
+  const groupContentIntoSections = (elements) => {
+    const sections = [];
+    let currentSection = null;
 
-    const elements = parseMarkdownElements(text);
-    const renderedElements = [];
-    let currentHeader = null;
-
-    elements.forEach((element, index) => {
-      const elementKey = `${element.type}-${element.lineIndex}-${forceRenderCounter}`;
-      
-      switch (element.type) {
-        case 'header':
-          currentHeader = element.content;
-          renderedElements.push(renderHeader(currentHeader, element.level, element.lineIndex));
-          break;
-
-        case 'prompt':
-          renderedElements.push(
-            <div key={elementKey} className={styles.promptBox}>
-              <button
-                className={styles.promptToggle}
-                onClick={() => togglePrompt(element.lineIndex)}
-              >
-                {promptToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} 
-                <strong>Prompt</strong>
-              </button>
-              {promptToggles[element.lineIndex] && (
-                <div className={styles.promptContent}>{element.content}</div>
-              )}
-            </div>
-          );
-          break;
-
-        case 'interactive':
-          renderedElements.push(
-            <div key={elementKey} className={styles.interactiveBox}>
-              <button
-                className={styles.interactiveToggle}
-                onClick={() => toggleInteractive(element.lineIndex)}
-              >
-                {interactiveToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} 
-                <strong>Interactive Module</strong>
-              </button>
-              {interactiveToggles[element.lineIndex] && (
-                <div className={styles.interactiveContent}><em>Content coming soon...</em></div>
-              )}
-            </div>
-          );
-          break;
-
-        case 'paragraph':
-          // The content should already have enhancements applied via getEffectiveContent
-          const htmlContent = convertMarkdownBold(element.content);
-          renderedElements.push(
-            <p key={elementKey} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
-          );
-          break;
-
-        default:
-          break;
+    elements.forEach((element) => {
+      if (element.type === 'header' && element.level === 1) {
+        if (currentSection) {
+          sections.push(currentSection);
+        }
+        currentSection = {
+          header: element.content,
+          elements: [element]
+        };
+      } else if (currentSection) {
+        currentSection.elements.push(element);
+      } else {
+        if (sections.length === 0) {
+          currentSection = {
+            header: 'Introduction',
+            elements: [element]
+          };
+        }
       }
     });
 
-    console.log('Rendered elements count:', renderedElements.length);
-    return renderedElements;
+    if (currentSection) {
+      sections.push(currentSection);
+    }
+
+    return sections;
+  };
+
+  const parseMarkdown = (text) => {
+    if (!text) return [];
+    const elements = parseMarkdownElements(text);
+    return elements;
+  };
+
+  const renderElement = (element, index, currentHeader) => {
+    const elementKey = `${element.type}-${element.lineIndex}-${forceRenderCounter}`;
+    
+    switch (element.type) {
+      case 'header':
+        return renderHeader(element.content, element.level, element.lineIndex);
+
+      case 'prompt':
+        return (
+          <div key={elementKey} className={styles.promptBox}>
+            <button
+              className={styles.promptToggle}
+              onClick={() => togglePrompt(element.lineIndex)}
+            >
+              {promptToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} 
+              <strong>Prompt</strong>
+            </button>
+            {promptToggles[element.lineIndex] && (
+              <div className={styles.promptContent}>{element.content}</div>
+            )}
+          </div>
+        );
+
+      case 'interactive':
+        return (
+          <div key={elementKey} className={styles.interactiveBox}>
+            <button
+              className={styles.interactiveToggle}
+              onClick={() => toggleInteractive(element.lineIndex)}
+            >
+              {interactiveToggles[element.lineIndex] ? <ChevronDown size={16} /> : <ChevronRight size={16} />} 
+              <strong>Interactive Module</strong>
+            </button>
+            {interactiveToggles[element.lineIndex] && (
+              <div className={styles.interactiveContent}><em>Content coming soon...</em></div>
+            )}
+          </div>
+        );
+
+      case 'paragraph':
+        let paragraphContent = element.content;
+        paragraphContent = removeAIMetadataBrackets(paragraphContent);
+        
+        const htmlContent = convertMarkdownBold(paragraphContent);
+        return (
+          <p key={elementKey} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
+        );
+
+      default:
+        return null;
+    }
   };
 
   const renderHeader = (headerText, level, lineIndex) => {
     const isExpanded = expandedHeader === headerText;
+    const isCollapsed = collapsedHeaders[headerText];
     const isLoading = isEnhancing[headerText];
     const enhancementButtons = getEnhancementButtons();
 
@@ -265,8 +343,19 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     return (
       <div key={`header-${lineIndex}-${headerText}-${forceRenderCounter}`} className={styles.headerBlock}>
         <div className={styles.headerRow}>
-          <div className={headerClasses[level]}>
-            {headerText}
+          <div className={styles.headerLeft}>
+            <button
+              onClick={() => toggleHeaderCollapse(headerText)}
+              className={styles.collapseToggle}
+              title={isCollapsed ? "Expand section" : "Collapse section"}
+              type="button"
+            >
+              {isCollapsed ? <ChevronRight size={16} /> : <ChevronDown size={16} />}
+            </button>
+            
+            <div className={headerClasses[level]}>
+              {headerText}
+            </div>
           </div>
 
           <button
@@ -275,7 +364,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
               e.stopPropagation();
               toggleIconBar(headerText);
             }}
-            className={styles.toggleButton}
+            className={`${styles.toggleButton} ${isExpanded ? styles.active : ''}`}
             title="Show enhancement options"
             type="button"
           >
@@ -316,16 +405,53 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     return <div className={styles.noContent}>No content available</div>;
   }
 
-  // Use the effective content that has all enhancements applied
   const contentToRender = getEffectiveContent();
+  const elements = parseMarkdown(contentToRender);
+  const sections = groupContentIntoSections(elements);
 
   return (
     <div className={styles.container}>
-      <div className={styles.content} key={`content-${forceRenderCounter}`}>
-        {parseMarkdown(contentToRender)}
+      <div className={styles.sideScrollContainer}>
+        {sections.map((section, sectionIndex) => (
+          <div key={`section-${sectionIndex}-${forceRenderCounter}`} className={styles.contentSection}>
+            {section.elements.map((element, elementIndex) => {
+              if (element.type === 'header') {
+                const renderedHeader = renderElement(element, elementIndex);
+                const isCollapsed = collapsedHeaders[element.content];
+                
+                if (isCollapsed && element.level <= 2) {
+                  return (
+                    <div key={`collapsed-${elementIndex}`}>
+                      {renderedHeader}
+                    </div>
+                  );
+                }
+                
+                return renderedHeader;
+              }
+              
+              const parentHeader = findParentHeader(section.elements, elementIndex);
+              if (parentHeader && collapsedHeaders[parentHeader]) {
+                return null;
+              }
+              
+              return renderElement(element, elementIndex);
+            })}
+          </div>
+        ))}
       </div>
     </div>
   );
+};
+
+// Helper function to find the parent header for an element
+const findParentHeader = (elements, currentIndex) => {
+  for (let i = currentIndex - 1; i >= 0; i--) {
+    if (elements[i].type === 'header' && elements[i].level <= 2) {
+      return elements[i].content;
+    }
+  }
+  return null;
 };
 
 export default AdaptiveTextbook;
