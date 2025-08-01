@@ -79,7 +79,7 @@
 }
 
 .learningModeButton.active {
-  background: linear-gradient(135deg, #fdf2f8 0%, #f43f5e 100%);
+  background: linear-gradient(135deg, #b2598a 25%, #f43f5e 100%);
   color: #ffffff; /* White text for rose gold background */
   transform: scale(1.02);
   box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);
@@ -112,7 +112,7 @@
   line-height: 1.2;
 }
 
-/* Topics Section */
+/* Topics Section <--- Passed to Topic Via Sidebar */
 .topicsSection {
   margin-bottom: 24px;
 }
@@ -265,56 +265,9 @@
   gap: 24px;
 }
 
-/* Topic Header Card */
-.topicHeaderCard {
-  background: linear-gradient(135deg, #ffffff 0%, #fef7ff 100%);
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(244, 63, 94, 0.1);
-}
+/* Topic Header Card <---- Elements are paritally or fully depricated */
 
-.topicHeader {
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.topicHeaderIcon {
-  width: 32px;
-  height: 32px;
-  color: #f43f5e;
-  margin-right: 12px;
-}
-
-.topicHeaderContent h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0 0 4px 0;
-}
-
-.topicHeaderContent p {
-  color: #6b7280;
-  margin: 0;
-}
-
-.topicProgressSection {
-  margin-bottom: 16px;
-}
-
-.progressHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.progressLabel {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #374151;
-}
+/* TopicHeader Progress Section (Must Keep, for progress bar to work.) */
 
 .progressPercentage {
   font-size: 0.875rem;
@@ -336,226 +289,14 @@
   transition: width 0.5s ease;
 }
 
-/* Creative Canvas Card */
-.creativeCanvasCard {
-  background: linear-gradient(135deg, #fef7ff 0%, #f43f5e 100%);
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.canvasHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.canvasTitle {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.canvasIcon {
-  width: 24px;
-  height: 24px;
-  color: #ffffff;
-}
-
-.canvasDescription {
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 16px;
-  line-height: 1.5;
-}
-
-.canvasWindow {
-  background-color: #ffffff;
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(244, 63, 94, 0.2);
-}
-
-.canvasLoader {
-  text-align: center;
-}
-
-.canvasSpinner {
-  animation: spin 1s linear infinite;
-  border-radius: 50%;
-  height: 32px;
-  width: 32px;
-  border: 2px solid #e5e7eb;
-  border-top-color: #f43f5e;
-  margin: 0 auto 8px;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.canvasPlaceholder {
-  color: #6b7280;
-  font-style: italic;
-}
-
-.canvasControls {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.canvasButton {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.canvasButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.canvasButtonPrimary {
-  background-color: #ffffff;
-  color: #f43f5e;
-}
-
-.canvasButtonPrimary:hover:not(:disabled) {
-  background-color: #f8fafc;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
-}
-
-.canvasButtonSecondary {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-}
-
-.canvasButtonSecondary:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
-}
-
-.buttonIcon {
-  width: 16px;
-  height: 16px;
-}
-
-/* Art Techniques Grid */
-.techniqueGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
+/* Simulation Card <---- Needs to be transitioned to our run game logic */
+.simulationCard {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 32px;
   margin-bottom: 24px;
-}
-
-.techniqueCard {
-  background: linear-gradient(135deg, #fef7ff 0%, #ec4899 100%);
-  padding: 16px;
-  border-radius: 8px;
-  text-align: center;
-  border: 1px solid rgba(236, 72, 153, 0.2);
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.techniqueCard:hover {
-  background: linear-gradient(135deg, #fdf2f8 0%, #f43f5e 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);
-}
-
-.techniqueIcon {
-  width: 32px;
-  height: 32px;
-  color: #ffffff;
-  margin: 0 auto 8px;
-}
-
-.techniqueText {
-  font-size: 0.875rem;
-  color: #ffffff;
-  font-weight: 500;
-}
-
-/* Color Palette Card */
-.colorPaletteCard {
-  background-color: #ffffff;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(244, 63, 94, 0.1);
-}
-
-.paletteTitle {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 16px;
-}
-
-.colorSwatches {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.colorSwatch {
-  aspect-ratio: 1;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.colorSwatch:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.colorSwatch.primary {
-  background: linear-gradient(135deg, #f43f5e 0%, #ec4899 100%);
-}
-
-.colorSwatch.secondary {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-}
-
-.colorSwatch.accent {
-  background: linear-gradient(135deg, #be185d 0%, #9f1239 100%);
-}
-
-.colorSwatch.neutral {
-  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
-}
-
-.colorSwatch.light {
-  background: linear-gradient(135deg, #fdf2f8 0%, #f8fafc 100%);
-  border: 1px solid #e5e7eb;
-}
-
-.colorSwatch.dark {
-  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-}
-
-.paletteInfo {
-  font-size: 0.875rem;
-  color: #6b7280;
-  line-height: 1.4;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 /* Visual Learning Resources */
@@ -623,156 +364,6 @@
   font-size: 0.875rem;
   opacity: 0.9;
   line-height: 1.4;
-}
-
-/* Quiz Start Card */
-.quizStartCard {
-  background-color: #ffffff;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  text-align: center;
-  border: 1px solid rgba(244, 63, 94, 0.1);
-}
-
-.quizStartIcon {
-  width: 64px;
-  height: 64px;
-  color: #f43f5e;
-  margin: 0 auto 16px;
-}
-
-.quizStartTitle {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 8px;
-}
-
-.quizStartDescription {
-  color: #6b7280;
-  margin-bottom: 16px;
-  line-height: 1.4;
-}
-
-.quizStartButton {
-  background: linear-gradient(135deg, #f43f5e 0%, #ec4899 100%);
-  color: #ffffff;
-  padding: 12px 24px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.quizStartButton:hover:not(:disabled) {
-  background: linear-gradient(135deg, #e11d48 0%, #db2777 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
-}
-
-.quizStartButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Gallery Showcase */
-.galleryShowcase {
-  background: linear-gradient(135deg, #ffffff 0%, #fef7ff 100%);
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(244, 63, 94, 0.1);
-}
-
-.galleryTitle {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 16px;
-  text-align: center;
-}
-
-.galleryGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 16px;
-}
-
-.galleryItem {
-  background: linear-gradient(135deg, #fdf2f8 0%, #f43f5e 100%);
-  aspect-ratio: 1;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: #ffffff;
-  font-weight: 500;
-  text-align: center;
-  padding: 16px;
-  box-sizing: border-box;
-}
-
-.galleryItem:hover {
-  transform: scale(1.05) rotate(1deg);
-  box-shadow: 0 8px 25px rgba(244, 63, 94, 0.3);
-}
-
-.galleryItemIcon {
-  width: 24px;
-  height: 24px;
-  margin-bottom: 8px;
-}
-
-/* Inspiration Board */
-.inspirationBoard {
-  background: linear-gradient(135deg, #fef7ff 0%, #ec4899 100%);
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  color: #ffffff;
-}
-
-.inspirationTitle {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 16px;
-  text-align: center;
-}
-
-.inspirationItems {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.inspirationItem {
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 16px;
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
-  transition: all 0.2s ease;
-}
-
-.inspirationItem:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  transform: translateX(4px);
-}
-
-.inspirationQuote {
-  font-style: italic;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.inspirationAuthor {
-  font-size: 0.75rem;
-  opacity: 0.8;
-  margin-top: 8px;
-  text-align: right;
 }
 
 /* Responsive Design */

@@ -24,12 +24,9 @@
 .sidebarTitle {
   font-size: 1.5rem;
   font-weight: 700;
-  margin: 0 0 8px 0;
+  color: #1f2937;
+  margin-bottom: 8px;
   line-height: 1.2;
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .studyStreak {
@@ -114,7 +111,7 @@
   line-height: 1.2;
 }
 
-/* Topics Section - Aligned with Science Dashboard */
+/* Topics Section <--- Passed to Topic Via Sidebar */
 .topicsSection {
   margin-bottom: 24px;
 }
@@ -265,74 +262,11 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
-.contentCard {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
+/* Topic Header Card <---- Elements are paritally or fully depricated */
 
-/* Topic Header Card */
-.topicHeaderCard {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 32px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
-
-.topicHeader {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  margin-bottom: 24px;
-}
-
-.topicHeaderIcon {
-  width: 48px;
-  height: 48px;
-  padding: 12px;
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: white;
-  border-radius: 16px;
-}
-
-.topicHeaderContent h2 {
-  font-size: 28px;
-  font-weight: 700;
-  color: #2d3748;
-  margin: 0 0 8px 0;
-}
-
-.topicHeaderContent p {
-  font-size: 16px;
-  color: #718096;
-  margin: 0;
-  line-height: 1.5;
-}
-
-/* Topic Progress Section */
-.topicProgressSection {
-  margin-bottom: 24px;
-}
-
-.progressHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.progressLabel {
-  font-size: 14px;
-  font-weight: 600;
-  color: #4a5568;
-}
+/* TopicHeader Progress Section (Must Keep, for progress bar to work.) */
 
 .progressPercentage {
   font-size: 14px;
@@ -354,211 +288,14 @@
   transition: width 0.3s ease;
 }
 
-/* Concepts Grid */
-.conceptsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-}
-
-.conceptCard {
-  background: linear-gradient(135deg, #fffbeb, #fef3c7);
-  border: 2px solid #fed7aa;
-  border-radius: 12px;
-  padding: 16px;
-  transition: all 0.2s ease;
-}
-
-.conceptCard:hover {
-  border-color: #f59e0b;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
-}
-
-.conceptText {
-  font-size: 14px;
-  font-weight: 600;
-  color: #2d3748;
-  text-align: center;
-}
-
 /* Simulation Card */
 .simulationCard {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 32px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
-
-.simulationHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.simulationTitle {
-  font-size: 20px;
-  font-weight: 700;
-  color: #2d3748;
-  margin: 0;
-}
-
-.simulationIcon {
-  width: 24px;
-  height: 24px;
-  color: #f59e0b;
-}
-
-.simulationDescription {
-  font-size: 14px;
-  color: #718096;
-  margin: 0 0 24px 0;
-  line-height: 1.5;
-}
-
-.simulationWindow {
-  background: linear-gradient(135deg, #1a202c, #2d3748);
-  border-radius: 12px;
-  padding: 48px;
   margin-bottom: 24px;
-  min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  position: relative;
-  overflow: hidden;
-}
-
-.simulationLoader {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-.simulationSpinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top: 3px solid #f59e0b;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.simulationPlaceholder {
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0;
-}
-
-.simulationControls {
-  display: flex;
-  gap: 12px;
-}
-
-.simulationButton {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.simulationButtonPrimary {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: white;
-}
-
-.simulationButtonPrimary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-}
-
-.simulationButtonPrimary:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.simulationButtonSecondary {
-  background: #f7fafc;
-  color: #4a5568;
-  border: 2px solid #e2e8f0;
-}
-
-.simulationButtonSecondary:hover {
-  background: #edf2f7;
-  border-color: #cbd5e0;
-}
-
-.buttonIcon {
-  width: 16px;
-  height: 16px;
-}
-
-/* Quiz Start Card */
-.quizStartCard {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 48px;
-  text-align: center;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
-
-.quizStartIcon {
-  width: 48px;
-  height: 48px;
-  color: #f59e0b;
-  margin: 0 auto 24px;
-}
-
-.quizStartTitle {
-  font-size: 24px;
-  font-weight: 700;
-  color: #2d3748;
-  margin: 0 0 16px 0;
-}
-
-.quizStartDescription {
-  font-size: 16px;
-  color: #718096;
-  margin: 0 0 32px 0;
-  line-height: 1.5;
-}
-
-.quizStartButton {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 16px 32px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.quizStartButton:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-}
-
-.quizStartButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 /* Visual Resources Card */

@@ -1,4 +1,4 @@
-/* TopicHeader.module.css - Topic Header Component Styles */
+/* TopicHeader.module.css - Topic Header Component Styles with Dynamic Theming */
 
 /* Topic Header Card */
 .topicHeaderCard {
@@ -17,7 +17,7 @@
 .topicHeaderIcon {
   width: 32px;
   height: 32px;
-  color: #3b82f6;
+  color: var(--theme-primary, #3b82f6);
   margin-right: 12px;
 }
 
@@ -69,7 +69,7 @@
 
 .mainProgressFill {
   height: 100%;
-  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+  background: var(--theme-progress-gradient, linear-gradient(90deg, #10b981 0%, #059669 100%));
   border-radius: 6px;
   transition: width 0.6s ease-in-out;
   position: relative;
@@ -113,14 +113,21 @@
   background-color: #f3f4f6;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--theme-primary, #3b82f6);
 }
 
 .conceptCard.activeConcept {
-  background-color: #3b82f6;
+  background-color: var(--theme-primary, #3b82f6);
   color: #ffffff;
-  border-color: #3b82f6;
+  border-color: var(--theme-primary, #3b82f6);
   transform: scale(1.02);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px var(--theme-shadow, rgba(59, 130, 246, 0.3));
+}
+
+.conceptCard.activeConcept:hover {
+  background-color: var(--theme-primary-hover, #2563eb);
+  border-color: var(--theme-primary-hover, #2563eb);
+  transform: scale(1.02);
 }
 
 .conceptText {
@@ -154,6 +161,36 @@
   color: #6b7280;
   line-height: 1.6;
   margin: 0;
+}
+
+/* Theme-aware accent elements */
+.conceptDetailCard h3::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 20px;
+  background-color: var(--theme-primary, #3b82f6);
+  margin-right: 8px;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+/* Enhanced hover states with theme colors */
+.conceptCard:not(.activeConcept):hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--theme-primary, #3b82f6), transparent);
+  opacity: 0.05;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.conceptCard {
+  position: relative;
 }
 
 /* Responsive Design */

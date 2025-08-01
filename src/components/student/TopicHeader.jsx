@@ -1,4 +1,4 @@
-// 1. TopicHeader.jsx - ONLY handles navigation and progress
+// TopicHeader.jsx - ONLY handles navigation and progress with dynamic theming
 import React, { useState, useEffect } from 'react';
 import ContentManager from './ContentManager';
 import { getApiUrl } from '../../api/ApiMaster';
@@ -15,6 +15,51 @@ const TopicHeader = ({
 }) => {
   const [selectedConcept, setSelectedConcept] = useState(null);
   const [progressData, setProgressData] = useState({});
+
+  // Define theme colors based on subject
+  const getThemeColors = (subject) => {
+    const themes = {
+      science: {
+        primary: '#3b82f6',      // Blue
+        primaryHover: '#2563eb',
+        shadow: 'rgba(59, 130, 246, 0.3)',
+        progressGradient: 'linear-gradient(90deg, #3b82f6 0%, #2563eb 100%)'
+      },
+      engineering: {
+        primary: '#f59e0b',      // Orange
+        primaryHover: '#d97706',
+        shadow: 'rgba(245, 158, 11, 0.3)',
+        progressGradient: 'linear-gradient(90deg, #f59e0b 0%, #d97706 100%)'
+      },
+      technology: {
+        primary: '#8b5cf6',      // Purple
+        primaryHover: '#7c3aed',
+        shadow: 'rgba(139, 92, 246, 0.3)',
+        progressGradient: 'linear-gradient(90deg, #8b5cf6 0%, #7c3aed 100%)'
+      },
+      arts: {
+        primary: '#ec4899',      // Pink
+        primaryHover: '#db2777',
+        shadow: 'rgba(236, 72, 153, 0.3)',
+        progressGradient: 'linear-gradient(90deg, #ec4899 0%, #db2777 100%)'
+      },
+      math: {
+        primary: '#ef4444',      // Bold red
+        primaryHover: '#dc2626',
+        shadow: 'rgba(239, 68, 68, 0.3)',
+        progressGradient: 'linear-gradient(135deg, #fef2f2 0%, #ef4444 100%)'
+      },
+      lifestyle: {
+        primary: '#10b981',      // Energetic green
+        primaryHover: '#059669',
+        shadow: 'rgba(16, 185, 129, 0.3)',
+        progressGradient: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)'
+      }
+    };
+    return themes[subject] || themes.science; // Fallback to science
+  };
+
+  const themeColors = getThemeColors(subject);
 
   useEffect(() => {
     const fetchProgressIndex = async () => {
@@ -77,7 +122,10 @@ const TopicHeader = ({
       <div className={styles.mainProgressBar}>
         <div 
           className={styles.mainProgressFill}
-          style={{ width: `${progress}%` }}
+          style={{ 
+            width: `${progress}%`,
+            background: themeColors.progressGradient
+          }}
         />
       </div>
     );
@@ -89,7 +137,15 @@ const TopicHeader = ({
   const currentProgress = progressData[selectedTopic] || 0;
 
   return (
-    <div className={styles.topicHeaderCard}>
+    <div 
+      className={styles.topicHeaderCard}
+      style={{
+        '--theme-primary': themeColors.primary,
+        '--theme-primary-hover': themeColors.primaryHover,
+        '--theme-shadow': themeColors.shadow,
+        '--theme-progress-gradient': themeColors.progressGradient
+      }}
+    >
       <div className={styles.topicHeader}>
         <topic.icon className={styles.topicHeaderIcon} />
         <div className={styles.topicHeaderContent}>

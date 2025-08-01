@@ -48,11 +48,21 @@ const TopicHeader = ({
   };
 
   const handleConceptClick = (conceptObj, index) => {
-    setSelectedConcept(conceptObj);
-    onConceptClick?.(conceptObj, index);
+    const isObjectConcept = typeof conceptObj === 'object';
+    const conceptTitle = isObjectConcept ? conceptObj.title : conceptObj;
 
-    const topicId = topic?.id;
-    if (topicId && userEmail) {
+    const isCurrentlySelected = selectedConcept && (
+      isObjectConcept
+        ? selectedConcept.title === conceptTitle
+        : selectedConcept === conceptTitle
+    );
+
+    const newSelection = isCurrentlySelected ? null : conceptObj;
+    setSelectedConcept(newSelection);
+    onConceptClick?.(newSelection, index);
+
+    if (!isCurrentlySelected && topic?.id && userEmail) {
+      const topicId = topic.id;
       const updated = {
         ...progressData,
         [topicId]: Math.min(100, (progressData[topicId] || 0) + 5)

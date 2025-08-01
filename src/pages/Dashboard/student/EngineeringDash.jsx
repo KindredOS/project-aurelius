@@ -110,7 +110,7 @@ const EngineeringDash = () => {
       />
 
       <div className={styles.mainContent}>
-        <div className={styles.contentCard}>
+        <div className={styles.contentSection}>
           <TopicHeader
             topic={topic}
             userProgress={userProgress}
