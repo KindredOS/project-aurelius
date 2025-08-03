@@ -10,6 +10,7 @@ import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
 import ArtsGame from '../../../components/student/arts/game/ArtsGame';
+import AchievementsCard from '../../../components/student/AchievementsCard';
 import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './ArtsDash.module.css';
 import { MODE } from '../../../api/ApiMaster';
@@ -99,7 +100,6 @@ const ArtsDash = () => {
         studyStreak={studyStreak}
         learningMode={learningMode}
         setLearningMode={setLearningMode}
-        learningModes={learningModes}
         topics={topics}
         selectedTopic={selectedTopic}
         setSelectedTopic={setSelectedTopic}
@@ -108,6 +108,7 @@ const ArtsDash = () => {
         renderProgressBar={renderProgressBar}
         styles={styles}
         email={user.email}
+        subject="arts"
       />
 
       <div className={styles.mainContent}>
@@ -180,6 +181,14 @@ const ArtsDash = () => {
                 </div>
               </div>
             )
+          )}
+
+          {/* Achievement Mode */}
+          {learningMode === 'achievements' && (
+            <AchievementsCard 
+            achievements={achievements} 
+            styles={styles}
+            />
           )}
         </div>
       </div>

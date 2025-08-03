@@ -10,6 +10,7 @@ import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
 import TechnologyGame from '../../../components/student/technology/game/TechnologyGame';
+import AchievementsCard from '../../../components/student/AchievementsCard';
 import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './TechnologyDash.module.css';
 import { MODE } from '../../../api/ApiMaster';
@@ -54,7 +55,7 @@ const TechnologyDash = () => {
     user
   } = dashboardState;
 
-    //Edge use case, and protections on montization of content in a off line mode. 
+  //Edge use case, and protections on montization of content in a off line mode. 
   const localPremiumCache = localStorage.getItem('isPremiumCached') === 'true';
   const isEdge = MODE === 'EDGE';
   const isPremium = isEdge || user?.isPremium || localPremiumCache || isOffline;
@@ -100,7 +101,6 @@ const TechnologyDash = () => {
         studyStreak={studyStreak}
         learningMode={learningMode}
         setLearningMode={setLearningMode}
-        learningModes={learningModes}
         topics={topics}
         selectedTopic={selectedTopic}
         setSelectedTopic={setSelectedTopic}
@@ -108,6 +108,7 @@ const TechnologyDash = () => {
         renderProgressBar={renderProgressBar}
         styles={styles}
         email={user.email}
+        subject="technology"
       />
 
       <div className={styles.mainContent}>
@@ -177,6 +178,14 @@ const TechnologyDash = () => {
                 </div>
               </div>
             )
+          )}
+
+          {/* Achievement Mode */}
+          {learningMode === 'achievements' && (
+            <AchievementsCard 
+            achievements={achievements} 
+            styles={styles}
+            />
           )}
         </div>
       </div>

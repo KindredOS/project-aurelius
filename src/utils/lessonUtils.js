@@ -1,4 +1,6 @@
 // lessonUtils.js - General utility for dynamic lesson plan loading
+// Focus: Core utilities for loading lesson content, topics, quiz data, and learning resources from JSON files
+// Version Update Notes: Removed achievements mode from getLearningModes() - achievements now handled exclusively by Sidebar.jsx for better UI control and team development workflow
 
 /**
  * Generic lesson data loader that can work with any subject
@@ -155,32 +157,6 @@ export const findLessonCached = async (subject, topicId, forceRefresh = false) =
   return lessonData;
 };
 
-/**
- * Get learning mode configuration
- * @returns {Array} - Array of learning modes
- */
-export const getLearningModes = () => {
-  return [
-    {
-      id: 'collaborative',
-      name: 'AI Tutor',
-      description: 'Ask questions, get answers, and explore ideas with your intelligent assistant.'
-    },
-    {
-      id: 'interactive',
-      name: 'Play & Learn',
-      description: 'Dive into games, challenges, and interactive tools to reinforce key concepts.'
-    },
-    {
-      id: 'visual',
-      name: 'Coming Soon',
-      description: 'Visual journeys and media-rich experiences are on the way!',
-      disabled: true
-    },
-    {
-      id: 'assessment',
-      name: 'Quiz Yourself!',
-      description: 'Test your knowledge with fun quizzes and challenges.'
-    }
-  ];
-};
+// REMOVED: getLearningModes() function - learning modes now fully managed by Sidebar.jsx
+// This eliminates the need to hunt through utility files for UI changes and gives 
+// developers direct control over sidebar behavior in the component itself.

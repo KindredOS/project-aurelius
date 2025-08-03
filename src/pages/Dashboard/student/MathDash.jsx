@@ -11,6 +11,7 @@ import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
 import gameList from '../../../components/student/math/game/MathGameInventory.json';
+import AchievementsCard from '../../../components/student/AchievementsCard';
 import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './MathDash.module.css';
 import { MODE } from '../../../api/ApiMaster';
@@ -141,7 +142,6 @@ const MathDash = () => {
         studyStreak={studyStreak}
         learningMode={learningMode}
         setLearningMode={setLearningMode}
-        learningModes={learningModes}
         topics={topics}
         selectedTopic={selectedTopic}
         setSelectedTopic={setSelectedTopic}
@@ -149,6 +149,7 @@ const MathDash = () => {
         renderProgressBar={renderProgressBar}
         styles={styles}
         email={user.email}
+        subject="math"
       />
 
       <div className={styles.mainContent}>
@@ -215,6 +216,14 @@ const MathDash = () => {
                 </div>
               </div>
             )
+          )}
+
+          {/* Achievement Mode */}
+          {learningMode === 'achievements' && (
+            <AchievementsCard 
+            achievements={achievements} 
+            styles={styles}
+            />
           )}
         </div>
       </div>

@@ -1,18 +1,46 @@
-// components/student/Sidebar.jsx
-// NOTE: This component now integrates backend API access via ApiMaster.
-// - Grade level selector removed (handled elsewhere)
-// - Study streak and achievements can be synced via API hooks
+// Path: components/student/Sidebar.jsx
+// Focus: Navigation sidebar for student dashboard - displays topics with progress tracking, learning mode tools, and achievements access
+// Version Update Notes: Made fully self-contained - all learning modes now defined locally for better developer experience. No more hunting in lessonUtils for UI changes!
 
 import React, { useEffect, useState } from 'react';
-import { Star, ChevronRight, Trophy } from 'lucide-react';
+import { Star, ChevronRight, Trophy, MessageSquare, Gamepad2, Eye, Brain } from 'lucide-react';
 import { fetchUserProgress } from '../../api/ApiMaster';
+
+// Self-contained learning modes configuration - change these right here!
+const LEARNING_MODES = [
+  {
+    id: 'collaborative',
+    name: 'AI Tutor',
+    description: 'Ask questions, get answers, and explore ideas with your intelligent assistant.',
+    icon: MessageSquare
+  },
+  {
+    id: 'interactive',
+    name: 'Play & Learn',
+    description: 'Dive into games, challenges, and interactive tools to reinforce key concepts.',
+    icon: Gamepad2
+  },
+  {
+    id: 'visual',
+    name: 'Coming Soon',
+    description: 'Visual journeys and media-rich experiences are on the way!',
+    icon: Eye,
+    disabled: true
+  },
+  {
+    id: 'assessment',
+    name: 'Quiz Yourself!',
+    description: 'Test your knowledge with fun quizzes and challenges.',
+    icon: Brain
+  }
+];
 
 const Sidebar = ({ 
   title, 
   studyStreak, 
   learningMode, 
   setLearningMode, 
-  learningModes, 
+  learningModes, // This prop is now ignored - we use our own LEARNING_MODES
   topics, 
   selectedTopic, 
   setSelectedTopic, 
@@ -33,7 +61,8 @@ const Sidebar = ({
     loadProgress();
   }, [email, subject]);
 
-  const sortedLearningModes = [...learningModes].sort((a, b) => {
+  // Sort our local learning modes (AI Tutor first)
+  const sortedLearningModes = [...LEARNING_MODES].sort((a, b) => {
     if (a.name === "AI Tutor") return -1;
     if (b.name === "AI Tutor") return 1;
     return 0;
@@ -44,7 +73,7 @@ const Sidebar = ({
       const aiTutor = sortedLearningModes.find(mode => mode.name === "AI Tutor");
       if (aiTutor) setLearningMode(aiTutor.id);
     }
-  }, [learningMode, sortedLearningModes, setLearningMode]);
+  }, [learningMode, setLearningMode]);
 
   return (
     <div className={styles.sidebar}>
@@ -96,7 +125,7 @@ const Sidebar = ({
               disabled={mode.disabled}
             >
               <div className={styles.modeContent}>
-                {mode.icon && <mode.icon className={styles.modeIcon} />}
+                <mode.icon className={styles.modeIcon} />
                 <div className={styles.modeDetails}>
                   <div className={styles.modeName}>{mode.name}</div>
                   <div className={styles.modeDescription}>{mode.description}</div>
@@ -104,23 +133,22 @@ const Sidebar = ({
               </div>
             </button>
           ))}
+
+          {/* View Achievements Button */}
+          <button
+            onClick={() => setLearningMode('achievements')}
+            className={`${styles.learningModeButton} ${learningMode === 'achievements' ? styles.active : ''}`}
+          >
+            <div className={styles.modeContent}>
+              <Trophy className={styles.modeIcon} />
+              <div className={styles.modeDetails}>
+                <div className={styles.modeName}>View Achievements</div>
+                <div className={styles.modeDescription}>See all your unlocked badges ({achievements.length} earned)</div>
+              </div>
+            </div>
+          </button>
         </div>
       </div>
-
-      {/* Achievements */}
-      {achievements.length > 0 && (
-        <div className={styles.achievementsSection}>
-          <h3 className={styles.achievementsTitle}>Achievements</h3>
-          <div className={styles.achievementsList}>
-            {achievements.map((achievement, index) => (
-              <div key={index} className={styles.achievementBadge}>
-                <Trophy className={styles.achievementIcon} />
-                {achievement.name || 'Achievement'}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

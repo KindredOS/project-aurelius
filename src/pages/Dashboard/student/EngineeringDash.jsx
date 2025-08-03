@@ -10,6 +10,7 @@ import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
 import EngineeringGame from '../../../components/student/engineering/game/EngineeringGame';
+import AchievementsCard from '../../../components/student/AchievementsCard';
 import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './EngineeringDash.module.css';
 import { MODE } from '../../../api/ApiMaster';
@@ -99,7 +100,6 @@ const EngineeringDash = () => {
         studyStreak={studyStreak}
         learningMode={learningMode}
         setLearningMode={setLearningMode}
-        learningModes={learningModes}
         topics={topics}
         selectedTopic={selectedTopic}
         setSelectedTopic={setSelectedTopic}
@@ -107,6 +107,7 @@ const EngineeringDash = () => {
         renderProgressBar={renderProgressBar}
         styles={styles}
         email={user.email}
+        subject="engineering"
       />
 
       <div className={styles.mainContent}>
@@ -175,6 +176,14 @@ const EngineeringDash = () => {
                 </div>
               </div>
             )
+          )}
+
+          {/* Achievement Mode */}
+          {learningMode === 'achievements' && (
+            <AchievementsCard 
+            achievements={achievements} 
+            styles={styles}
+            />
           )}
         </div>
       </div>

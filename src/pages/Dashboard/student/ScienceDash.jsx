@@ -1,6 +1,7 @@
 // Pathing: src/pages/Dashboard/student/ScienceDash.jsx
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Science Learning Hub Work. 
-// VerisonUpdate: Updated ScienceDash.jsx - Includes AI Tutor name normalization
+// Version Update: Removed learningModes dependencies - Sidebar now fully self-contained with its own learning mode configuration
+
 import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, Atom, Calculator, Dna, Globe, Star } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
@@ -10,6 +11,7 @@ import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
 import ChemistryGame from '../../../components/student/science/game/ChemistryGame';
+import AchievementsCard from '../../../components/student/AchievementsCard';
 import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './ScienceDash.module.css';
 import { MODE } from '../../../api/ApiMaster';
@@ -49,7 +51,7 @@ const ScienceDash = () => {
     chatHistory, setChatHistory,
     userInput, setUserInput,
     achievements, studyStreak,
-    topics, currentTopicData, learningResources, learningModes,
+    topics, currentTopicData, learningResources,
     loading,
     user
   } = dashboardState;
@@ -91,14 +93,9 @@ const ScienceDash = () => {
   const freeGameAccessIds = ['overview', 'physics', 'chemistry', 'biology'];
   const isGameFree = freeGameAccessIds.includes(selectedTopic);
 
-  // Normalize AI Tutor naming (probably depricated: need to review in association with lessonUtil, useSubjectDashboard, and Sidebar)
-  const normalizedLearningModes = learningModes.map(mode =>
-    mode.name === 'Studio' || mode.name === 'Studio Group'
-      ? { ...mode, name: 'AI Tutor' }
-      : mode
-  );
+  // REMOVED: normalizedLearningModes logic - no longer needed since Sidebar is self-contained
 
-  //Sidebard, topic header, and AI Tutor, Quiz Assessment, Game, and Visual component variable pass. 
+  //Sidebar, topic header, and AI Tutor, Quiz Assessment, Game, and Visual component variable pass. 
   return (
     <div className={styles.sciencePageContainer}>
       <Sidebar
@@ -106,7 +103,6 @@ const ScienceDash = () => {
         studyStreak={studyStreak}
         learningMode={learningMode}
         setLearningMode={setLearningMode}
-        learningModes={normalizedLearningModes} //<--- Need's review
         topics={topics}
         selectedTopic={selectedTopic}
         setSelectedTopic={setSelectedTopic}
@@ -114,6 +110,7 @@ const ScienceDash = () => {
         renderProgressBar={renderProgressBar}
         styles={styles}
         email={user.email}
+        subject="science"
       />
 
       <div className={styles.mainContent}>
@@ -129,6 +126,7 @@ const ScienceDash = () => {
             userEmail={user.email}
           />
 
+          {/* Chat-based collaboration mode */}
           {learningMode === 'collaborative' && (
             <ChatWindow
               chatHistory={chatHistory}
@@ -145,6 +143,7 @@ const ScienceDash = () => {
             />
           )}
 
+          {/* Assessment Mode */}
           {learningMode === 'assessment' && (
             <QuizAssessmentTool
               content={currentTopicData?.content || "This section covers key concepts in science."}
@@ -157,6 +156,7 @@ const ScienceDash = () => {
             />
           )}
 
+          {/* Interactive Game Mode */}
           {learningMode === 'interactive' && (
             isPremium || isGameFree ? runGame() : (
               <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
@@ -168,6 +168,7 @@ const ScienceDash = () => {
             )
           )}
 
+          {/* Visual Learning Resources Mode */}
           {learningMode === 'visual' && (
             isPremium ? (
               <VisualResources
@@ -184,9 +185,18 @@ const ScienceDash = () => {
               </div>
             )
           )}
+
+          {/* Achievement Mode */}
+          {learningMode === 'achievements' && (
+            <AchievementsCard 
+            achievements={achievements} 
+            styles={styles}
+            />
+          )}
         </div>
       </div>
 
+      {/* Monetization CTA for subscription */}
       {showSubscribe && (
         <SubscribeModal
           isOpen={true}

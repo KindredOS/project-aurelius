@@ -8,9 +8,11 @@
  */
 export const findLesson = async (subject, topicId) => {
   try {
-    // Dynamic import based on subject and topic
-    const module = await import(`../student/${subject}/data/topics/${topicId}_topics.json`);
-    return module.default;
+    const response = await fetch(`/data/${subject}/topics/${topicId}_topics.json`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${subject}/${topicId}`);
+    }
+    return await response.json();
   } catch (error) {
     console.warn(`Could not load lesson data for ${subject}/${topicId}:`, error);
     return null;
@@ -25,15 +27,18 @@ export const findLesson = async (subject, topicId) => {
 export const loadAllTopics = async (subject) => {
   const topicFiles = [
     'overview',
-    'visual', 
-    'music',
-    'theater',
-    'dance',
-    'media'
+    'module1',
+    'module2',
+    'module3',
+    'module4',
+    'module5',
+    'module6',
+    'module7',
+    'module8'
   ];
-  
+
   const topics = [];
-  
+
   for (const topicId of topicFiles) {
     try {
       const lessonData = await findLesson(subject, topicId);
@@ -47,7 +52,7 @@ export const loadAllTopics = async (subject) => {
       console.warn(`Failed to load topic ${topicId} for ${subject}:`, error);
     }
   }
-  
+
   return topics;
 };
 
@@ -108,7 +113,7 @@ export const validateLessonData = (lessonData) => {
   if (!lessonData || typeof lessonData !== 'object') {
     return false;
   }
-  
+
   // Check for required fields
   const requiredFields = ['name', 'description', 'concepts'];
   return requiredFields.every(field => lessonData.hasOwnProperty(field));
@@ -119,8 +124,6 @@ export const validateLessonData = (lessonData) => {
  * @returns {Promise<Array>} - Array of available subjects
  */
 export const getAvailableSubjects = async () => {
-  // This would need to be implemented based on your build system
-  // For now, return known subjects
   return ['arts', 'science', 'math', 'engineering', 'technology', 'lifestyle'];
 };
 
@@ -138,25 +141,18 @@ const lessonCache = new Map();
  */
 export const findLessonCached = async (subject, topicId, forceRefresh = false) => {
   const cacheKey = `${subject}_${topicId}`;
-  
+
   if (!forceRefresh && lessonCache.has(cacheKey)) {
     return lessonCache.get(cacheKey);
   }
-  
+
   const lessonData = await findLesson(subject, topicId);
-  
+
   if (lessonData) {
     lessonCache.set(cacheKey, lessonData);
   }
-  
-  return lessonData;
-};
 
-/**
- * Clear the lesson cache (useful for development or when content updates)
- */
-export const clearLessonCache = () => {
-  lessonCache.clear();
+  return lessonData;
 };
 
 /**
@@ -165,9 +161,26 @@ export const clearLessonCache = () => {
  */
 export const getLearningModes = () => {
   return [
-    { id: 'interactive', name: 'Interactive', description: 'Hands-on projects and creative activities' },
-    { id: 'visual', name: 'Visual', description: 'Gallery tours, visual references, and inspiration' },
-    { id: 'collaborative', name: 'Studio Group', description: 'Group critiques and collaborative projects' },
-    { id: 'assessment', name: 'Assessment', description: 'Portfolio reviews and knowledge testing' }
+    {
+      id: 'collaborative',
+      name: 'AI Tutor',
+      description: 'Ask questions, get answers, and explore ideas with your intelligent assistant.'
+    },
+    {
+      id: 'interactive',
+      name: 'Play & Learn',
+      description: 'Dive into games, challenges, and interactive tools to reinforce key concepts.'
+    },
+    {
+      id: 'visual',
+      name: 'Coming Soon',
+      description: 'Visual journeys and media-rich experiences are on the way!',
+      disabled: true
+    },
+    {
+      id: 'assessment',
+      name: 'Quiz Yourself!',
+      description: 'Test your knowledge with fun quizzes and challenges.'
+    }
   ];
 };
