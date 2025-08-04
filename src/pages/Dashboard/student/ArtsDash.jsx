@@ -2,7 +2,7 @@
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Arts Learning Hub Work. 
 // VerisonUpdate: Updated ArtsDash.jsx - Includes AI Tutor name normalization
 import React, { useMemo, useState, useEffect } from 'react';
-import { BookOpen, Palette, Music, Mic, Users, Camera } from 'lucide-react';
+import { BookOpen, Palette, PenLine, Mic2, Video, PencilRuler, Soup, Combine, Theater } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
 import Sidebar from '../../../components/student/Sidebar';
 import ChatWindow from '../../../components/student/ChatWindow';
@@ -30,18 +30,21 @@ const ArtsDash = () => {
   }, []);
 
   //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
-  const iconMap = useMemo(() => ({
-    'overview': BookOpen,
-    'visual': Palette,
-    'music': Music,
-    'theater': Mic,
-    'dance': Users,
-    'media': Camera,
-    'default': BookOpen
-  }), []);
+  const artsIconMap = useMemo(() => ({
+  "overview": BookOpen,       // Foundations of Artistic Expression
+  "module1": Palette,         // Visual Arts
+  "module2": PenLine,         // Literary Arts
+  "module3": Mic2,            // Performing Arts
+  "module4": Video,           // Media Arts
+  "module5": PencilRuler,     // Applied Arts & Design
+  "module6": Soup,            // Culinary Arts
+  "module7": Combine,         // Interdisciplinary & Experiential Arts
+  "module8": Theater,         // Arts for Social Change & Future Frontiers
+  "default": BookOpen
+}), []);
 
   //Passes hooks to our various programs and applications, although I suspect doubling in a number of places, and we may want to do a review. 
-  const dashboardState = useSubjectDashboard('arts', iconMap);
+  const dashboardState = useSubjectDashboard('arts', artsIconMap);
   const {
     selectedTopic, setSelectedTopic,
     gradeLevel, setGradeLevel,

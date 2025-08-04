@@ -2,7 +2,7 @@
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Engineering Learning Hub Work. 
 // VerisonUpdate: Updated EngineeringDash.jsx - Includes AI Tutor name normalization
 import React, { useMemo, useState, useEffect } from 'react';
-import { BookOpen, Cog, Zap, Settings, Calculator, Wrench, } from 'lucide-react';
+import { BookOpen, Ruler, Construction, Layers, Spline, Wrench, Building2, PlugZap, Sparkles } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
 import Sidebar from '../../../components/student/Sidebar';
 import ChatWindow from '../../../components/student/ChatWindow';
@@ -30,18 +30,22 @@ const EngineeringDash = () => {
   }, []);
 
   //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
-  const iconMap = useMemo(() => ({
-    'overview': BookOpen,
-    'mechanical': Cog,
-    'electrical': Zap,
-    'civil': Settings,
-    'computer': Calculator,
-    'chemical': Wrench,
-    'default': BookOpen
-  }), []);
+  const engineeringIconMap = useMemo(() => ({
+  "overview": BookOpen,       // Overview
+  "module1": Ruler,           // Foundations of Engineering
+  "module2": Construction,    // Mechanical and Structural Engineering
+  "module3": Layers,          // Branches of Engineering
+  "module4": Spline,          // Systems Engineering and Integration
+  "module5": Wrench,          // Engineering Applications in the Real World
+  "module6": Building2,       // Architecture and Urban Design
+  "module7": PlugZap,         // Power, Energy, and Transportation Systems
+  "module8": Sparkles,        // Frontier Engineering
+  "default": BookOpen
+}), []);
+
 
   //Passes hooks to our various programs and applications, although I suspect doubling in a number of places, and we may want to do a review. 
-  const dashboardState = useSubjectDashboard('engineering', iconMap);
+  const dashboardState = useSubjectDashboard('engineering', engineeringIconMap);
   const {
     selectedTopic, setSelectedTopic,
     gradeLevel, setGradeLevel,

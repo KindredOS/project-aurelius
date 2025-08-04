@@ -2,7 +2,7 @@
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Lifestyle Learning Hub Work. 
 // VerisonUpdate: Updated LifestyleDash.jsx - Includes AI Tutor name normalization
 import React, { useMemo, useState, useEffect } from 'react';
-import { Home, Dumbbell, Utensils, Smile, Activity, Heart } from 'lucide-react';
+import { Home, HeartPulse, Repeat, Users, BrainCog, Handshake, WalletCards, Eye, Leaf } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
 import Sidebar from '../../../components/student/Sidebar';
 import ChatWindow from '../../../components/student/ChatWindow';
@@ -30,18 +30,21 @@ const LifestyleDash = () => {
   }, []);
 
   //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
-  const iconMap = useMemo(() => ({
-    'overview': Home,
-    'fitness': Dumbbell,
-    'nutrition': Utensils,
-    'mindfulness': Smile,
-    'productivity': Activity,
-    'relationships': Heart,
-    'default': Home
-  }), []);
+  const lifestyleIconMap = useMemo(() => ({
+  "overview": Home,                 // Overview: Lifestyle
+  "module1": HeartPulse,            // Health & Energy
+  "module2": Repeat,                // Habits, Routines & Self-Regulation
+  "module3": Users,                 // Emotional Intelligence & Social Life
+  "module4": BrainCog,              // Critical Thinking & Decision-Making
+  "module5": Handshake,             // Personal Responsibility & Forgiveness
+  "module6": WalletCards,           // Financial Wellness & Time Management
+  "module7": Eye,                   // Meaning, Mindset & Worldview
+  "module8": Leaf,                  // Sustainability, Citizenship & Lifestyle Design
+  "default": Home
+}), []);
 
   //Passes hooks to our various programs and applications, although I suspect doubling in a number of places, and we may want to do a review. 
-  const dashboardState = useSubjectDashboard('lifestyle', iconMap);
+  const dashboardState = useSubjectDashboard('lifestyle', lifestyleIconMap);
   const {
     selectedTopic, setSelectedTopic,
     gradeLevel, setGradeLevel,

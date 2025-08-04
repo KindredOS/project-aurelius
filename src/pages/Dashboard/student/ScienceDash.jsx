@@ -3,7 +3,7 @@
 // Version Update: Removed learningModes dependencies - Sidebar now fully self-contained with its own learning mode configuration
 
 import React, { useMemo, useState, useEffect } from 'react';
-import { BookOpen, Atom, Calculator, Dna, Globe, Star } from 'lucide-react';
+import { BookOpen, Atom, Calculator, Rocket, Landmark, Wrench, Dna, Globe, Sparkles } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
 import Sidebar from '../../../components/student/Sidebar';
 import ChatWindow from '../../../components/student/ChatWindow';
@@ -33,11 +33,14 @@ const ScienceDash = () => {
   //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
   const iconMap = useMemo(() => ({
     'overview': BookOpen,
-    'physics': Atom,
-    'chemistry': Calculator,
-    'biology': Dna,
-    'earth': Globe,
-    'space': Star,
+    'module1': Atom,
+    'module2': Calculator,
+    'module3': Rocket,
+    'module4': Globe,
+    'module5': Dna,
+    'module6': Landmark,
+    'module7': Wrench,
+    'module8': Sparkles,    
     'default': BookOpen
   }), []);
 

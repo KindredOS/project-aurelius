@@ -2,7 +2,7 @@
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Technology Learning Hub Work.
 // Refactored TechnologyDash.jsx - Simulation aligned to match ChemistryGame-style logic
 import React, { useMemo, useState, useEffect } from 'react';
-import { BookOpen, Brain, Globe, Smartphone, Code, Monitor } from 'lucide-react';
+import { BookOpen, Code, Atom, Globe, ShieldCheck, MonitorSmartphone, Terminal, Network, Telescope } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
 import Sidebar from '../../../components/student/Sidebar';
 import ChatWindow from '../../../components/student/ChatWindow';
@@ -32,11 +32,14 @@ const TechnologyDash = () => {
    //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
   const iconMap = useMemo(() => ({
     'overview': BookOpen,
-    'programming': Code,
-    'ai': Brain,
-    'web': Globe,
-    'mobile': Smartphone,
-    'systems': Monitor,
+    'module1': Code,
+    'module2': Atom,
+    'module3': Globe,
+    'module4': ShieldCheck,
+    'module5': MonitorSmartphone,
+    'module6': Terminal,
+    'module7': Network,
+    'module8': Telescope,
     'default': BookOpen
   }), []);
 

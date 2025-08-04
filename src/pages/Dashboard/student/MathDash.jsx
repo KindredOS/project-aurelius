@@ -3,7 +3,7 @@
 // VerisonUpdate: Refactored MathDash.jsx - Generalized game loader with selector UI from inventory
 
 import React, { useMemo, useState, useEffect, lazy, Suspense } from 'react';
-import { BookOpen, Calculator, Target, BarChart3, TrendingUp, Sigma } from 'lucide-react';
+import { BookOpen, FunctionSquare, SquareStack, BarChart2, Sigma, Code2, Globe, BrainCircuit, Calculator } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
 import Sidebar from '../../../components/student/Sidebar';
 import ChatWindow from '../../../components/student/ChatWindow';
@@ -32,18 +32,21 @@ const MathDash = () => {
   }, []);
 
   //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
-  const iconMap = useMemo(() => ({
-    'overview': BookOpen,
-    'algebra': Calculator,
-    'geometry': Target,
-    'statistics': BarChart3,
-    'calculus': TrendingUp,
-    'trigonometry': Sigma,
-    'default': BookOpen
-  }), []);
+  const mathIconMap = useMemo(() => ({
+  "overview": BookOpen,           // Course Overview
+  "module1": Calculator,          // Foundations of Mathematical Thinking
+  "module2": FunctionSquare,      // Patterns, Relationships, and Functions
+  "module3": SquareStack,         // Structures, Systems, and Representation
+  "module4": BarChart2,           // Applied Mathematics and Data Literacy
+  "module5": Sigma,               // Mathematical Modeling and Optimization
+  "module6": Code2,               // Computation, Algorithms, and Calculus Foundations
+  "module7": Globe,               // Global Challenges Through a Mathematical Lens
+  "module8": BrainCircuit,        // Future Mathematics and Theoretical Frontiers
+  "default": BookOpen
+}), []);
 
   //Passes hooks to our various programs and applications, although I suspect doubling in a number of places, and we may want to do a review. 
-  const dashboardState = useSubjectDashboard('math', iconMap);
+  const dashboardState = useSubjectDashboard('math', mathIconMap);
   const {
     selectedTopic, setSelectedTopic,
     gradeLevel, setGradeLevel,
