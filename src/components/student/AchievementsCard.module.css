@@ -1,20 +1,59 @@
-/* AchievementsCard.module.css - Standalone styles for achievements component */
+/* AchievementsCard.module.css - Matching your app's aesthetic */
 
 .achievementsCard {
-  padding: 24px;
-  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  background: white;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  margin: 0 auto;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: none;
+  margin: 0;
+  width: 100%;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .achievementsCard h2 {
   font-size: 1.5rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 24px;
-  text-align: center;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.progressSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.progressText {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6B7280;
+  white-space: nowrap;
+}
+
+.progressBar {
+  width: 180px;
+  height: 4px;
+  background: #E5E7EB;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: #10B981;
+  border-radius: 2px;
+  transition: width 0.5s ease;
 }
 
 .badgeGrid {
@@ -28,33 +67,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px;
+  padding: 20px 16px;
   border-radius: 12px;
-  transition: all 0.3s ease;
+  background: #F9FAFB;
+  border: 2px solid #E5E7EB;
+  transition: all 0.2s ease;
   cursor: pointer;
   text-align: center;
-  background: rgba(255, 255, 255, 0.7);
-  border: 2px solid transparent;
 }
 
 .badge:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .unlocked {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: #10b981;
+  background: white;
+  border-color: #10B981;
 }
 
 .unlocked:hover {
   border-color: #059669;
-  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
 }
 
 .locked {
-  background: rgba(248, 250, 252, 0.5);
-  border-color: #e2e8f0;
+  background: #F9FAFB;
+  border-color: #E5E7EB;
   cursor: not-allowed;
 }
 
@@ -64,8 +103,8 @@
 }
 
 .badgeImage {
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
   object-fit: contain;
   margin-bottom: 12px;
   border-radius: 8px;
@@ -86,14 +125,16 @@
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.3;
+  max-width: 100%;
+  word-wrap: break-word;
 }
 
 .locked span {
-  color: #94a3b8;
+  color: #9CA3AF;
 }
 
 .unlocked span {
-  color: #1e293b;
+  color: #374151;
   font-weight: 600;
 }
 
@@ -104,28 +145,28 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
   backdrop-filter: blur(4px);
+  padding: 16px;
 }
 
 .modalContent {
   background: white;
-  padding: 32px;
-  border-radius: 20px;
+  border-radius: 16px;
   text-align: center;
   max-width: 400px;
-  width: 90%;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  position: relative;
+  width: 100%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  padding: 32px;
 }
 
 .modalImage {
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
   margin-bottom: 16px;
   border-radius: 12px;
@@ -133,79 +174,89 @@
 
 .modalContent h3 {
   font-size: 1.5rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 20px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+}
+
+.modalContent p {
+  font-size: 0.875rem;
+  color: #6B7280;
+  line-height: 1.5;
+  margin: 0 0 24px 0;
 }
 
 .modalContent button {
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  background: #3B82F6;
   color: white;
   border: none;
-  padding: 12px 24px;
+  padding: 12px 20px;
   border-radius: 8px;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
+  margin: 0 6px;
+  min-width: 120px;
 }
 
 .modalContent button:hover {
+  background: #2563EB;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
-/* Empty State */
-.emptyState {
+/* Encouragement Text */
+.encouragementText {
   text-align: center;
-  padding: 40px 20px;
-  color: #64748b;
+  padding: 24px;
+  color: #6B7280;
+  background: #F9FAFB;
+  border-radius: 12px;
+  border: 2px solid #E5E7EB;
+  margin-top: 24px;
 }
 
-.emptyState h3 {
-  font-size: 1.25rem;
-  margin-bottom: 8px;
-  color: #475569;
-}
-
-.emptyState p {
+.encouragementText p {
   font-size: 0.875rem;
   line-height: 1.5;
+  margin: 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Progress Indicator */
-.progressHeader {
-  display: flex;
-  justify-content: between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.progressText {
+/* Loading and Error States */
+.achievementsCard p {
+  text-align: center;
+  color: #6B7280;
   font-size: 0.875rem;
-  color: #64748b;
-  font-weight: 500;
-}
-
-.progressBar {
-  width: 200px;
-  height: 8px;
-  background: #e2e8f0;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.progressFill {
-  height: 100%;
-  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
-  transition: width 0.5s ease;
+  padding: 24px;
+  margin: 0;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .achievementsCard {
-    padding: 16px;
-    margin: 0 16px;
+    padding: 24px;
+    border-radius: 16px;
+  }
+  
+  .progressHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .progressSection {
+    align-items: flex-start;
+    width: 100%;
+  }
+  
+  .progressBar {
+    width: 100%;
+    max-width: 300px;
   }
   
   .badgeGrid {
@@ -213,37 +264,60 @@
     gap: 16px;
   }
   
+  .badge {
+    padding: 16px 12px;
+  }
+  
   .badgeImage {
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
   }
   
   .modalContent {
     padding: 24px;
+    margin: 16px;
   }
   
   .modalImage {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
+  }
+  
+  .modalContent h3 {
+    font-size: 1.25rem;
   }
 }
 
 @media (max-width: 480px) {
+  .achievementsCard {
+    padding: 20px;
+  }
+  
   .badgeGrid {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 12px;
   }
   
   .badge {
-    padding: 12px;
+    padding: 12px 8px;
   }
   
   .badgeImage {
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
   }
   
   .badge span {
     font-size: 0.75rem;
+  }
+  
+  .modalContent {
+    padding: 20px;
+  }
+  
+  .modalContent button {
+    display: block;
+    width: 100%;
+    margin: 6px 0;
   }
 }

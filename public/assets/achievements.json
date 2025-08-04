@@ -1,0 +1,44 @@
+[
+  {
+    "id": "science_master",
+    "name": "Science Master",
+    "image": "/assets/Eduos_sci_generic.png",
+    "description": "Completed all science modules with excellence",
+    "category": "science"
+  },
+  {
+    "id": "quiz_pro",
+    "name": "Quiz Pro",
+    "image": "/assets/Eduos_math_generic.png",
+    "description": "Scored 90% or higher on 5 consecutive quizzes",
+    "category": "assessment"
+  },
+  {
+    "id": "curiosity",
+    "name": "Curiosity Badge",
+    "image": "/assets/Eduos_arts_generic.png",
+    "description": "Asked 10 thoughtful questions that sparked great discussions",
+    "category": "engagement"
+  },
+  {
+    "id": "streak_master",
+    "name": "Streak Master",
+    "image": "/assets/Eduos_life_generic.png",
+    "description": "Maintained a consistent 7-day study streak",
+    "category": "consistency"
+  },
+  {
+    "id": "science_scholar",
+    "name": "Science Scholar",
+    "image": "/assets/Eduos_Generic.png",
+    "description": "Demonstrated exceptional understanding in science assessments",
+    "category": "science"
+  },
+  {
+    "id": "explorer",
+    "name": "Explorer",
+    "image": "/assets/Eduos_tech_generic.png",
+    "description": "Explored and engaged with all available learning modes",
+    "category": "exploration"
+  }
+]
