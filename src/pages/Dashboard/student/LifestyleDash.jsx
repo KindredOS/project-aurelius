@@ -1,6 +1,7 @@
 // Pathing: src/pages/Dashboard/student/LifestyleDash.jsx
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Lifestyle Learning Hub Work. 
-// VerisonUpdate: Updated LifestyleDash.jsx - Includes AI Tutor name normalization
+// Verison Update: Updated top commments, and added subject carry variable to achievements.
+
 import React, { useMemo, useState, useEffect } from 'react';
 import { Home, HeartPulse, Repeat, Users, BrainCog, Handshake, WalletCards, Eye, Leaf } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
@@ -184,7 +185,8 @@ const LifestyleDash = () => {
           {/* Achievement Mode */}
           {learningMode === 'achievements' && (
             <AchievementsCard 
-            achievements={achievements} 
+            achievements={achievements}
+            subject="lifestyle" 
             styles={styles}
             />
           )}

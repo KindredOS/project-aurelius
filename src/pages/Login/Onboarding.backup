@@ -1,5 +1,9 @@
+//Path: src/components/pages/Login/Onborading.jsx
+//Focus: To create a onboarding process for first time users
+//Verison Update: Inital scaffolding. 
+
 import React, { useState } from 'react';
-import { ChevronRight, Brain, BarChart3, Trophy, Mail, User, UserCheck } from 'lucide-react';
+import { ChevronRight, Brain, BarChart3, Trophy, Mail, User, UserCheck, Lock, Key } from 'lucide-react';
 import { registerOrUpdateUserProfile } from '../../api/ApiMaster'; // adjust path based on actual location
 import styles from './Onboarding.module.css';
 
@@ -7,6 +11,8 @@ function Onboarding() {
   const [step, setStep] = useState('signup');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [inviteCode, setInviteCode] = useState('');
   const [role, setRole] = useState('myself');
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -19,7 +25,7 @@ function Onboarding() {
   };
 
   const handleSignupSubmit = async () => {
-    if (name && email) {
+    if (name && email && password) {
       try {
         // Determine roles based on selection
         let roles = [];
@@ -43,10 +49,11 @@ function Onboarding() {
         // Create user accounts for each role
         for (const userRole of roles) {
           const userData = {
-            name,
             email,
+            password,
             role: userRole,
-            primaryRole: role // Keep track of their original selection
+            name,
+            inviteCode: inviteCode || undefined // Only include if provided
           };
           
           await registerOrUpdateUserProfile(userData);
@@ -133,6 +140,33 @@ function Onboarding() {
                       onChange={(e) => setEmail(e.target.value)} 
                       required 
                       placeholder="Enter your email address"
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label>Password</label>
+                  <div className={styles.inputWrapper}>
+                    <Lock className={styles.inputIcon} />
+                    <input 
+                      type="password" 
+                      value={password} 
+                      onChange={(e) => setPassword(e.target.value)} 
+                      required 
+                      placeholder="Enter your password"
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label>Invite Code (Optional)</label>
+                  <div className={styles.inputWrapper}>
+                    <Key className={styles.inputIcon} />
+                    <input 
+                      type="text" 
+                      value={inviteCode} 
+                      onChange={(e) => setInviteCode(e.target.value)} 
+                      placeholder="Enter invite code (if you have one)"
                     />
                   </div>
                 </div>

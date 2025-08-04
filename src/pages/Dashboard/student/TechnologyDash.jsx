@@ -1,6 +1,7 @@
 // Pathing: src/pages/Dashboard/student/TechnologyDash.jsx
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Technology Learning Hub Work.
-// Refactored TechnologyDash.jsx - Simulation aligned to match ChemistryGame-style logic
+// Version Update: Updated top commments, and added subject carry variable to achievements.
+
 import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, Code, Atom, Globe, ShieldCheck, MonitorSmartphone, Terminal, Network, Telescope } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
@@ -187,6 +188,7 @@ const TechnologyDash = () => {
           {learningMode === 'achievements' && (
             <AchievementsCard 
             achievements={achievements} 
+            subject="technology"
             styles={styles}
             />
           )}

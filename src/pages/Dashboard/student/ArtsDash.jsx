@@ -1,6 +1,7 @@
 // Pathing: src/pages/Dashboard/student/ArtDash.jsx
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Arts Learning Hub Work. 
-// VerisonUpdate: Updated ArtsDash.jsx - Includes AI Tutor name normalization
+// Verison Update: Updated top commments, and added subject carry variable to achievements.
+
 import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, Palette, PenLine, Mic2, Video, PencilRuler, Soup, Combine, Theater } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
@@ -189,7 +190,8 @@ const ArtsDash = () => {
           {/* Achievement Mode */}
           {learningMode === 'achievements' && (
             <AchievementsCard 
-            achievements={achievements} 
+            achievements={achievements}
+            subject="arts" 
             styles={styles}
             />
           )}

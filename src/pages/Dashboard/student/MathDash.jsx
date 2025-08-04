@@ -1,6 +1,6 @@
 // Pathing: src/pages/Dashboard/student/MathDash.jsx
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Math Learning Hub Work.
-// VerisonUpdate: Refactored MathDash.jsx - Generalized game loader with selector UI from inventory
+// Verison Update: Updated top commments, and added subject carry variable to achievements.
 
 import React, { useMemo, useState, useEffect, lazy, Suspense } from 'react';
 import { BookOpen, FunctionSquare, SquareStack, BarChart2, Sigma, Code2, Globe, BrainCircuit, Calculator } from 'lucide-react';
@@ -224,7 +224,8 @@ const MathDash = () => {
           {/* Achievement Mode */}
           {learningMode === 'achievements' && (
             <AchievementsCard 
-            achievements={achievements} 
+            achievements={achievements}
+            subject="math" 
             styles={styles}
             />
           )}

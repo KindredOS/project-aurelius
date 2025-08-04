@@ -1,11 +1,59 @@
-[
-  {
-    "id": "science_master",
-    "name": "Science Master",
-    "image": "/assets/Eduos_sci_generic.png",
-    "description": "Completed all science modules with excellence",
-    "category": "science"
-  },
+{
+  "science": [
+    {
+      "id": "science_starter",
+      "name": "Curious Chemist",
+      "image": "/assets/Eduos_sci_generic.png",
+      "description": "Opened the Science module for the first time",
+      "category": "science"
+    }
+  ],
+  "technology": [
+    {
+      "id": "technology_starter",
+      "name": "Tech Tinkerer",
+      "image": "/assets/Eduos_tech_generic.png",
+      "description": "Opened the Technology module for the first time",
+      "category": "technology"
+    }
+  ],
+  "engineering": [
+    {
+      "id": "engineering_starter",
+      "name": "Builder at Heart",
+      "image": "/assets/Eduos_eng_generic.png",
+      "description": "Opened the Engineering module for the first time",
+      "category": "engineering"
+    }
+  ],
+  "arts": [
+    {
+      "id": "arts_starter",
+      "name": "Creative Spark",
+      "image": "/assets/Eduos_arts_generic.png",
+      "description": "Opened the Arts module for the first time",
+      "category": "arts"
+    }
+  ],
+  "math": [
+    {
+      "id": "math_starter",
+      "name": "Number Navigator",
+      "image": "/assets/Eduos_math_generic.png",
+      "description": "Opened the Math module for the first time",
+      "category": "math"
+    }
+  ],
+  "lifestyle": [
+    {
+      "id": "lifestyle_starter",
+      "name": "Life Explorer",
+      "image": "/assets/Eduos_life_generic.png",
+      "description": "Opened the Lifestyle module for the first time",
+      "category": "lifestyle"
+    }
+  ],
+  "General": [
   {
     "id": "quiz_pro",
     "name": "Quiz Pro",
@@ -42,3 +90,4 @@
     "category": "exploration"
   }
 ]
+}

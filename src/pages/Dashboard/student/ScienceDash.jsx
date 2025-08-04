@@ -1,6 +1,6 @@
 // Pathing: src/pages/Dashboard/student/ScienceDash.jsx
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Science Learning Hub Work. 
-// Version Update: Removed learningModes dependencies - Sidebar now fully self-contained with its own learning mode configuration
+// Version Update: Updated top commments, and added subject carry variable to achievements. 
 
 import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, Atom, Calculator, Rocket, Landmark, Wrench, Dna, Globe, Sparkles } from 'lucide-react';
@@ -192,7 +192,8 @@ const ScienceDash = () => {
           {/* Achievement Mode */}
           {learningMode === 'achievements' && (
             <AchievementsCard 
-            achievements={achievements} 
+            achievements={achievements}
+            subject="science" 
             styles={styles}
             />
           )}

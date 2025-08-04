@@ -1,14 +1,69 @@
 // Pathing: src/components/student/AcievementsCard.jsx
 // Focus: Achievements Component for tracking and associated functions. 
-// Version Update: Refactored to use centralized stylesBranding utility, removed duplicated theme logic
+// Version Update: Added header comments logic, branding pallet, and lay'd scaffolded ground work
 
 import React, { useState, useEffect } from 'react';
 import { Trophy } from 'lucide-react';
 import { getProgressForBadge, isAchievementUnlocked } from '../../utils/trackingProgress';
-import { getThemeColors } from '../../utils/stylesBranding';
 import styles from './AchievementsCard.module.css';
 
 const AchievementsCard = ({ achievements = [], subject = 'all' }) => {
+  // Enhanced theming system inspired by TopicHeader
+  const getThemeColors = (subject) => {
+    const themes = {
+      science: {
+        primary: '#3b82f6',      // Blue
+        secondary: '#2563eb',
+        gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+        progressGradient: 'linear-gradient(90deg, #3b82f6 0%, #2563eb 100%)',
+        name: 'Science'
+      },
+      technology: {
+        primary: '#8b5cf6',      // Purple
+        secondary: '#7c3aed',
+        gradient: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+        progressGradient: 'linear-gradient(90deg, #8b5cf6 0%, #7c3aed 100%)',
+        name: 'Technology'
+      },
+      engineering: {
+        primary: '#f59e0b',      // Orange
+        secondary: '#d97706',
+        gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+        progressGradient: 'linear-gradient(90deg, #f59e0b 0%, #d97706 100%)',
+        name: 'Engineering'
+      },
+      arts: {
+        primary: '#ec4899',      // Pink
+        secondary: '#db2777',
+        gradient: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)',
+        progressGradient: 'linear-gradient(90deg, #ec4899 0%, #db2777 100%)',
+        name: 'Arts'
+      },
+      math: {
+        primary: '#ef4444',      // Bold red
+        secondary: '#dc2626',
+        gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+        progressGradient: 'linear-gradient(135deg, #fef2f2 0%, #ef4444 100%)',
+        name: 'Mathematics'
+      },
+      lifestyle: {
+        primary: '#10b981',      // Energetic green
+        secondary: '#059669',
+        gradient: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
+        progressGradient: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
+        name: 'Lifestyle'
+      },
+      all: {
+        primary: '#374151',      // Gray
+        secondary: '#4b5563',
+        gradient: 'linear-gradient(135deg, #374151 0%, #4b5563 100%)',
+        progressGradient: 'linear-gradient(90deg, #374151 0%, #4b5563 100%)',
+        name: 'All Subjects'
+      }
+    };
+    return themes[subject?.toLowerCase()] || themes.all;
+  };
+
   const themeColors = getThemeColors(subject);
   const [selected, setSelected] = useState(null);
   const [enlargedImage, setEnlargedImage] = useState(null);

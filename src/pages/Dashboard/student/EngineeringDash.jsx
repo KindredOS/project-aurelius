@@ -1,6 +1,7 @@
 // Pathing: src/pages/Dashboard/student/EngineeringDash.jsx
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Engineering Learning Hub Work. 
-// VerisonUpdate: Updated EngineeringDash.jsx - Includes AI Tutor name normalization
+// Verison Update: Updated top commments, and added subject carry variable to achievements.
+
 import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, Ruler, Construction, Layers, Spline, Wrench, Building2, PlugZap, Sparkles } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
@@ -185,7 +186,8 @@ const EngineeringDash = () => {
           {/* Achievement Mode */}
           {learningMode === 'achievements' && (
             <AchievementsCard 
-            achievements={achievements} 
+            achievements={achievements}
+            subject="engineering"
             styles={styles}
             />
           )}
