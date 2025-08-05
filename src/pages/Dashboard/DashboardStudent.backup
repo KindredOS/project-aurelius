@@ -48,31 +48,31 @@ function StudyBuddyDashboard() {
         {
             header: "Technology",
             tiles: [
-                { id: 3, name: "CodeBuddy", route: "/page/Dashboard/student/TechnologyDash", image: "coding.jpeg" },
+                { id: 3, name: "CodeBuddy", route: "/page/Dashboard/student/TechnologyDash", image: "technology.png" },
             ]
         },
         {
             header: "Engineering",
             tiles: [
-                { id: 6, name: "Enginuity", route: "/page/Dashboard/student/EngineeringDash", image: "engineering.jpeg" }
+                { id: 6, name: "Enginuity", route: "/page/Dashboard/student/EngineeringDash", image: "engineering.png" }
             ]
         },
         {
             header: "Arts",
             tiles: [
-                { id: 10, name: "CivicSpark", route: "/page/Dashboard/student/ArtsDash", image: "history.jpeg" },
+                { id: 10, name: "CivicSpark", route: "/page/Dashboard/student/ArtsDash", image: "arts.png" },
             ]
         },
         {
             header: "Math",
             tiles: [
-                { id: 12, name: "MathSnap", route: "/page/Dashboard/student/MathDash", image: "calculator.jpeg" },
+                { id: 12, name: "MathSnap", route: "/page/Dashboard/student/MathDash", image: "math.png" },
             ]
         },
         {
             header: "Lifestyle",
             tiles: [
-                { id: 14, name: "MyBestMe", route: "/page/Dashboard/student/LifestyleDash", image: "exercise.jpeg" },
+                { id: 14, name: "MyBestMe", route: "/page/Dashboard/student/LifestyleDash", image: "lifestyle.png" },
             ]
         }
     ];
@@ -87,17 +87,13 @@ function StudyBuddyDashboard() {
                         <h2 className={styles.categoryHeader} style={{ textAlign: 'center' }}>{category.header}</h2>
                         <div className={styles.tilesContainer} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                             {category.tiles.map((tile) => (
-                                <div
-                                    key={tile.id}
-                                    className={styles.tile}
-                                    onClick={() => navigate(tile.route)}
-                                >
+                                <div key={tile.id} className={styles.tileWrapper}>
                                     <img
                                         src={require(`../../assets/images/${tile.image}`)}
                                         alt={tile.name}
-                                        className={styles.tileImage}
+                                        className={styles.tileImageButton}
+                                        onClick={() => navigate(tile.route)}
                                     />
-                                    <h3 className={styles.tileName}>{tile.name}</h3>
                                 </div>
                             ))}
                         </div>

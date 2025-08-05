@@ -1,5 +1,5 @@
 // components/student/ChatWindow.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Brain, Menu } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -30,20 +30,21 @@ const ChatWindow = ({
     setThreadId(uuidv4());
   }, [subject]);
 
-  useEffect(() => {
-    if (user.email) {
-      fetchThreadsData();
-    }
-  }, [user.email]);
-
-  const fetchThreadsData = async () => {
+  // Memoize fetchThreadsData with useCallback
+  const fetchThreadsData = useCallback(async () => {
     try {
       const threadsData = await fetchChatThreads(subject, user.email);
       setThreads(threadsData);
     } catch (err) {
       console.error('❌ Failed to fetch threads:', err);
     }
-  };
+  }, [subject, user.email]); // Dependencies that fetchThreadsData uses
+
+  useEffect(() => {
+    if (user.email) {
+      fetchThreadsData();
+    }
+  }, [user.email, fetchThreadsData]); // Now include fetchThreadsData
 
   const saveChatToThread = async (messageLog) => {
     try {

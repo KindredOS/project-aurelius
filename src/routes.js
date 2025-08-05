@@ -1,10 +1,9 @@
-//Edu_routes.js
-// File Name: routes.js
-// Version: 0.09
-// NOTE: Update the version number each time changes are made to this file.
+// Path: src/routes.js
+// Focus:
+// Version Update: Removed the unused useeffect removed
 
 // Import necessary modules for routing
-import React, { useState, useEffect } from 'react'; 
+import React, { useState } from 'react'; 
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
 // Import pages

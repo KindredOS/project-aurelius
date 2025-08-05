@@ -31,7 +31,7 @@ const TechnologyDash = () => {
   }, []);
 
    //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
-  const iconMap = useMemo(() => ({
+  const techonologyIconMap = useMemo(() => ({
     'overview': BookOpen,
     'module1': Code,
     'module2': Atom,
@@ -45,16 +45,16 @@ const TechnologyDash = () => {
   }), []);
 
   //Passes hooks to our various programs and applications, although I suspect doubling in a number of places, and we may want to do a review. 
-  const dashboardState = useSubjectDashboard('technology', iconMap);
+  const dashboardState = useSubjectDashboard('technology', techonologyIconMap);
   const {
     selectedTopic, setSelectedTopic,
-    gradeLevel, setGradeLevel,
+    gradeLevel, 
     learningMode, setLearningMode,
     userProgress,
     chatHistory, setChatHistory,
     userInput, setUserInput,
     achievements, studyStreak,
-    topics, currentTopicData, learningResources, learningModes,
+    topics, currentTopicData, learningResources, 
     loading,
     user
   } = dashboardState;

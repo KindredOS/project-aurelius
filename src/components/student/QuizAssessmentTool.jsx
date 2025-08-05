@@ -1,4 +1,7 @@
-// Updated QuizAssessmentTool.jsx - Static file based with dynamic question selection
+//Path: src/components/student/QuizAssessmentTool.jsx
+//Focus:
+//Version Update: Updated QuizAssessmentTool.jsx - Static file based with dynamic question selection
+
 import React, { useState, useRef } from 'react';
 import { Award, Play, AlertCircle } from 'lucide-react';
 import styles from './QuizAssessmentTool.module.css';
@@ -178,13 +181,6 @@ const QuizAssessmentTool = ({
       loadStaticQuizData();
     }
   };
-
-  // Effect to create quiz once data is loaded
-  React.useEffect(() => {
-    if (rawQuizData && !quiz) {
-      createDynamicQuiz();
-    }
-  }, [rawQuizData]);
 
   const handleStartQuiz = () => {
     quizStartTimeRef.current = Date.now();

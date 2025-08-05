@@ -48,13 +48,13 @@ const LifestyleDash = () => {
   const dashboardState = useSubjectDashboard('lifestyle', lifestyleIconMap);
   const {
     selectedTopic, setSelectedTopic,
-    gradeLevel, setGradeLevel,
+    gradeLevel, 
     learningMode, setLearningMode,
     userProgress,
     chatHistory, setChatHistory,
     userInput, setUserInput,
     achievements, lifestyleStreak,
-    topics, currentTopicData, learningResources, learningModes,
+    topics, currentTopicData, learningResources, 
     loading,
     user
   } = dashboardState;
@@ -119,6 +119,7 @@ const LifestyleDash = () => {
           <TopicHeader
             topic={topic}
             userProgress={userProgress}
+            gradeLevel={gradeLevel}
             selectedTopic={selectedTopic}
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}

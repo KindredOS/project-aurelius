@@ -6,12 +6,10 @@ const AlgebraBalanceGame = () => {
   const [score, setScore] = useState(0);
   const [moves, setMoves] = useState(0);
   const [gameState, setGameState] = useState('playing'); // playing, won, hint
-  const [selectedOperation, setSelectedOperation] = useState(null);
   const [leftSide, setLeftSide] = useState({ coefficient: 2, constant: 5, variable: 'x' });
   const [rightSide, setRightSide] = useState({ coefficient: 0, constant: 13, variable: 'x' });
   const [targetX, setTargetX] = useState(4);
   const [showHint, setShowHint] = useState(false);
-  const [draggedItem, setDraggedItem] = useState(null);
   const [operationHistory, setOperationHistory] = useState([]);
 
   // Available operations that students can drag and drop
@@ -126,6 +124,10 @@ const AlgebraBalanceGame = () => {
         newRight.coefficient /= value;
         newRight.constant /= value;
         break;
+      default:
+        // Handle unexpected operation types
+        console.warn(`Unknown operation: ${operation}`);
+        return;
     }
     
     setLeftSide(newLeft);
@@ -195,8 +197,6 @@ const AlgebraBalanceGame = () => {
   const resetLevel = () => {
     generateLevel();
   };
-
-  const [operationInput, setOperationInput] = useState('');
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-gradient-to-br from-indigo-50 via-white to-purple-50 min-h-screen">

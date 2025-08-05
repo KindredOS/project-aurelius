@@ -1,4 +1,7 @@
-// ContentManager.jsx - Handles 500 Failover to Template Markdown
+//Path: src/components/student/ContentManager.jsx 
+//Focus:
+//Version Update: Handles 500 Failover to Template Markdown
+
 import React, { useState, useEffect } from 'react';
 import AdaptiveTextbook from './AdaptiveTextbook';
 import { fetchStudentMarkdown, saveStudentMarkdown } from '../../api/ApiMaster';
@@ -7,12 +10,12 @@ import styles from './TopicHeader.module.css';
 const cleanMarkdownContent = (content) => {
   if (typeof content !== 'string') return content;
   return content
-    .replace(/^\"(#{1,6}\s+.*?)\"$/gm, '$1')
-    .replace(/^\"([^\"]*?)$/gm, '$1')
+    .replace(/^"(#{1,6}\s+.*?)"$/gm, '$1')
+    .replace(/^"([^"]*?)$/gm, '$1')
     .replace(/\\n/g, '\n')
     .replace(/\\r/g, '\r')
     .replace(/\\t/g, '\t')
-    .replace(/\"/g, '"')
+    .replace(/"/g, '"')
     .replace(/\\'/g, "'")
     .replace(/\\\\/g, '\\')
     .replace(/\n{3,}/g, '\n\n')

@@ -1,14 +1,9 @@
-// utils/polishMarkdown.js - DEBUGGED VERSION - Just polish, no AI calls
+// utils/polishMarkdown.js - CONSOLIDATED VERSION
 import {
   extractSpecialElements,
-  removeSpecialElements,
+  removeSpecialElements,  
   restoreSpecialElements
 } from './specialElements';
-// TEMPORARILY DISABLED - Testing without cleanup
-// import {
-//   detectContentDuplication,
-//   removeDuplicateContent
-// } from './contentProcessing';
 
 /**
  * Clean existing debug stamps and processing artifacts
@@ -20,15 +15,48 @@ const cleanExistingProcessingArtifacts = (text) => {
 
   // Remove existing debug stamps
   let cleaned = text.replace(/\n\n---\n⚠️ \[SANITIZED at [^\]]+\]\n---\n/g, '');
-
+  
   // Remove duplicate processing indicators
   cleaned = cleaned.replace(/\n\n---\n⚠️ \[SANITIZED at [^\]]+\]\n---\n/g, '');
-
+  
   // Remove any leftover processing markers
   cleaned = cleaned.replace(/---\n⚠️ \[SANITIZED[^\]]*\]\n---/g, '');
-
+  
   // Clean up excessive whitespace
   cleaned = cleaned.replace(/\n{3,}/g, '\n\n').trim();
+
+  return cleaned;
+};
+
+/**
+ * Remove AI-generated metadata brackets and artifacts
+ * @param {string} text - The text to clean
+ * @returns {string} - Cleaned text
+ */
+const removeAIArtifacts = (text) => {
+  if (!text || typeof text !== 'string') {
+    return '';
+  }
+
+  let cleaned = text;
+
+  // Remove AI metadata patterns like [Mathematical Inquiry: Detailed], [Analysis: Complete], etc.
+  cleaned = cleaned.replace(/\[[A-Za-z\s]*:\s*[A-Za-z\s]*\]/g, '');
+  
+  // Remove standalone bracket words like [Summary], [Analysis], [Overview], etc.
+  cleaned = cleaned.replace(/\[[A-Za-z\s]+\]/g, '');
+  
+  // Remove brackets with numbers like [1], [2] at line ends (citations)
+  cleaned = cleaned.replace(/\[\d+\]\s*$/gm, '');
+  
+  // Remove empty bracket lines
+  cleaned = cleaned.replace(/^\s*\[\s*\]\s*$/gm, '');
+  
+  // Remove lines that are just brackets with content
+  cleaned = cleaned.replace(/^\s*\[[^\]]+\]\s*$/gm, '');
+  
+  // Remove any remaining isolated brackets at start of lines
+  cleaned = cleaned.replace(/^\[[^\]]*\]\s*/gm, '');
 
   return cleaned;
 };
@@ -81,6 +109,8 @@ export const processEnhancedMarkdown = (rawResult) => {
     // Remove "I'll help you" type responses
     processed = processed.replace(/^I'll\s+\w+.*?\.\s*/gm, '');
 
+    // NEW: Remove AI metadata brackets and artifacts
+    processed = removeAIArtifacts(processed);
     console.log(`[PROCESS_ENHANCED] After AI artifact removal: ${processed.length}`);
 
     // Deduplicate consecutive identical headers
@@ -160,17 +190,6 @@ export async function polishMarkdown({ text, action = 'enhance' }) {
     let enhanced = processEnhancedMarkdown(cleanedText);
     console.log(`[POLISH_MARKDOWN] After processEnhancedMarkdown: ${enhanced?.length || 0} chars`);
 
-    // TEMPORARILY DISABLED - Check for content duplication and remove if found
-    // try {
-    //   if (detectContentDuplication && typeof detectContentDuplication === 'function' && detectContentDuplication(enhanced)) {
-    //     console.log('[POLISH_MARKDOWN] Content duplication detected, removing...');
-    //     enhanced = removeDuplicateContent(enhanced);
-    //     console.log(`[POLISH_MARKDOWN] After removeDuplicateContent: ${enhanced?.length || 0} chars`);
-    //   }
-    // } catch (error) {
-    //   console.warn('[POLISH_MARKDOWN] Content duplication check failed:', error);
-    // }
-
     // Restore special elements
     let final;
     try {
@@ -200,4 +219,4 @@ export async function polishMarkdown({ text, action = 'enhance' }) {
 }
 
 // Export utility functions for testing
-export { cleanExistingProcessingArtifacts };
+export { cleanExistingProcessingArtifacts, removeAIArtifacts };

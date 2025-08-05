@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './DashboardStudent.module.css';
 import MBTISetupModal from '../../components/student/MBTISetupModal';
@@ -6,10 +6,13 @@ import { fetchUserMBTI } from '../../api/User';
 
 function StudyBuddyDashboard() {
     const navigate = useNavigate();
-    const user = {
+    
+    // Memoize the user object so it only changes when localStorage values actually change
+    const user = useMemo(() => ({
         email: localStorage.getItem('userEmail'),
         name: localStorage.getItem('userName'),
-    };
+    }), []); // Empty dependency array since localStorage is external
+
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
@@ -36,7 +39,7 @@ function StudyBuddyDashboard() {
         };
 
         checkMBTIStatus();
-    }, [user]);
+    }, [user]); // Now user won't change unless localStorage values actually change
 
     const categories = [
         {

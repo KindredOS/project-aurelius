@@ -1,4 +1,7 @@
-// hooks/useSubjectDashboard.js
+//Path: src/utils/useSubjectDashboard.js
+// Focus: Core dashboard state management hook for subject-based learning platforms
+// Version Update Notes: Removed learningModes state and getLearningModes import - learning modes now fully managed by Sidebar.jsx for better component autonomy
+
 import { useState, useEffect, useCallback } from 'react';
 import { 
   findLessonCached, 
@@ -6,7 +9,6 @@ import {
   getQuizData, 
   getProjectData, 
   getLearningResources,
-  getLearningModes,
   validateLessonData 
 } from '../utils/lessonUtils';
 
@@ -35,7 +37,6 @@ export const useSubjectDashboard = (subject, iconMap) => {
   const [quizData, setQuizData] = useState([]);
   const [projectData, setProjectData] = useState(null);
   const [learningResources, setLearningResources] = useState([]);
-  const [learningModes, setLearningModes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -52,7 +53,6 @@ export const useSubjectDashboard = (subject, iconMap) => {
         }));
 
         setTopics(topicsWithIcons);
-        setLearningModes(getLearningModes());
 
         const initialProgress = {};
         topicsWithIcons.forEach(topic => {
@@ -196,7 +196,6 @@ export const useSubjectDashboard = (subject, iconMap) => {
     quizData, setQuizData,
     projectData, setProjectData,
     learningResources, setLearningResources,
-    learningModes, setLearningModes,
     loading, setLoading,
     error, setError,
 

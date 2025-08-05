@@ -49,13 +49,13 @@ const MathDash = () => {
   const dashboardState = useSubjectDashboard('math', mathIconMap);
   const {
     selectedTopic, setSelectedTopic,
-    gradeLevel, setGradeLevel,
+    gradeLevel, 
     learningMode, setLearningMode,
     userProgress,
     chatHistory, setChatHistory,
     userInput, setUserInput,
     achievements, studyStreak,
-    topics, currentTopicData, learningResources, learningModes,
+    topics, currentTopicData, learningResources, 
     loading,
     user
   } = dashboardState;
@@ -160,10 +160,9 @@ const MathDash = () => {
           <TopicHeader
             topic={topic}
             userProgress={userProgress}
+            gradeLevel={gradeLevel}
             selectedTopic={selectedTopic}
             renderMainProgressBar={renderMainProgressBar}
-            gradeLevel={gradeLevel}
-            setGradeLevel={setGradeLevel}
             styles={styles}
             subject="math"
             userEmail={user.email}

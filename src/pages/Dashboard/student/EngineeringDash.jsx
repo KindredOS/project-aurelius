@@ -49,13 +49,13 @@ const EngineeringDash = () => {
   const dashboardState = useSubjectDashboard('engineering', engineeringIconMap);
   const {
     selectedTopic, setSelectedTopic,
-    gradeLevel, setGradeLevel,
+    gradeLevel, 
     learningMode, setLearningMode,
     userProgress,
     chatHistory, setChatHistory,
     userInput, setUserInput,
     achievements, studyStreak,
-    topics, currentTopicData, learningResources, learningModes,
+    topics, currentTopicData, learningResources, 
     loading,
     user
   } = dashboardState;
@@ -120,6 +120,7 @@ const EngineeringDash = () => {
           <TopicHeader
             topic={topic}
             userProgress={userProgress}
+            gradeLevel={gradeLevel}
             selectedTopic={selectedTopic}
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}

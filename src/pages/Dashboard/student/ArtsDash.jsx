@@ -48,13 +48,13 @@ const ArtsDash = () => {
   const dashboardState = useSubjectDashboard('arts', artsIconMap);
   const {
     selectedTopic, setSelectedTopic,
-    gradeLevel, setGradeLevel,
+    gradeLevel, 
     learningMode, setLearningMode,
-    userProgress, setUserProgress,
+    userProgress, 
     chatHistory, setChatHistory,
     userInput, setUserInput,
     achievements, studyStreak,
-    topics, currentTopicData, learningResources, learningModes,  
+    topics, currentTopicData, learningResources,  
     loading, 
     user
   } = dashboardState;
@@ -120,6 +120,7 @@ const ArtsDash = () => {
           <TopicHeader
             topic={topic}
             userProgress={userProgress}
+            gradeLevel={gradeLevel}
             selectedTopic={selectedTopic}
             renderMainProgressBar={renderMainProgressBar}
             styles={styles}

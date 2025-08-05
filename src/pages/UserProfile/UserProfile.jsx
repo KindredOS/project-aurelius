@@ -34,25 +34,27 @@ const UserProfile = ({ user, setUser }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        if (!user || !user.email) {
+        const userEmail = user?.email;
+        if (!userEmail) {
           setIsLoading(false);
           return;
         }
 
         setIsLoading(true);
-        const data = await fetchUserMBTI(user.email);
+        const data = await fetchUserMBTI(userEmail);
         console.log("Fetched enriched user profile:", data);
 
-        setUser({
-          name: data.name || user.name,
-          email: data.email || user.email,
-          avatar: user.avatar || 'https://via.placeholder.com/150',
+        // Use functional update to avoid dependency on user object
+        setUser(prevUser => ({
+          name: data.name || prevUser.name,
+          email: data.email || prevUser.email,
+          avatar: prevUser.avatar || 'https://via.placeholder.com/150',
           mbti: data.mbti || 'Not set',
           age: data.age || 'Not provided',
           interests: data.interests || [],
           identityScore: data.identityScore || 0,
           identityType: data.identityType || data.mbti || 'Not set',
-        });
+        }));
 
         // Determine subscription status based on user data
         if (data.mbti || (data.interests && data.interests.length)) {

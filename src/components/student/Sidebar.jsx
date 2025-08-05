@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { Star, ChevronRight, Trophy, MessageSquare, Gamepad2, Eye, Brain } from 'lucide-react';
 import { fetchUserProgress } from '../../api/ApiMaster';
 
-// Self-contained learning modes configuration - change these right here!
+// Hardcoded learning modes (AI Tutor is already first)
 const LEARNING_MODES = [
   {
     id: 'collaborative',
@@ -40,7 +40,6 @@ const Sidebar = ({
   studyStreak, 
   learningMode, 
   setLearningMode, 
-  learningModes, // This prop is now ignored - we use our own LEARNING_MODES
   topics, 
   selectedTopic, 
   setSelectedTopic, 
@@ -61,17 +60,10 @@ const Sidebar = ({
     loadProgress();
   }, [email, subject]);
 
-  // Sort our local learning modes (AI Tutor first)
-  const sortedLearningModes = [...LEARNING_MODES].sort((a, b) => {
-    if (a.name === "AI Tutor") return -1;
-    if (b.name === "AI Tutor") return 1;
-    return 0;
-  });
-
+  // Set default learning mode to "AI Tutor" (collaborative)
   useEffect(() => {
-    if (!learningMode && sortedLearningModes.length > 0) {
-      const aiTutor = sortedLearningModes.find(mode => mode.name === "AI Tutor");
-      if (aiTutor) setLearningMode(aiTutor.id);
+    if (!learningMode) {
+      setLearningMode('collaborative');
     }
   }, [learningMode, setLearningMode]);
 
@@ -117,7 +109,7 @@ const Sidebar = ({
       <div className={styles.learningModeSection}>
         <label className={styles.sectionLabel}>Tools and Assessments</label>
         <div className={styles.learningModeList}>
-          {sortedLearningModes.map(mode => (
+          {LEARNING_MODES.map(mode => (
             <button
               key={mode.id}
               onClick={() => !mode.disabled && setLearningMode(learningMode === mode.id ? null : mode.id)}

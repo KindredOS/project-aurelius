@@ -1,4 +1,4 @@
-// hooks/useSubjectDashboard.js
+//Path: src/utils/useSubjectDashboard.js
 // Focus: Core dashboard state management hook for subject-based learning platforms
 // Version Update Notes: Removed learningModes state and getLearningModes import - learning modes now fully managed by Sidebar.jsx for better component autonomy
 
@@ -205,6 +205,7 @@ export const useSubjectDashboard = (subject, iconMap) => {
     sendMessage,
 
     // User Info
-    user
+    user,
+    setUser  // Fixed: Added setUser to exports to resolve ESLint no-unused-vars warning
   };
 };

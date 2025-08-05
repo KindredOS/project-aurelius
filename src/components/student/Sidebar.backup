@@ -1,17 +1,46 @@
 // Path: components/student/Sidebar.jsx
 // Focus: Navigation sidebar for student dashboard - displays topics with progress tracking, learning mode tools, and achievements access
-// Version Update Notes: Removed legacy achievements section that caused duplication. Achievements now only display via "View Achievements" button → main content flow. Backend API integration via ApiMaster maintained for progress tracking.
+// Version Update Notes: Made fully self-contained - all learning modes now defined locally for better developer experience. No more hunting in lessonUtils for UI changes!
 
 import React, { useEffect, useState } from 'react';
-import { Star, ChevronRight, Trophy } from 'lucide-react';
+import { Star, ChevronRight, Trophy, MessageSquare, Gamepad2, Eye, Brain } from 'lucide-react';
 import { fetchUserProgress } from '../../api/ApiMaster';
+
+// Self-contained learning modes configuration - change these right here!
+const LEARNING_MODES = [
+  {
+    id: 'collaborative',
+    name: 'AI Tutor',
+    description: 'Ask questions, get answers, and explore ideas with your intelligent assistant.',
+    icon: MessageSquare
+  },
+  {
+    id: 'interactive',
+    name: 'Play & Learn',
+    description: 'Dive into games, challenges, and interactive tools to reinforce key concepts.',
+    icon: Gamepad2
+  },
+  {
+    id: 'visual',
+    name: 'Coming Soon',
+    description: 'Visual journeys and media-rich experiences are on the way!',
+    icon: Eye,
+    disabled: true
+  },
+  {
+    id: 'assessment',
+    name: 'Quiz Yourself!',
+    description: 'Test your knowledge with fun quizzes and challenges.',
+    icon: Brain
+  }
+];
 
 const Sidebar = ({ 
   title, 
   studyStreak, 
   learningMode, 
   setLearningMode, 
-  learningModes, 
+  learningModes, // This prop is now ignored - we use our own LEARNING_MODES
   topics, 
   selectedTopic, 
   setSelectedTopic, 
@@ -32,7 +61,8 @@ const Sidebar = ({
     loadProgress();
   }, [email, subject]);
 
-  const sortedLearningModes = [...learningModes].sort((a, b) => {
+  // Sort our local learning modes (AI Tutor first)
+  const sortedLearningModes = [...LEARNING_MODES].sort((a, b) => {
     if (a.name === "AI Tutor") return -1;
     if (b.name === "AI Tutor") return 1;
     return 0;
@@ -43,7 +73,7 @@ const Sidebar = ({
       const aiTutor = sortedLearningModes.find(mode => mode.name === "AI Tutor");
       if (aiTutor) setLearningMode(aiTutor.id);
     }
-  }, [learningMode, sortedLearningModes, setLearningMode]);
+  }, [learningMode, setLearningMode]);
 
   return (
     <div className={styles.sidebar}>
@@ -95,7 +125,7 @@ const Sidebar = ({
               disabled={mode.disabled}
             >
               <div className={styles.modeContent}>
-                {mode.icon && <mode.icon className={styles.modeIcon} />}
+                <mode.icon className={styles.modeIcon} />
                 <div className={styles.modeDetails}>
                   <div className={styles.modeName}>{mode.name}</div>
                   <div className={styles.modeDescription}>{mode.description}</div>
@@ -119,12 +149,6 @@ const Sidebar = ({
           </button>
         </div>
       </div>
-
-      {/* REMOVED LEGACY CODE: 
-      The achievements section that was always visible here has been removed.
-      Achievements now only display in main content when "View Achievements" is selected.
-      This eliminates duplication and follows the modern button → main content flow.
-      */}
     </div>
   );
 };

@@ -1,4 +1,7 @@
-// AdaptiveTextbook.jsx - Production Ready Version (Fixed)
+// Path: src/components/student/AdaptiveTextbook.jsx 
+// Focus: Production-ready adaptive textbook component with AI-powered section enhancement
+// Version Update: Removed debugging logic while preserving knowledge comments for maintainability
+
 import React, { useState, useCallback } from 'react';
 import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
 import styles from './AdaptiveTextbook.module.css';
@@ -25,46 +28,6 @@ import { polishMarkdown } from '../../utils/polishMarkdown';
 import { buildPromptWrap } from '../../utils/aiPromptTools';
 import { cleanUpResponse } from '../../utils/cleanUp';
 
-/**
- * Enhanced cleanup function for removing AI metadata brackets
- */
-const removeAIMetadataBrackets = (text) => {
-  if (!text || typeof text !== 'string') {
-    return '';
-  }
-
-  let cleaned = text;
-
-  // Remove AI metadata patterns like [Mathematical Inquiry: Detailed], [Analysis: Complete], etc.
-  cleaned = cleaned.replace(/\[[A-Za-z\s]*:\s*[A-Za-z\s]*\]/g, '');
-  
-  // Remove standalone bracket words like [Summary], [Analysis], [Overview], etc.
-  cleaned = cleaned.replace(/\[[A-Za-z\s]+\]/g, '');
-  
-  // Remove brackets with numbers like [1], [2] at line ends (citations)
-  cleaned = cleaned.replace(/\[\d+\]\s*$/gm, '');
-  
-  // Remove empty bracket lines
-  cleaned = cleaned.replace(/^\s*\[\s*\]\s*$/gm, '');
-  
-  // Remove lines that are just brackets with content
-  cleaned = cleaned.replace(/^\s*\[[^\]]+\]\s*$/gm, '');
-  
-  // Remove any remaining isolated brackets at start of lines
-  cleaned = cleaned.replace(/^\[[^\]]*\]\s*/gm, '');
-  
-  // Clean up multiple consecutive newlines
-  cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
-  
-  // Remove empty lines at the start
-  cleaned = cleaned.replace(/^\s*\n+/, '');
-  
-  // Trim whitespace but preserve internal structure
-  cleaned = cleaned.trim();
-
-  return cleaned;
-};
-
 const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
   const [enhancedSections, setEnhancedSections] = useState({});
   const [expandedHeader, setExpandedHeader] = useState(null);
@@ -75,7 +38,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
   const [currentContent, setCurrentContent] = useState(content);
   const [forceRenderCounter, setForceRenderCounter] = useState(0);
 
-  // Sync with parent content changes
+  // Sync with parent content changes to maintain consistency across re-renders
   React.useEffect(() => {
     if (content !== currentContent) {
       setCurrentContent(content);
@@ -96,10 +59,11 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
   };
 
   // Memoized function to get the effective content for rendering
+  // Applies all successful enhancements to the base content before parsing
   const getEffectiveContent = useCallback(() => {
     let effectiveContent = currentContent;
     
-    // Apply all enhancements to the content before parsing
+    // Apply all valid enhancements to the content before parsing
     Object.entries(enhancedSections).forEach(([header, enhancedBody]) => {
       if (enhancedBody && !enhancedBody.includes('⚠️')) {
         effectiveContent = replaceSection(effectiveContent, header, enhancedBody);
@@ -107,21 +71,18 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     });
     
     return effectiveContent;
-  }, [currentContent, enhancedSections, forceRenderCounter]);
+  }, [currentContent, enhancedSections]);
 
   const handleEnhancement = async (header, action) => {
-    // FIXED: Remove the early return that was preventing re-enhancement
-    // Only block if currently enhancing this specific header
+    // Prevent duplicate enhancement requests for the same header
     if (isEnhancing[header]) {
-      console.log(`⏳ Already enhancing header: ${header}`);
       return;
     }
 
-    console.log(`🚀 Starting enhancement for header: ${header}, action: ${action}`);
     setIsEnhancing(prev => ({ ...prev, [header]: true }));
 
     try {
-      // Use the current effective content to get the most up-to-date section
+      // Use current effective content to get the most up-to-date section
       const effectiveContent = getEffectiveContent();
       const sectionBody = extractSectionUnderHeader(effectiveContent, header);
 
@@ -129,8 +90,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
         throw new Error('No content found under header');
       }
 
-      console.log(`📄 Extracted section body for ${header}:`, sectionBody.substring(0, 100) + '...');
-
+      // Build AI enhancement prompt with context
       const prompt = buildPromptWrap({ 
         header, 
         paragraph: sectionBody,
@@ -144,23 +104,20 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
         action
       });
 
-      // Extract final output if wrapped
-      const match = enhancedBody.match(/FINAL OUTPUT[^\n]*\n---\n([\s\S]*)$/);
+      // Extract final output if wrapped in AI response format
+      const match = enhancedBody.match(/FINAL OUTPUT[^\n]*\n---\n([^]*)$/);
       if (match && match[1]) {
         enhancedBody = match[1].trim();
       }
 
-      // Enhanced bracket cleanup
-      enhancedBody = removeAIMetadataBrackets(enhancedBody);
-
-      // Apply existing cleanup
+      // Apply existing cleanup utilities
       enhancedBody = cleanUpResponse(enhancedBody);
 
-      // Remove header if it was accidentally included
-      const headerPattern = new RegExp(`^##\s+${header}\s*\n+`, 'i');
+      // Remove duplicate header if AI accidentally included it
+      const headerPattern = new RegExp(`^##\\s+${header}\\s*\\n+`, 'i');
       enhancedBody = enhancedBody.replace(headerPattern, '').trim();
 
-      // Final validation and cleanup
+      // Validation to ensure we have usable content
       if (!enhancedBody || typeof enhancedBody !== 'string' || enhancedBody.trim().length === 0) {
         throw new Error('Invalid enhancement response');
       }
@@ -169,7 +126,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
         throw new Error('Enhancement service unavailable');
       }
 
-      // Additional safety check for common AI response artifacts
+      // Clean up common AI response artifacts that aren't useful for students
       if (enhancedBody.toLowerCase().includes('i cannot') || 
           enhancedBody.toLowerCase().includes('i apologize') ||
           enhancedBody.toLowerCase().includes('as an ai')) {
@@ -187,15 +144,13 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
         }
       }
 
-      console.log(`✅ Enhancement successful for ${header}`);
-
-      // Update enhanced sections first
+      // Update enhanced sections state first for immediate UI feedback
       setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));
 
-      // Force a re-render
+      // Force re-render to show changes immediately
       setForceRenderCounter(prev => prev + 1);
 
-      // Update the actual content and save
+      // Update the actual content and persist changes
       const updatedContent = replaceSection(currentContent, header, enhancedBody);
       setCurrentContent(updatedContent);
 
@@ -204,17 +159,16 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
       }
 
     } catch (error) {
-      console.error(`❌ Enhancement failed for ${header}:`, error);
-      
-      // Reset the expanded header state to allow re-clicking - but don't interfere with normal operation
+      // Reset expanded state briefly to allow re-clicking on errors
       const currentExpanded = expandedHeader;
       setExpandedHeader(null);
       setTimeout(() => {
         if (currentExpanded === header) {
-          setExpandedHeader(header); // Only restore if it was the same header
+          setExpandedHeader(header);
         }
       }, 50);
 
+      // Provide user-friendly error messages based on error type
       let errorMessage = '⚠️ Enhancement failed. ';
       if (error.message.includes('404') || error.message.includes('unavailable')) {
         errorMessage += 'Service temporarily unavailable. Please try again later.';
@@ -235,7 +189,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     }
   };
 
-  // Simple click handler without excessive logging
+  // Handle Learning Lens toggle for showing/hiding enhancement options
   const handleLearningLensClick = (headerText) => {
     if (expandedHeader === headerText) {
       setExpandedHeader(null);
@@ -244,7 +198,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     }
   };
 
-  // Group content into sections based on h1 headers
+  // Group content into logical sections based on h1 headers for better organization
   const groupContentIntoSections = (elements) => {
     const sections = [];
     let currentSection = null;
@@ -261,6 +215,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
       } else if (currentSection) {
         currentSection.elements.push(element);
       } else {
+        // Handle content before first h1 header
         if (sections.length === 0) {
           currentSection = {
             header: 'Introduction',
@@ -323,10 +278,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
         );
 
       case 'paragraph':
-        let paragraphContent = element.content;
-        paragraphContent = removeAIMetadataBrackets(paragraphContent);
-        
-        const htmlContent = convertMarkdownBold(paragraphContent);
+        const htmlContent = convertMarkdownBold(element.content);
         return (
           <p key={elementKey} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: htmlContent }} />
         );
@@ -341,8 +293,6 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
     const isCollapsed = collapsedHeaders[headerText];
     const isLoading = isEnhancing[headerText];
     const enhancementButtons = getEnhancementButtons();
-
-    console.log(`🏗️ Rendering header "${headerText}": isExpanded=${isExpanded}, expandedHeader=${expandedHeader}`);
 
     const headerClasses = {
       1: styles.heading1,
@@ -394,10 +344,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
               return (
                 <button
                   key={button.action}
-                  onClick={() => {
-                    console.log('🎯 Enhancement button clicked:', button.action, 'for header:', headerText);
-                    handleEnhancement(headerText, button.action);
-                  }}
+                  onClick={() => handleEnhancement(headerText, button.action)}
                   className={`${styles.enhanceButton} ${styles[button.className]}`}
                   title={button.title}
                   type="button"
@@ -432,6 +379,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
                 const renderedHeader = renderElement(element, elementIndex);
                 const isCollapsed = collapsedHeaders[element.content];
                 
+                // Show only header when collapsed (for h1 and h2 headers)
                 if (isCollapsed && element.level <= 2) {
                   return (
                     <div key={`collapsed-${elementIndex}`}>
@@ -443,6 +391,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
                 return renderedHeader;
               }
               
+              // Hide content under collapsed headers
               const parentHeader = findParentHeader(section.elements, elementIndex);
               if (parentHeader && collapsedHeaders[parentHeader]) {
                 return null;
@@ -457,7 +406,7 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
   );
 };
 
-// Helper function to find the parent header for an element
+// Helper function to find the parent header for an element (used for collapse functionality)
 const findParentHeader = (elements, currentIndex) => {
   for (let i = currentIndex - 1; i >= 0; i--) {
     if (elements[i].type === 'header' && elements[i].level <= 2) {

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Play, Pause, Zap, Shield, Target, Heart, Coins, RotateCcw } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { Play, Zap, Shield, Target, Heart, Coins, RotateCcw } from 'lucide-react';
 
 const AlgebraDefenseGame = () => {
   const [gameState, setGameState] = useState('paused'); // paused, playing, building, gameOver
@@ -15,19 +15,19 @@ const AlgebraDefenseGame = () => {
   const [waveProgress, setWaveProgress] = useState(0);
   const gameLoopRef = useRef(null);
   const lastTimeRef = useRef(0);
-  const [enemiesSpawned, setEnemiesSpawned] = useState(0);
 
   // Game constants
   const GRID_SIZE = 40;
   const GAME_WIDTH = 800;
   const GAME_HEIGHT = 600;
-  const PATH = [
+  
+  const PATH = useMemo(() => [
     {x: 0, y: 300}, {x: 200, y: 300}, {x: 200, y: 150}, {x: 400, y: 150},
     {x: 400, y: 450}, {x: 600, y: 450}, {x: 600, y: 300}, {x: 800, y: 300}
-  ];
+  ], []);
 
   // Tower types with algebraic formulas
-  const towerTypes = {
+  const towerTypes = useMemo(() => ({
     linear: {
       name: 'Linear Laser',
       cost: 50,
@@ -68,7 +68,7 @@ const AlgebraDefenseGame = () => {
       fireRate: 2500,
       upgradeCost: (level) => 100 * level
     }
-  };
+  }), []);
 
   // Calculate damage based on tower type and level
   const calculateDamage = (towerType, level) => {
@@ -163,12 +163,11 @@ const AlgebraDefenseGame = () => {
     }
     
     setEnemies(prev => [...prev, enemy]);
-  }, [wave]);
+  }, [wave, PATH]);
 
   // Start wave
   const startWave = useCallback(() => {
     setGameState('playing');
-    setEnemiesSpawned(0);
     const enemyCount = 5 + wave * 2;
     
     let spawnCount = 0;
@@ -306,7 +305,7 @@ const AlgebraDefenseGame = () => {
     });
 
     gameLoopRef.current = requestAnimationFrame(gameLoop);
-  }, [gameState, enemies]);
+  }, [gameState, enemies, PATH, towerTypes]);
 
   useEffect(() => {
     if (gameState === 'playing') {
