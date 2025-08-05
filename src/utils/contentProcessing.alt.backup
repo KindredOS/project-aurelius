@@ -1,4 +1,4 @@
-// utils/contentProcessing.js - FIXED VERSION - Properly handles section replacement
+// utils/contentProcessing.js - FIXED VERSION - Properly handles section replacement with modular special elements support
 
 import { extractSpecialElements, restoreSpecialElements } from './specialElements.js';
 
@@ -6,9 +6,10 @@ import { extractSpecialElements, restoreSpecialElements } from './specialElement
  * Extracts the content under a specific header in markdown text
  * @param {string} text - The markdown text
  * @param {string} header - The header text to find
+ * @param {boolean} preserveSpecialElements - If true, preserves prompt wraps and interactive elements
  * @returns {string} - The content under the header
  */
-export function extractSectionUnderHeader(text, header) {
+export function extractSectionUnderHeader(text, header, preserveSpecialElements = false) {
   if (!text || !header) return '';
 
   const lines = text.split('\n');
@@ -20,7 +21,7 @@ export function extractSectionUnderHeader(text, header) {
   let startIndex = headerIndex + 1;
   let endIndex = lines.length;
 
-  // Always skip any prompt wrap (if present)
+  // Handle special elements based on mode
   let skipPromptWrap = false;
   const bodyLines = [];
 
@@ -36,24 +37,29 @@ export function extractSectionUnderHeader(text, header) {
       break;
     }
 
-    // Handle skipping prompt wraps
-    if (line.includes('[Prompt Wrap Start]')) {
-      skipPromptWrap = true;
-      continue;
-    }
-    if (line.includes('[Prompt Wrap End]')) {
-      skipPromptWrap = false;
-      continue;
-    }
-    if (skipPromptWrap) continue;
+    if (preserveSpecialElements) {
+      // In preserve mode, include all special elements as-is
+      bodyLines.push(line);
+    } else {
+      // Original behavior: skip prompt wraps and stop at interactive elements
+      if (line.includes('[Prompt Wrap Start]')) {
+        skipPromptWrap = true;
+        continue;
+      }
+      if (line.includes('[Prompt Wrap End]')) {
+        skipPromptWrap = false;
+        continue;
+      }
+      if (skipPromptWrap) continue;
 
-    // Stop before interactive elements
-    if (line.includes('[interactive element]')) {
-      endIndex = i;
-      break;
-    }
+      // Stop before interactive elements
+      if (line.includes('[interactive element]')) {
+        endIndex = i;
+        break;
+      }
 
-    bodyLines.push(line);
+      bodyLines.push(line);
+    }
   }
 
   return bodyLines.join('\n').trim();

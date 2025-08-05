@@ -1,9 +1,4 @@
-// utils/polishMarkdown.js - CONSOLIDATED VERSION
-import {
-  extractSpecialElements,
-  removeSpecialElements,  
-  restoreSpecialElements
-} from './specialElements';
+// utils/polishMarkdown.js - CONSOLIDATED VERSION - Special elements processing removed
 
 /**
  * Clean existing debug stamps and processing artifacts
@@ -152,6 +147,9 @@ export const processEnhancedMarkdown = (rawResult) => {
  * This function should only be used to clean up AI-generated content,
  * NOT to generate new content via AI
  * 
+ * Special elements (prompts, interactive elements) are handled by the calling component,
+ * so this function focuses purely on markdown formatting and AI artifact cleanup.
+ * 
  * @param {Object} params - Parameters for polishing
  * @param {string} params.text - The AI-generated text to polish
  * @param {string} params.action - The action that was performed (for context)
@@ -173,42 +171,19 @@ export async function polishMarkdown({ text, action = 'enhance' }) {
       return text;
     }
 
-    // Extract special elements before processing
-    let cleanedText, elements;
-    try {
-      const extracted = extractSpecialElements(text);
-      cleanedText = extracted.content;
-      elements = extracted.elements;
-      console.log(`[POLISH_MARKDOWN] After extractSpecialElements: ${cleanedText?.length || 0} chars`);
-    } catch (error) {
-      console.warn('[POLISH_MARKDOWN] extractSpecialElements failed, using original text:', error);
-      cleanedText = text;
-      elements = [];
-    }
-
-    // Process the enhanced markdown
-    let enhanced = processEnhancedMarkdown(cleanedText);
-    console.log(`[POLISH_MARKDOWN] After processEnhancedMarkdown: ${enhanced?.length || 0} chars`);
-
-    // Restore special elements
-    let final;
-    try {
-      final = restoreSpecialElements(enhanced, elements);
-      console.log(`[POLISH_MARKDOWN] After restoreSpecialElements: ${final?.length || 0} chars`);
-    } catch (error) {
-      console.warn('[POLISH_MARKDOWN] restoreSpecialElements failed, using enhanced text:', error);
-      final = enhanced;
-    }
+    // Process the enhanced markdown (no special elements handling - that's done by the caller)
+    let polished = processEnhancedMarkdown(text);
+    console.log(`[POLISH_MARKDOWN] After processEnhancedMarkdown: ${polished?.length || 0} chars`);
 
     // Final safety check - if we somehow lost all content, return original
-    if (!final || final.trim().length === 0) {
+    if (!polished || polished.trim().length === 0) {
       console.warn('[POLISH_MARKDOWN] Final result is empty, returning original text');
-      final = text;
+      polished = text;
     }
 
-    console.log(`[POLISH_MARKDOWN] Polishing complete: ${final.length} characters`);
-    console.log(`[POLISH_MARKDOWN] Output preview: "${final.substring(0, 100)}..."`);
-    return final;
+    console.log(`[POLISH_MARKDOWN] Polishing complete: ${polished.length} characters`);
+    console.log(`[POLISH_MARKDOWN] Output preview: "${polished.substring(0, 100)}..."`);
+    return polished;
 
   } catch (error) {
     console.error('[POLISH_MARKDOWN] Polishing failed:', error);

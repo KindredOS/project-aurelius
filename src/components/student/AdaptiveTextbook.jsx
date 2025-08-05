@@ -1,6 +1,6 @@
 // Path: src/components/student/AdaptiveTextbook.jsx 
 // Focus: Production-ready adaptive textbook component with AI-powered section enhancement
-// Version Update: Removed debugging logic while preserving knowledge comments for maintainability
+// Version Update: Integrated specialElements utilities to preserve educational features during AI enhancement
 
 import React, { useState, useCallback } from 'react';
 import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
@@ -83,17 +83,22 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
 
     try {
       // Use current effective content to get the most up-to-date section
+      // Use preserveSpecialElements=true to get raw content with special elements intact
       const effectiveContent = getEffectiveContent();
-      const sectionBody = extractSectionUnderHeader(effectiveContent, header);
+      const sectionBody = extractSectionUnderHeader(effectiveContent, header, true);
 
       if (!sectionBody || sectionBody.trim().length === 0) {
         throw new Error('No content found under header');
       }
 
-      // Build AI enhancement prompt with context
+      // Extract special elements before AI processing to preserve educational features
+      const specialElements = extractSpecialElements(sectionBody);
+      const cleanedSectionBody = removeSpecialElements(sectionBody);
+
+      // Build AI enhancement prompt with cleaned content (no special markup to confuse AI)
       const prompt = buildPromptWrap({ 
         header, 
-        paragraph: sectionBody,
+        paragraph: cleanedSectionBody,
         action 
       });
 
@@ -143,6 +148,9 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
           throw new Error('No usable content after cleaning AI refusal patterns');
         }
       }
+
+      // Restore special elements to preserve educational functionality
+      enhancedBody = restoreSpecialElements(enhancedBody, specialElements, sectionBody);
 
       // Update enhanced sections state first for immediate UI feedback
       setEnhancedSections(prev => ({ ...prev, [header]: enhancedBody }));

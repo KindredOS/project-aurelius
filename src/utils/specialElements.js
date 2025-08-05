@@ -1,4 +1,4 @@
-// utils/specialElements.js - Handles prompt wraps and interactive elements
+// utils/specialElements.js - Handles prompt wraps and interactive elements with improved deduplication
 
 /**
  * Extracts prompt from `[Prompt Wrap Start]...Prompt: ...[Prompt Wrap End]`
@@ -84,7 +84,37 @@ export function removeSpecialElements(content) {
 }
 
 /**
- * Restores special elements to enhanced content with deduplication
+ * Improved normalization for better deduplication
+ * @param {string} text - Text to normalize
+ * @returns {string} - Normalized text
+ */
+function normalizeForComparison(text) {
+  return text
+    .replace(/\s+/g, ' ')           // Collapse whitespace
+    .replace(/\n+/g, ' ')           // Replace newlines with spaces
+    .replace(/[^\w\s]/g, '')        // Remove punctuation for comparison
+    .trim()
+    .toLowerCase();
+}
+
+/**
+ * Extract the core content from a prompt wrap for comparison
+ * @param {string} promptWrap - The full prompt wrap text
+ * @returns {string} - Core content for comparison
+ */
+function extractPromptCore(promptWrap) {
+  // Remove the wrapper tags and extract just the inner content
+  const innerContent = promptWrap
+    .replace(/\[Prompt Wrap Start\]/g, '')
+    .replace(/\[Prompt Wrap End\]/g, '')
+    .replace(/Prompt:\s*/gi, '')
+    .trim();
+  
+  return normalizeForComparison(innerContent);
+}
+
+/**
+ * Restores special elements to enhanced content with improved deduplication
  * @param {string} enhancedContent - The AI-enhanced content
  * @param {object} specialElements - The extracted special elements
  * @param {string} originalContent - The original content for reference
@@ -97,36 +127,52 @@ export function restoreSpecialElements(enhancedContent, specialElements, origina
     return restored;
   }
 
-  const normalizeText = (text) => text.replace(/\s+/g, ' ').trim().toLowerCase();
-  const restoredNormalized = normalizeText(restored);
+  console.log('[RESTORE_SPECIAL] Starting restoration process');
+  console.log('[RESTORE_SPECIAL] Prompt wraps to restore:', specialElements.promptWraps?.length || 0);
+  console.log('[RESTORE_SPECIAL] Interactive elements to restore:', specialElements.interactiveElements?.length || 0);
 
-  // Restore prompt wraps
-  specialElements.promptWraps.forEach(promptWrap => {
-    const cleanedPrompt = promptWrap.originalText.replace(/^#{1,6}\s+.*$/gm, '').trim();
-    const normalizedPrompt = normalizeText(cleanedPrompt);
+  // Create sets to track what we've already added
+  const addedPromptCores = new Set();
+  const addedInteractiveCores = new Set();
 
-    if (
-      cleanedPrompt &&
-      !restored.includes(cleanedPrompt) &&
-      !restoredNormalized.includes(normalizedPrompt)
-    ) {
-      restored += restored.endsWith('\n') ? `\n${cleanedPrompt}` : `\n\n${cleanedPrompt}`;
+  // Normalize the current restored content for comparison
+  const restoredNormalized = normalizeForComparison(restored);
+
+  // Restore prompt wraps with improved deduplication
+  specialElements.promptWraps?.forEach((promptWrap, index) => {
+    const promptCore = extractPromptCore(promptWrap.originalText);
+    console.log(`[RESTORE_SPECIAL] Processing prompt ${index + 1}, core: "${promptCore.substring(0, 50)}..."`);
+
+    // Check if this prompt is already in the content
+    const alreadyInContent = restoredNormalized.includes(promptCore);
+    const alreadyAdded = addedPromptCores.has(promptCore);
+
+    if (!alreadyInContent && !alreadyAdded && promptCore.length > 0) {
+      console.log(`[RESTORE_SPECIAL] Adding prompt ${index + 1}`);
+      restored += restored.endsWith('\n') ? `\n${promptWrap.originalText}` : `\n\n${promptWrap.originalText}`;
+      addedPromptCores.add(promptCore);
+    } else {
+      console.log(`[RESTORE_SPECIAL] Skipping prompt ${index + 1} - already present or duplicate`);
     }
   });
 
-  // Restore interactive elements
-  specialElements.interactiveElements.forEach(interactive => {
-    const cleanedInteractive = interactive.originalText.replace(/^#{1,6}\s+.*$/gm, '').trim();
-    const normalizedInteractive = normalizeText(cleanedInteractive);
+  // Restore interactive elements with deduplication
+  specialElements.interactiveElements?.forEach((interactive, index) => {
+    const interactiveCore = normalizeForComparison(interactive.originalText);
+    console.log(`[RESTORE_SPECIAL] Processing interactive ${index + 1}`);
 
-    if (
-      cleanedInteractive &&
-      !restored.includes(cleanedInteractive) &&
-      !restoredNormalized.includes(normalizedInteractive)
-    ) {
-      restored += restored.endsWith('\n') ? `\n${cleanedInteractive}` : `\n\n${cleanedInteractive}`;
+    const alreadyInContent = restoredNormalized.includes(interactiveCore);
+    const alreadyAdded = addedInteractiveCores.has(interactiveCore);
+
+    if (!alreadyInContent && !alreadyAdded && interactiveCore.length > 0) {
+      console.log(`[RESTORE_SPECIAL] Adding interactive ${index + 1}`);
+      restored += restored.endsWith('\n') ? `\n${interactive.originalText}` : `\n\n${interactive.originalText}`;
+      addedInteractiveCores.add(interactiveCore);
+    } else {
+      console.log(`[RESTORE_SPECIAL] Skipping interactive ${index + 1} - already present`);
     }
   });
 
+  console.log('[RESTORE_SPECIAL] Restoration complete');
   return restored;
 }

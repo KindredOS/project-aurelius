@@ -1,59 +1,69 @@
-// utils/contentProcessing.js - FIXED VERSION - Properly handles section replacement
-
-import { extractSpecialElements, restoreSpecialElements } from './specialElements.js';
+// utils/contentProcessing.js - Production version with comprehensive markdown processing utilities
 
 /**
  * Extracts the content under a specific header in markdown text
+ * 
+ * Implementation Notes:
+ * - Respects markdown header hierarchy to prevent reading multiple sections
+ * - Stops at any header of equal or higher level (proper section boundaries)
+ * - Handles up to 6 levels of markdown headers (# through ######)
+ * - Special element handling for prompt wraps and interactive elements
+ * - Designed to work with documents containing multiple content blocks
+ * 
  * @param {string} text - The markdown text
  * @param {string} header - The header text to find
- * @returns {string} - The content under the header
+ * @param {boolean} preserveSpecialElements - If true, preserves prompt wraps and interactive elements
+ * @returns {string} - The content under the header (stops at section boundaries)
  */
-export function extractSectionUnderHeader(text, header) {
+export function extractSectionUnderHeader(text, header, preserveSpecialElements = false) {
   if (!text || !header) return '';
 
   const lines = text.split('\n');
-  const headerIndex = lines.findIndex(line => line.replace(/^#+\s*/, '') === header);
+  const headerIndex = lines.findIndex(line => line.replace(/^#+\s*/, '').trim() === header.trim());
   if (headerIndex === -1) return '';
 
   const currentLevel = (lines[headerIndex].match(/^#+/) || [''])[0].length;
+  const startIndex = headerIndex + 1;
 
-  let startIndex = headerIndex + 1;
-  let endIndex = lines.length;
-
-  // Always skip any prompt wrap (if present)
+  // Handle special elements based on mode
   let skipPromptWrap = false;
   const bodyLines = [];
 
   for (let i = startIndex; i < lines.length; i++) {
     const line = lines[i];
 
-    const headerMatch = line.match(/^#{1,6}\s+/);
-    const level = headerMatch ? headerMatch[0].length : 0;
-
-    // Stop if we hit a header that's not a subheader
-    if (level && level <= currentLevel) {
-      endIndex = i;
-      break;
+    // Check for headers - more robust matching
+    const headerMatch = line.match(/^(#{1,6})\s+(.+)$/);
+    if (headerMatch) {
+      const level = headerMatch[1].length;
+      // Stop if we hit a header that's not a subheader (section boundary)
+      if (level <= currentLevel) {
+        break;
+      }
     }
 
-    // Handle skipping prompt wraps
-    if (line.includes('[Prompt Wrap Start]')) {
-      skipPromptWrap = true;
-      continue;
-    }
-    if (line.includes('[Prompt Wrap End]')) {
-      skipPromptWrap = false;
-      continue;
-    }
-    if (skipPromptWrap) continue;
+    if (preserveSpecialElements) {
+      // In preserve mode, include all special elements as-is BUT still respect section boundaries
+      bodyLines.push(line);
+    } else {
+      // Original behavior: skip prompt wraps and stop at interactive elements
+      if (line.includes('[Prompt Wrap Start]')) {
+        skipPromptWrap = true;
+        continue;
+      }
+      if (line.includes('[Prompt Wrap End]')) {
+        skipPromptWrap = false;
+        continue;
+      }
+      if (skipPromptWrap) continue;
 
-    // Stop before interactive elements
-    if (line.includes('[interactive element]')) {
-      endIndex = i;
-      break;
-    }
+      // Stop before interactive elements
+      if (line.includes('[interactive element]')) {
+        break;
+      }
 
-    bodyLines.push(line);
+      bodyLines.push(line);
+    }
   }
 
   return bodyLines.join('\n').trim();
@@ -154,18 +164,21 @@ export function removeDuplicateContent(content) {
 }
 
 /**
- * FIXED - Replaces a section under a specific header with new content
+ * Replaces a section under a specific header with new content
  * Handles special elements properly and prevents duplication
+ * 
+ * Implementation Notes:
+ * - Properly handles section boundaries by respecting header hierarchy
+ * - Removes any headers from new content to prevent nesting issues
+ * - Maintains consistent spacing around replaced content
+ * - Handles edge cases like missing headers and empty content
+ * 
  * @param {string} originalContent - The original markdown content
  * @param {string} header - The header text to find
  * @param {string} newContent - The new content to replace with
  * @returns {string} - The updated markdown content
  */
 export function replaceSection(originalContent, header, newContent) {
-  console.log(`[REPLACE_SECTION] Replacing section "${header}"`);
-  console.log(`[REPLACE_SECTION] Original content length: ${originalContent?.length || 0}`);
-  console.log(`[REPLACE_SECTION] New content length: ${newContent?.length || 0}`);
-  
   if (!originalContent || !header) return originalContent;
 
   const lines = originalContent.split('\n');
@@ -175,14 +188,10 @@ export function replaceSection(originalContent, header, newContent) {
   });
 
   if (headerIndex === -1) {
-    console.log(`[REPLACE_SECTION] Header "${header}" not found`);
     return originalContent;
   }
 
-  console.log(`[REPLACE_SECTION] Found header at line ${headerIndex}: "${lines[headerIndex]}"`);
-
   const currentLevel = (lines[headerIndex].match(/^#+/) || [''])[0].length;
-  console.log(`[REPLACE_SECTION] Header level: ${currentLevel}`);
 
   // Find the end of this section (next header of same or higher level)
   let endIndex = lines.length;
@@ -191,10 +200,8 @@ export function replaceSection(originalContent, header, newContent) {
     const headerMatch = line.match(/^#+/);
     if (headerMatch) {
       const lineLevel = headerMatch[0].length;
-      console.log(`[REPLACE_SECTION] Found header at line ${i} with level ${lineLevel}: "${line}"`);
       if (lineLevel <= currentLevel) {
         endIndex = i;
-        console.log(`[REPLACE_SECTION] Section ends at line ${endIndex}`);
         break;
       }
     }
@@ -232,11 +239,9 @@ export function replaceSection(originalContent, header, newContent) {
   }
 
   const result = newLines.join('\n');
-  console.log(`[REPLACE_SECTION] Result length: ${result.length}`);
   
   // Clean up excessive whitespace
   const cleanResult = result.replace(/\n{3,}/g, '\n\n');
-  console.log(`[REPLACE_SECTION] Final result length: ${cleanResult.length}`);
   
   return cleanResult;
 }
