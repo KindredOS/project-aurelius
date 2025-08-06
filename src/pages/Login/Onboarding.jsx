@@ -1,11 +1,11 @@
 //Path: src/components/pages/Login/Onboarding.jsx
 //Focus: To create a onboarding process for first time users
-//Version Update: Added stripeHelper functionality and fixed ESLint accessibility issues
+//Version Update: Integrated premiumHelper for automated trial subscription setup during onboarding
 
 import React, { useState } from 'react';
 import { ChevronRight, Brain, BarChart3, Trophy, Mail, User, UserCheck, Lock, Key } from 'lucide-react';
-import { registerOrUpdateUserProfile } from '../../api/ApiMaster'; 
 import { redirectToStripeCheckout } from '../../utils/stripeHelper'; 
+import { createTrialUser, createMultipleTrialUsers } from '../../utils/premiumHelper';
 import styles from './Onboarding.module.css';
 
 function Onboarding() {
@@ -48,20 +48,28 @@ function Onboarding() {
             roles = ['student'];
         }
 
-        // Create user accounts for each role
-        for (const userRole of roles) {
-          const userData = {
-            email,
-            password,
-            role: userRole,
-            name,
-            inviteCode: inviteCode || undefined // Only include if provided
-          };
-          
-          await registerOrUpdateUserProfile(userData);
+        const userData = {
+          email,
+          password,
+          name,
+          inviteCode: inviteCode || undefined
+        };
+
+        // Create trial users with subscription information using premiumHelper
+        if (roles.length === 1) {
+          // Single user creation
+          await createTrialUser({
+            ...userData,
+            role: roles[0]
+          });
+        } else {
+          // Multiple users creation
+          await createMultipleTrialUsers(userData, roles);
         }
         
+        console.log('User(s) created successfully with trial subscription');
         handleStepTransition('tutorial');
+        
       } catch (error) {
         console.error('Error creating user:', error);
         alert('There was an error creating your account. Please try again.');

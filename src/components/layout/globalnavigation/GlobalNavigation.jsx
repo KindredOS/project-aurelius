@@ -58,7 +58,7 @@ const GlobalNavigation = ({ user: propUser }) => {
         <div className={styles.leftSection}>
           <div className={styles.logo} onClick={() => navigate(`/dashboard/${user?.role || 'student'}`)}> {/* Logo Click Home */}
             <img src={kindredLogo} alt="Kindred Logo" className={styles.logoImage} />
-            <span className={styles.logoText}>KOSEdu SDK</span>
+            <span className={styles.logoText}>EDU OS</span>
           </div>
 
           <div className={styles.connectionIndicator}>

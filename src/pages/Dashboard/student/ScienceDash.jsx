@@ -96,8 +96,6 @@ const ScienceDash = () => {
   const freeGameAccessIds = ['overview', 'physics', 'chemistry', 'biology'];
   const isGameFree = freeGameAccessIds.includes(selectedTopic);
 
-  // REMOVED: normalizedLearningModes logic - no longer needed since Sidebar is self-contained
-
   //Sidebar, topic header, and AI Tutor, Quiz Assessment, Game, and Visual component variable pass. 
   return (
     <div className={styles.sciencePageContainer}>

@@ -1,10 +1,11 @@
-//Path: src/components/pages/Login/Onborading.jsx
+//Path: src/components/pages/Login/Onboarding.jsx
 //Focus: To create a onboarding process for first time users
-//Verison Update: Inital scaffolding. 
+//Version Update: Added stripeHelper functionality and fixed ESLint accessibility issues
 
 import React, { useState } from 'react';
 import { ChevronRight, Brain, BarChart3, Trophy, Mail, User, UserCheck, Lock, Key } from 'lucide-react';
-import { registerOrUpdateUserProfile } from '../../api/ApiMaster'; // adjust path based on actual location
+import { registerOrUpdateUserProfile } from '../../api/ApiMaster'; 
+import { redirectToStripeCheckout } from '../../utils/stripeHelper'; 
 import styles from './Onboarding.module.css';
 
 function Onboarding() {
@@ -15,6 +16,7 @@ function Onboarding() {
   const [inviteCode, setInviteCode] = useState('');
   const [role, setRole] = useState('myself');
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   const handleStepTransition = (nextStep) => {
     setIsAnimating(true);
@@ -69,6 +71,26 @@ function Onboarding() {
 
   const handleNextFromTutorial = () => {
     handleStepTransition('subscribe');
+  };
+
+  const handleSubscribe = async () => {
+    setIsProcessingPayment(true);
+    
+    try {
+      // You may need to adjust the planKey based on your Stripe setup
+      const planKey = 'premium_yearly'; // Changed from 'premium_monthly' to match CheckoutHandler
+      
+      await redirectToStripeCheckout({
+        username: email, // Using email as username, adjust if needed
+        email: email,
+        planKey: planKey
+      });
+    } catch (error) {
+      console.error('Error redirecting to Stripe:', error);
+      alert('There was an error processing your subscription. Please try again.');
+    } finally {
+      setIsProcessingPayment(false);
+    }
   };
 
   const handleSkipSubscribe = () => {
@@ -275,8 +297,12 @@ function Onboarding() {
                   </li>
                 </ul>
                 
-                <button className={styles.primaryButton}>
-                  Start Your Studybuddy Journey
+                <button 
+                  onClick={handleSubscribe}
+                  disabled={isProcessingPayment}
+                  className={styles.primaryButton}
+                >
+                  {isProcessingPayment ? 'Processing...' : 'Start Your Studybuddy Journey'}
                 </button>
                 
                 <button 
@@ -294,9 +320,21 @@ function Onboarding() {
         <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
           <p style={{ fontSize: '0.875rem', color: '#64748b' }}>
             By continuing, you agree to our{' '}
-            <a href="#" style={{ color: '#2563eb', textDecoration: 'underline' }}>Terms of Service</a>{' '}
+            <button 
+              type="button"
+              onClick={() => window.open('/terms-of-service', '_blank')}
+              className={styles.linkButton}
+            >
+              Terms of Service
+            </button>{' '}
             and{' '}
-            <a href="#" style={{ color: '#2563eb', textDecoration: 'underline' }}>Privacy Policy</a>
+            <button 
+              type="button"
+              onClick={() => window.open('/privacy-policy', '_blank')}
+              className={styles.linkButton}
+            >
+              Privacy Policy
+            </button>
           </p>
         </div>
       </div>
