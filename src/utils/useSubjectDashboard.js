@@ -1,4 +1,4 @@
-//Path: src/utils/useSubjectDashboard.js
+// Path: src/utils/useSubjectDashboard.js
 // Focus: Core dashboard state management hook for subject-based learning platforms
 // Version Update Notes: Removed learningModes state and getLearningModes import - learning modes now fully managed by Sidebar.jsx for better component autonomy
 
@@ -28,7 +28,8 @@ export const useSubjectDashboard = (subject, iconMap) => {
     email: localStorage.getItem('userEmail') || '',
     name: localStorage.getItem('userName') || '',
     role: localStorage.getItem('userRole') || '',
-    username: localStorage.getItem('username') || ''
+    username: localStorage.getItem('username') || '',
+    isPremium: localStorage.getItem('isPremium') === 'true'
   });
 
   // Dynamic data

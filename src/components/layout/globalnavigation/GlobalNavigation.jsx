@@ -19,7 +19,8 @@ const GlobalNavigation = ({ user: propUser }) => {
       const storedRole = localStorage.getItem('userRole');
       const imageUrl = localStorage.getItem('userImageUrl');
       const email = localStorage.getItem('userEmail');
-      setUser({ role: storedRole, imageUrl, email });
+      const isPremium = localStorage.getItem('isPremium') === 'true';
+      setUser({ role: storedRole, imageUrl, email, isPremium });
     }
   }, [propUser]);
 
@@ -106,13 +107,16 @@ const GlobalNavigation = ({ user: propUser }) => {
             )}
           </div>
 
+          {!user?.isPremium && (
           <button 
-            className={styles.subscribeButton} 
-            onClick={() => setShowSubscribeModal(true)}
+          className={styles.subscribeButton} 
+          onClick={() => setShowSubscribeModal(true)}
           >
-            <span className={styles.subscribeIcon}>✨</span>
+          <span className={styles.subscribeIcon}>✨</span>
             Subscribe
           </button>
+          )}
+
 
           <button 
             className={styles.logoutButton} 
@@ -157,7 +161,7 @@ const GlobalNavigation = ({ user: propUser }) => {
       <SubscribeModal
         isOpen={showSubscribeModal}
         onClose={() => setShowSubscribeModal(false)}
-        title="Subscribe to KOSEdu SDK"
+        title="Subscribe to EDU OS"
         user={user}
       >
         <p>Unlock full features, premium tools, and priority support by subscribing.</p>

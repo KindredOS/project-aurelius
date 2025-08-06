@@ -1,8 +1,12 @@
+// Path: src/components/pages/DashboardStudent.jsx
+// Focus: Main student dashboard with MBTI setup and subscription management
+// Version Update: Cleaned up debug logging, keeping simple trial/subscription status logs
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './DashboardStudent.module.css';
 import MBTISetupModal from '../../components/student/MBTISetupModal';
-import { fetchUserMBTI } from '../../api/User';
+import { fetchUserMBTI, getUserProfile } from '../../api/User';
 
 function StudyBuddyDashboard() {
     const navigate = useNavigate();
@@ -11,35 +15,62 @@ function StudyBuddyDashboard() {
     const user = useMemo(() => ({
         email: localStorage.getItem('userEmail'),
         name: localStorage.getItem('userName'),
+        isPremium: localStorage.getItem('isPremium') === 'true',
     }), []); // Empty dependency array since localStorage is external
 
     const [showModal, setShowModal] = useState(false);
+    const [subscriptionStatus, setSubscriptionStatus] = useState(null);
+    const [trialDaysLeft, setTrialDaysLeft] = useState(null);
 
     useEffect(() => {
         const checkMBTIStatus = async () => {
             if (user && user.email) {
-                console.log("Checking MBTI for:", user.email);
                 try {
                     const data = await fetchUserMBTI(user.email);
-                    console.log("Fetched MBTI data:", data);
                     if (!data.mbti) {
-                        console.log("No MBTI found. Showing modal.");
                         setShowModal(true);
-                    } else {
-                        console.log("MBTI exists:", data.mbti);
                     }
                 } catch (error) {
                     console.error("Error fetching MBTI data:", error);
-                    console.log("Falling back to force modal open for debug.");
-                    setShowModal(true); // force open for debug
+                    setShowModal(true);
                 }
-            } else {
-                console.log("User or email is missing:", user);
             }
         };
 
         checkMBTIStatus();
-    }, [user]); // Now user won't change unless localStorage values actually change
+    }, [user]);
+
+    useEffect(() => {
+        const checkSubscription = async () => {
+            if (user && user.email) {
+                try {
+                    const profile = await getUserProfile(user.email);
+                    const sub = profile.subscription || {};
+                    
+                    setSubscriptionStatus(sub.status || 'none');
+                    
+                    // Update localStorage with premium status
+                    const isPremium = sub.status === 'active' || (sub.is_trial && sub.trial_end_date);
+                    localStorage.setItem('isPremium', isPremium ? 'true' : 'false');
+                    
+                    if (sub.is_trial && sub.trial_end_date) {
+                        const now = new Date();
+                        const end = new Date(sub.trial_end_date);
+                        const diff = Math.ceil((end - now) / (1000 * 60 * 60 * 24));
+                        const daysLeft = Math.max(0, diff);
+                        setTrialDaysLeft(daysLeft);
+                    }
+                    
+                    // Simple status logging
+                    console.log(`Trial: ${sub.is_trial || false}, Subscription: ${sub.status === 'active'}`);
+                    
+                } catch (error) {
+                    console.error("Failed to fetch subscription:", error);
+                }
+            }
+        };
+        checkSubscription();
+    }, [user]);
 
     const categories = [
         {
@@ -84,6 +115,21 @@ function StudyBuddyDashboard() {
         <div className={styles.dashboardContainer}>
             {showModal && <MBTISetupModal user={user} onClose={() => setShowModal(false)} />}
             <h1 className={styles.dashboardHeader}>Study Buddy Dashboard</h1>
+            {subscriptionStatus === 'trialing' && (
+                <div className={styles.trialBanner}>
+                    {trialDaysLeft > 0 
+                        ? `🕒 You're on a free trial. ${trialDaysLeft} days remaining.` 
+                        : '⛔️ Your trial has ended. Upgrade to unlock full access.'}
+                </div>
+            )}
+            {subscriptionStatus !== 'active' && trialDaysLeft === 0 && (
+                <button 
+                    className={styles.upgradeButton}
+                    onClick={() => navigate('/subscribe')}
+                >
+                    Upgrade Now
+                </button>
+            )}
             <div className={styles.categoriesGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '20px' }}>
                 {categories.map((category) => (
                     <div key={category.header}>

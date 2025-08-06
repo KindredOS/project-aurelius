@@ -13,7 +13,7 @@ export async function registerOrUpdateUserProfile(profile) {
 }
 
 export async function getUserProfile(email) {
-  const response = await fetch(`${getApiUrl()}/meta/user/${encodeURIComponent(email)}`);
+  const response = await fetch(`${getApiUrl()}/edu/users/data/${encodeURIComponent(email)}`);
   if (!response.ok) throw new Error(`Failed to retrieve user profile: ${response.statusText}`);
   return await response.json();
 }
