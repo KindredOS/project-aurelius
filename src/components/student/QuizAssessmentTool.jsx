@@ -2,13 +2,12 @@
 //Focus: Fixed version with proper state management and flow control
 //Version Update: Updated QuizAssessmentTool.jsx - Fixed loading and state issues
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Award, Play, AlertCircle } from 'lucide-react';
 import styles from './QuizAssessmentTool.module.css';
 
 import {
   renderQuestionType,
-  createInitialQuizState,
   calculateProgress,
   getAnswerDisplayText,
   getCorrectAnswerDisplayText,
@@ -45,26 +44,17 @@ const QuizAssessmentTool = ({
 
   // Smart filename determination based on available data
   const getQuizFilename = () => {
-    console.log('🔍 getQuizFilename called with:');
-    console.log('  topicId:', topicId);
-    console.log('  topicData:', topicData);
-    console.log('  sectionTitle:', sectionTitle);
-    
     if (topicId) {
-      console.log('🎯 Using topicId directly:', topicId);
       return topicId;
     }
     
     if (topicData && topicData.id) {
-      console.log('🎯 Using topicData.id:', topicData.id);
       return topicData.id;
     }
     
     const moduleMatch = sectionTitle.match(/module\s*(\d+)/i);
     if (moduleMatch) {
-      const moduleId = `module${moduleMatch[1]}`;
-      console.log('🎯 Extracted module from title:', moduleId);
-      return moduleId;
+      return `module${moduleMatch[1]}`;
     }
     
     const titleMap = {
@@ -73,61 +63,33 @@ const QuizAssessmentTool = ({
       'General': 'overview'
     };
     
-    const mapped = titleMap[sectionTitle];
-    if (mapped) {
-      console.log('🎯 Mapped title to:', mapped);
-      return mapped;
-    }
-    
-    console.log('🎯 Using default fallback: overview');
-    return 'overview';
+    return titleMap[sectionTitle] || 'overview';
   };
 
   const loadStaticQuizData = async () => {
-    console.log('🚀 loadStaticQuizData called');
     setIsLoading(true);
     setLoadError(null);
     
     const filename = getQuizFilename();
     const filePath = `/data/${subject}/quiz/${encodeURIComponent(filename)}.json`;
     
-    console.log('=== QUIZ LOADING DEBUG ===');
-    console.log('Subject:', subject);
-    console.log('Section Title:', sectionTitle);
-    console.log('Topic ID:', topicId);
-    console.log('Topic Data:', topicData);
-    console.log('Determined filename:', filename);
-    console.log('Full file path:', filePath);
-    console.log('========================');
-    
     try {
-      console.log('Attempting to fetch:', filePath);
       const res = await fetch(filePath);
-      
-      console.log('Fetch response status:', res.status);
-      console.log('Fetch response ok:', res.ok);
       
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       }
       
       const data = await res.json();
-      console.log('Raw JSON data:', data);
       
       if (!data.questions || !Array.isArray(data.questions)) {
-        console.error('Invalid data structure. Expected questions array, got:', data);
         throw new Error('Invalid format: missing or invalid questions array');
       }
       
-      console.log('Questions found:', data.questions.length);
-      console.log('First question sample:', data.questions[0]);
-      
-      // Store the raw data for dynamic selection
       setRawQuizData(data);
-      console.log('✅ Quiz data loaded successfully!');
       
     } catch (err) {
-      console.error('❌ Quiz loading failed:', err);
+      console.error('Quiz loading failed:', err);
       setLoadError(`Failed to load quiz: ${err.message}`);
       setRawQuizData(null);
     } finally {
@@ -135,20 +97,14 @@ const QuizAssessmentTool = ({
     }
   };
 
-  const createDynamicQuiz = () => {
-    console.log('🎲 createDynamicQuiz called');
+  const createDynamicQuiz = useCallback(() => {
     if (!rawQuizData || !rawQuizData.questions) {
-      console.error('❌ No raw quiz data available');
+      console.error('No raw quiz data available');
       return;
     }
 
-    console.log('Creating dynamic quiz with settings:', quizSettings);
-    console.log('Available questions:', rawQuizData.questions.length);
-
     // Select questions based on settings
     const selectedQuestions = selectQuestionsFromStatic(rawQuizData.questions, quizSettings);
-    
-    console.log('Selected questions:', selectedQuestions.length);
 
     // Create the quiz object
     const dynamicQuiz = {
@@ -161,7 +117,6 @@ const QuizAssessmentTool = ({
       }
     };
 
-    console.log('✅ Setting quiz state with:', dynamicQuiz);
     setQuiz(dynamicQuiz);
     
     // Reset other states
@@ -170,41 +125,31 @@ const QuizAssessmentTool = ({
     setShowResults(false);
     setQuizStarted(false);
     setValidationErrors([]);
-  };
+  }, [rawQuizData, quizSettings]);
 
   // Auto-create quiz when rawQuizData is loaded
   useEffect(() => {
-    console.log('📊 useEffect triggered - rawQuizData changed:', !!rawQuizData);
     if (rawQuizData && !quiz) {
-      console.log('🔄 Auto-creating quiz from loaded data');
       createDynamicQuiz();
     }
-  }, [rawQuizData]);
+  }, [rawQuizData, quiz, createDynamicQuiz]);
 
   const handleSettingsChange = (key, value) => {
-    console.log('⚙️ Settings changed:', key, '=', value);
     setQuizSettings(prev => ({ ...prev, [key]: value }));
   };
 
   const handleLoadQuiz = async () => {
-    console.log('🔄 handleLoadQuiz called');
-    console.log('Current rawQuizData:', !!rawQuizData);
-    console.log('Current quiz:', !!quiz);
-    
     if (rawQuizData) {
       // We already have the data, just create the dynamic quiz
-      console.log('📋 Using existing data to create quiz');
       createDynamicQuiz();
     } else {
       // Need to load the data first
-      console.log('📥 Loading quiz data...');
       await loadStaticQuizData();
       // Note: createDynamicQuiz will be called automatically by useEffect
     }
   };
 
   const handleStartQuiz = () => {
-    console.log('🚀 Starting quiz...');
     quizStartTimeRef.current = Date.now();
     setQuizStarted(true);
     setUserAnswers({});
@@ -214,12 +159,10 @@ const QuizAssessmentTool = ({
   };
 
   const handleAnswerChange = (questionId, answer) => {
-    console.log('📝 Answer changed:', questionId, '=', answer);
     setUserAnswers(prev => ({ ...prev, [questionId]: answer }));
   };
 
   const handleSubmitQuiz = async () => {
-    console.log('📤 Submitting quiz...');
     const validation = validateQuizCompletion(quiz, userAnswers);
     if (!validation.isComplete) {
       const messages = validation.unansweredQuestions.map(q => `Question ${q.questionIndex + 1} is unanswered.`);
@@ -272,7 +215,6 @@ const QuizAssessmentTool = ({
   const handleNextQuestion = () => setCurrentQuestion(prev => Math.min(quiz.questions.length - 1, prev + 1));
   
   const resetQuiz = () => {
-    console.log('🔄 Resetting quiz...');
     setShowResults(false);
     setQuiz(null);
     setRawQuizData(null);
@@ -284,7 +226,6 @@ const QuizAssessmentTool = ({
   };
   
   const retakeQuiz = () => {
-    console.log('🔄 Retaking quiz...');
     // Regenerate quiz with same settings
     createDynamicQuiz();
     setQuizStarted(false);
@@ -418,15 +359,6 @@ const QuizAssessmentTool = ({
       </div>
     );
   };
-
-  // Debug current state
-  console.log('🔍 Current State Debug:');
-  console.log('- rawQuizData:', !!rawQuizData);
-  console.log('- quiz:', !!quiz);
-  console.log('- quizStarted:', quizStarted);
-  console.log('- showResults:', showResults);
-  console.log('- isLoading:', isLoading);
-  console.log('- loadError:', !!loadError);
 
   return (
     <div className={styles.container}>
