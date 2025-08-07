@@ -1,8 +1,8 @@
 //Path: src/components/student/QuizAssessmentTool.jsx
-//Focus: Fixed version with proper state management and flow control
-//Version Update: Updated QuizAssessmentTool.jsx - Fixed loading and state issues
+//Focus:
+//Version Update: Updated QuizAssessmentTool.jsx - Static file based with dynamic question selection
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Award, Play, AlertCircle } from 'lucide-react';
 import styles from './QuizAssessmentTool.module.css';
 
@@ -28,7 +28,7 @@ const QuizAssessmentTool = ({
   userEmail = null
 }) => {
   const [quiz, setQuiz] = useState(null);
-  const [rawQuizData, setRawQuizData] = useState(null);
+  const [rawQuizData, setRawQuizData] = useState(null); // Store full question bank
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
@@ -84,7 +84,6 @@ const QuizAssessmentTool = ({
   };
 
   const loadStaticQuizData = async () => {
-    console.log('🚀 loadStaticQuizData called');
     setIsLoading(true);
     setLoadError(null);
     
@@ -124,10 +123,11 @@ const QuizAssessmentTool = ({
       
       // Store the raw data for dynamic selection
       setRawQuizData(data);
-      console.log('✅ Quiz data loaded successfully!');
+      
+      console.log('Quiz data loaded successfully!');
       
     } catch (err) {
-      console.error('❌ Quiz loading failed:', err);
+      console.error('Quiz loading failed:', err);
       setLoadError(`Failed to load quiz: ${err.message}`);
       setRawQuizData(null);
     } finally {
@@ -136,9 +136,8 @@ const QuizAssessmentTool = ({
   };
 
   const createDynamicQuiz = () => {
-    console.log('🎲 createDynamicQuiz called');
     if (!rawQuizData || !rawQuizData.questions) {
-      console.error('❌ No raw quiz data available');
+      console.error('No raw quiz data available');
       return;
     }
 
@@ -161,50 +160,29 @@ const QuizAssessmentTool = ({
       }
     };
 
-    console.log('✅ Setting quiz state with:', dynamicQuiz);
     setQuiz(dynamicQuiz);
-    
-    // Reset other states
-    setCurrentQuestion(0);
-    setUserAnswers({});
-    setShowResults(false);
-    setQuizStarted(false);
-    setValidationErrors([]);
+    const initialState = createInitialQuizState(dynamicQuiz);
+    setCurrentQuestion(initialState.currentQuestion);
+    setUserAnswers(initialState.userAnswers);
+    setShowResults(initialState.showResults);
+    setQuizStarted(initialState.quizStarted);
   };
 
-  // Auto-create quiz when rawQuizData is loaded
-  useEffect(() => {
-    console.log('📊 useEffect triggered - rawQuizData changed:', !!rawQuizData);
-    if (rawQuizData && !quiz) {
-      console.log('🔄 Auto-creating quiz from loaded data');
-      createDynamicQuiz();
-    }
-  }, [rawQuizData]);
-
   const handleSettingsChange = (key, value) => {
-    console.log('⚙️ Settings changed:', key, '=', value);
     setQuizSettings(prev => ({ ...prev, [key]: value }));
   };
 
-  const handleLoadQuiz = async () => {
-    console.log('🔄 handleLoadQuiz called');
-    console.log('Current rawQuizData:', !!rawQuizData);
-    console.log('Current quiz:', !!quiz);
-    
+  const handleLoadQuiz = () => {
     if (rawQuizData) {
       // We already have the data, just create the dynamic quiz
-      console.log('📋 Using existing data to create quiz');
       createDynamicQuiz();
     } else {
       // Need to load the data first
-      console.log('📥 Loading quiz data...');
-      await loadStaticQuizData();
-      // Note: createDynamicQuiz will be called automatically by useEffect
+      loadStaticQuizData();
     }
   };
 
   const handleStartQuiz = () => {
-    console.log('🚀 Starting quiz...');
     quizStartTimeRef.current = Date.now();
     setQuizStarted(true);
     setUserAnswers({});
@@ -214,12 +192,10 @@ const QuizAssessmentTool = ({
   };
 
   const handleAnswerChange = (questionId, answer) => {
-    console.log('📝 Answer changed:', questionId, '=', answer);
     setUserAnswers(prev => ({ ...prev, [questionId]: answer }));
   };
 
   const handleSubmitQuiz = async () => {
-    console.log('📤 Submitting quiz...');
     const validation = validateQuizCompletion(quiz, userAnswers);
     if (!validation.isComplete) {
       const messages = validation.unansweredQuestions.map(q => `Question ${q.questionIndex + 1} is unanswered.`);
@@ -258,11 +234,7 @@ const QuizAssessmentTool = ({
       availableQuestions: rawQuizData?.questions?.length || 0
     };
 
-    try {
-      await logQuizAnalytics(analyticsPayload);
-    } catch (error) {
-      console.error('Analytics logging failed:', error);
-    }
+    await logQuizAnalytics(analyticsPayload);
 
     setShowResults(true);
     setQuizStarted(false);
@@ -272,7 +244,6 @@ const QuizAssessmentTool = ({
   const handleNextQuestion = () => setCurrentQuestion(prev => Math.min(quiz.questions.length - 1, prev + 1));
   
   const resetQuiz = () => {
-    console.log('🔄 Resetting quiz...');
     setShowResults(false);
     setQuiz(null);
     setRawQuizData(null);
@@ -284,14 +255,13 @@ const QuizAssessmentTool = ({
   };
   
   const retakeQuiz = () => {
-    console.log('🔄 Retaking quiz...');
     // Regenerate quiz with same settings
     createDynamicQuiz();
-    setQuizStarted(false);
-    setShowResults(false);
-    setUserAnswers({});
-    setCurrentQuestion(0);
-    setValidationErrors([]);
+    const initialState = createInitialQuizState(quiz);
+    setQuizStarted(initialState.quizStarted);
+    setShowResults(initialState.showResults);
+    setUserAnswers(initialState.userAnswers);
+    setCurrentQuestion(initialState.currentQuestion);
   };
 
   const getDisplayTitle = () => {
@@ -346,9 +316,7 @@ const QuizAssessmentTool = ({
           <strong>Debug Info:</strong><br/>
           Topic ID: {topicId || 'null'}<br/>
           Section Title: {sectionTitle}<br/>
-          Determined filename: {getQuizFilename()}<br/>
-          Raw Quiz Data: {rawQuizData ? 'Loaded' : 'Not loaded'}<br/>
-          Quiz Object: {quiz ? 'Created' : 'Not created'}
+          Determined filename: {getQuizFilename()}
         </div>
       </div>
       <button onClick={loadStaticQuizData} className={styles.startButton}>
@@ -419,15 +387,6 @@ const QuizAssessmentTool = ({
     );
   };
 
-  // Debug current state
-  console.log('🔍 Current State Debug:');
-  console.log('- rawQuizData:', !!rawQuizData);
-  console.log('- quiz:', !!quiz);
-  console.log('- quizStarted:', quizStarted);
-  console.log('- showResults:', showResults);
-  console.log('- isLoading:', isLoading);
-  console.log('- loadError:', !!loadError);
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -435,33 +394,16 @@ const QuizAssessmentTool = ({
       </div>
 
       <div className={styles.content}>
-        {/* Initial settings screen */}
-        {!rawQuizData && !loadError && !isLoading && renderQuizSettings({
+        {!rawQuizData && !loadError && renderQuizSettings({
           quizSettings,
           onSettingsChange: handleSettingsChange,
           onLoadQuiz: handleLoadQuiz,
-          isLoading: false,
+          isLoading,
           styles
         })}
-        
-        {/* Loading state */}
-        {isLoading && (
-          <div className={styles.quizStart}>
-            <div className={styles.loadingSpinner}></div>
-            <p>Loading quiz data...</p>
-          </div>
-        )}
-        
-        {/* Load error */}
         {loadError && renderLoadError()}
-        
-        {/* Quiz ready to start */}
         {quiz && !quizStarted && !showResults && renderQuizStart()}
-        
-        {/* Quiz in progress */}
         {quiz && quizStarted && !showResults && renderQuizQuestion()}
-        
-        {/* Quiz results */}
         {quiz && showResults && renderResults({
           quiz,
           userAnswers,
