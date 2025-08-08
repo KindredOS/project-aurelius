@@ -1,4 +1,4 @@
-/* components/student/AdaptiveTextbook.module.css - Enhanced with Side Scroll and Collapsible Headers */
+/* components/student/AdaptiveTextbook.module.css - Enhanced with Side Scroll, Collapsible Headers, and Typewriter Effects */
 
 .container {
   width: 100%;
@@ -438,8 +438,6 @@
   transition: all 0.3s ease-in;
 }
 
-/* Fade in animation for content sections - removed */
-
 /* Enhanced scroll indicators */
 .sideScrollContainer::before,
 .sideScrollContainer::after {
@@ -495,4 +493,90 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Animation for enhanced section reveal */
+.enhancedReveal {
+  animation: fadeInEnhanced 0.6s ease-out;
+}
+
+.sectionAnimatedReveal {
+  animation: fadeInEnhanced 0.6s ease-out;
+}
+
+/* ✅ Pulsing animation for thinking messages */
+.thinkingMessage {
+  animation: thinkingPulse 2s ease-in-out infinite;
+  font-style: italic;
+  color: #6b7280 !important;
+  opacity: 0.8;
+}
+
+/* Keyframes for fade-in + slight scale effect */
+@keyframes fadeInEnhanced {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Keyframes for gentle pulsing effect */
+@keyframes thinkingPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+/* ✨ Typewriter effect styles */
+.typewriterParagraph {
+  min-height: 1.5em; /* Prevent layout jumping */
+  position: relative;
+  animation: typewriterFadeIn 0.3s ease-out;
+}
+
+.typewriterContent {
+  display: inline;
+}
+
+.typewriting {
+  position: relative;
+}
+
+/* Blinking cursor for typewriter effect */
+.cursor {
+  display: inline-block;
+  background-color: #3b82f6;
+  width: 2px;
+  animation: blink 1s infinite;
+  margin-left: 1px;
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Smooth appearance for typewriter sections */
+@keyframes typewriterFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
