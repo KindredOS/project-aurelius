@@ -1,6 +1,6 @@
 // Pathing: src/pages/Dashboard/student/ArtDash.jsx
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Arts Learning Hub Work. 
-// Verison Update: Updated top commments, and added subject carry variable to achievements.
+// Verison Update: Updated top commments, and added subject carry variable to achievements. Integrated GameMenu loader into interactive mode.
 
 import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, Palette, PenLine, Mic2, Video, PencilRuler, Soup, Combine, Theater } from 'lucide-react';
@@ -10,7 +10,7 @@ import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
-import ArtsGame from '../../../components/student/arts/game/ArtsGame';
+import GameMenu from '../../../components/student/GameMenu';
 import AchievementsCard from '../../../components/student/AchievementsCard';
 import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './ArtsDash.module.css';
@@ -81,10 +81,14 @@ const ArtsDash = () => {
     </div>
   );
 
-  //Run game interactive element, with a focus on being the start of a game loader component.
+  //Run game interactive element, simplified to just use GameMenu
   const runGame = () => (
     <div className={styles.simulationCard}>
-      <ArtsGame />
+      <GameMenu
+        subject="arts"
+        isPremium={isPremium}
+        onLaunch={() => {}} // GameMenu handles everything internally now
+      />
     </div>
   );
 
