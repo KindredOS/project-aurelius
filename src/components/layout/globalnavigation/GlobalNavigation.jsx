@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { isOnline } from '../../../utils/networkStatus';
 import styles from './GlobalNavigation.module.css';
 import SubscribeModal from '../../SubscribeModal';
 import kindredLogo from '../../../assets/images/kindred-logo.png';
 import LessonPlanner from '../../student/LessonPlanner';
+import IssueReportModal from '../../IssueReportModal';
 
 const GlobalNavigation = ({ user: propUser }) => {
   const navigate = useNavigate();
@@ -13,6 +14,24 @@ const GlobalNavigation = ({ user: propUser }) => {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const [showLessonMenu, setShowLessonMenu] = useState(false);
+
+  // Issue reporting modal state + lightweight recent logs ring
+  const [showIssueModal, setShowIssueModal] = useState(false);
+  const recentLogsRef = useRef([]);
+
+  // Optional: simple client log capture (swap with your logger if present)
+  useEffect(() => {
+    const origLog = console.log;
+    const origErr = console.error;
+    const push = (type, args) => {
+      const entry = `[${new Date().toISOString()}] ${type}: ${Array.from(args).map(String).join(' ')}`;
+      recentLogsRef.current.push(entry);
+      if (recentLogsRef.current.length > 100) recentLogsRef.current.shift();
+    };
+    console.log = (...args) => { push('log', args); origLog(...args); };
+    console.error = (...args) => { push('error', args); origErr(...args); };
+    return () => { console.log = origLog; console.error = origErr; };
+  }, []);
 
   useEffect(() => {
     if (!propUser) {
@@ -53,11 +72,44 @@ const GlobalNavigation = ({ user: propUser }) => {
     setShowLessonMenu(prev => !prev);
   };
 
+  // ---- Issue Report wiring ----
+  const collectExtras = async () => {
+    try {
+      return {
+        role: user?.role || 'unknown',
+        emailHint: user?.email ? user.email.replace(/(.{2}).+(@.+)/, '$1***$2') : undefined,
+        connectivity: isConnected,
+        // Add any feature flags or environment bits here if you want
+      };
+    } catch {
+      return { extrasError: true };
+    }
+  };
+
+  const handleIssueSubmit = async (payload) => {
+    // Adjust endpoint to your backend route
+    const formData = new FormData();
+    formData.set(
+      'meta',
+      new Blob(
+        [JSON.stringify({ ...payload, attachments: undefined })],
+        { type: 'application/json' }
+      )
+    );
+    for (const f of payload.attachments) formData.append('files', f);
+
+    const res = await fetch('/api/issue-report', { method: 'POST', body: formData });
+    if (!res.ok) throw new Error(`Issue report failed with status ${res.status}`);
+  };
+
   return (
     <>
       <nav className={styles.navbar}>
         <div className={styles.leftSection}>
-          <div className={styles.logo} onClick={() => navigate(`/dashboard/${user?.role || 'student'}`)}> {/* Logo Click Home */}
+          <div
+            className={styles.logo}
+            onClick={() => navigate(`/dashboard/${user?.role || 'student'}`)}
+          >
             <img src={kindredLogo} alt="Kindred Logo" className={styles.logoImage} />
             <span className={styles.logoText}>EDU OS</span>
           </div>
@@ -87,17 +139,21 @@ const GlobalNavigation = ({ user: propUser }) => {
             📘
           </button>
 
-          <NavLink
-            to="/settings"
-            className={({ isActive }) => 
-              `${styles.iconButton} ${isActive ? styles.active : ''}`
-            }
-            title="Settings"
+          {/* Warning triangle opens Issue Reporter */}
+          <button
+            className={styles.iconButton}
+            onClick={() => setShowIssueModal(true)}
+            title="Report an issue"
+            aria-label="Report an issue"
           >
-            <span className={styles.settingsIcon}>⚙️</span>
-          </NavLink>
+            <span className={styles.settingsIcon} role="img" aria-hidden="true">⚠️</span>
+          </button>
 
-          <div className={styles.profile} onClick={() => navigate('/profile')} title="Profile">
+          <div
+            className={styles.profile}
+            onClick={() => navigate('/profile')}
+            title="Profile"
+          >
             {user?.imageUrl ? (
               <img src={user.imageUrl} alt="Profile Avatar" className={styles.avatar} />
             ) : (
@@ -108,18 +164,17 @@ const GlobalNavigation = ({ user: propUser }) => {
           </div>
 
           {!user?.isPremium && (
-          <button 
-          className={styles.subscribeButton} 
-          onClick={() => setShowSubscribeModal(true)}
-          >
-          <span className={styles.subscribeIcon}>✨</span>
-            Subscribe
-          </button>
+            <button
+              className={styles.subscribeButton}
+              onClick={() => setShowSubscribeModal(true)}
+            >
+              <span className={styles.subscribeIcon}>✨</span>
+              Subscribe
+            </button>
           )}
 
-
-          <button 
-            className={styles.logoutButton} 
+          <button
+            className={styles.logoutButton}
             onClick={() => setShowLogoutConfirm(true)}
             title="Log Out"
           >
@@ -141,13 +196,13 @@ const GlobalNavigation = ({ user: propUser }) => {
             <h3>Confirm Logout</h3>
             <p>Are you sure you want to log out?</p>
             <div className={styles.modalActions}>
-              <button 
+              <button
                 className={styles.cancelButton}
                 onClick={() => setShowLogoutConfirm(false)}
               >
                 Cancel
               </button>
-              <button 
+              <button
                 className={styles.confirmButton}
                 onClick={handleLogout}
               >
@@ -166,6 +221,15 @@ const GlobalNavigation = ({ user: propUser }) => {
       >
         <p>Unlock full features, premium tools, and priority support by subscribing.</p>
       </SubscribeModal>
+
+      <IssueReportModal
+        open={showIssueModal}
+        onClose={() => setShowIssueModal(false)}
+        onSubmit={handleIssueSubmit}
+        collectExtras={collectExtras}
+        recentLogs={recentLogsRef.current}
+        defaultSeverity="medium"
+      />
     </>
   );
 };

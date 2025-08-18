@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RotateCcw, Trophy, Clock, Star, Zap } from 'lucide-react';
+import { RotateCcw, Trophy, Clock, Zap } from 'lucide-react';
 
 const SOUTHEAST_STATES = {
   'Delaware': 'Dover',
