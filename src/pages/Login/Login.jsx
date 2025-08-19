@@ -4,11 +4,28 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import styles from './Login.module.css';
 import { getApiUrl } from '../../api/ApiMaster';
 
+// Hashing helper (PBKDF2-SHA256, 256-bit)
+import { preparePasswordForLogin, pbkdf2ClientHash } from '../../utils/encryptionLoginHelper';
+// Shared modal (upgrade + reset)
+import UpdatePasswordModal from '../../components/UpdatePasswordModal';
+
+// Prefer env var over hardcoding to avoid GSI origin issues
+const GOOGLE_CLIENT_ID =
+  (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_GOOGLE_CLIENT_ID) ||
+  (typeof process !== 'undefined' && process.env && process.env.REACT_APP_GOOGLE_CLIENT_ID) ||
+  '';
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState(null);
   const [inviteCode, setInviteCode] = useState('');
+
+  // Password flows
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [resetOpen, setResetOpen] = useState(false);
+  const [upgradeToken, setUpgradeToken] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +36,6 @@ function Login() {
       alert('Welcome back!');
       navigate(`/dashboard/${storedRole}`);
     }
-
     return () => {
       document.body.classList.remove('login-page');
     };
@@ -30,7 +46,6 @@ function Login() {
       alert('Please select your role before signing in with Google.');
       return;
     }
-
     try {
       const base64Url = response.credential.split('.')[1];
       const decodedPayload = JSON.parse(atob(base64Url));
@@ -39,19 +54,17 @@ function Login() {
 
       const res = await fetch(`${getApiUrl()}/edu/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: userEmail,
           password: 'google_oauth',
-          role: role,
+          role,
           inviteCode: (role === 'student' && inviteCode) ? inviteCode : undefined,
         }),
       });
 
       if (!res.ok) {
-        const errorData = await res.json();
+        const errorData = await res.json().catch(() => ({}));
         throw new Error(errorData.detail || 'Google login failed');
       }
 
@@ -64,7 +77,12 @@ function Login() {
       localStorage.setItem('userRole', data.role);
       localStorage.setItem('accessRole', data.accessRole || data.role);
 
-      // Navigate to the appropriate dashboard
+      if (data.needsPasswordUpgrade) {
+        setUpgradeToken(data.upgradeToken || null);
+        setUpgradeOpen(true);
+        return;
+      }
+
       const dashboardRole = data.accessRole || data.role;
       navigate(`/dashboard/${dashboardRole}`);
     } catch (err) {
@@ -80,38 +98,66 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!role) {
       alert('Please select a role before logging in.');
       return;
     }
 
-    try {
-      const response = await fetch(`${getApiUrl()}/edu/login`, {
+    // Helper to attempt login with a given password field
+    const attemptLogin = async (pwToSend) => {
+      return fetch(`${getApiUrl()}/edu/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email,
-          password,
+          password: pwToSend,
           role,
           inviteCode: (role === 'student' && inviteCode) ? inviteCode : undefined,
         }),
       });
+    };
 
-      if (!response.ok) {
-        const errorData = await response.json();
+    try {
+      // 1) Try hashed first
+      const { passwordToSend } = await preparePasswordForLogin({ email, password });
+      let res = await attemptLogin(passwordToSend);
+
+      // 2) If server is still plaintext (legacy), try a one-time plaintext fallback
+      if (res.status === 401) {
+        const fallback = await attemptLogin(password); // plaintext
+        if (fallback.ok) {
+          const data = await fallback.json();
+          // Store as usual, but require immediate upgrade (don’t navigate yet)
+          localStorage.setItem('userRole', data.role);
+          localStorage.setItem('userEmail', data.email);
+          localStorage.setItem('accessRole', data.accessRole || data.role);
+          setUpgradeToken(data.upgradeToken || null);
+          setUpgradeOpen(true);
+          return;
+        } else {
+          // Use the first failure’s message if present
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.detail || 'Invalid credentials');
+        }
+      }
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
         throw new Error(errorData.detail || 'Login failed');
       }
 
-      const data = await response.json();
-
+      const data = await res.json();
       localStorage.setItem('userRole', data.role);
       localStorage.setItem('userEmail', data.email);
       localStorage.setItem('accessRole', data.accessRole || data.role);
-      
-      // Navigate to the appropriate dashboard
+
+      // Force upgrade if backend flags it
+      if (data.needsPasswordUpgrade) {
+        setUpgradeToken(data.upgradeToken || null);
+        setUpgradeOpen(true);
+        return;
+      }
+
       const dashboardRole = data.accessRole || data.role;
       navigate(`/dashboard/${dashboardRole}`);
     } catch (error) {
@@ -123,8 +169,52 @@ function Login() {
     navigate('/onboarding');
   };
 
+  // Upgrade submit (from UpdatePasswordModal, mode="upgrade")
+  const handleSubmitUpgrade = async (newPassword) => {
+    try {
+      const passwordToSend = await pbkdf2ClientHash(email, newPassword);
+      const res = await fetch(`${getApiUrl()}/edu/upgrade-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          newPassword: passwordToSend,
+          token: upgradeToken || undefined,
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.detail || 'Password upgrade failed');
+      }
+      setUpgradeOpen(false);
+      const dashboardRole = localStorage.getItem('accessRole') || localStorage.getItem('userRole');
+      navigate(`/dashboard/${dashboardRole}`);
+    } catch (e) {
+      alert(e.message || 'Password upgrade failed.');
+    }
+  };
+
+  // Reset submit (from UpdatePasswordModal, mode="reset")
+  const handleSubmitReset = async (emailForReset) => {
+    try {
+      const res = await fetch(`${getApiUrl()}/edu/request-password-reset`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailForReset }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.detail || 'Unable to send reset email');
+      }
+      setResetOpen(false);
+      alert('If an account exists for that email, a reset link has been sent.');
+    } catch (e) {
+      alert(e.message || 'Unable to send reset email.');
+    }
+  };
+
   return (
-    <GoogleOAuthProvider clientId="767450657361-c1arvbqpisqt92qpcf4596gkc6rsqbij.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID || 'YOUR_GOOGLE_CLIENT_ID_HERE'}>
       <div className={styles['login-wrapper']}>
         <div className={styles['login-form-area']}>
           <div className={styles['login-container']}>
@@ -213,21 +303,48 @@ function Login() {
               <button type="submit">Login</button>
             </form>
 
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop: 10 }}>
+              <button
+                type="button"
+                onClick={() => setResetOpen(true)}
+                style={{ background:'transparent', border:'none', color:'#007bff', cursor:'pointer', padding:0 }}
+              >
+                Forgot password?
+              </button>
+            </div>
+
             <div style={{ marginTop: '20px' }}>
               <p style={{ fontSize: '14px', marginBottom: '10px', color: '#666' }}>
                 {role ? `Sign in with Google as ${role}` : 'Select a role first to use Google Sign-In'}
               </p>
               {role && (
-                <GoogleLogin
-                  onSuccess={handleGoogleSuccess}
-                  onError={handleGoogleError}
-                />
+                <GoogleLogin onSuccess={handleGoogleSuccess} onError={handleGoogleError} />
+              )}
+              {!GOOGLE_CLIENT_ID && (
+                <p style={{ fontSize: 12, color: '#b00', marginTop: 8 }}>
+                  Missing Google Client ID. Set VITE_GOOGLE_CLIENT_ID or REACT_APP_GOOGLE_CLIENT_ID.
+                </p>
               )}
             </div>
           </div>
         </div>
         <div className={styles['login-image-area']}></div>
       </div>
+
+      {/* Shared modals */}
+      <UpdatePasswordModal
+        open={upgradeOpen}
+        mode="upgrade"
+        onCancel={() => setUpgradeOpen(false)}
+        onSubmit={handleSubmitUpgrade}
+      />
+      <UpdatePasswordModal
+        open={resetOpen}
+        mode="reset"
+        emailPrefill={email}
+        onCancel={() => setResetOpen(false)}
+        onSubmit={handleSubmitReset}
+      />
     </GoogleOAuthProvider>
   );
 }
