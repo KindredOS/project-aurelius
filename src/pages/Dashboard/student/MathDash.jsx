@@ -1,6 +1,6 @@
 // Pathing: src/pages/Dashboard/student/MathDash.jsx
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Math Learning Hub Work.
-// Verison Update: Updated top commments, and added subject carry variable to achievements.
+// Verison Update: Audited to add in the game menu and feature, creating parity. 08.24.25
 
 import React, { useMemo, useState, useEffect, lazy, Suspense } from 'react';
 import { BookOpen, FunctionSquare, SquareStack, BarChart2, Sigma, Code2, Globe, BrainCircuit, Calculator } from 'lucide-react';
@@ -10,7 +10,7 @@ import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
-import gameList from '../../../components/student/math/game/MathGameInventory.json';
+import GameMenu from '../../../components/student/GameMenu';
 import AchievementsCard from '../../../components/student/AchievementsCard';
 import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './MathDash.module.css';
@@ -19,8 +19,7 @@ import { MODE } from '../../../api/ApiMaster';
 const MathDash = () => {
   const [showSubscribe, setShowSubscribe] = useState(false);
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
-  const [selectedGameId, setSelectedGameId] = useState(null);
-
+  
   useEffect(() => {
     const updateStatus = () => setIsOffline(!navigator.onLine);
     window.addEventListener('online', updateStatus);
@@ -31,7 +30,7 @@ const MathDash = () => {
     };
   }, []);
 
-  //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
+  //Iconmap is now is functional, and attached each to a different module. 
   const mathIconMap = useMemo(() => ({
   "overview": BookOpen,           // Course Overview
   "module1": Calculator,          // Foundations of Mathematical Thinking
@@ -64,80 +63,49 @@ const MathDash = () => {
   const localPremiumCache = localStorage.getItem('isPremiumCached') === 'true';
   const isEdge = MODE === 'EDGE';
   const isPremium = isEdge || user?.isPremium || localPremiumCache || isOffline;
-  if (user?.isPremium) localStorage.setItem('isPremiumCached', 'true');
+  
+  if (user?.isPremium) {
+    localStorage.setItem('isPremiumCached', 'true');
+  }
 
-  //Render progressbar, needs updating, I think there might be a conflict somewhere in there. 
+  //Render progressbar, should be fully functional. Had to resolve it in a module.css 
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
       <div className={styles.progressFill} style={{ width: `${progress}%` }}></div>
     </div>
   );
 
-  //Render progressbar for topic-level display
   const renderMainProgressBar = (progress) => (
     <div className={styles.mainProgressBar}>
       <div className={styles.mainProgressFill} style={{ width: `${progress}%` }}></div>
     </div>
   );
 
-  //Run game interactive element, now supports JSON-based game loader to allow extensible game selection
-  const RenderInteractiveGame = () => {
-    if (!selectedGameId) return null;
-
-    const gameEntry = gameList.find(g => g.id === selectedGameId);
-    if (!gameEntry) return <div className={styles.lockedOverlay}>❗ Game not found in inventory.</div>;
-
-    const GameComponent = lazy(() =>
-      import(`../../../components/student/math/game/${gameEntry.component}.jsx`)
-    );
-
-    if (!isPremium) {
-      return (
-        <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
-          <div className={styles.lockedOverlay}>
-            🔒 This interactive simulation is a Premium feature.
-            <button className={styles.subscribeButton}>Learn More</button>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className={styles.simulationCard}>
-        <Suspense fallback={<div>Loading game...</div>}>
-          <GameComponent />
-        </Suspense>
-      </div>
-    );
-  };
-
-  //Game selector dynamically creates buttons with thumbnails from JSON inventory, allowing for scalable UI injection
-  const GameSelector = () => (
-    <div className={styles.gameSelectorGrid}>
-      {gameList.map(game => (
-        <button
-          key={game.id}
-          className={styles.gameTile}
-          onClick={() => setSelectedGameId(game.id)}
-        >
-          {game.thumbnail && (
-            <img
-              src={game.thumbnail}
-              alt={`${game.title} thumbnail`}
-              className={styles.thumbnail}
-            />
-          )}
-          <div className={styles.gameTitle}>🎮 {game.title}</div>
-        </button>
-      ))}
+  //Run game interactive element, common component built to use GameMenu handles everything internally now
+  const runGame = () => (
+    <div className={styles.simulationCard}>
+      <GameMenu
+        subject="math"
+        isPremium={isPremium}
+        onLaunch={() => {}}
+      />
     </div>
   );
+
+  if (loading) {
+      return <div className={styles.loadingContainer}>Loading Arts Dashboard...</div>;
+  }
+  
+  const topic = topics.find(t => t.id === selectedTopic) || currentTopicData;
+  const freeGameAccessIds = ['overview', 'visual', 'music', 'theater'];
+  const isGameFree = freeGameAccessIds.includes(selectedTopic);
 
   if (loading) return <div className={styles.loadingContainer}>Loading Math Dashboard...</div>;
 
   //Topic fallback in case user clicks before sync, fallback to current topicData object
-  const topic = topics.find(t => t.id === selectedTopic) || currentTopicData;
+  //const topic = topics.find(t => t.id === selectedTopic) || currentTopicData; <--- needs review
 
+  // Sidebard, topic header, and AI Tutor, Quiz Assessment, Game, and Visual component variable pass. 
   return (
     <div className={styles.mathPageContainer}>
       <Sidebar
@@ -168,6 +136,7 @@ const MathDash = () => {
             userEmail={user.email}
           />
 
+          {/* Chat-based collaboration mode */}
           {learningMode === 'collaborative' && (
             <ChatWindow
               chatHistory={chatHistory}
@@ -184,6 +153,7 @@ const MathDash = () => {
             />
           )}
 
+          {/* 📝 Quiz & Assessment */}
           {learningMode === 'assessment' && (
             <QuizAssessmentTool
               content={currentTopicData?.content || "This section covers key concepts in math."}
@@ -196,13 +166,19 @@ const MathDash = () => {
             />
           )}
 
+          {/* Interactive Game Mode */}
           {learningMode === 'interactive' && (
-            <>
-              <GameSelector />
-              <RenderInteractiveGame />
-            </>
+            isPremium || isGameFree ? runGame() : (
+              <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
+                <div className={styles.lockedOverlay}>
+                  🔒 This creative project is a Premium feature.
+                   <button className={styles.subscribeButton}>Learn More</button>
+                </div>
+              </div>
+            )
           )}
 
+          {/* Visual Learning Resources Mode */}
           {learningMode === 'visual' && (
             isPremium ? (
               <VisualResources

@@ -1,6 +1,6 @@
 // Pathing: src/pages/Dashboard/student/TechnologyDash.jsx
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Technology Learning Hub Work.
-// Version Update: Updated top commments, and added subject carry variable to achievements.
+// Version Update: Audited to add in the game menu and feature, creating parity. 08.24.25
 
 import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, Code, Atom, Globe, ShieldCheck, MonitorSmartphone, Terminal, Network, Telescope } from 'lucide-react';
@@ -10,7 +10,7 @@ import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
-import TechnologyGame from '../../../components/student/technology/game/TechnologyGame';
+import GameMenu from '../../../components/student/GameMenu';
 import AchievementsCard from '../../../components/student/AchievementsCard';
 import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './TechnologyDash.module.css';
@@ -30,7 +30,7 @@ const TechnologyDash = () => {
     };
   }, []);
 
-   //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
+   //Iconmap is now is functional, and attached each to a different module. 
   const techonologyIconMap = useMemo(() => ({
     'overview': BookOpen,
     'module1': Code,
@@ -68,7 +68,7 @@ const TechnologyDash = () => {
     localStorage.setItem('isPremiumCached', 'true');
   }
 
-  //Render progressbar, needs updating, I think there might be a conflict somewhere in there. 
+  //Render progressbar, should be fully functional. Had to resolve it in a module.css
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
       <div className={styles.progressFill} style={{ width: `${progress}%` }}></div>
@@ -81,13 +81,16 @@ const TechnologyDash = () => {
     </div>
   );
 
-  //Run game interactive element, with a focus on being the start of a game loader component.
+  //Run game interactive element, common component built to use GameMenu handles everything internally now
   const runGame = () => (
     <div className={styles.simulationCard}>
-      <TechnologyGame />
+      <GameMenu
+        subject="technology"
+        isPremium={isPremium}
+        onLaunch={() => {}}
+      />
     </div>
   );
-
 
   if (loading) {
     return <div className={styles.loadingContainer}>Loading Technology Dashboard...</div>;
@@ -128,6 +131,7 @@ const TechnologyDash = () => {
             userEmail={user.email}
           />
 
+          {/* Chat-based collaboration mode */}
           {learningMode === 'collaborative' && (
             <ChatWindow
               chatHistory={chatHistory}
@@ -144,6 +148,7 @@ const TechnologyDash = () => {
             />
           )}
 
+          {/* 📝 Quiz & Assessment */}
           {learningMode === 'assessment' && (
             <QuizAssessmentTool
               content={currentTopicData?.content || "This section covers key concepts in technology."}
@@ -156,6 +161,7 @@ const TechnologyDash = () => {
             />
           )}
 
+          {/* Interactive Game Mode */}
           {learningMode === 'interactive' && (
             isPremium || isGameFree ? runGame() : (
               <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
@@ -167,6 +173,7 @@ const TechnologyDash = () => {
             )
           )}
 
+          {/* Visual Learning Resources Mode */}
           {learningMode === 'visual' && (
             isPremium ? (
               <VisualResources

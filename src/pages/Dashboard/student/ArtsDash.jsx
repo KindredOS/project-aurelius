@@ -1,6 +1,6 @@
 // Pathing: src/pages/Dashboard/student/ArtDash.jsx
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Arts Learning Hub Work. 
-// Verison Update: Updated top commments, and added subject carry variable to achievements. Integrated GameMenu loader into interactive mode.
+// Verison Update: Audited to add in the game menu and feature, creating parity. 08.24.25
 
 import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, Palette, PenLine, Mic2, Video, PencilRuler, Soup, Combine, Theater } from 'lucide-react';
@@ -30,7 +30,7 @@ const ArtsDash = () => {
     };
   }, []);
 
-  //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
+  //Iconmap is now is functional, and attached each to a different module. 
   const artsIconMap = useMemo(() => ({
   "overview": BookOpen,       // Foundations of Artistic Expression
   "module1": Palette,         // Visual Arts
@@ -68,7 +68,7 @@ const ArtsDash = () => {
     localStorage.setItem('isPremiumCached', 'true');
   }
 
-  //Render progressbar, needs updating, I think there might be a conflict somewhere in there. 
+  //Render progressbar, should be fully functional. Had to resolve it in a module.css 
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
       <div className={styles.progressFill} style={{ width: `${progress}%` }}></div>
@@ -81,13 +81,13 @@ const ArtsDash = () => {
     </div>
   );
 
-  //Run game interactive element, simplified to just use GameMenu
+  //Run game interactive element, common component built to use GameMenu handles everything internally now
   const runGame = () => (
     <div className={styles.simulationCard}>
       <GameMenu
         subject="arts"
         isPremium={isPremium}
-        onLaunch={() => {}} // GameMenu handles everything internally now
+        onLaunch={() => {}}
       />
     </div>
   );
@@ -100,7 +100,7 @@ const ArtsDash = () => {
   const freeGameAccessIds = ['overview', 'visual', 'music', 'theater'];
   const isGameFree = freeGameAccessIds.includes(selectedTopic);
 
-   //Sidebard, topic header, and AI Tutor, Quiz Assessment, Game, and Visual component variable pass. 
+  // Sidebard, topic header, and AI Tutor, Quiz Assessment, Game, and Visual component variable pass. 
   return (
     <div className={styles.artsPageContainer}>
       <Sidebar
@@ -132,7 +132,7 @@ const ArtsDash = () => {
             userEmail={user.email}
           />
 
-          {/* 🧠 AI Arts Mentor */}
+          {/* Chat-based collaboration mode */}
           {learningMode === 'collaborative' && (
             <ChatWindow
               chatHistory={chatHistory}
@@ -162,7 +162,7 @@ const ArtsDash = () => {
             />
           )}
 
-          {/* 🎨 Interactive Art Game */}
+          {/* Interactive Game Mode */}
           {learningMode === 'interactive' && (
             isPremium || isGameFree ? runGame() : (
               <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
@@ -174,7 +174,7 @@ const ArtsDash = () => {
             )
           )}               
 
-          {/* 🎥 Visual Resources */}
+          {/* Visual Learning Resources Mode */}
           {learningMode === 'visual' && (
             isPremium ? (
               <VisualResources

@@ -1,6 +1,6 @@
 // Pathing: src/pages/Dashboard/student/LifestyleDash.jsx
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Lifestyle Learning Hub Work. 
-// Verison Update: Updated top commments, and added subject carry variable to achievements.
+// Verison Update: Audited to add in the game menu and feature, creating parity. 08.24.25
 
 import React, { useMemo, useState, useEffect } from 'react';
 import { Home, HeartPulse, Repeat, Users, BrainCog, Handshake, WalletCards, Eye, Leaf } from 'lucide-react';
@@ -10,7 +10,7 @@ import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
-import LifestyleGame from '../../../components/student/lifestyle/game/LifestyleGame';
+import GameMenu from '../../../components/student/GameMenu';
 import AchievementsCard from '../../../components/student/AchievementsCard';
 import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './LifestyleDash.module.css';
@@ -30,7 +30,7 @@ const LifestyleDash = () => {
     };
   }, []);
 
-  //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
+  //Iconmap is now is functional, and attached each to a different module.  
   const lifestyleIconMap = useMemo(() => ({
   "overview": Home,                 // Overview: Lifestyle
   "module1": HeartPulse,            // Health & Energy
@@ -68,7 +68,7 @@ const LifestyleDash = () => {
     localStorage.setItem('isPremiumCached', 'true');
   }
 
-   //Render progressbar, needs updating, I think there might be a conflict somewhere in there. 
+  //Render progressbar, should be fully functional. Had to resolve it in a module.css  
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
       <div className={styles.progressFill} style={{ width: `${progress}%` }}></div>
@@ -81,10 +81,14 @@ const LifestyleDash = () => {
     </div>
   );
 
-  //Run game interactive element, with a focus on being the start of a game loader component.
+  //Run game interactive element, common component built to use GameMenu handles everything internally now
   const runGame = () => (
     <div className={styles.simulationCard}>
-      <LifestyleGame />
+      <GameMenu
+        subject="lifestyle"
+        isPremium={isPremium}
+        onLaunch={() => {}}
+      />
     </div>
   );
 
@@ -127,6 +131,7 @@ const LifestyleDash = () => {
             userEmail={user.email}
           />
 
+          {/* Chat-based collaboration mode */}
           {learningMode === 'collaborative' && (
             <ChatWindow
               chatHistory={chatHistory}
@@ -143,6 +148,7 @@ const LifestyleDash = () => {
             />
           )}
 
+          {/* 📝 Quiz & Assessment */}
           {learningMode === 'assessment' && (
             <QuizAssessmentTool
               content={currentTopicData?.content || "This section covers key concepts in lifestyle topics."}
@@ -155,6 +161,7 @@ const LifestyleDash = () => {
             />
           )}
 
+          {/* Interactive Game Mode */}
           {learningMode === 'interactive' && (
             isPremium || isGameFree ? runGame() : (
               <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
@@ -166,6 +173,7 @@ const LifestyleDash = () => {
             )
           )}
 
+          {/* Visual Learning Resources Mode */}
           {learningMode === 'visual' && (
             isPremium ? (
               <VisualResources

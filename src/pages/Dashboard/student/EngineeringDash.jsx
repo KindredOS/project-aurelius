@@ -1,6 +1,6 @@
 // Pathing: src/pages/Dashboard/student/EngineeringDash.jsx
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Engineering Learning Hub Work. 
-// Verison Update: Updated top commments, and added subject carry variable to achievements.
+// Verison Update: Audited to add in the game menu and feature, creating parity. 08.24.25
 
 import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, Ruler, Construction, Layers, Spline, Wrench, Building2, PlugZap, Sparkles } from 'lucide-react';
@@ -10,7 +10,7 @@ import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
-import EngineeringGame from '../../../components/student/engineering/game/EngineeringGame';
+import GameMenu from '../../../components/student/GameMenu';
 import AchievementsCard from '../../../components/student/AchievementsCard';
 import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './EngineeringDash.module.css';
@@ -69,7 +69,7 @@ const EngineeringDash = () => {
     localStorage.setItem('isPremiumCached', 'true');
   }
 
-  //Render progressbar, needs updating, I think there might be a conflict somewhere in there. 
+  //Render progressbar, should be fully functional. Had to resolve it in a module.css 
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
       <div className={styles.progressBarFill} style={{ width: `${progress}%` }}></div>
@@ -82,10 +82,14 @@ const EngineeringDash = () => {
     </div>
   );
 
-  //Run game interactive element, with a focus on being the start of a game loader component.
+  //Run game interactive element, common component built to use GameMenu handles everything internally now
   const runGame = () => (
     <div className={styles.simulationCard}>
-      <EngineeringGame />
+      <GameMenu
+        subject="engineering"
+        isPremium={isPremium}
+        onLaunch={() => {}}
+      />
     </div>
   );
   
@@ -97,7 +101,7 @@ const EngineeringDash = () => {
   const freeGameAccessIds = ['overview', 'mechanical', 'electrical', 'civil'];
   const isGameFree = freeGameAccessIds.includes(selectedTopic);
 
-  // Normalize AI Tutor naming (probably depricated: need to review in association with lessonUtil, useSubjectDashboard, and Sidebar)
+  // Sidebard, topic header, and AI Tutor, Quiz Assessment, Game, and Visual component variable pass.
   return (
     <div className={styles.engineeringPageContainer}>
       <Sidebar
@@ -128,6 +132,7 @@ const EngineeringDash = () => {
             userEmail={user.email}
           />
 
+          {/* Chat-based collaboration mode */}
           {learningMode === 'collaborative' && (
             <ChatWindow
               chatHistory={chatHistory}
@@ -144,6 +149,7 @@ const EngineeringDash = () => {
             />
           )}
 
+          {/* 📝 Quiz & Assessment */}
           {learningMode === 'assessment' && (
             <QuizAssessmentTool
               content={currentTopicData?.content || "This section covers key concepts in engineering."}
@@ -156,6 +162,7 @@ const EngineeringDash = () => {
             />
           )}
 
+          {/* Interactive Game Mode */}
           {learningMode === 'interactive' && (
             isPremium || isGameFree ? runGame() : (
               <div className={styles.lockedContent} onClick={() => setShowSubscribe(true)}>
@@ -167,6 +174,7 @@ const EngineeringDash = () => {
             )
           )}
 
+          {/* Visual Learning Resources Mode */}
           {learningMode === 'visual' && (
             isPremium ? (
               <VisualResources

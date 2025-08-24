@@ -1,6 +1,6 @@
 // Pathing: src/pages/Dashboard/student/ScienceDash.jsx
 // Focus: An aggregated file for the various components, utils, and functionalities to make the Science Learning Hub Work. 
-// Version Update: Updated top commments, and added subject carry variable to achievements. 
+// Version Update: Audited to add in the game menu and feature, creating parity. 08.24.25
 
 import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, Atom, Calculator, Rocket, Landmark, Wrench, Dna, Globe, Sparkles } from 'lucide-react';
@@ -10,7 +10,7 @@ import ChatWindow from '../../../components/student/ChatWindow';
 import TopicHeader from '../../../components/student/TopicHeader';
 import VisualResources from '../../../components/student/VisualResources';
 import QuizAssessmentTool from '../../../components/student/QuizAssessmentTool';
-import ChemistryGame from '../../../components/student/science/game/ChemistryGame';
+import GameMenu from '../../../components/student/GameMenu';
 import AchievementsCard from '../../../components/student/AchievementsCard';
 import SubscribeModal from '../../../components/SubscribeModal';
 import styles from './ScienceDash.module.css';
@@ -30,7 +30,7 @@ const ScienceDash = () => {
     };
   }, []);
 
-  //Iconmap isn't being used as far as I can tell, it needs to be reintregrated with the module architechture. 
+  //Iconmap is now is functional, and attached each to a different module.  
   const scienceIconMap = useMemo(() => ({
     'overview': BookOpen,
     'module1': Atom,
@@ -68,7 +68,7 @@ const ScienceDash = () => {
     localStorage.setItem('isPremiumCached', 'true');
   }
 
-  //Render progressbar, needs updating, I think there might be a conflict somewhere in there. 
+  //Render progressbar, should be fully functional. Had to resolve it in a module.css 
   const renderProgressBar = (progress) => (
     <div className={styles.progressBar}>
       <div className={styles.progressFill} style={{ width: `${progress}%` }}></div>
@@ -81,10 +81,14 @@ const ScienceDash = () => {
     </div>
   );
 
-  //Run game interactive element, with a focus on being the start of a game loader component.
+  //Run game interactive element, common component built to use GameMenu handles everything internally now
   const runGame = () => (
     <div className={styles.simulationCard}>
-      <ChemistryGame />
+      <GameMenu
+        subject="science"
+        isPremium={isPremium}
+        onLaunch={() => {}}
+      />
     </div>
   );
 
@@ -144,7 +148,7 @@ const ScienceDash = () => {
             />
           )}
 
-          {/* Assessment Mode */}
+          {/* 📝 Quiz & Assessment */}
           {learningMode === 'assessment' && (
             <QuizAssessmentTool
               content={currentTopicData?.content || "This section covers key concepts in science."}
@@ -198,7 +202,6 @@ const ScienceDash = () => {
         </div>
       </div>
 
-      {/* Monetization CTA for subscription */}
       {showSubscribe && (
         <SubscribeModal
           isOpen={true}

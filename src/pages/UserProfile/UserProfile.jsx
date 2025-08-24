@@ -7,23 +7,28 @@ import styles from './UserProfile.module.css';
 import { fetchUserMBTI } from '../../api/ApiMaster';
 import SubscribeModal from '../../components/SubscribeModal';
 import identityTypes from './IdentityTypes.json';
+import SubscriptionCard from '../../components/SubscriptionCard';
+
+// Optional: local avatar placeholder to avoid external DNS failures
+const DEFAULT_AVATAR = '/assets/avatar-placeholder.png';
 
 const UserProfile = ({ user, setUser }) => {
   const [subscription, setSubscription] = useState({ plan: 'Basic', status: 'Free Plan' });
   const [showSubscribe, setShowSubscribe] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Bootstrap user from localStorage (email is our key identity)
   useEffect(() => {
     const storedEmail = localStorage.getItem('userEmail');
     const storedName = localStorage.getItem('userName');
     const storedAvatar = localStorage.getItem('userAvatar');
-    
+
     if (storedEmail) {
-      setUser((prev) => ({
+      setUser(prev => ({
         ...prev,
         email: storedEmail,
         name: storedName || storedEmail.split('@')[0],
-        avatar: prev?.avatar || storedAvatar || 'https://via.placeholder.com/150',
+        avatar: prev?.avatar || storedAvatar || DEFAULT_AVATAR,
       }));
     } else {
       console.warn('No stored userEmail found. Cannot populate profile.');
@@ -31,6 +36,7 @@ const UserProfile = ({ user, setUser }) => {
     }
   }, [setUser]);
 
+  // Fetch enriched profile (MBTI, etc.)
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -42,28 +48,29 @@ const UserProfile = ({ user, setUser }) => {
 
         setIsLoading(true);
         const data = await fetchUserMBTI(userEmail);
-        console.log("Fetched enriched user profile:", data);
+        console.log('Fetched enriched user profile:', data);
 
-        // Use functional update to avoid dependency on user object
         setUser(prevUser => ({
           name: data.name || prevUser.name,
           email: data.email || prevUser.email,
-          avatar: prevUser.avatar || 'https://via.placeholder.com/150',
+          avatar: prevUser.avatar || DEFAULT_AVATAR,
           mbti: data.mbti || 'Not set',
           age: data.age || 'Not provided',
           interests: data.interests || [],
           identityScore: data.identityScore || 0,
           identityType: data.identityType || data.mbti || 'Not set',
+          // keep any existing username if you track it elsewhere
+          username: prevUser.username || prevUser.name || (prevUser.email ? prevUser.email.split('@')[0] : undefined),
         }));
 
-        // Determine subscription status based on user data
+        // Simple subscription inference for now
         if (data.mbti || (data.interests && data.interests.length)) {
           setSubscription({ plan: 'Premium', status: 'Active' });
         } else {
           setSubscription({ plan: 'Basic', status: 'Free Plan' });
         }
       } catch (err) {
-        console.error("User profile load error:", err);
+        console.error('User profile load error:', err);
       } finally {
         setIsLoading(false);
       }
@@ -72,29 +79,12 @@ const UserProfile = ({ user, setUser }) => {
     fetchUserData();
   }, [user?.email, setUser]);
 
-  const openBillingModal = () => {
-    setShowSubscribe(true);
-  };
+  const openBillingModal = () => setShowSubscribe(true);
 
-  const handleEditPersonalInfo = () => {
-    // TODO: Implement edit personal info functionality
-    alert('Edit Personal Information functionality coming soon!');
-  };
-
-  const handleEditInterests = () => {
-    // TODO: Implement edit interests functionality
-    alert('Edit Interests functionality coming soon!');
-  };
-
-  const handleEditPersonalityType = () => {
-    // TODO: Implement edit personality type functionality
-    alert('Edit Personality Type functionality coming soon!');
-  };
-
-  const handleChangeAvatar = () => {
-    // TODO: Implement avatar change functionality
-    alert('Avatar change functionality coming soon!');
-  };
+  const handleEditPersonalInfo = () => alert('Edit Personal Information functionality coming soon!');
+  const handleEditInterests = () => alert('Edit Interests functionality coming soon!');
+  const handleEditPersonalityType = () => alert('Edit Personality Type functionality coming soon!');
+  const handleChangeAvatar = () => alert('Avatar change functionality coming soon!');
 
   if (isLoading) {
     return (
@@ -117,20 +107,23 @@ const UserProfile = ({ user, setUser }) => {
     );
   }
 
-  const statusBadgeClass = subscription.status === 'Active' ? styles.active : styles.free;
+  // Resolve username we’ll pass to the SubscriptionCard
+  const resolvedUsername =
+    user.username || user.name || (user.email ? user.email.split('@')[0] : undefined);
 
   return (
     <div className={styles.userProfilePage}>
       <div className={styles.profileHeader}>
         <h1>Account Settings</h1>
         <p className={styles.profileSubtitle}>Manage your profile and preferences</p>
-        
+
         <div className={styles.avatarContainer}>
           <div className={styles.avatar}>
             <img
-              src={user.avatar || 'https://via.placeholder.com/150'}
+              src={user.avatar || DEFAULT_AVATAR}
               alt="User Avatar"
               style={{ width: '100%', height: '100%' }}
+              onError={(e) => { e.currentTarget.src = DEFAULT_AVATAR; }}
             />
           </div>
           <button
@@ -147,7 +140,7 @@ const UserProfile = ({ user, setUser }) => {
           <div className={styles.userDetails}>
             <div className={styles.sectionHeader}>
               <h2>Personal Information</h2>
-              <button 
+              <button
                 className={styles.editSectionButton}
                 onClick={handleEditPersonalInfo}
                 title="Edit Personal Information"
@@ -164,7 +157,7 @@ const UserProfile = ({ user, setUser }) => {
           <div className={styles.userDetails}>
             <div className={styles.sectionHeader}>
               <h2>Interests</h2>
-              <button 
+              <button
                 className={styles.editSectionButton}
                 onClick={handleEditInterests}
                 title="Edit Interests"
@@ -186,7 +179,7 @@ const UserProfile = ({ user, setUser }) => {
           <div className={styles.userDetails}>
             <div className={styles.sectionHeader}>
               <h2>Personality Type</h2>
-              <button 
+              <button
                 className={styles.editSectionButton}
                 onClick={handleEditPersonalityType}
                 title="Edit Personality Type"
@@ -205,24 +198,18 @@ const UserProfile = ({ user, setUser }) => {
             )}
           </div>
 
-          <div className={`${styles.userDetails} ${styles.subscriptionCard}`}>
-            <div className={styles.sectionHeader}>
-              <h2>Subscription Plan</h2>
-            </div>
-            <p>
-              <strong>Current Plan:</strong> {subscription.plan}
-              <span className={`${styles.statusBadge} ${statusBadgeClass}`}>
-                {subscription.status}
-              </span>
-            </p>
-            <button 
-              className={`${styles.editProfileButton} ${styles.secondary}`} 
-              onClick={openBillingModal}
-              style={{ marginTop: '15px' }}
-            >
-              Manage Billing
-            </button>
-          </div>
+          {/* Subscription */}
+          <SubscriptionCard
+            /** >>> These props are the important part <<< */
+            email={user.email}
+            username={resolvedUsername}
+            initialSubscription={subscription}
+            /** Leave insights off for now (different worker). You can wire later:
+             * insightsUrls={[
+             *   `${USER_WORKER_BASE}/subscription?email=${encodeURIComponent(user.email)}`
+             * ]}
+             */
+          />
         </div>
       </div>
 
