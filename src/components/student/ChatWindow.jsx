@@ -11,11 +11,24 @@ import {
 import ChatSidebar from './ChatSidebar';
 import styles from './ChatWindow.module.css';
 
-const ChatWindow = ({ 
-  chatHistory, 
-  userInput, 
-  setUserInput, 
-  setChatHistory, 
+// content-safety imports (dynamic util version + neutral routing)
+import {
+  screenText,
+  defaultPolicy,
+  buildStudentMessage,
+  postSafetyFlag,
+  shouldNotifyStaff,
+  computeSafeguardRouting,
+} from '../../utils/contentSafety';
+
+// 🔹 Brand theming import
+import { getThemeColors } from '../../utils/stylesBranding';
+
+const ChatWindow = ({
+  chatHistory,
+  userInput,
+  setUserInput,
+  setChatHistory,
   tutorName = "AI Science Tutor",
   placeholder = "Ask a question about science...",
   subject = "general",
@@ -26,11 +39,13 @@ const ChatWindow = ({
   const [isLoading, setIsLoading] = useState(false);
   const [threads, setThreads] = useState([]);
 
+  // 🔹 Get theme based on subject
+  const theme = getThemeColors(subject);
+
   useEffect(() => {
     setThreadId(uuidv4());
   }, [subject]);
 
-  // Memoize fetchThreadsData with useCallback
   const fetchThreadsData = useCallback(async () => {
     try {
       const threadsData = await fetchChatThreads(subject, user.email);
@@ -38,13 +53,13 @@ const ChatWindow = ({
     } catch (err) {
       console.error('❌ Failed to fetch threads:', err);
     }
-  }, [subject, user.email]); // Dependencies that fetchThreadsData uses
+  }, [subject, user.email]);
 
   useEffect(() => {
     if (user.email) {
       fetchThreadsData();
     }
-  }, [user.email, fetchThreadsData]); // Now include fetchThreadsData
+  }, [user.email, fetchThreadsData]);
 
   const saveChatToThread = async (messageLog) => {
     try {
@@ -77,15 +92,87 @@ const ChatWindow = ({
     const userMessage = { role: 'user', content: userInput };
     const newHistory = [...chatHistory, userMessage];
     setChatHistory(newHistory);
+
+    const screen = screenText(userInput, defaultPolicy);
+
+    if (shouldNotifyStaff(screen.flags)) {
+      const { routing, mentionedRoles, roleEvidence, roleConfidence } =
+        computeSafeguardRouting(userInput, screen);
+      postSafetyFlag({
+        studentEmail: user.email,
+        subject,
+        threadId,
+        message: userInput,
+        screen,
+        routing,
+        mentionedRoles,
+        roleEvidence,
+        roleConfidence,
+      });
+    }
+
+    if (screen.category === "abuse" && screen.confidence >= 0.6) {
+      const msg = buildStudentMessage(screen) ||
+        "I’m really sorry you’re dealing with this. Please reach out to a trusted adult (teacher, counselor, or parent/guardian). If you feel in immediate danger, contact your local emergency number (U.S.: 911).";
+      const abuseHistory = [...newHistory, { role: 'assistant', content: msg }];
+      setChatHistory(abuseHistory);
+      setUserInput('');
+      await saveChatToThread(abuseHistory);
+      return;
+    }
+
+    if (screen.severity === "block") {
+      const msg =
+        buildStudentMessage(screen) ||
+        "I’m not equipped to answer that. Please speak with a trusted adult for guidance.";
+      const blockedHistory = [...newHistory, { role: 'assistant', content: msg }];
+      setChatHistory(blockedHistory);
+      setUserInput('');
+      await saveChatToThread(blockedHistory);
+      return;
+    }
+
+    let baseHistory = newHistory;
+    if (screen.severity === "warn") {
+      const msg = buildStudentMessage(screen);
+      if (msg) {
+        const warnedHistory = [...newHistory, { role: 'assistant', content: msg }];
+        setChatHistory(warnedHistory);
+        baseHistory = warnedHistory;
+      }
+    }
+
     setUserInput('');
     setIsLoading(true);
 
     try {
       const subjectPrompt = `[${subject.toUpperCase()}] ${userInput}`;
       const aiResponse = await queryModel(subject, subjectPrompt);
-      const assistantMessage = { role: 'assistant', content: aiResponse };
 
-      const updatedHistory = [...newHistory, assistantMessage];
+      const outScreen = screenText(aiResponse, defaultPolicy);
+      let safeOut = aiResponse;
+
+      if (outScreen.severity === "block") {
+        safeOut = "I can’t share that. Let’s switch to a safe, educational angle or try another question.";
+      } else if (outScreen.severity === "warn") {
+        if (outScreen.flags.abuse) {
+          safeOut =
+            "I’m really sorry you’re dealing with this. Your safety matters.\n\n" +
+            "• Please reach out to a trusted adult right away (teacher, school counselor, or parent/guardian).\n" +
+            "• If you feel in immediate danger, contact your local emergency number (U.S.: 911).\n" +
+            "You’re not alone—there are people who want to help.";
+        } else if (outScreen.flags.warning) {
+          safeOut =
+            "Thanks for sharing—your well-being is important.\n\n" +
+            "• Please talk with a trusted adult (teacher, school counselor, or parent/guardian).\n" +
+            "• In the U.S., you can also call or text **988** (Suicide & Crisis Lifeline).\n" +
+            "We can continue at a pace that feels comfortable.";
+        }
+      }
+
+      const assistantMessage = { role: 'assistant', content: safeOut };
+      const updatedHistory = [...baseHistory, assistantMessage];
+
       setChatHistory(updatedHistory);
 
       console.log('📚 Chat Log:', {
@@ -100,7 +187,10 @@ const ChatWindow = ({
 
     } catch (err) {
       console.error(err);
-      setChatHistory((prev) => [...prev, { role: 'assistant', content: 'Error: Could not fetch response.' }]);
+      setChatHistory((prev) => [
+        ...prev,
+        { role: 'assistant', content: 'Error: Could not fetch response.' }
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -129,6 +219,8 @@ const ChatWindow = ({
     <div className={styles.chatWindowContainer}>
       <ChatSidebar
         email={user.email}
+        subject={subject}
+        theme={theme}
         activeThreadId={threadId}
         onSelectThread={handleSelectThread}
         isOpen={sidebarOpen}
@@ -139,7 +231,14 @@ const ChatWindow = ({
       />
 
       <div className={`${styles.chatWindow} ${showSidebarOnDesktop ? styles.withSidebar : ''}`}>
-        <div className={styles.chatHeader}>
+        {/* 🔹 Dynamic Header */}
+        <div
+          className={styles.chatHeader}
+          style={{
+            background: theme.gradient,
+            boxShadow: `0 2px 8px ${theme.primary}33`
+          }}
+        >
           <button onClick={toggleSidebar} className={styles.sidebarToggle}>
             <Menu className={styles.menuIcon} />
           </button>
@@ -163,7 +262,14 @@ const ChatWindow = ({
               key={index}
               className={`${styles.chatMessageRow} ${message.role === 'user' ? styles.user : styles.assistant}`}
             >
-              <div className={`${styles.chatMessage} ${styles[message.role]}`}>
+              <div
+                className={`${styles.chatMessage} ${styles[message.role]}`}
+                style={
+                  message.role === 'user'
+                    ? { background: theme.gradient }
+                    : {}
+                }
+              >
                 {message.content}
               </div>
             </div>
@@ -198,6 +304,10 @@ const ChatWindow = ({
               onClick={sendMessage}
               disabled={!userInput.trim() || isLoading}
               className={styles.chatSendButton}
+              style={{
+                background: theme.gradient,
+                boxShadow: `0 2px 4px ${theme.primary}33`
+              }}
             >
               Send
             </button>

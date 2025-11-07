@@ -1,23 +1,22 @@
 // Path: src/routes.js
-// Focus:
-// Version Update: Removed the unused useeffect removed
+// Focus: Central Routing for Learning OS App
+// Version Update: Removed the unused use effect removed
 
 // Import necessary modules for routing
 import React, { useState } from 'react'; 
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
-// Import pages
+// Import Core pages
 import Login from './pages/Login/Login';
 import Onboarding from './pages/Login/Onboarding';
 import UserProfile from './pages/UserProfile/UserProfile';
-import Layout from './components/layout/Layout';
-import MathDashboard from './pages/Dashboard/MathDashboard';
-import LearningSession from './pages/Dashboard/mathmodule/LearningSession';
+
+// Role Dependant Dashboards
 import DashboardTeacher from './pages/Dashboard/DashboardTeacher';
 import DashboardStudent from './pages/Dashboard/DashboardStudent';
 import DashboardAdmin from './pages/Dashboard/DashboardAdmin';
 
-// Import student subpages
+// Import Feature Subpages
 import ScienceDash from './pages/Dashboard/student/ScienceDash';
 import TechnologyDash from './pages/Dashboard/student/TechnologyDash';
 import EngineeringDash from './pages/Dashboard/student/EngineeringDash';
@@ -25,19 +24,22 @@ import ArtsDash from './pages/Dashboard/student/ArtsDash';
 import MathDash from './pages/Dashboard/student/MathDash';
 import LifestyleDash from './pages/Dashboard/student/LifestyleDash';
 
+// Optional layout wrapper
+import Layout from './components/layout/Layout';
+
 // Function for AppRoutes
 function AppRoutes() {
   const location = useLocation();
   const noLayoutRoutes = ['/', '/onboarding'];
   const hideLayout = noLayoutRoutes.includes(location.pathname);
 
+  // Default user state
   const [user, setUser] = useState({ 
     name: 'Guest', 
-    email: 'guest@example.com', 
-    savedStories: 0, 
+    email: 'guest@example.com',  
     avatar: '',
     role: 'guest'
-  }); // Default user state
+  }); 
 
   return (
     hideLayout ? (
@@ -47,7 +49,10 @@ function AppRoutes() {
       </Routes>
     ) : (
       <Layout showNavigation={true}>
+        {/* Active Routes */}
         <Routes>
+          
+          {/* Redirect to Login if not authenticated */}
           <Route 
             path="/" 
             element={user && user.email !== 'guest@example.com' ? 
@@ -70,8 +75,6 @@ function AppRoutes() {
           <Route path="/page/Dashboard/student/MathDash" element={<MathDash />} />
           <Route path="/page/Dashboard/student/LifestyleDash" element={<LifestyleDash />} />
 
-          <Route path="/page/Dashboard/MathDashboard" element={<MathDashboard />} />
-          <Route path="/page/Dashboard/mathmodule/LearningSession" element={<LearningSession />} />
         </Routes>
       </Layout>
     )

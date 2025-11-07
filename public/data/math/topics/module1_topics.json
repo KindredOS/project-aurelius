@@ -5,36 +5,36 @@
   "description": "Establish algebraic literacy and confidence in symbolic reasoning. Students will explore mathematics as a structured system of meaning-making, rooted in logic, relationships, and abstraction.",
   "concepts": [
     {
-      "title": "Expressions and Equations",
-      "markdown": "module%201/expressions_and_equations.md"
+      "title": "Patterns and Structure in Math",
+      "markdown": "module%201/patterns_and_structure.md"
+    },
+    {
+      "title": "Counting in Base 10",
+      "markdown": "module%201/counting_in_base_10.md"
+    },
+    {
+      "title": "Simple Expressions and Algebraic Thinking",
+      "markdown": "module%201/simple_expressions_and_algebraic_thinking.md"
+    },
+    {
+      "title": "Understanding Basic Fractions",
+      "markdown": "module%201/understanding_basic_fractions.md"
+    },
+    {
+      "title": "Shapes and Their Secrets",
+      "markdown": "module%201/reason_with_shapes_and_attributes.md"
     },
     {
       "title": "Ratios & Proportional Relationships",
       "markdown": "module%201/ratios_and_proportional_relationships.md"
     },
     {
-      "title": "Word Problems and Problem Solving Strategies",
-      "markdown": "module%201/word_problems_and_strategies.md"
-    },
-    {
-      "title": "Patterns and Structure in Math",
-      "markdown": "module%201/patterns_and_structure.md"
-    },
-    {
-      "title": "Mathematical Language and Notation",
-      "markdown": "module%201/language_and_notation.md"
+      "title": "Expressions and Equations",
+      "markdown": "module%201/expressions_and_equations.md"
     },
     {
       "title": "Real-World Applications of Algebra",
       "markdown": "module%201/real_world_algebra.md"
-    },
-    {
-      "title": "Hands-On Activities",
-      "markdown": "module%201/hands_on_activities.md"
-    },
-    {
-      "title": "STEAM Integration & 21st Century Skills",
-      "markdown": "module%201/steam_and_skills.md"
     }
   ],
   "difficulty": 1

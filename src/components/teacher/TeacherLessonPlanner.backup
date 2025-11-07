@@ -1,0 +1,368 @@
+// Path: src/components/teacher/TeacherLessonPlanner.jsx
+// Function: A drop down "catch all" menu for features and functionality ancillary to role function. 
+// Version Update: Enhanced with proper modal functionality, Lucide React icons, and improved CSS styling
+
+import React, { useEffect, useRef, useState } from "react";
+import styles from "./TeacherLessonPlanner.module.css";
+import { 
+  BookOpen, 
+  Users, 
+  Plus, 
+  Copy, 
+  X, 
+  UserPlus, 
+  UserMinus, 
+  Check,
+  AlertCircle,
+  Loader2,
+  GraduationCap
+} from "lucide-react";
+import {
+  createClassFlow,
+  assignStudentFlow,
+  removeStudentFlow,
+  copyInviteFlow,
+  createEmptyClassForm,
+  createStateUpdater,
+  SUBJECT_OPTIONS,
+} from "../../utils/teacherClassHelper";
+import { listTeacherClasses } from "../../api/ApiMaster";
+
+const TeacherLessonPlanner = ({ onClose }) => {
+  const overlayRef = useRef();
+  const modalRef = useRef();
+
+  // --- State ---
+  const [state, setState] = useState({
+    classes: [],
+    showNewClassForm: false,
+    isLoading: false,
+    error: "",
+    message: "",
+    ...createEmptyClassForm(),
+  });
+
+  const [selectedClass, setSelectedClass] = useState(
+    JSON.parse(localStorage.getItem("selectedClassObj")) || null
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const stateUpdater = createStateUpdater(setState);
+  const teacherEmail = localStorage.getItem("userEmail");
+
+  // --- Close planner if clicking outside (but not when modal is open) ---
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isModalOpen) return; // 🔒 Ignore clicks while modal is open
+      if (overlayRef.current && !overlayRef.current.contains(event.target)) {
+        onClose?.();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose, isModalOpen]);
+
+  // --- Close modal if clicking outside modal content ---
+  useEffect(() => {
+    const handleModalClickOutside = (event) => {
+      if (isModalOpen && modalRef.current && !modalRef.current.contains(event.target)) {
+        setIsModalOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleModalClickOutside);
+    return () => document.removeEventListener("mousedown", handleModalClickOutside);
+  }, [isModalOpen]);
+
+  // --- Load classes on mount ---
+  useEffect(() => {
+    const load = async () => {
+      if (!teacherEmail) {
+        stateUpdater.setError("No teacher email found. Please log in again.");
+        return;
+      }
+
+      stateUpdater.setLoading(true);
+      try {
+        const data = await listTeacherClasses(teacherEmail);
+        stateUpdater.updateClasses(
+          Array.isArray(data) ? data : data.classes || []
+        );
+      } catch (err) {
+        stateUpdater.setError(err);
+      } finally {
+        stateUpdater.setLoading(false);
+      }
+    };
+    load();
+  }, [teacherEmail]);
+
+  // --- Clear messages after timeout ---
+  useEffect(() => {
+    if (state.error || state.message) {
+      const timer = setTimeout(() => {
+        stateUpdater.clearMessages();
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [state.error, state.message]);
+
+  // --- Handlers (delegated to utils) ---
+  const handleCreateClass = () =>
+    createClassFlow(teacherEmail, state, stateUpdater);
+
+  const handleAssignStudent = (classCode, inviteCode) =>
+    assignStudentFlow(
+      teacherEmail,
+      classCode,
+      inviteCode,
+      stateUpdater,
+      setSelectedClass
+    );
+
+  const handleRemoveStudent = (classCode, email) =>
+    removeStudentFlow(teacherEmail, classCode, email, stateUpdater);
+
+  const handleCopyInvite = (code) => copyInviteFlow(code, stateUpdater);
+
+  const handleSelectClass = (cls) => {
+    setSelectedClass(cls);
+    setIsModalOpen(true);
+    localStorage.setItem("selectedClass", cls.class_code); // <-key to making TeacherDash Work
+    localStorage.setItem("selectedClassObj", JSON.stringify(cls));
+  };
+
+  const closeModal = () => setIsModalOpen(false);
+
+  const updateFormField = (field, value) => {
+    setState((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const showNewClassForm = () =>
+    setState((prev) => ({ ...prev, showNewClassForm: true }));
+
+  const hideNewClassForm = () =>
+    setState((prev) => ({
+      ...prev,
+      showNewClassForm: false,
+      ...createEmptyClassForm(),
+    }));
+
+  // --- Render ---
+  return (
+    <div className={styles.overlay}>
+      <div className={styles.lessonPlannerContainer} ref={overlayRef}>
+        <div className={styles.header}>
+          <BookOpen className={styles.headerIcon} />
+          <h2>Teacher Lesson Planner</h2>
+        </div>
+
+        {state.error && (
+          <div className={`${styles.message} ${styles.errorMessage}`}>
+            <AlertCircle className={styles.messageIcon} />
+            {state.error}
+          </div>
+        )}
+        {state.message && (
+          <div className={`${styles.message} ${styles.successMessage}`}>
+            <Check className={styles.messageIcon} />
+            {state.message}
+          </div>
+        )}
+        {state.isLoading && (
+          <div className={`${styles.message} ${styles.loadingMessage}`}>
+            <Loader2 className={`${styles.messageIcon} ${styles.spinning}`} />
+            Loading...
+          </div>
+        )}
+
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <Users className={styles.sectionIcon} />
+            <h3>My Classes</h3>
+          </div>
+          
+          {state.classes.map((cls) => {
+            const studentCount = cls.students?.length || 0;
+            return (
+              <div
+                key={cls.class_code || cls.id}
+                className={`${styles.classItem} ${
+                  selectedClass?.class_code === cls.class_code
+                    ? styles.selected
+                    : ""
+                }`}
+                onClick={() => handleSelectClass(cls)}
+              >
+                <div className={styles.classContent}>
+                  <div className={styles.classInfo}>
+                    <div className={styles.classHeader}>
+                      <GraduationCap className={styles.classIcon} />
+                      <strong>{cls.class_name || cls.name}</strong>
+                    </div>
+                    <div className={styles.classCode}>
+                      {cls.class_code}
+                    </div>
+                  </div>
+                  <div className={styles.classStats}>
+                    <Users className={styles.statsIcon} />
+                    <span className={styles.classMeta}>
+                      {studentCount} {studentCount === 1 ? "student" : "students"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+
+          {!state.showNewClassForm ? (
+            <button
+              className={styles.primaryButton}
+              onClick={showNewClassForm}
+              disabled={state.isLoading}
+            >
+              <Plus className={styles.buttonIcon} />
+              Create New Class
+            </button>
+          ) : (
+            <div className={styles.newClassForm}>
+              <input
+                type="text"
+                value={state.name}
+                onChange={(e) => updateFormField("name", e.target.value)}
+                placeholder="Class name"
+                className={styles.input}
+                disabled={state.isLoading}
+              />
+              <input
+                type="text"
+                value={state.inviteCode}
+                onChange={(e) => updateFormField("inviteCode", e.target.value)}
+                placeholder="Custom invite code (optional)"
+                className={styles.input}
+                disabled={state.isLoading}
+              />
+              <select
+                value={state.subject}
+                onChange={(e) => updateFormField("subject", e.target.value)}
+                className={styles.select}
+                disabled={state.isLoading}
+              >
+                {SUBJECT_OPTIONS.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+              <div className={styles.actions}>
+                <button
+                  className={styles.cancelButton}
+                  onClick={hideNewClassForm}
+                  disabled={state.isLoading}
+                >
+                  Cancel
+                </button>
+                <button
+                  className={styles.createButton}
+                  onClick={handleCreateClass}
+                  disabled={state.isLoading}
+                >
+                  {state.isLoading ? (
+                    <Loader2 className={`${styles.buttonIcon} ${styles.spinning}`} />
+                  ) : (
+                    <Plus className={styles.buttonIcon} />
+                  )}
+                  Create
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* --- Student Modal --- */}
+      {isModalOpen && selectedClass && (
+        <div className={styles.modalOverlay}>
+          <div
+            className={styles.modalContent}
+            ref={modalRef}
+          >
+            <button className={styles.closeButton} onClick={closeModal}>
+              <X className={styles.closeIcon} />
+            </button>
+            
+            <div className={styles.modalHeader}>
+              <BookOpen className={styles.modalTitleIcon} />
+              <h3>{selectedClass.class_name}</h3>
+            </div>
+            
+            <div className={styles.modalBody}>
+              <div className={styles.codeSection}>
+                <div className={styles.codeLabel}>Class Code:</div>
+                <div className={styles.codeValue}>{selectedClass.class_code}</div>
+              </div>
+
+              <div className={styles.inviteSection}>
+                <div className={styles.inviteHeader}>
+                  <div>
+                    <div className={styles.codeLabel}>Invite Code:</div>
+                    <div className={styles.inviteCode}>
+                      {selectedClass.invite_code || "N/A"}
+                    </div>
+                  </div>
+                  {selectedClass.invite_code && (
+                    <button
+                      className={styles.copyButton}
+                      onClick={() => handleCopyInvite(selectedClass.invite_code)}
+                    >
+                      <Copy className={styles.copyIcon} />
+                      Copy
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className={styles.studentsSection}>
+                <div className={styles.studentsHeader}>
+                  <Users className={styles.studentsIcon} />
+                  <h4>Students Enrolled ({selectedClass.students?.length || 0})</h4>
+                </div>
+                
+                {selectedClass.students?.length > 0 ? (
+                  <ul className={styles.studentList}>
+                    {selectedClass.students.map((student) => (
+                      <li key={student} className={styles.studentItem}>
+                        <span className={styles.studentEmail}>{student}</span>
+                        <button
+                          className={styles.removeButton}
+                          onClick={() => handleRemoveStudent(selectedClass.class_code, student)}
+                          title={`Remove ${student}`}
+                        >
+                          <UserMinus className={styles.removeIcon} />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className={styles.emptyState}>
+                    <Users className={styles.emptyIcon} />
+                    <p>No students enrolled yet</p>
+                  </div>
+                )}
+
+                <button
+                  className={styles.addStudentButton}
+                  onClick={() => handleAssignStudent(selectedClass.class_code, selectedClass.class_code)}
+                >
+                  <UserPlus className={styles.buttonIcon} />
+                  Add Student
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default TeacherLessonPlanner;

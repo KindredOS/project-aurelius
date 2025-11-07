@@ -1,0 +1,68 @@
+.overlay {
+  position: fixed;
+  top: 60px;
+  right: 10px;
+  width: 440px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+  z-index: 1100;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.lessonPlannerContainer {
+  padding: 1.5rem;
+}
+
+.title {
+  font-size: 1.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.section {
+  margin-bottom: 1.2rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.item {
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin: 4px 0;
+  background: #f0f0f0;
+}
+
+.primaryButton {
+  background: #6a4bcf;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-top: 6px;
+}
+
+.primaryButton:hover {
+  background: #5636a5;
+}
+
+.stub {
+  opacity: 0.6;
+  border-style: dashed;
+}

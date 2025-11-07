@@ -1,6 +1,6 @@
 // Path: src/components/student/AdaptiveTextbook.jsx 
-// Focus: Production-ready adaptive textbook component with AI-powered section enhancement
-// Version Update: ADDED - Typewriter effect for AI-generated content
+// Function: Production-ready adaptive textbook component with AI-powered section enhancement
+// Version Update: Auditing file (9.18.25)
 
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Sparkles, Plus, Minimize, Brain, ChevronDown, ChevronRight } from 'lucide-react';
@@ -87,7 +87,7 @@ const TypewriterText = ({ text, speed = 30, onComplete, className = '' }) => {
   );
 };
 
-const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
+const AdaptiveTextbook = ({ content, onContentSave, subject = 'science', userMBTI }) => {
   const [enhancedSections, setEnhancedSections] = useState({});
   const [expandedHeader, setExpandedHeader] = useState(null);
   const [collapsedHeaders, setCollapsedHeaders] = useState({});
@@ -197,7 +197,8 @@ const AdaptiveTextbook = ({ content, onContentSave, subject = 'science' }) => {
       const prompt = buildPromptWrap({ 
         header, 
         paragraph: cleanedSectionBody,
-        action 
+        action, 
+        userMBTI
       });
 
       const rawAI = await generateAISection(prompt, subject, 'hermes', 750);

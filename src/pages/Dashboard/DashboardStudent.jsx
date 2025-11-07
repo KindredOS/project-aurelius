@@ -1,6 +1,7 @@
 // Path: src/components/pages/DashboardStudent.jsx
 // Focus: Main student dashboard with MBTI setup and subscription management
 // Version Update: Cleaned up debug logging, keeping simple trial/subscription status logs
+// Patch: Locked all sections except Math
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -111,6 +112,10 @@ function StudyBuddyDashboard() {
         }
     ];
 
+    const isLocked = (categoryHeader) => {
+        return categoryHeader !== "Math";
+    };
+
     return (
         <div className={styles.dashboardContainer}>
             {showModal && <MBTISetupModal user={user} onClose={() => setShowModal(false)} />}
@@ -131,23 +136,32 @@ function StudyBuddyDashboard() {
                 </button>
             )}
             <div className={styles.categoriesGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '20px' }}>
-                {categories.map((category) => (
-                    <div key={category.header}>
-                        <h2 className={styles.categoryHeader} style={{ textAlign: 'center' }}>{category.header}</h2>
-                        <div className={styles.tilesContainer} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                            {category.tiles.map((tile) => (
-                                <div key={tile.id} className={styles.tileWrapper}>
-                                    <img
-                                        src={require(`../../assets/images/${tile.image}`)}
-                                        alt={tile.name}
-                                        className={styles.tileImageButton}
-                                        onClick={() => navigate(tile.route)}
-                                    />
-                                </div>
-                            ))}
+                {categories.map((category) => {
+                    const locked = isLocked(category.header);
+                    return (
+                        <div key={category.header}>
+                            <h2 className={styles.categoryHeader} style={{ textAlign: 'center' }}>{category.header}</h2>
+                            <div className={styles.tilesContainer} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                                {category.tiles.map((tile) => (
+                                    <div key={tile.id} className={styles.tileWrapper}>
+                                        <div className={locked ? styles.lockedOverlay : ''}>
+                                            <img
+                                                src={require(`../../assets/images/${tile.image}`)}
+                                                alt={tile.name}
+                                                className={`${styles.tileImageButton} ${locked ? styles.lockedTile : ''}`}
+                                                onClick={() => !locked && navigate(tile.route)}
+                                                style={{ cursor: locked ? 'not-allowed' : 'pointer' }}
+                                            />
+                                            {locked && (
+                                                <div className={styles.lockIcon}>🔒</div>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );

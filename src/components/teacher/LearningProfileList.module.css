@@ -1,3 +1,4 @@
+/* Main Card Container */
 .card {
   background-color: white;
   border-radius: 1rem;
@@ -9,14 +10,16 @@
   justify-content: space-between;
   height: 100%;
   margin-bottom: 1.5rem;
+  min-height: 400px;
 }
 
 .card:hover {
   transform: translateY(-4px);
 }
 
+/* Header Section */
 .topStatBox {
-  background-color: #4f46e5; /* Indigo */
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   color: white;
   border-radius: 0.75rem;
   padding: 1rem;
@@ -26,14 +29,42 @@
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  height: 2vh;
-  min-height: 125px;
+  min-height: 100px;
+}
+
+.statLabel {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-bottom: 0.25rem;
 }
 
 .statNumber {
   font-size: 2rem;
+  font-weight: 700;
 }
 
+.statSecondary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.mostCommonStyle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 0.5rem 0.75rem;
+  border-radius: 2rem;
+  font-size: 0.8rem;
+}
+
+.compatibilityIndicator {
+  font-size: 1.5rem;
+}
+
+/* Title Section */
 .cardTitle {
   font-size: 1.75rem;
   font-weight: 700;
@@ -43,9 +74,9 @@
 .cardCategory {
   font-size: 0.85rem;
   font-weight: 500;
-  color: #22c55e; /* green */
+  color: #8b5cf6;
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .cardDescription {
@@ -55,24 +86,288 @@
   line-height: 1.4;
 }
 
+/* Overview Content */
+.overviewContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+/* Learning Styles Section */
+.styleDistribution {
+  background-color: #f8fafc;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.styleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 0.75rem;
+}
+
+.styleCard {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s ease;
+}
+
+.styleCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.styleIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.styleIconSvg {
+  color: #6366f1;
+}
+
+.styleName {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+}
+
+.styleCount {
+  font-size: 0.8rem;
+  color: #6b7280;
+  background-color: #f3f4f6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+/* Detailed Table View */
+.detailedView {
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.scrollableTable {
+  max-height: 300px;
+  overflow-y: auto;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.profileTable {
+  width: 100%;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 1fr 80px 120px 80px;
+  gap: 0.5rem;
+  padding: 0.75rem 0.5rem;
+  background-color: #374151;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.tableBody {
+  background-color: white;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 1fr 80px 120px 80px;
+  gap: 0.5rem;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid #f1f5f9;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.tableRow:hover {
+  background-color: #f8fafc;
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.tableRow .studentName {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mbtiType {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6366f1;
+  text-align: center;
+}
+
+.learningStyle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #374151;
+}
+
+.learningStyle .styleIcon {
+  font-size: 1rem;
+}
+
+.compatibilityScore {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Footer Buttons */
 .cardFooter {
   margin-top: auto;
   display: flex;
   justify-content: center;
+  gap: 0.75rem;
 }
 
-.viewLink {
+.viewButton {
   color: white;
-  background-color: #111827;
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  min-width: 100px;
+  justify-content: center;
+}
+
+.viewButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(55, 65, 81, 0.3);
+  background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+}
+
+.viewButton:disabled {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  cursor: default;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+}
+
+.viewLinkDisabled {
+  color: #6b7280;
+  background-color: #f3f4f6;
   padding: 0.5rem 2rem;
   border-radius: 9999px;
   text-decoration: none;
   font-weight: 500;
   display: inline-block;
-  transition: background-color 0.2s ease;
   text-align: center;
+  cursor: not-allowed;
+  font-size: 0.9rem;
 }
 
-.viewLink:hover {
-  background-color: #1f2937;
+/* Scrollbar Styling */
+.scrollableTable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollableTable::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.scrollableTable::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.scrollableTable::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .styleGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .tableHeader,
+  .tableRow {
+    grid-template-columns: 1fr 60px 80px 60px;
+    font-size: 0.75rem;
+  }
+  
+  .mostCommonStyle {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.6rem;
+  }
+  
+  .statNumber {
+    font-size: 1.5rem;
+  }
+  
+  .learningStyle {
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: center;
+  }
+
+  .cardFooter {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .viewButton {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .styleGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tableHeader,
+  .tableRow {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+  
+  .learningStyle {
+    display: none;
+  }
+
+  .scrollableTable {
+    max-height: 250px;
+  }
 }

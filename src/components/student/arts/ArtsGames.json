@@ -6,7 +6,7 @@
     "tags": ["visual", "creative", "drawing"],
     "difficulty": "easy",
     "premium": false,
-    "thumbnail": "/images/games/arts/sketch-studio.webp",
+    "thumbnail": "artsgeneric.webp",
     "shortDescription": "Free-draw canvas with mini challenges to practice composition and shading."
   },
   {
@@ -16,7 +16,7 @@
     "tags": ["music", "timing", "performance"],
     "difficulty": "medium",
     "premium": true,
-    "thumbnail": "/images/games/arts/rhythm-quest.webp",
+    "thumbnail": "artsgeneric.webp",
     "shortDescription": "Match beats and build patterns to learn tempo and meter."
   },
   {
@@ -26,7 +26,7 @@
     "tags": ["theater", "blocking", "storytelling"],
     "difficulty": "medium",
     "premium": true,
-    "thumbnail": "/images/games/arts/stage-director.webp",
+    "thumbnail": "artsgeneric.webp",
     "shortDescription": "Arrange actors and props to tell a story with effective stage pictures."
   },
   {
@@ -36,7 +36,7 @@
     "tags": ["geography", "memorization", "quiz"],
     "difficulty": "medium",
     "premium": false,
-    "thumbnail": "/images/games/arts/state-capitals.webp",
+    "thumbnail": "artsgeneric.webp",
     "shortDescription": "Test your knowledge of US state capitals in this interactive quiz game."
   }
 ]

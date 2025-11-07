@@ -1,0 +1,246 @@
+/* BinaryBuilder.module.css */
+
+.wrapper {
+  background: #1a1a1f;
+  color: #eee;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  max-width: 700px;
+  margin: auto;
+  font-family: "Segoe UI", sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.chip {
+  background: #764ba2;
+  color: white;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.4rem;
+  margin-right: 0.4rem;
+}
+
+.stats span {
+  margin-left: 1rem;
+  font-size: 0.9rem;
+}
+
+.panel {
+  background: #222229;
+  border-radius: 0.8rem;
+  padding: 1rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.block {
+  flex: 1;
+  min-width: 150px;
+  text-align: center;
+}
+
+.label {
+  font-size: 0.8rem;
+  color: #bbb;
+  margin-bottom: 0.25rem;
+}
+
+.big {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.sub {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.modeBtns {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.modeBtn {
+  background: #333;
+  border: 1px solid #555;
+  color: #ccc;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modeBtn:hover {
+  background: #444;
+  color: #fff;
+}
+
+.modeBtn.active {
+  background: #764ba2;
+  color: white;
+  border-color: #764ba2;
+}
+
+.bitsTray {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.bit {
+  background: #2a2a33;
+  border: 2px solid #444;
+  border-radius: 0.5rem;
+  width: 50px;
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.bit:hover {
+  border-color: #764ba2;
+}
+
+.bitLamp {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.bitMeta {
+  font-size: 0.7rem;
+  color: #888;
+}
+
+.on {
+  background: linear-gradient(135deg, #764ba2, #5a3e80);
+  color: white;
+  border-color: #764ba2;
+}
+
+.off {
+  background: #2a2a33;
+  color: #777;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.primary {
+  background: #764ba2;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.primary:hover {
+  background: #8a63c0;
+}
+
+.ghost {
+  background: transparent;
+  border: 1px solid #555;
+  color: #ccc;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.ghost:hover {
+  border-color: #764ba2;
+  color: white;
+}
+
+.small {
+  background: #333;
+  border: 1px solid #555;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.3rem;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.small:hover {
+  background: #444;
+}
+
+.hint {
+  background: #1f1f27;
+  border-left: 3px solid #764ba2;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border-radius: 0.4rem;
+}
+
+.hintRow {
+  margin-bottom: 0.5rem;
+}
+
+.hintBtns {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.message {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #ddd;
+  margin-top: 0.5rem;
+}
+
+.footer {
+  margin-top: 0.8rem;
+  font-size: 0.8rem;
+  text-align: center;
+  color: #888;
+}
+
+/* Celebration effect */
+.celebrate::after {
+  content: "✨";
+  font-size: 2rem;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: pop 0.8s ease-out;
+}
+
+@keyframes pop {
+  0% { transform: translateX(-50%) scale(0.3); opacity: 0; }
+  40% { transform: translateX(-50%) scale(1.4); opacity: 1; }
+  100% { transform: translateX(-50%) scale(1); opacity: 0; }
+}

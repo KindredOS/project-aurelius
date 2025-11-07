@@ -1,7 +1,45 @@
 ## What Is a Mathematical Mindset?
 
 \[Prompt Wrap Start]
-This section introduces the idea that how you think about math matters. Prompt: How do you feel when you make a mistake in math?
+
+Can you please help me expand the following stub into a well-developed section (approximately 1 to 2 pages in length), written from the perspective of a teaching professional? The writing should be engaging, educational, and suitable for a student audience, as if it were part of a mathematics textbook. The focus is on exploring mathematical mindset and how students' attitudes toward mistakes impact their mathematical learning and growth.
+
+**Original stub to expand:** 
+"This section introduces the idea that how you think about math matters. How do you feel when you make a mistake in math?"
+
+**Content Requirements:**
+The expanded section should:
+
+• Be written in the third person, from the point of view of a teaching professional
+• Explore the psychology of mathematical learning and mistake-making
+• Address common emotional responses students have to mathematical errors:
+  - Fear and anxiety around making mistakes
+  - Perfectionism in mathematical problem-solving
+  - Growth mindset vs. fixed mindset in mathematics
+  - The role of mistakes in mathematical discovery and learning
+• Include:
+  - Definitions of key psychological concepts related to mathematical learning
+  - Examples of how different mindsets affect mathematical performance
+  - Research-backed insights about mistake-making and learning
+  - Strategies for developing a healthy relationship with mathematical errors
+  - How mathematical thinking involves iteration, revision, and learning from attempts
+  - The difference between computational errors and conceptual misunderstandings
+• Emphasize the importance of:
+  - Viewing mistakes as learning opportunities
+  - Building mathematical resilience and persistence
+  - Creating a supportive mathematical learning environment
+  - Understanding that professional mathematicians also make mistakes regularly
+
+**Formatting Instructions (Markdown):**
+
+• Use **bold** and *italic* to highlight key terms and concepts
+• Use ***bold italic*** for section headers instead of traditional Markdown # headers
+• Use bullet points for definitions, examples, and takeaways
+• Include 1–2 engagement questions at the end (e.g., "Think About It" or "Reflect on This")
+• Structure should be clean, easy to follow, and visually engaging for students
+• No first-person language (avoid "I" or "we")
+• Include callout boxes or highlighted sections for key insights about mathematical mindset
+
 \[Prompt Wrap End]
 
 A mathematical mindset means believing that everyone can grow their math abilities with effort and practice. Mistakes aren’t failures—they're learning moments. With the right attitude, anyone can get better at math.

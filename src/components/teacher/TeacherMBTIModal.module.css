@@ -1,0 +1,169 @@
+/* MBTI modal for teachers — Advanced MBTI + Class Setup */
+
+/* Overlay & Container */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease-out;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modalContainer {
+  position: relative;
+  width: 100%;
+  max-width: 36rem;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+  animation: slideIn 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+@keyframes slideIn { from { opacity: 0; transform: scale(0.98) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+/* Close */
+.closeButton {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  width: 2rem; height: 2rem;
+  background: none; border: none; border-radius: 50%;
+  display: grid; place-items: center;
+  cursor: pointer; font-size: 1.5rem;
+  color: #64748b; transition: .18s ease;
+  z-index: 10;
+}
+.closeButton:hover { background: #f1f5f9; color: #374151; transform: scale(1.07); }
+.closeButton:active { transform: scale(0.98); }
+
+/* Header */
+.header { text-align: center; padding: 2rem 1.5rem 1rem; }
+.icon {
+  width: 4rem; height: 4rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-radius: 50%;
+  display: grid; place-items: center;
+  margin: 0 auto 1rem;
+  box-shadow: 0 8px 25px rgba(16,185,129,.3);
+}
+.profileIcon { width: 2rem; height: 2rem; color: #fff; }
+
+.title {
+  font-size: 1.5rem; font-weight: 800; margin: .25rem 0 .25rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  text-align: center;
+}
+.subtitle { color: #6b7280; font-size: .95rem; line-height: 1.45; }
+
+/* Sections */
+.section { padding: 0 1.5rem 1.5rem; }
+.sectionTitle {
+  font-size: 1.15rem; font-weight: 700; color: #374151;
+  text-align: center; margin: 0 0 1rem;
+}
+
+/* Inputs */
+.label { display: block; font-size: .9rem; font-weight: 600; color: #374151; margin-bottom: .5rem; }
+.input {
+  width: 100%; padding: .7rem .8rem;
+  border: 1px solid #d1d5db; border-radius: .6rem; font-size: .95rem;
+  transition: .15s; margin-bottom: 1rem;
+}
+.input:focus { outline: none; border-color: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,.12); }
+
+/* Question Card */
+.questionContainer {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  border: 1px solid #bbf7d0; border-radius: .9rem;
+  padding: 1.25rem; margin-bottom: 1.25rem;
+  box-shadow: 0 4px 14px rgba(16,185,129,.12);
+}
+.question { font-size: 1.15rem; font-weight: 600; color: #374151; text-align: center; margin-bottom: 1rem; }
+.buttonGroup { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* Progress */
+.progressSection { padding: .9rem 1.5rem; border-bottom: 1px solid #e5e7eb; }
+.progressBar { width: 100%; height: .55rem; background: #e5e7eb; border-radius: .35rem; overflow: hidden; margin-bottom: .5rem; }
+.progressFill { height: 100%; background: linear-gradient(135deg, #10b981, #059669); border-radius: .35rem; transition: width .25s ease; }
+.progressText { text-align: center; font-size: .875rem; color: #6b7280; }
+
+/* Step Dots */
+.stepIndicator { display: flex; justify-content: center; gap: .5rem; margin: 1rem 0 1.25rem; }
+.stepDot { width: .5rem; height: .5rem; border-radius: 50%; background: #e5e7eb; transition: .15s; }
+.stepDot.active { background: #10b981; transform: scale(1.15); }
+.stepDot.completed { background: #10b981; }
+
+/* Results */
+.resultsContainer {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  border: 1px solid #bbf7d0; border-radius: .9rem;
+  padding: 1.5rem; margin-bottom: 1.25rem; text-align: center;
+  box-shadow: 0 4px 14px rgba(16,185,129,.12);
+}
+.mbtiResult { font-size: 2rem; font-weight: 800; color: #10b981; margin-bottom: .4rem; letter-spacing: .08em; }
+.resultDescription { color: #6b7280; font-size: .925rem; line-height: 1.45; }
+
+/* Buttons */
+.button {
+  padding: .75rem 1.4rem; border-radius: .6rem; font-weight: 700; border: none; cursor: pointer; transition: .15s;
+  font-size: .98rem; display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-width: 140px;
+}
+.button.loading { opacity: .75; cursor: wait; }
+.button.loading::after { content: ""; width: 1rem; height: 1rem; border: 2px solid transparent; border-top: 2px solid currentColor; border-radius: 50%; animation: spin 1s linear infinite; margin-left: .5rem; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.primaryButton { background: linear-gradient(135deg, #10b981, #059669); color: #fff; width: 100%; margin-bottom: 1rem; }
+.primaryButton:hover { filter: brightness(1.02); transform: translateY(-1px); box-shadow: 0 10px 22px rgba(16,185,129,.28); }
+.primaryButton:active { transform: translateY(0); }
+.primaryButton:disabled { opacity: .6; cursor: not-allowed; box-shadow: none; }
+
+.secondaryButton { background: #fff; color: #10b981; border: 1px solid #10b981; }
+.secondaryButton:hover { background: #f0fdf4; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(16,185,129,.18); }
+
+/* Class Setup */
+.mbtiClassRows { display: flex; flex-direction: column; gap: .75rem; margin-bottom: .5rem; }
+.mbtiClassRow {
+  display: grid;
+  grid-template-columns: 2fr 0.9fr 1.2fr 1fr auto;
+  gap: .6rem;
+  border: 1px solid #e5e7eb;
+  border-radius: .75rem;
+  padding: .75rem;
+  background: #fff;
+}
+.mbtiClassRow .input { margin-bottom: 0; }
+
+.ghostButton {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  color: #6b7280;
+  padding: .55rem .8rem;
+  border-radius: .6rem;
+  cursor: pointer;
+  transition: .12s ease;
+  white-space: nowrap;
+}
+.ghostButton:hover { background: #f8fafc; color: #374151; }
+
+.actions { display: flex; gap: .75rem; justify-content: space-between; align-items: center; margin-top: .6rem; }
+
+/* Responsive */
+@media (max-width: 720px) {
+  .modalContainer { margin: 1rem; max-width: calc(100vw - 2rem); }
+  .header { padding: 1.5rem 1rem 1rem; }
+  .section { padding: 0 1rem 1rem; }
+  .title { font-size: 1.3rem; }
+  .icon { width: 3.5rem; height: 3.5rem; }
+  .profileIcon { width: 1.75rem; height: 1.75rem; }
+  .question { font-size: 1.05rem; }
+  .mbtiResult { font-size: 1.8rem; }
+  .mbtiClassRow { grid-template-columns: 1fr 1fr; }
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "arts-sketch-studio",
+    "title": "Lifestyle Game",
+    "component": "LifestyleGame.jsx",
+    "tags": ["visual", "creative", "drawing"],
+    "difficulty": "easy",
+    "premium": false,
+    "thumbnail": "lifestylegeneric.webp",
+    "shortDescription": "Free-draw canvas with mini challenges to practice composition and shading."
+  },
+  {
+    "id": "arts-rhythm-quest",
+    "title": "Rhythm Quest",
+    "component": "RhythmQuest.jsx",
+    "tags": ["music", "timing", "performance"],
+    "difficulty": "medium",
+    "premium": true,
+    "thumbnail": "lifestylegeneric.webp",
+    "shortDescription": "Match beats and build patterns to learn tempo and meter."
+  },
+  {
+    "id": "arts-stage-director",
+    "title": "Stage Director",
+    "component": "StageDirector.jsx",
+    "tags": ["theater", "blocking", "storytelling"],
+    "difficulty": "medium",
+    "premium": true,
+    "thumbnail": "lifestylegeneric.webp",
+    "shortDescription": "Arrange actors and props to tell a story with effective stage pictures."
+  },
+  {
+    "id": "state-capitals",
+    "title": "State Capitals",
+    "component": "StateCapitals.jsx",
+    "tags": ["geography", "memorization", "quiz"],
+    "difficulty": "medium",
+    "premium": false,
+    "thumbnail": "lifestylegeneric.webp",
+    "shortDescription": "Test your knowledge of US state capitals in this interactive quiz game."
+  }
+]

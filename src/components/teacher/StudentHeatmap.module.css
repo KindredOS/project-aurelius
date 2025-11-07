@@ -9,6 +9,7 @@
   justify-content: space-between;
   height: 100%;
   margin-bottom: 1.5rem;
+  min-height: 320px;
 }
 
 .card:hover {
@@ -26,12 +27,24 @@
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  height: 2vh;
-  min-height: 125px;
+  min-height: 100px;
+}
+
+.statLabel {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-bottom: 0.25rem;
 }
 
 .statNumber {
   font-size: 2rem;
+  font-weight: 700;
+}
+
+.performanceLevel {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  text-align: right;
 }
 
 .cardTitle {
@@ -45,7 +58,7 @@
   font-weight: 500;
   color: #22c55e; /* green */
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .cardDescription {
@@ -55,13 +68,186 @@
   line-height: 1.4;
 }
 
+/* Heatmap Styles */
+.heatmapContainer {
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.heatmapGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* Scrollable overview grid */
+.scrollableGrid {
+  max-height: 300px; /* Adjust this height as needed */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px; /* Account for scrollbar */
+}
+
+.studentCell {
+  background-color: #f8fafc;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+}
+
+.studentName {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.subjectRow {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+}
+
+.heatCell {
+  width: 35px;
+  height: 25px;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #374151;
+  border: 1px solid rgba(0,0,0,0.1);
+  cursor: help;
+}
+
+.moreStudents {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #6b7280;
+  padding: 0.5rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px dashed #d1d5db;
+}
+
+.quickStats {
+  display: flex;
+  justify-content: space-around;
+  background-color: #f8fafc;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statValue {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #4f46e5;
+}
+
+.statItem .statLabel {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+/* Detailed View Styles */
+.detailedView {
+  flex: 1;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.heatmapTable {
+  min-width: 100%;
+}
+
+/* Scrollable detailed table */
+.scrollableTable {
+  max-height: 400px; /* Adjust this height as needed */
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+/* Make table header sticky when scrolling */
+.scrollableTable .tableHeader {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Container for table rows that will scroll */
+.tableBody {
+  /* No specific styles needed, just a container */
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 120px repeat(auto-fit, minmax(80px, 1fr));
+  gap: 2px;
+  margin-bottom: 2px;
+}
+
+.studentHeader,
+.subjectHeader {
+  background-color: #374151;
+  color: white;
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 0.25rem;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 120px repeat(auto-fit, minmax(80px, 1fr));
+  gap: 2px;
+  margin-bottom: 2px;
+}
+
+.tableRow .studentName {
+  background-color: #f1f5f9;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  border-radius: 0.25rem;
+  text-align: left;
+}
+
+.tableCell {
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  color: #374151;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Footer Styles */
 .cardFooter {
   margin-top: auto;
   display: flex;
   justify-content: center;
 }
 
-.viewLink {
+.viewToggle {
   color: white;
   background-color: #111827;
   padding: 0.5rem 2rem;
@@ -71,8 +257,75 @@
   display: inline-block;
   transition: background-color 0.2s ease;
   text-align: center;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
 
-.viewLink:hover {
+.viewToggle:hover {
   background-color: #1f2937;
+}
+
+.viewLinkDisabled {
+  color: #6b7280;
+  background-color: #f3f4f6;
+  padding: 0.5rem 2rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+  text-align: center;
+  cursor: not-allowed;
+  font-size: 0.9rem;
+}
+
+/* Custom scrollbar styling (optional - for webkit browsers) */
+.scrollableGrid::-webkit-scrollbar,
+.scrollableTable::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollableGrid::-webkit-scrollbar-track,
+.scrollableTable::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.scrollableGrid::-webkit-scrollbar-thumb,
+.scrollableTable::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.scrollableGrid::-webkit-scrollbar-thumb:hover,
+.scrollableTable::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Ensure grid items maintain proper spacing when scrolling */
+.scrollableGrid .studentCell {
+  flex-shrink: 0;
+  margin-bottom: 8px; /* Add some spacing between items if needed */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .heatmapGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tableHeader,
+  .tableRow {
+    grid-template-columns: 100px repeat(auto-fit, minmax(60px, 1fr));
+  }
+  
+  .heatCell {
+    width: 25px;
+    height: 20px;
+    font-size: 0.6rem;
+  }
+  
+  .statNumber {
+    font-size: 1.5rem;
+  }
 }

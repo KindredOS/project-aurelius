@@ -1,0 +1,278 @@
+import React, { useEffect, useRef, useState } from "react";
+import styles from "./TeacherLessonPlanner.module.css";
+import {
+  listTeacherClasses,
+  createTeacherClass,
+  addStudentToClass,
+} from "../../api/ApiMaster";
+import {
+  promptForEmail,
+  confirmStudentRemoval,
+  copyToClipboard,
+  createEmptyClassForm,
+  createStateUpdater,
+  SUBJECT_OPTIONS,
+  buildClassPayload,
+} from "../../utils/teacherClassHelper";
+
+const TeacherLessonPlanner = ({ onClose }) => {
+  const overlayRef = useRef();
+
+  // --- State ---
+  const [state, setState] = useState({
+    classes: [],
+    showNewClassForm: false,
+    isLoading: false,
+    error: "",
+    message: "",
+    ...createEmptyClassForm(),
+  });
+
+  const [selectedClass, setSelectedClass] = useState(
+    localStorage.getItem("selectedClass") || null
+  );
+
+  const stateUpdater = createStateUpdater(setState);
+  const teacherEmail = localStorage.getItem("userEmail");
+
+  // --- Close planner if clicking outside ---
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (overlayRef.current && !overlayRef.current.contains(event.target)) {
+        onClose?.();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose]);
+
+  // --- Load classes on mount ---
+  useEffect(() => {
+    const load = async () => {
+      if (!teacherEmail) {
+        stateUpdater.setError("No teacher email found. Please log in again.");
+        return;
+      }
+
+      stateUpdater.setLoading(true);
+      try {
+        const data = await listTeacherClasses(teacherEmail);
+        stateUpdater.updateClasses(Array.isArray(data) ? data : data.classes || []);
+      } catch (err) {
+        stateUpdater.setError(err);
+      } finally {
+        stateUpdater.setLoading(false);
+      }
+    };
+    load();
+  }, [teacherEmail]);
+
+  // --- Clear messages after timeout ---
+  useEffect(() => {
+    if (state.error || state.message) {
+      const timer = setTimeout(() => {
+        stateUpdater.clearMessages();
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [state.error, state.message]);
+
+  // --- Handlers ---
+  const handleCreateClass = async () => {
+    if (!teacherEmail) {
+      stateUpdater.setError("No teacher email found. Please log in again.");
+      return;
+    }
+
+    stateUpdater.setLoading(true);
+    try {
+      const payload = buildClassPayload(state);
+      await createTeacherClass(teacherEmail, payload);
+
+      const updated = await listTeacherClasses(teacherEmail);
+      stateUpdater.updateClasses(Array.isArray(updated) ? updated : updated.classes || []);
+      stateUpdater.resetForm();
+      stateUpdater.setMessage("Class created successfully!");
+    } catch (err) {
+      stateUpdater.setError(err);
+    } finally {
+      stateUpdater.setLoading(false);
+    }
+  };
+
+  const handleAssignStudent = async (classCode, inviteCode) => {
+    if (!teacherEmail) {
+      stateUpdater.setError("No teacher email found. Please log in again.");
+      return;
+    }
+
+    const email = promptForEmail();
+    if (!email) return;
+
+    stateUpdater.setLoading(true);
+    try {
+      await addStudentToClass(teacherEmail, classCode, email, inviteCode);
+      const updated = await listTeacherClasses(teacherEmail);
+      stateUpdater.updateClasses(Array.isArray(updated) ? updated : updated.classes || []);
+      stateUpdater.setMessage(`Student ${email} added successfully!`);
+    } catch (err) {
+      stateUpdater.setError(err);
+    } finally {
+      stateUpdater.setLoading(false);
+    }
+  };
+
+  const handleRemoveStudent = async (classCode, email) => {
+    if (!confirmStudentRemoval(email)) return;
+    stateUpdater.setLoading(true);
+    try {
+      stateUpdater.setMessage(`Student ${email} removal not yet implemented`);
+    } catch (err) {
+      stateUpdater.setError(err);
+    } finally {
+      stateUpdater.setLoading(false);
+    }
+  };
+
+  const handleCopyInvite = async (code) => {
+    const result = await copyToClipboard(code);
+    if (result.success) stateUpdater.setMessage(result.message);
+    else stateUpdater.setError(result.message);
+  };
+
+  const handleSelectClass = (cls) => {
+    setSelectedClass(cls.class_code);
+    localStorage.setItem("selectedClass", cls.class_code); // ✅ save token
+    stateUpdater.setMessage(`Class ${cls.class_name} selected`);
+  };
+
+  const updateFormField = (field, value) => {
+    setState((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const showNewClassForm = () => setState((prev) => ({ ...prev, showNewClassForm: true }));
+  const hideNewClassForm = () =>
+    setState((prev) => ({
+      ...prev,
+      showNewClassForm: false,
+      ...createEmptyClassForm(),
+    }));
+
+  // --- Render ---
+  return (
+    <div className={styles.overlay}>
+      <div className={styles.lessonPlannerContainer} ref={overlayRef}>
+        <h2>📘 Teacher Lesson Planner</h2>
+
+        {state.error && <div className={styles.errorMessage}>{state.error}</div>}
+        {state.message && <div className={styles.successMessage}>{state.message}</div>}
+        {state.isLoading && <div className={styles.loading}>Loading...</div>}
+
+        <div className={styles.section}>
+          <h3>👩‍🏫 My Classes</h3>
+          {state.classes.map((cls) => (
+            <div
+              key={cls.class_code || cls.id}
+              className={`${styles.classItem} ${
+                selectedClass === cls.class_code ? styles.selected : ""
+              }`}
+              onClick={() => handleSelectClass(cls)} // ✅ make selectable
+            >
+              <div className={styles.classHeader}>
+                <strong>{cls.class_name || cls.name}</strong> — <em>{cls.class_code}</em>
+              </div>
+
+              <ul className={styles.studentList}>
+                {cls.students?.map((s) => (
+                  <li key={s}>
+                    {s}
+                    <button
+                      className={styles.removeButton}
+                      onClick={(e) => {
+                        e.stopPropagation(); // ✅ don’t trigger select
+                        handleRemoveStudent(cls.class_code || cls.id, s);
+                      }}
+                      disabled={state.isLoading}
+                    >
+                      ✘
+                    </button>
+                  </li>
+                ))}
+              </ul>
+
+              <button
+                className={styles.secondaryButton}
+                onClick={(e) => {
+                  e.stopPropagation(); // ✅ don’t trigger select
+                  handleAssignStudent(cls.class_code || cls.id, cls.class_code || cls.invite_code);
+                }}
+                disabled={state.isLoading}
+              >
+                + Add Student
+              </button>
+            </div>
+          ))}
+
+          {!state.showNewClassForm ? (
+            <button
+              className={styles.primaryButton}
+              onClick={showNewClassForm}
+              disabled={state.isLoading}
+            >
+              + Create New Class
+            </button>
+          ) : (
+            <div className={styles.newClassForm}>
+              <input
+                type="text"
+                value={state.name}
+                onChange={(e) => updateFormField("name", e.target.value)}
+                placeholder="Class name"
+                className={styles.input}
+                disabled={state.isLoading}
+              />
+              <input
+                type="text"
+                value={state.inviteCode}
+                onChange={(e) => updateFormField("inviteCode", e.target.value)}
+                placeholder="Custom invite code (optional)"
+                className={styles.input}
+                disabled={state.isLoading}
+              />
+              <select
+                value={state.subject}
+                onChange={(e) => updateFormField("subject", e.target.value)}
+                className={styles.select}
+                disabled={state.isLoading}
+              >
+                {SUBJECT_OPTIONS.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+              <div className={styles.actions}>
+                <button
+                  className={styles.cancelButton}
+                  onClick={hideNewClassForm}
+                  disabled={state.isLoading}
+                >
+                  Cancel
+                </button>
+                <button
+                  className={styles.createButton}
+                  onClick={handleCreateClass}
+                  disabled={state.isLoading}
+                >
+                  Create
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TeacherLessonPlanner;

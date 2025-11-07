@@ -1,0 +1,360 @@
+/* MathGame.module.css - Red Theme */
+
+.gameContainer {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  min-height: 100vh;
+  color: white;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 2.5em;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.subtitle {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.statCard {
+  padding: 15px;
+  border-radius: 15px;
+  text-align: center;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+.statCardScore {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.statCardSolved {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+}
+
+.statCardBadges {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+.statCardTime {
+  background: linear-gradient(135deg, #059669, #047857);
+}
+
+.statCardTimeUrgent {
+  background: linear-gradient(135deg, #dc2626, #991b1b);
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.statLabel {
+  font-size: 12px;
+}
+
+.cardContainer {
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+  padding: 30px;
+  border-radius: 20px;
+  margin-bottom: 25px;
+}
+
+.cardContainerCenter {
+  text-align: center;
+}
+
+.caseIcon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.caseTitle {
+  font-size: 28px;
+  margin: 0 0 15px 0;
+}
+
+.caseStory {
+  font-size: 18px;
+  line-height: 1.6;
+  background: rgba(255,255,255,0.1);
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+}
+
+.startButton {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+}
+
+.methodTitle {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+
+.methodSubtitle {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.methodGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.methodButton {
+  background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+  border: 2px solid rgba(255,255,255,0.3);
+  padding: 25px 20px;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.methodButton:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.2));
+}
+
+.methodSteps {
+  font-size: 12px;
+  margin-top: 10px;
+  opacity: 0.8;
+}
+
+.investigationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.investigationTitle {
+  margin: 0;
+  font-size: 24px;
+}
+
+.investigationStep {
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.progressBar {
+  background: rgba(255,255,255,0.2);
+  height: 8px;
+  border-radius: 4px;
+  margin-bottom: 25px;
+  overflow: hidden;
+}
+
+.progressFill {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.stepContainer {
+  background: rgba(255,255,255,0.1);
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.stepPrompt {
+  margin: 0 0 15px 0;
+  font-size: 18px;
+}
+
+.progressSummary {
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.progressSummaryTitle {
+  margin: 0 0 15px 0;
+}
+
+.progressStep {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.progressStepText {
+  font-size: 14px;
+}
+
+.progressStepAnswer {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.progressStepCorrect {
+  color: #10b981;
+}
+
+.progressStepIncorrect {
+  color: #ef4444;
+}
+
+.resetButton {
+  background: linear-gradient(135deg, #6b7280, #9ca3af);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.finalAnswerTitle {
+  margin-bottom: 20px;
+}
+
+.finalAnswerSubtitle {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.inputContainer {
+  margin-bottom: 25px;
+}
+
+.numberInput {
+  padding: 15px 20px;
+  border-radius: 25px;
+  border: 2px solid rgba(255,255,255,0.3);
+  font-size: 18px;
+  width: 200px;
+  text-align: center;
+  background: rgba(255,255,255,0.9);
+  color: #333;
+  margin-right: 15px;
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  border: none;
+  padding: 15px 25px;
+  border-radius: 25px;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.resultOverlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px;
+  border-radius: 25px;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  min-width: 350px;
+}
+
+.resultSuccess {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+.resultFailure {
+  background: linear-gradient(135deg, #991b1b, #7f1d1d);
+}
+
+.resultIcon {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.resultTitle {
+  margin: 0 0 15px 0;
+}
+
+/* Step Input Styles */
+.stepInputContainer {
+  margin-bottom: 15px;
+}
+
+.stepInput {
+  padding: 12px 15px;
+  border-radius: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  font-size: 16px;
+  width: 200px;
+  background: rgba(255,255,255,0.9);
+  color: #333;
+  margin-right: 10px;
+}
+
+.checkButton {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.checkButtonDisabled {
+  background: linear-gradient(135deg, #6b7280, #9ca3af);
+  cursor: not-allowed;
+}
+
+.feedbackContainer {
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.feedbackSuccess {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+.feedbackError {
+  background: linear-gradient(135deg, #991b1b, #7f1d1d);
+}
+
+.feedbackText {
+  margin: 0;
+  font-weight: bold;
+}

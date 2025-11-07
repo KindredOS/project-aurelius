@@ -9,24 +9,24 @@
       "markdown": "overview/what_is_mathematics.md"
     },
     {
-      "title": "Expressions and Equations",
-      "markdown": "overview/expressions_and_equations.md"
-    },
-    {
-      "title": "Ratios & Proportional Relationships",
-      "markdown": "overview/ratios_and_proportional_relationships.md"
+      "title": "Mathematical Mindsets",
+      "markdown": "overview/mathematical_mindsets.md"
     },
     {
       "title": "Numbers as Systems",
       "markdown": "overview/numbers_as_systems.md"
     },
     {
-      "title": "Mathematical Mindsets",
-      "markdown": "overview/mathematical_mindsets.md"
+      "title": "Mathematical Language and Notation",
+      "markdown": "overview/language_and_notation.md"
     },
     {
-      "title": "The Role of Representation",
+      "title": "Making Math Visible",
       "markdown": "overview/role_of_representation.md"
+    },
+    {
+      "title": "Word Problems and Problem Solving Strategies",
+      "markdown": "overview/word_problems_and_strategies.md"
     },
     {
       "title": "Math in the Real World",

@@ -1,6 +1,6 @@
 // Pathing: src/pages/Dashboard/UserProfile/UserProfile.jsx
 // Focus: Polished User Profile with Modern Design
-// VersionUpdate: StudyBuddy Version — Enhanced UI/UX, Integrated SubscribeModal, Login Required
+// VersionUpdate: StudyBuddy Version â€" Enhanced UI/UX, Integrated SubscribeModal, Login Required
 
 import React, { useState, useEffect } from 'react';
 import styles from './UserProfile.module.css';
@@ -79,8 +79,6 @@ const UserProfile = ({ user, setUser }) => {
     fetchUserData();
   }, [user?.email, setUser]);
 
-  const openBillingModal = () => setShowSubscribe(true);
-
   const handleEditPersonalInfo = () => alert('Edit Personal Information functionality coming soon!');
   const handleEditInterests = () => alert('Edit Interests functionality coming soon!');
   const handleEditPersonalityType = () => alert('Edit Personality Type functionality coming soon!');
@@ -107,7 +105,7 @@ const UserProfile = ({ user, setUser }) => {
     );
   }
 
-  // Resolve username we’ll pass to the SubscriptionCard
+  // Resolve username weâ€™ll pass to the SubscriptionCard
   const resolvedUsername =
     user.username || user.name || (user.email ? user.email.split('@')[0] : undefined);
 

@@ -15,9 +15,8 @@ function DashboardAdmin() {
     const fetchInitialData = async () => {
       try {
         setLoading(true);
-        const data = await fetchAdminInit();
-        console.log('Admin Dashboard Data:', data);
-        setDashboardData(data);
+        const initData = await fetchAdminInit();
+        setDashboardData(initData);
         setError(null);
       } catch (error) {
         console.error('Failed to fetch admin dashboard data:', error);

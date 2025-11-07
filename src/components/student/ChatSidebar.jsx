@@ -1,4 +1,3 @@
-// components/student/ChatSidebar.jsx
 import React from 'react';
 import { MessageSquare, Clock, X, Plus } from 'lucide-react';
 
@@ -10,7 +9,8 @@ const ChatSidebar = ({
   onSelectThread,
   isOpen,
   onClose,
-  styles
+  styles,
+  theme
 }) => {
   const handleNewChat = () => {
     const newThreadId = crypto.randomUUID();
@@ -19,23 +19,40 @@ const ChatSidebar = ({
 
   return (
     <>
-      {/* Backdrop for mobile */}
       {isOpen && <div className={styles.backdrop} onClick={onClose} />}
 
-      {/* Sidebar */}
       <div className={`${styles.chatSidebar} ${isOpen ? styles.open : ''}`}>
-        <div className={styles.sidebarHeader}>
+        <div
+          className={styles.sidebarHeader}
+          style={{
+            background: theme.gradient,
+            color: '#fff',
+            boxShadow: `0 2px 8px ${theme.primary}33`,
+          }}
+        >
           <h3 className={styles.sidebarTitle}>
             <MessageSquare className={styles.sidebarIcon} />
             Chat Threads
           </h3>
-          <button onClick={onClose} className={styles.closeButton}>
+          <button
+            onClick={onClose}
+            className={styles.closeButton}
+            style={{ background: 'rgba(255,255,255,0.15)' }}
+          >
             <X className={styles.closeIcon} />
           </button>
         </div>
 
         <div className={styles.threadListContainer}>
-          <button className={styles.newChatButton} onClick={handleNewChat}>
+          <button
+            className={styles.newChatButton}
+            onClick={handleNewChat}
+            style={{
+              background: theme.gradient,
+              color: '#fff',
+              boxShadow: `0 2px 6px ${theme.primary}55`,
+            }}
+          >
             <Plus className={styles.plusIcon} />
             New Chat
           </button>
@@ -50,17 +67,32 @@ const ChatSidebar = ({
               {threads.map((thread) => (
                 <li
                   key={thread.threadId}
-                  className={`${styles.threadItem} ${thread.threadId === activeThreadId ? styles.active : ''}`}
+                  className={`${styles.threadItem} ${
+                    thread.threadId === activeThreadId ? styles.active : ''
+                  }`}
                   onClick={() => onSelectThread(thread.threadId)}
+                  style={
+                    thread.threadId === activeThreadId
+                      ? {
+                          borderColor: theme.primary,
+                          background: `${theme.primary}10`,
+                          boxShadow: `0 2px 6px ${theme.primary}22`,
+                        }
+                      : {}
+                  }
                 >
                   <div className={styles.threadHeader}>
-                    <div className={styles.threadSubject}>{thread.subject || 'General'}</div>
+                    <div className={styles.threadSubject}>
+                      {thread.subject || 'General'}
+                    </div>
                     <div className={styles.threadTimestamp}>
                       <Clock className={styles.clockIcon} />
                       {new Date(thread.timestamp).toLocaleDateString()}
                     </div>
                   </div>
-                  <div className={styles.threadPreview}>{thread.preview || 'No preview available'}</div>
+                  <div className={styles.threadPreview}>
+                    {thread.preview || 'No preview available'}
+                  </div>
                 </li>
               ))}
             </ul>
@@ -72,3 +104,4 @@ const ChatSidebar = ({
 };
 
 export default ChatSidebar;
+

@@ -1,21 +1,68 @@
 import React, { useState, useEffect } from "react";
+import { Gamepad2 } from "lucide-react";
+import { getThemeColors } from "../../utils/stylesBranding";
+import styles from "./GameMenu.module.css";
 
-export default function GameMenu({ 
+// Helper to resolve thumbnail path based on subject
+const resolveThumb = async (thumbPath, subject) => {
+  if (!thumbPath) return null;
+
+  // Allow full URLs to work
+  if (thumbPath.startsWith("http")) return thumbPath;
+
+  // If it starts with /, treat as absolute path from public root
+  if (thumbPath.startsWith("/")) return thumbPath;
+
+  try {
+    // For relative paths, dynamically import from src folder
+    const imageModule = await import(
+      `../../components/student/${subject}/games/thumbnails/${thumbPath}`
+    );
+    return imageModule.default;
+  } catch (error) {
+    console.warn(`Failed to load thumbnail: ${thumbPath}`, error);
+    return null;
+  }
+};
+
+export default function GameMenu({
   subject = "arts",
-  isPremium = false, 
-  onLaunch = () => {} 
+  isPremium = false,
+  onLaunch = () => {},
 }) {
   const [games, setGames] = useState([]);
   const [selectedGame, setSelectedGame] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [thumbnails, setThumbnails] = useState({});
+  const [failedThumbs, setFailedThumbs] = useState(new Set());
+
+  const subjectLabel = subject.charAt(0).toUpperCase() + subject.slice(1);
+  const themeColors = getThemeColors(subject);
 
   useEffect(() => {
     const loadGames = async () => {
       try {
         setLoading(true);
-        // Dynamically import based on subject
-        const gamesModule = await import(`../../components/student/${subject}/${subject.charAt(0).toUpperCase() + subject.slice(1)}Games.json`);
-        setGames(gamesModule.default);
+        const gamesModule = await import(
+          `../../components/student/${subject}/${subjectLabel}Games.json`
+        );
+        const gamesList = gamesModule.default;
+        setGames(gamesList);
+
+        // Pre-load all thumbnails
+        const thumbPromises = gamesList.map(async (game) => {
+          if (game.thumbnail) {
+            const src = await resolveThumb(game.thumbnail, subject);
+            return { id: game.id, src };
+          }
+          return { id: game.id, src: null };
+        });
+
+        const results = await Promise.all(thumbPromises);
+        const map = {};
+        results.forEach(({ id, src }) => (map[id] = src));
+        setThumbnails(map);
+        setFailedThumbs(new Set());
       } catch (error) {
         console.error(`Failed to load games for subject: ${subject}`, error);
         setGames([]);
@@ -25,24 +72,25 @@ export default function GameMenu({
     };
 
     loadGames();
-  }, [subject]);
+  }, [subject, subjectLabel]);
 
   const handlePlayGame = async (game) => {
     if (game.premium && !isPremium) return;
-    
+
     try {
-      // Dynamically import the game component
       const componentPath = game.component || `${game.id}.jsx`;
-      const gameModule = await import(`../../components/student/${subject}/games/${componentPath}`);
+      const gameModule = await import(
+        `../../components/student/${subject}/games/${componentPath}`
+      );
       const GameComponent = gameModule.default;
-      
-      setSelectedGame({ 
-        ...game, 
-        GameComponent 
-      });
+
+      setSelectedGame({ ...game, GameComponent });
       onLaunch(game);
     } catch (error) {
-      console.error(`Failed to load game component: ${game.component || game.id}`, error);
+      console.error(
+        `Failed to load game component: ${game.component || game.id}`,
+        error
+      );
     }
   };
 
@@ -50,234 +98,139 @@ export default function GameMenu({
     setSelectedGame(null);
   };
 
-  // Show loading state
+  // Inline handler to track failed images (so we can show placeholder via conditional render)
+  const markThumbFailed = (gameId) => {
+    setFailedThumbs((prev) => {
+      const next = new Set(prev);
+      next.add(gameId);
+      return next;
+    });
+  };
+
+  // Brand variables applied at wrapper level
+  const brandVars = {
+    "--brand-gradient": themeColors?.gradient,
+    "--brand-primary": themeColors?.primary,
+  };
+
   if (loading) {
     return (
-      <div style={{ 
-        padding: '2rem',
-        textAlign: 'center',
-        color: '#666'
-      }}>
-        <p>Loading {subject} games...</p>
+      <div className={`${styles.centered} ${styles.page}`} style={brandVars}>
+        <div className={styles.headerCard}>
+          <Gamepad2 size={28} />
+          <h1 className={styles.headerTitle}>{themeColors.name} Games</h1>
+        </div>
+        <div className={styles.stateWrapper}>
+          <p>Loading {subject} games...</p>
+        </div>
       </div>
     );
   }
 
-  // Show empty state if no games found
   if (games.length === 0) {
     return (
-      <div style={{ 
-        padding: '2rem',
-        textAlign: 'center',
-        color: '#666'
-      }}>
-        <p>No games found for {subject}.</p>
+      <div className={`${styles.centered} ${styles.page}`} style={brandVars}>
+        <div className={styles.headerCard}>
+          <Gamepad2 size={28} />
+          <h1 className={styles.headerTitle}>{themeColors.name} Games</h1>
+        </div>
+        <div className={styles.stateWrapper}>
+          <p>No games found for {subject}.</p>
+        </div>
       </div>
     );
   }
 
-  // If a game is selected, show the game view (placeholder)
   if (selectedGame) {
     return (
-      <div style={{ padding: '2rem', textAlign: 'center' }}>
-        <button 
-          onClick={handleBackToMenu}
-          style={{
-            position: 'absolute',
-            top: '20px',
-            left: '20px',
-            padding: '0.5rem 1rem',
-            backgroundColor: '#6c757d',
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '0.9rem'
-          }}
-        >
-          ← Back to Games
-        </button>
-        
-        <div style={{ marginTop: '4rem' }}>
-          <h1 style={{ color: '#333', marginBottom: '1rem' }}>
-            {selectedGame.title}
-          </h1>
-          
-          {/* Render the actual game component */}
+      <div className={`${styles.centered} ${styles.selectedWrapper}`} style={brandVars}>
+        {/* Branded Header */}
+        <div className={styles.selectedHeader}>
+          <button onClick={handleBackToMenu} className={styles.backButton}>
+            ← Back to Games
+          </button>
+          <Gamepad2 size={28} />
+          <h1 className={styles.headerTitle}>{selectedGame.title}</h1>
+        </div>
+
+        <div className={styles.contentPad}>
           {selectedGame.GameComponent ? (
             <selectedGame.GameComponent />
           ) : (
-            <p style={{ color: '#666', fontSize: '1.1rem' }}>
-              Loading game...
-            </p>
+            <p className={styles.cardDesc}>Loading game...</p>
           )}
         </div>
       </div>
     );
   }
 
-  // Show the games grid
   return (
-    <div style={{ 
-      padding: '2rem',
-      maxWidth: '800px',
-      margin: '0 auto'
-    }}>
-      <h2 style={{ 
-        textAlign: 'center', 
-        marginBottom: '2rem',
-        color: '#333'
-      }}>
-        {subject.charAt(0).toUpperCase() + subject.slice(1)} Games
-      </h2>
-      
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-        gap: '1.5rem',
-        justifyItems: 'center'
-      }}>
-        {games.map((game) => (
-          <div
-            key={game.id}
-            style={{
-              width: '100%',
-              maxWidth: '320px',
-              border: '2px solid #e0e0e0',
-              borderRadius: '12px',
-              padding: '1.5rem',
-              backgroundColor: 'white',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              transition: 'all 0.2s ease',
-              cursor: (game.premium && !isPremium) ? 'not-allowed' : 'pointer',
-              opacity: (game.premium && !isPremium) ? 0.6 : 1
-            }}
-            onMouseEnter={(e) => {
-              if (!(game.premium && !isPremium)) {
-                e.target.style.transform = 'translateY(-4px)';
-                e.target.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.15)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-            }}
-          >
-            {/* Thumbnail */}
-            <div style={{
-              width: '100%',
-              height: '120px',
-              backgroundColor: '#f8f9fa',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: '1rem',
-              border: '2px dashed #dee2e6'
-            }}>
-              {game.thumbnail ? (
-                <img 
-                  src={game.thumbnail} 
-                  alt={game.title}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    borderRadius: '6px'
+    <div className={`${styles.centered} ${styles.page}`} style={brandVars}>
+      {/* Subject-branded header band */}
+      <div className={styles.headerBand}>
+        <Gamepad2 size={28} />
+        <h1 className={styles.headerTitle}>{themeColors.name} Games</h1>
+      </div>
+
+      <div className={styles.bodyPad}>
+        <div className={styles.cardsGrid}>
+          {games.map((game) => {
+            const thumbSrc = thumbnails[game.id];
+            const locked = game.premium && !isPremium;
+
+            return (
+              <div
+                key={game.id}
+                className={`${styles.gameCard} ${locked ? styles.disabled : ""}`}
+                onClick={() => {
+                  if (!locked) handlePlayGame(game);
+                }}
+              >
+                {/* Thumbnail */}
+                <div className={styles.thumb}>
+                  {thumbSrc && !failedThumbs.has(game.id) ? (
+                    <img
+                      src={thumbSrc}
+                      alt={game.title}
+                      className={styles.thumbImg}
+                      onError={() => markThumbFailed(game.id)}
+                    />
+                  ) : (
+                    <span className={styles.thumbPlaceholder}>
+                      {game.title?.[0] ?? "?"}
+                    </span>
+                  )}
+                </div>
+
+                {/* Title + Badges */}
+                <div className={styles.cardHeaderRow}>
+                  <h3 className={styles.cardTitle}>{game.title}</h3>
+                  <div className={styles.badges}>
+                    {game.premium && <span className={styles.premiumBadge}>Premium</span>}
+                    {game.difficulty && (
+                      <span className={styles.difficultyBadge}>{game.difficulty}</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Description */}
+                <p className={styles.cardDesc}>{game.shortDescription}</p>
+
+                {/* Play Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePlayGame(game);
                   }}
-                />
-              ) : (
-                <span style={{
-                  fontSize: '3rem',
-                  fontWeight: 'bold',
-                  color: '#adb5bd'
-                }}>
-                  {game.title[0]}
-                </span>
-              )}
-            </div>
-
-            {/* Title and badges */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: '0.5rem'
-            }}>
-              <h3 style={{
-                margin: 0,
-                fontSize: '1.3rem',
-                color: '#333'
-              }}>
-                {game.title}
-              </h3>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                {game.premium && (
-                  <span style={{
-                    backgroundColor: '#ffd700',
-                    padding: '0.2rem 0.5rem',
-                    borderRadius: '4px',
-                    fontSize: '0.75rem',
-                    fontWeight: 'bold'
-                  }}>
-                    Premium
-                  </span>
-                )}
-                {game.difficulty && (
-                  <span style={{
-                    backgroundColor: '#e9ecef',
-                    padding: '0.2rem 0.5rem',
-                    borderRadius: '4px',
-                    fontSize: '0.75rem',
-                    color: '#495057'
-                  }}>
-                    {game.difficulty}
-                  </span>
-                )}
+                  disabled={locked}
+                  className={styles.playButton}
+                >
+                  {locked ? "🔒 Requires Premium" : "▶ Start"}
+                </button>
               </div>
-            </div>
-
-            {/* Description */}
-            <p style={{
-              color: '#666',
-              fontSize: '0.9rem',
-              lineHeight: '1.4',
-              marginBottom: '1.5rem'
-            }}>
-              {game.shortDescription}
-            </p>
-
-            {/* Play button */}
-            <button
-              onClick={() => handlePlayGame(game)}
-              disabled={game.premium && !isPremium}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                backgroundColor: (game.premium && !isPremium) ? '#6c757d' : '#28a745',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                cursor: (game.premium && !isPremium) ? 'not-allowed' : 'pointer',
-                transition: 'background-color 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                if (!(game.premium && !isPremium)) {
-                  e.target.style.backgroundColor = '#218838';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!(game.premium && !isPremium)) {
-                  e.target.style.backgroundColor = '#28a745';
-                }
-              }}
-            >
-              {(game.premium && !isPremium) ? '🔒 Requires Premium' : '▶ Play'}
-            </button>
-          </div>
-        ))}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

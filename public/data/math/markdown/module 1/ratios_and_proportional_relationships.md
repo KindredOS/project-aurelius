@@ -1,79 +1,79 @@
-## What Are Ratios?
+## Understanding Ratios
 
 \[Prompt Wrap Start]
-This section introduces ratios and how they compare quantities. Prompt: What does it mean to compare two things with a ratio?
+This section introduces the concept of ratios. Prompt: Where have you seen or used ratios in your life?
 \[Prompt Wrap End]
 
-A ratio compares two amounts. For example, if a fruit bowl has 3 apples and 2 bananas, the ratio is 3:2. Ratios help us understand relationships between parts of a whole or between different things.
-
-\[interactive element]
-
-## Writing Ratios in Different Ways
-
-\[Prompt Wrap Start]
-This section explores different ways to write and say ratios. Prompt: How many ways can you write a ratio that compares 4 cats to 5 dogs?
-\[Prompt Wrap End]
-
-You can write ratios in several ways: 4 to 5, 4:5, or 4/5. Each form means the same thing—it compares the same two values. Understanding all forms helps you read and solve problems more easily.
+A ratio is a comparison between two quantities. It tells us how much of one thing there is compared to another. For example, a fruit bowl with 2 apples and 3 bananas has a ratio of 2:3. Ratios help us compare and make sense of relationships between amounts.
 
 \[interactive element]
 
 ## Equivalent Ratios
 
 \[Prompt Wrap Start]
-This section explains how to find and use equivalent ratios. Prompt: How can you tell if two ratios are equal?
+This section explores how different ratios can show the same relationship. Prompt: Can you think of a time when you had to scale something up or down?
 \[Prompt Wrap End]
 
-Equivalent ratios are like equal fractions. If you double both parts of 3:2 to get 6:4, the ratio still shows the same relationship. You can test if two ratios are equivalent by simplifying or cross-multiplying.
+Equivalent ratios have the same value, even if the numbers look different. Just like 1/2 is the same as 2/4 or 3/6, the ratio 2:3 is equivalent to 4:6. This idea helps in recipes, maps, and any situation where we scale things.
 
 \[interactive element]
 
-## Ratio Tables
+## Using Ratio Tables
 
 \[Prompt Wrap Start]
-This section introduces ratio tables as a tool for solving problems. Prompt: How can a table help you find patterns in a ratio?
+This section teaches how ratio tables can organize and extend comparisons. Prompt: How could a table help you compare or predict values?
 \[Prompt Wrap End]
 
-A ratio table lists pairs of numbers that show the same relationship. If 1 pencil costs \$2, then 2 pencils cost \$4, 3 cost \$6, and so on. Tables help you see the pattern and solve problems more quickly.
+A ratio table is a tool that helps us see patterns in equivalent ratios. By organizing values in a table, we can extend them to solve problems, make predictions, or check our work. They're especially helpful in real-world tasks like budgeting or building models.
 
 \[interactive element]
 
-## Using Tape Diagrams
+## Rates and Unit Rates
 
 \[Prompt Wrap Start]
-This section shows how visual tools like tape diagrams help understand ratios. Prompt: What do tape diagrams show that numbers alone might not?
+This section focuses on rates and finding unit rates. Prompt: What does it mean when we say something costs "per" item?
 \[Prompt Wrap End]
 
-Tape diagrams use blocks or bars to show parts of a ratio. They help you see how amounts compare and how they grow or shrink together. It’s a great way to visualize a problem before solving it.
+A rate compares two different units, like miles per hour or dollars per pound. A unit rate is the rate for one unit, like \$3 per apple. Unit rates help us find the best deals, compare speeds, and make fair decisions.
 
 \[interactive element]
 
-## Understanding Proportions
+## Graphing Proportional Relationships
 
 \[Prompt Wrap Start]
-This section introduces proportions as a way to solve for unknown values. Prompt: What does it mean when two ratios form a proportion?
+This section connects proportional relationships to graphs. Prompt: How can you tell if a graph shows a proportional relationship?
 \[Prompt Wrap End]
 
-A proportion is an equation that shows two ratios are equal. If 2/3 = 4/6, that’s a proportion. We use this idea to find missing values in recipes, maps, and other real-life situations.
+If a graph shows a straight line through the origin (0,0), it represents a proportional relationship. That means the two quantities are increasing at a constant rate. Graphs make it easier to visualize and compare these relationships.
 
 \[interactive element]
 
-## Solving Proportions
+## Solving Proportional Problems
 
 \[Prompt Wrap Start]
-This section teaches how to solve proportions using multiplication. Prompt: If you know part of a proportion, how can you find the missing number?
+This section guides students through solving real-world proportion problems. Prompt: Have you ever solved a problem using a proportion?
 \[Prompt Wrap End]
 
-To solve a proportion, you can cross-multiply. For example, if x/4 = 3/2, you multiply 2 \* x = 4 \* 3. Then solve for x. This strategy helps when solving many real-world problems.
+To solve proportional problems, we set up two equal ratios and use cross-multiplication or scaling. Whether you're converting currencies or adjusting a recipe, understanding proportions helps you get the right result.
 
 \[interactive element]
 
-## Ratios in Real Life
+## Constant of Proportionality
 
 \[Prompt Wrap Start]
-This section shows how ratios are used in everyday decisions. Prompt: Can you think of a time you used a ratio to make a choice or plan something?
+This section defines and explores the constant of proportionality. Prompt: What does it mean when two things change at the same rate?
 \[Prompt Wrap End]
 
-Ratios help with everything from cooking to building to shopping. If you need 2 cups of water for every 1 cup of rice, that’s a ratio. Learning to work with ratios makes you a smart problem solver.
+The constant of proportionality is the number that links the two quantities in a proportional relationship. In the equation y = kx, "k" is the constant. It tells us how much one quantity changes in relation to the other.
+
+\[interactive element]
+
+## Proportional Relationships in the Real World
+
+\[Prompt Wrap Start]
+This section highlights real-life applications of ratios and proportions. Prompt: Where do you see proportional relationships in your daily life?
+\[Prompt Wrap End]
+
+Proportions appear in recipes, sports stats, construction, art, and more. They help us double recipes, measure correctly, or estimate time and cost. Recognizing proportional relationships lets us solve everyday challenges with confidence.
 
 \[interactive element]

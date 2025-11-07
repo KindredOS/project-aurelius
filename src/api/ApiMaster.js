@@ -1,36 +1,17 @@
-// ApiMaster.js — Updated with Dispatcher Layer for Cross-Subject Compatibility
+// ApiMaster.js — Unified Environment Logic + Dispatcher Layer for Cross-Subject Compatibility
 import { useState } from "react";
 
-export const MODE = (typeof process !== 'undefined' && process.env?.REACT_APP_MODE) || 'LOCAL';
+// ✅ Unified environment logic
+export const MODE = process.env.REACT_APP_MODE || 'LOCAL';
 
-if (!process.env?.REACT_APP_MODE) {
-  console.warn('[API] ⚠️ No REACT_APP_MODE set. Falling back to LOCAL.');
-}
-
-export const API_BASE = process.env.REACT_APP_API_URL || (
-  MODE === 'LOCAL'
+export const API_BASE =
+  process.env.REACT_APP_API_URL ||
+  (MODE === 'LOCAL'
     ? 'http://localhost:8000/api'
-    : 'https://eduos-worker.shepherdn.workers.dev/api'
-);
-
-// Static route constants for safe imports
-export const EDU_SCIENCE = `${API_BASE}/edu/science`;
-export const EDU_TECHNOLOGY = `${API_BASE}/edu/technology`;
-export const EDU_ENGINEERING = `${API_BASE}/edu/engineering`;
-export const EDU_ARTS = `${API_BASE}/edu/arts`;
-export const EDU_MATH = `${API_BASE}/edu/math`;
-export const EDU_LIFESTYLE = `${API_BASE}/edu/lifestyle`;
-export const OPENAI_ROUTE = `${API_BASE}/openai`;
+    : 'https://eduos-worker.shepherdn.workers.dev/api');
 
 console.log('[API] MODE:', MODE);
 console.log('[API] BASE:', API_BASE);
-console.log('[API] EDU_SCIENCE:', EDU_SCIENCE);
-console.log('[API] EDU_TECHNOLOGY:', EDU_TECHNOLOGY);
-console.log('[API] EDU_ENGINEERING:', EDU_ENGINEERING);
-console.log('[API] EDU_ARTS:', EDU_ARTS);
-console.log('[API] EDU_MATH:', EDU_MATH);
-console.log('[API] EDU_LIFESTYLE:', EDU_LIFESTYLE);
-console.log('[API] OpenAI Route:', OPENAI_ROUTE);
 
 // Reactive Hook Support
 let apiUrl = API_BASE;
@@ -50,7 +31,22 @@ export const useApiUrl = () => {
   return [currentApiUrl, updateApiUrl];
 };
 
-// Subject-specific APIs
+// === Static Subject Routes for Safe Imports ===
+export const EDU_SCIENCE = `${API_BASE}/edu/science`;
+export const EDU_TECHNOLOGY = `${API_BASE}/edu/technology`;
+export const EDU_ENGINEERING = `${API_BASE}/edu/engineering`;
+export const EDU_ARTS = `${API_BASE}/edu/arts`;
+export const EDU_MATH = `${API_BASE}/edu/math`;
+export const EDU_LIFESTYLE = `${API_BASE}/edu/lifestyle`;
+export const OPENAI_ROUTE = `${API_BASE}/openai`;
+
+// === Role and General APIs ===
+export * from './User.js';
+export * from './Student.js';
+export * from './Teacher.js';
+export * from './Admin.js';
+
+// === Subject-Specific APIs ===
 export * as ScienceAPI from './Science.js';
 export * as TechnologyAPI from './Technology.js';
 export * as EngineeringAPI from './Engineering.js';
@@ -58,11 +54,7 @@ export * as ArtsAPI from './Arts.js';
 export * as MathAPI from './Math.js';
 export * as LifestyleAPI from './Lifestyle.js';
 
-// User/Admin APIs
-export * from './User.js';
-export * from './Admin.js';
-
-// === Dispatcher Layer ===
+// === Subject Dispatcher Layer: Mirrors backend subject routers ===
 const subjectMap = {
   science: () => import('./Science.js'),
   math: () => import('./Math.js'),
@@ -72,7 +64,7 @@ const subjectMap = {
   lifestyle: () => import('./Lifestyle.js')
 };
 
-const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export async function fetchChatThread(subject, email, threadId) {
   const mod = await subjectMap[subject]?.();

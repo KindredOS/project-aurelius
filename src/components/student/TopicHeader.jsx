@@ -1,12 +1,14 @@
-// TopicHeader.jsx - ONLY handles navigation and progress with dynamic theming
+// Path: src/components/student/TopicHeader.jsx
+// Function: Works as a Flimisy UI element that handles navigation, pass through data and progress with dynamic theming
+// Version Update: Auditing file (9.18.25), adding legacy of info comments, and MBTI Passthrough. 
+
 import React, { useState, useEffect } from 'react';
 import ContentManager from './ContentManager';
-import { getApiUrl } from '../../api/ApiMaster';
+import { fetchUserMBTI, getApiUrl } from '../../api/ApiMaster';
 import styles from './TopicHeader.module.css';
 
 const TopicHeader = ({ 
   topic, 
-  userProgress, 
   selectedTopic, 
   renderMainProgressBar, 
   onConceptClick, 
@@ -15,6 +17,7 @@ const TopicHeader = ({
 }) => {
   const [selectedConcept, setSelectedConcept] = useState(null);
   const [progressData, setProgressData] = useState({});
+  const [userMBTI, setUserMBTI] = useState(null);
 
   // Define theme colors based on subject
   const getThemeColors = (subject) => {
@@ -76,6 +79,19 @@ const TopicHeader = ({
 
     if (userEmail && subject) fetchProgressIndex();
   }, [userEmail, subject]);
+
+    useEffect(() => {
+    const fetchMBTI = async () => {
+      try {
+        const mbtiData = await fetchUserMBTI(userEmail);
+        setUserMBTI(mbtiData);
+      } catch (err) {
+        console.error('Error fetching MBTI:', err);
+      }
+    };
+
+  if (userEmail) fetchMBTI();
+}, [userEmail]);
 
   const saveProgressIndex = async (updated) => {
     try {
@@ -185,12 +201,13 @@ const TopicHeader = ({
         </div>
       )}
 
-      {/* Content Manager handles everything below this point */}
+      {/* Content Manager handles everything below this point. Feature stack is Topic Header -> Content Manager -> Adaptive Textbook */}
       {selectedConcept && (
         <ContentManager
           selectedConcept={selectedConcept}
           subject={subject}
           userEmail={userEmail}
+          userMBTI={userMBTI}
         />
       )}
     </div>

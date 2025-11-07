@@ -1,0 +1,356 @@
+/* ScienceGame.module.css */
+
+/* ========== Design Tokens ========== */
+:root {
+  /* Brand */
+  --brand-science: #2563eb;   /* blue-600 */
+  --brand-tech:    #6d28d9;   /* purple-700 */
+
+  /* Accents / Feedback */
+  --ok:    #22c55e;  /* green-500 */
+  --warn:  #f59e0b;  /* amber-500 */
+  --bad:   #ef4444;  /* red-500 */
+
+  /* Gray scale (Tailwind-ish) */
+  --g-50:  #f9fafb;
+  --g-100: #f3f4f6;
+  --g-200: #e5e7eb;
+  --g-300: #d1d5db;
+  --g-400: #9ca3af;
+  --g-500: #6b7280;
+  --g-600: #4b5563;
+  --g-700: #374151;
+  --g-800: #1f2937;
+
+  /* Surfaces */
+  --surface: #ffffff;
+
+  /* Radii / Shadows / Transitions */
+  --r-lg: 1rem;        /* ~ rounded-xl */
+  --r-md: 0.5rem;      /* ~ rounded-lg */
+  --shadow-card: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+  --transition-fast: 200ms ease;
+}
+
+/* ========== Layout ========== */
+.container {
+  max-width: 56rem; /* ~ max-w-4xl */
+  margin: 0 auto;   /* mx-auto */
+  padding: 1.5rem;  /* p-6 */
+  min-height: 100vh; /* min-h-screen */
+  background: var(--g-50);
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  padding: 1.5rem; /* p-6 */
+  color: #fff;
+  background: linear-gradient(90deg, var(--brand-science), var(--brand-tech));
+}
+
+.headerTitle {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 800;    /* font-bold */
+  margin: 0 0 0.5rem 0; /* mb-2 */
+}
+
+.headerSub {
+  color: rgba(255,255,255,0.75); /* text-blue-100-ish */
+  margin: 0;
+}
+
+/* Progress Steps */
+.progressBar {
+  background: var(--g-50);
+  padding: 1rem;            /* p-4 */
+  border-bottom: 1px solid var(--g-200);
+}
+
+.stepsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stepWrap {
+  display: flex;
+  align-items: center;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;              /* space-x-2 */
+  padding: 0.5rem 0.75rem;  /* px-3 py-2 */
+  border-radius: var(--r-md);
+  border: 2px solid transparent;
+  font-weight: 600;
+  font-size: 0.875rem;      /* text-sm */
+}
+
+/* step states */
+.stepCurrent {
+  background: #dbeafe;         /* blue-100 */
+  color: #1d4ed8;              /* blue-700 */
+  border-color: #93c5fd;       /* blue-300 */
+}
+
+.stepDone {
+  background: #dcfce7;         /* green-100 */
+  color: #15803d;              /* green-700 */
+}
+
+.stepUpcoming {
+  background: var(--g-100);
+  color: var(--g-500);
+}
+
+.chevron {
+  width: 1.25rem;  /* w-5 */
+  height: 1.25rem; /* h-5 */
+  color: var(--g-400);
+  margin: 0 0.5rem; /* mx-2 */
+}
+
+/* Main Content */
+.content {
+  padding: 2rem; /* p-8 */
+}
+
+/* Utility stacks (space-y-6) */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* 24px */
+}
+
+/* Panels (colored info boxes) */
+.panel {
+  padding: 1rem;            /* p-4 */
+  border-radius: var(--r-md);
+}
+
+.panelBlue {
+  background: #eff6ff;      /* blue-50 */
+}
+
+.panelGreen {
+  background: #f0fdf4;      /* green-50 */
+}
+
+.panelPurple {
+  background: #faf5ff;      /* purple-50 */
+}
+
+.panelYellow {
+  background: #fefce8;      /* yellow-50 (close) */
+  border: 2px solid #fef08a;/* yellow-200 */
+}
+
+.panelGreenEmph {
+  background: #f0fdf4;       /* green-50 */
+  border: 2px solid #bbf7d0; /* green-200 */
+}
+
+/* Typography helpers */
+.center {
+  text-align: center;
+}
+
+.emoji {
+  font-size: 3.75rem; /* text-6xl */
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+.h2 {
+  font-size: 1.5rem;   /* text-2xl */
+  font-weight: 800;
+  color: var(--g-800);
+  margin-bottom: 1rem;
+}
+
+.pLead {
+  font-size: 1.125rem; /* text-lg */
+  color: var(--g-600);
+  margin-bottom: 1.5rem; /* mb-6 */
+}
+
+.hintTitle {
+  font-weight: 700; /* font-semibold */
+  color: #166534;   /* green-800 */
+  margin: 0 0 0.5rem 0;
+}
+
+.hintList {
+  color: #15803d;   /* green-700 */
+  font-size: 0.95rem;
+  margin: 0;
+  padding-left: 1rem;
+}
+
+.hintList li {
+  margin: 0.25rem 0;
+}
+
+.varTitle {
+  font-weight: 700;
+  color: #6b21a8;   /* purple-800 */
+  margin: 0 0 0.5rem 0;
+}
+
+.varExplain {
+  color: #7e22ce;   /* purple-700 */
+  font-size: 0.95rem;
+}
+
+/* Form elements */
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;       /* medium-ish */
+  color: var(--g-700);
+  margin-bottom: 0.5rem;
+}
+
+.textarea,
+.input {
+  width: 100%;
+  padding: 0.75rem;       /* p-3 */
+  border: 1px solid var(--g-300);
+  border-radius: var(--r-md);
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+  background: #fff;
+  color: var(--g-800);
+}
+
+.textarea:focus,
+.input:focus {
+  outline: none;
+  border-color: #3b82f6;  /* blue-500 */
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.3); /* ring-2 blue-500-ish */
+}
+
+/* Inline feedback (check/x + text) */
+.feedback {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.iconOk {
+  color: var(--ok);
+}
+
+.iconBad {
+  color: var(--bad);
+}
+
+.feedbackText {
+  font-size: 0.875rem;
+  color: var(--g-600);
+}
+
+/* Responsive grid (md:grid-cols-3) */
+.grid3 {
+  display: grid;
+  gap: 1rem; /* gap-4 */
+}
+
+@media (min-width: 768px) {
+  .grid3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Results section titles */
+.resultHead {
+  font-weight: 700;
+  color: var(--g-700);
+  margin: 0 0 0.25rem 0;
+}
+
+.resultText {
+  color: var(--g-600);
+  font-style: italic;
+  margin: 0;
+}
+
+/* Small meta line (Scenario X of Y • Step A of B) */
+.meta {
+  font-size: 0.875rem;
+  color: var(--g-500);
+}
+
+/* Navigation bar */
+.nav {
+  background: var(--g-50);
+  padding: 1rem; /* p-4 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;       /* space-x-2 */
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  border-radius: var(--r-md);
+  transition: background var(--transition-fast), color var(--transition-fast), opacity var(--transition-fast);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.btnPrimary {
+  background: #3b82f6; /* blue-500 */
+  color: #fff;
+}
+
+.btnPrimary:hover {
+  background: #2563eb; /* blue-600 */
+}
+
+.btnDisabled {
+  background: var(--g-200);
+  color: var(--g-400);
+  cursor: not-allowed;
+}
+
+/* Try new scenario CTA */
+.cta {
+  width: 100%;
+  color: #fff;
+  padding: 0.75rem 1.5rem; /* py-3 px-6 */
+  border-radius: var(--r-md);
+  font-weight: 700;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+  background: linear-gradient(90deg, #22c55e, #3b82f6); /* green-500 -> blue-500 */
+  transition: filter var(--transition-fast);
+  border: none;
+  cursor: pointer;
+}
+
+.cta:hover {
+  filter: brightness(0.98);
+}
+
+/* Icon sizing helpers (lucide-react) */
+.iconSm {
+  width: 1rem;  /* w-4 */
+  height: 1rem; /* h-4 */
+}
+
+.iconMd {
+  width: 1.25rem;  /* w-5 */
+  height: 1.25rem; /* h-5 */
+}

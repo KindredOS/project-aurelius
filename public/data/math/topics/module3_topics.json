@@ -1,41 +1,41 @@
 {
   "id": "module3",
-  "name": "Structures, Systems, and Representation",
-  "icon": "Layers",
-  "description": "Explore algebraic and geometric systems through visual models, structured reasoning, and symbolic manipulation. This module connects systems of equations, factoring, exponents, and geometric applications.",
+  "name": "Core Algebra and Geometry Skills",
+  "icon": "Ruler",
+  "description": "Strengthen reasoning skills in algebra and geometry through equations, inequalities, graphing, measurement, and problem-solving. This module bridges foundational math with structured systems.",
   "concepts": [
     {
-      "title": "Systems of Equations",
-      "markdown": "module%203/systems_of_equations.md"
+      "title": "Equations and Inequalities",
+      "markdown": "module%203/equations_and_inequalities.md"
     },
     {
-      "title": "Factoring and Algebraic Structure",
-      "markdown": "module%203/factoring_algebraic_structure.md"
+      "title": "Graphing Relationships",
+      "markdown": "module%203/graphing_relationships.md"
     },
     {
-      "title": "Exponents and Powers",
-      "markdown": "module%203/exponents_and_powers.md"
+      "title": "Geometry Basics: Perimeter, Area, and Angles",
+      "markdown": "module%203/geometry_basics.md"
     },
     {
-      "title": "Geometry Connections with Algebra",
-      "markdown": "module%203/geometry_connections.md"
+      "title": "Working With Exponents and Roots",
+      "markdown": "module%203/exponents_and_roots.md"
     },
     {
-      "title": "Symbolic Manipulation and Order",
-      "markdown": "module%203/symbolic_manipulation.md"
+      "title": "Transformations and Symmetry",
+      "markdown": "module%203/transformations_and_symmetry.md"
     },
     {
-      "title": "Mathematical Structures and Hierarchies",
-      "markdown": "module%203/mathematical_structures.md"
+      "title": "Measurement and Scale",
+      "markdown": "module%203/measurement_and_scale.md"
     },
     {
-      "title": "Visual Modeling and Diagramming",
-      "markdown": "module%203/visual_modeling.md"
+      "title": "Applied Word Problems in Algebra and Geometry",
+      "markdown": "module%203/applied_word_problems.md"
     },
     {
-      "title": "Systems Thinking in Math",
-      "markdown": "module%203/systems_thinking.md"
+      "title": "Real-World Math Connections",
+      "markdown": "module%203/real_world_connections.md"
     }
   ],
-  "difficulty": 3
+  "difficulty": 2
 }

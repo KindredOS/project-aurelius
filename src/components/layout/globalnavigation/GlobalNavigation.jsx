@@ -1,11 +1,19 @@
+// GlobalNavigation.jsx — Refactored with effectiveRole logic
+
 import React, { useEffect, useState, useRef } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { isOnline } from '../../../utils/networkStatus';
 import styles from './GlobalNavigation.module.css';
 import SubscribeModal from '../../SubscribeModal';
 import kindredLogo from '../../../assets/images/kindred-logo.png';
-import LessonPlanner from '../../student/LessonPlanner';
+
+// Role-specific planners
+import StudentLessonPlanner from '../../student/LessonPlanner';
+import TeacherLessonPlanner from '../../teacher/TeacherLessonPlanner';
+import AdminLessonPlanner from '../../admin/AdminLessonPlanner';
+
 import IssueReportModal from '../../IssueReportModal';
+import useEngagementTracker from '../../../utils/useEngagementTracker';
 
 const GlobalNavigation = ({ user: propUser }) => {
   const navigate = useNavigate();
@@ -19,7 +27,10 @@ const GlobalNavigation = ({ user: propUser }) => {
   const [showIssueModal, setShowIssueModal] = useState(false);
   const recentLogsRef = useRef([]);
 
-  // Optional: simple client log capture (swap with your logger if present)
+  // 👇 Engagement tracking fires on mount
+  useEngagementTracker();
+
+  // ---- Capture logs ----
   useEffect(() => {
     const origLog = console.log;
     const origErr = console.error;
@@ -33,16 +44,19 @@ const GlobalNavigation = ({ user: propUser }) => {
     return () => { console.log = origLog; console.error = origErr; };
   }, []);
 
+  // ---- Initialize user from localStorage if not passed as prop ----
   useEffect(() => {
     if (!propUser) {
       const storedRole = localStorage.getItem('userRole');
+      const storedAccessRole = localStorage.getItem('accessRole');
       const imageUrl = localStorage.getItem('userImageUrl');
       const email = localStorage.getItem('userEmail');
       const isPremium = localStorage.getItem('isPremium') === 'true';
-      setUser({ role: storedRole, imageUrl, email, isPremium });
+      setUser({ role: storedRole, accessRole: storedAccessRole, imageUrl, email, isPremium });
     }
   }, [propUser]);
 
+  // ---- Connectivity checks ----
   useEffect(() => {
     const checkConnectivity = async () => {
       try {
@@ -64,6 +78,7 @@ const GlobalNavigation = ({ user: propUser }) => {
     localStorage.removeItem('googleLoggedIn');
     localStorage.removeItem('userRole');
     localStorage.removeItem('userEmail');
+    localStorage.removeItem('accessRole');
     setShowLogoutConfirm(false);
     setTimeout(() => navigate('/'), 100);
   };
@@ -77,9 +92,9 @@ const GlobalNavigation = ({ user: propUser }) => {
     try {
       return {
         role: user?.role || 'unknown',
+        accessRole: user?.accessRole || 'unknown',
         emailHint: user?.email ? user.email.replace(/(.{2}).+(@.+)/, '$1***$2') : undefined,
         connectivity: isConnected,
-        // Add any feature flags or environment bits here if you want
       };
     } catch {
       return { extrasError: true };
@@ -87,7 +102,6 @@ const GlobalNavigation = ({ user: propUser }) => {
   };
 
   const handleIssueSubmit = async (payload) => {
-    // Adjust endpoint to your backend route
     const formData = new FormData();
     formData.set(
       'meta',
@@ -102,13 +116,16 @@ const GlobalNavigation = ({ user: propUser }) => {
     if (!res.ok) throw new Error(`Issue report failed with status ${res.status}`);
   };
 
+  // ---- Effective role resolution ----
+  const effectiveRole = user?.accessRole || user?.role || 'student';
+
   return (
     <>
       <nav className={styles.navbar}>
         <div className={styles.leftSection}>
           <div
             className={styles.logo}
-            onClick={() => navigate(`/dashboard/${user?.role || 'student'}`)}
+            onClick={() => navigate(`/dashboard/${effectiveRole}`)}
           >
             <img src={kindredLogo} alt="Kindred Logo" className={styles.logoImage} />
             <span className={styles.logoText}>EDU OS</span>
@@ -186,7 +203,15 @@ const GlobalNavigation = ({ user: propUser }) => {
 
       {showLessonMenu && (
         <div className={styles.lessonMenuDropdown}>
-          <LessonPlanner onClose={() => setShowLessonMenu(false)} />
+          {effectiveRole === "student" && (
+            <StudentLessonPlanner onClose={() => setShowLessonMenu(false)} />
+          )}
+          {effectiveRole === "teacher" && (
+            <TeacherLessonPlanner onClose={() => setShowLessonMenu(false)} />
+          )}
+          {effectiveRole === "admin" && (
+            <AdminLessonPlanner onClose={() => setShowLessonMenu(false)} />
+          )}
         </div>
       )}
 

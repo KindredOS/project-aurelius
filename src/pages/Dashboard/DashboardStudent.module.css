@@ -109,3 +109,24 @@ body {
   color: #333;
   text-align: center;
 }
+/* Locked tile styles */
+.lockedTile {
+  filter: grayscale(100%) brightness(0.7);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.lockedOverlay {
+  position: relative;
+  display: inline-block;
+}
+
+.lockIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.5rem;
+  pointer-events: none;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}

@@ -1,8 +1,8 @@
-// Pathing: src/pages/Dashboard/student/MathDash.jsx
-// Focus: An aggregated file for the various components, utils, and functionalities to make the Math Learning Hub Work.
+// Path: src/pages/Dashboard/student/MathDash.jsx
+// Function: An aggregated file for the various components, utils, and functionalities to make the Math Learning Hub Work.
 // Verison Update: Audited to add in the game menu and feature, creating parity. 08.24.25
 
-import React, { useMemo, useState, useEffect, lazy, Suspense } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, FunctionSquare, SquareStack, BarChart2, Sigma, Code2, Globe, BrainCircuit, Calculator } from 'lucide-react';
 import { useSubjectDashboard } from '../../../utils/useSubjectDashboard';
 import Sidebar from '../../../components/student/Sidebar';
@@ -83,13 +83,11 @@ const MathDash = () => {
 
   //Run game interactive element, common component built to use GameMenu handles everything internally now
   const runGame = () => (
-    <div className={styles.simulationCard}>
       <GameMenu
         subject="math"
         isPremium={isPremium}
         onLaunch={() => {}}
       />
-    </div>
   );
 
   if (loading) {

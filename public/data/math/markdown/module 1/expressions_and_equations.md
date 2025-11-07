@@ -1,79 +1,79 @@
-## What Are Expressions?
+## What Are Expressions and Equations?
 
 \[Prompt Wrap Start]
-Prompt: please generate me a content section based on mathematical expressions and focused on users with a grade [grade]. Definite important discussion items, each as a subheader, in markdown format. Add numbering or bulleting format for complex information, and and bold key terms. 
+Please generate a content section based on **What Are Expressions?** and focused on users with a grade [grade], with interests in [interests], and identity type [mbti]. Define important discussion items, each as a subheader, in markdown format. Add numbering or bulleting format for complex information, and bold key terms.
 \[Prompt Wrap End]
 
 An expression is a math phrase made of numbers, operations, and sometimes variables. It doesn't have an equal sign. For example, 4 + x or 2n − 5 are expressions. They're like sentences that describe a calculation.
 
 \[interactive element]
 
-## Building Expressions
+## Variables and Constants
 
 \[Prompt Wrap Start]
-This section shows how to write expressions from word phrases. Prompt: How would you write "3 more than a number" as an expression?
+This section explains the parts of expressions. Prompt: What do the letters in math problems usually stand for?
 \[Prompt Wrap End]
 
-To build expressions, turn words into symbols. "3 more than a number" becomes x + 3. "Twice a number" becomes 2x. Learning to translate language into math helps you solve problems clearly and correctly.
+A variable is a symbol, usually a letter, that stands for a number we don’t know yet. A constant is a number that doesn't change. In 5x + 3, the "x" is the variable, and 3 is the constant.
 
 \[interactive element]
 
-## What Are Equations?
+## Writing Expressions
 
 \[Prompt Wrap Start]
-This section introduces equations as math statements. Prompt: What makes an equation different from an expression?
+This section helps students translate words into math. Prompt: How would you write "five more than a number" as an expression?
 \[Prompt Wrap End]
 
-An equation says that two expressions are equal. It has an equal sign. For example, x + 4 = 10 is an equation. You're often trying to find the value that makes both sides match.
-
-\[interactive element]
-
-## Solving One-Step Equations
-
-\[Prompt Wrap Start]
-This section teaches how to solve simple equations with one step. Prompt: What do you do to get the variable by itself?
-\[Prompt Wrap End]
-
-To solve a one-step equation like x + 3 = 7, subtract 3 from both sides. You undo the operation to find the value of the variable. This keeps the equation balanced and helps you find the answer.
-
-\[interactive element]
-
-## Using Variables
-
-\[Prompt Wrap Start]
-This section explains how variables stand for unknown or changeable numbers. Prompt: Why do you think we use letters in math problems?
-\[Prompt Wrap End]
-
-Variables are symbols that represent numbers we don’t know yet. They let us write general rules and solve many problems at once. For example, x in 5x means "five times any number."
+We use expressions to describe situations. "Five more than a number" becomes x + 5. Learning how to turn word problems into expressions helps us solve them more easily.
 
 \[interactive element]
 
 ## Evaluating Expressions
 
 \[Prompt Wrap Start]
-This section explores how to plug in values for variables. Prompt: What happens when you replace a letter in an expression with a number?
+This section teaches how to calculate values when the variable is known. Prompt: What do you do when someone gives you a value for the variable?
 \[Prompt Wrap End]
 
-Evaluating means replacing variables with numbers. If x = 4, then 2x + 1 becomes 2(4) + 1 = 9. This helps you test what an expression equals with different values.
+To evaluate an expression, replace the variable with a number and follow the order of operations. If x = 4 in 2x + 1, then 2(4) + 1 = 9. This helps us find the value of the expression.
 
 \[interactive element]
 
-## Writing and Solving Word Problems
+## Solving One-Step Equations
 
 \[Prompt Wrap Start]
-This section teaches students to write and solve equations from real-life problems. Prompt: How can you turn a word problem into an equation?
+This section introduces basic algebra. Prompt: How can you find the value of a variable in a simple equation?
 \[Prompt Wrap End]
 
-Start by identifying the unknown and giving it a variable. Then translate the information into math. If you have "a number plus 6 is 12," you can write x + 6 = 12, then solve it.
+A one-step equation can be solved with just one operation. To solve x - 7 = 5, you add 7 to both sides. The goal is to isolate the variable and find what it equals.
 
 \[interactive element]
 
-## Patterns and Relationships in Equations
+## Solving Two-Step Equations
 
 \[Prompt Wrap Start]
-This section shows how equations reveal patterns. Prompt: Can you find a rule that stays the same in different problems?
+This section builds on one-step equations. Prompt: What makes a two-step equation different?
 \[Prompt Wrap End]
 
-Equations can show patterns, like how changing one number affects another. In y = 2x, if x goes up by 1, y goes up by 2. Understanding these relationships helps you see the structure in math.
+Two-step equations need two operations to solve. In 3x + 2 = 11, subtract 2 from both sides first, then divide by 3. You work backward to undo what’s been done to the variable.
+
+\[interactive element]
+
+## Using Equations to Solve Problems
+
+\[Prompt Wrap Start]
+This section connects equations to real-life scenarios. Prompt: When could you use an equation to solve a real problem?
+\[Prompt Wrap End]
+
+Equations help us figure out unknowns, like how many tickets were sold or how much something costs. Turning real-world problems into equations helps us find smart solutions.
+
+\[interactive element]
+
+## Checking Your Work
+
+\[Prompt Wrap Start]
+This section encourages students to verify their solutions. Prompt: How can you make sure your answer is correct?
+\[Prompt Wrap End]
+
+You can check your work by plugging your solution back into the original equation. If both sides are equal, your answer is correct. It’s a good habit that builds confidence and accuracy.
 
 \[interactive element]

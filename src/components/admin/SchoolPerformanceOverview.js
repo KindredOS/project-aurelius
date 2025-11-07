@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { fetchSchoolMetrics } from '../../api/Admin';
-import styles from './AdminModules.module.css';
+import { fetchSchoolMetrics, fetchAllEngagement } from '../../api/Admin';
+import styles from './SchoolPerformanceOverview.module.css';
 
 function SchoolPerformanceOverview({ dashboardData }) {
   const [metrics, setMetrics] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [showDetailedMetrics, setShowDetailedMetrics] = useState(false);
+  const [activeView, setActiveView] = useState('overview'); // 'overview', 'engagement', 'performance'
+  const [engagementData, setEngagementData] = useState({});
+  const [loadingEngagement, setLoadingEngagement] = useState(false);
 
   useEffect(() => {
     loadMetrics();
@@ -23,176 +25,220 @@ function SchoolPerformanceOverview({ dashboardData }) {
     }
   };
 
-  const formatBytes = (bytes) => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  const loadEngagementData = async () => {
+    if (Object.keys(engagementData).length === 0) {
+      try {
+        setLoadingEngagement(true);
+        const data = await fetchAllEngagement();
+        setEngagementData(data);
+      } catch (err) {
+        console.error("Failed to fetch engagement detail", err);
+      } finally {
+        setLoadingEngagement(false);
+      }
+    }
   };
 
   const formatPercentage = (value) => {
     return `${Math.round(value * 100) / 100}%`;
   };
 
-  return (
-    <div className={styles.panel}>
-      <div className={styles.panelHeader}>
-        <h2>📊 School Performance Overview</h2>
-        <button 
-          className={styles.toggleButton}
-          onClick={() => setShowDetailedMetrics(!showDetailedMetrics)}
-        >
-          {showDetailedMetrics ? 'Simple View' : 'Detailed View'}
-        </button>
-      </div>
+  const calcMinutesPerPoint = (avgScore, totalMinutes) => {
+    if (!avgScore || avgScore === 0) return 0;
+    if (!totalMinutes || totalMinutes === 0) return 0;
+    return (totalMinutes / avgScore).toFixed(1);
+  };
 
-      {loading ? (
-        <div className={styles.loading}>Loading metrics...</div>
-      ) : (
-        <div className={styles.metricsContainer}>
-          {!showDetailedMetrics ? (
-            // Simple overview
-            <div className={styles.simpleMetrics}>
-              <div className={styles.metricCard}>
-                <h4>User Activity</h4>
-                <p>Active (7d): {metrics?.user_metrics?.active_last_7d || 0}</p>
-                <p>Active (30d): {metrics?.user_metrics?.active_last_30d || 0}</p>
-                <div className={styles.progressBar}>
-                  <div 
-                    className={styles.progressFill}
-                    style={{ 
-                      width: `${metrics?.user_metrics?.retention_rate_30d || 0}%` 
-                    }}
-                  ></div>
-                </div>
-                <small>30-day retention: {formatPercentage(metrics?.user_metrics?.retention_rate_30d || 0)}</small>
-              </div>
+  const calcSuccessMarker = (avgScore, allSubjects) => {
+    const scores = Object.values(allSubjects).map(s => s.average_score || 0);
+    if (!scores.length) return "N/A";
+    const programAvg = scores.reduce((a, b) => a + b, 0) / scores.length;
+    if (avgScore > programAvg * 1.1) return "excellent";
+    if (avgScore > programAvg) return "good";
+    if (avgScore < programAvg * 0.9) return "needsAttention";
+    return "average";
+  };
 
-              <div className={styles.metricCard}>
-                <h4>Student Performance</h4>
-                <p>Total Sessions: {metrics?.student_metrics?.total_sessions || 0}</p>
-                <p>Accuracy: {formatPercentage(metrics?.student_metrics?.average_accuracy || 0)}</p>
-                <p>Concepts Mastered: {metrics?.student_metrics?.concepts_mastered || 0}</p>
-              </div>
+  const getPerformanceColor = (score) => {
+    if (score >= 80) return styles.excellent;
+    if (score >= 70) return styles.good;
+    if (score >= 60) return styles.average;
+    return styles.needsAttention;
+  };
 
-              <div className={styles.metricCard}>
-                <h4>Teacher Activity</h4>
-                <p>Total Lessons: {metrics?.teacher_metrics?.total_lessons || 0}</p>
-                <p>Avg per Teacher: {Math.round((metrics?.teacher_metrics?.average_lessons_per_teacher || 0) * 100) / 100}</p>
-              </div>
-            </div>
-          ) : (
-            // Detailed metrics
-            <div className={styles.detailedMetrics}>
-              <div className={styles.metricsSection}>
-                <h3>User Metrics</h3>
-                <div className={styles.metricsGrid}>
-                  <div className={styles.metricItem}>
-                    <label>Total Users:</label>
-                    <span>{metrics?.user_metrics?.total_users || 0}</span>
-                  </div>
-                  <div className={styles.metricItem}>
-                    <label>7-day Active:</label>
-                    <span>{metrics?.user_metrics?.active_last_7d || 0}</span>
-                  </div>
-                  <div className={styles.metricItem}>
-                    <label>30-day Active:</label>
-                    <span>{metrics?.user_metrics?.active_last_30d || 0}</span>
-                  </div>
-                  <div className={styles.metricItem}>
-                    <label>7-day Retention:</label>
-                    <span>{formatPercentage(metrics?.user_metrics?.retention_rate_7d || 0)}</span>
-                  </div>
-                  <div className={styles.metricItem}>
-                    <label>30-day Retention:</label>
-                    <span>{formatPercentage(metrics?.user_metrics?.retention_rate_30d || 0)}</span>
-                  </div>
-                </div>
-              </div>
+  const handleViewChange = (view) => {
+    setActiveView(view);
+    if (view === 'engagement') {
+      loadEngagementData();
+    }
+  };
 
-              <div className={styles.metricsSection}>
-                <h3>Student Performance</h3>
-                <div className={styles.metricsGrid}>
-                  <div className={styles.metricItem}>
-                    <label>Total Sessions:</label>
-                    <span>{metrics?.student_metrics?.total_sessions || 0}</span>
-                  </div>
-                  <div className={styles.metricItem}>
-                    <label>Total Questions:</label>
-                    <span>{metrics?.student_metrics?.total_questions || 0}</span>
-                  </div>
-                  <div className={styles.metricItem}>
-                    <label>Correct Answers:</label>
-                    <span>{metrics?.student_metrics?.total_correct || 0}</span>
-                  </div>
-                  <div className={styles.metricItem}>
-                    <label>Average Accuracy:</label>
-                    <span>{formatPercentage(metrics?.student_metrics?.average_accuracy || 0)}</span>
-                  </div>
-                  <div className={styles.metricItem}>
-                    <label>Concepts Mastered:</label>
-                    <span>{metrics?.student_metrics?.concepts_mastered || 0}</span>
-                  </div>
-                  <div className={styles.metricItem}>
-                    <label>Rewards Earned:</label>
-                    <span>{metrics?.student_metrics?.rewards_earned || 0}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.metricsSection}>
-                <h3>Teacher Activity</h3>
-                <div className={styles.metricsGrid}>
-                  <div className={styles.metricItem}>
-                    <label>Total Lessons:</label>
-                    <span>{metrics?.teacher_metrics?.total_lessons || 0}</span>
-                  </div>
-                  <div className={styles.metricItem}>
-                    <label>Avg per Teacher:</label>
-                    <span>{Math.round((metrics?.teacher_metrics?.average_lessons_per_teacher || 0) * 100) / 100}</span>
-                  </div>
-                </div>
-                
-                {metrics?.teacher_metrics?.lessons_by_subject && Object.keys(metrics.teacher_metrics.lessons_by_subject).length > 0 && (
-                  <div className={styles.subjectBreakdown}>
-                    <h4>Lessons by Subject:</h4>
-                    {Object.entries(metrics.teacher_metrics.lessons_by_subject).map(([subject, count]) => (
-                      <div key={subject} className={styles.subjectItem}>
-                        <span>{subject}:</span>
-                        <span>{count}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <div className={styles.metricsSection}>
-                <h3>System Health</h3>
-                <div className={styles.metricsGrid}>
-                  <div className={styles.metricItem}>
-                    <label>Data Size:</label>
-                    <span>{formatBytes(metrics?.system_health?.data_directory_size || 0)}</span>
-                  </div>
-                  <div className={styles.metricItem}>
-                    <label>Total Files:</label>
-                    <span>{metrics?.system_health?.total_files || 0}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+  if (loading) {
+    return (
+      <div className={styles.cardContainer}>
+        <div className={styles.cardHeader}>
+          <h2>📊 School Performance</h2>
         </div>
-      )}
+        <div className={styles.loadingSpinner}>
+          <div className={styles.spinner}></div>
+          <p>Loading school metrics...</p>
+        </div>
+      </div>
+    );
+  }
 
-      <div className={styles.actionButtons}>
+  const overallPerformance = metrics?.student_metrics?.subject_scores 
+    ? Object.values(metrics.student_metrics.subject_scores)
+        .reduce((sum, subj) => sum + (subj.average_score || 0), 0) / 
+      Object.keys(metrics.student_metrics.subject_scores).length
+    : 0;
+
+  return (
+    <div className={styles.cardContainer}>
+      <div className={styles.cardHeader}>
+        <h2>📊 School Performance</h2>
         <button 
           className={styles.refreshBtn}
           onClick={loadMetrics}
           disabled={loading}
+          title="Refresh Metrics"
         >
-          🔄 Refresh Metrics
+          🔄
         </button>
+      </div>
+
+      {/* Performance Summary */}
+      <div className={styles.performanceSummary}>
+        <div className={styles.mainMetric}>
+          <div className={styles.metricValue}>{Math.round(overallPerformance)}%</div>
+          <div className={styles.metricLabel}>Performance Avg</div>
+          <div className={`${styles.statusBadge} ${getPerformanceColor(overallPerformance)}`}>
+            {overallPerformance >= 70 ? 'On Track' : 'Needs Attention'}
+          </div>
+        </div>
+        <div className={styles.quickStats}>
+          <div className={styles.quickStat}>
+            <div className={styles.statValue}>{metrics?.user_metrics?.active_last_7d || 0}</div>
+            <div className={styles.statLabel}>Active (7d)</div>
+          </div>
+          <div className={styles.quickStat}>
+            <div className={styles.statValue}>{Math.round((metrics?.student_metrics?.total_engagement_minutes || 0) / 60)}h</div>
+            <div className={styles.statLabel}>Study Time</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tab Navigation */}
+      <div className={styles.tabNavigation}>
+        <button 
+          className={`${styles.tab} ${activeView === 'overview' ? styles.activeTab : ''}`}
+          onClick={() => handleViewChange('overview')}
+        >
+          📊 Overview
+        </button>
+        <button 
+          className={`${styles.tab} ${activeView === 'performance' ? styles.activeTab : ''}`}
+          onClick={() => handleViewChange('performance')}
+        >
+          🎯 Performance
+        </button>
+        <button 
+          className={`${styles.tab} ${activeView === 'engagement' ? styles.activeTab : ''}`}
+          onClick={() => handleViewChange('engagement')}
+        >
+          👨‍💻 Engagement
+        </button>
+      </div>
+
+      {/* Content Area */}
+      <div className={styles.contentArea}>
+        {activeView === 'overview' && (
+          <div className={styles.overviewContent}>
+            <div className={styles.metricsGrid}>
+              <div className={styles.metric}>
+                <span className={styles.metricIcon}>👥</span>
+                <div>
+                  <div className={styles.metricNumber}>{metrics?.user_metrics?.active_last_30d || 0}</div>
+                  <div className={styles.metricDesc}>Active Students (30d)</div>
+                </div>
+              </div>
+              <div className={styles.metric}>
+                <span className={styles.metricIcon}>📈</span>
+                <div>
+                  <div className={styles.metricNumber}>{formatPercentage(metrics?.user_metrics?.retention_rate_30d || 0)}</div>
+                  <div className={styles.metricDesc}>Retention Rate</div>
+                </div>
+              </div>
+              <div className={styles.metric}>
+                <span className={styles.metricIcon}>🏃‍♂️</span>
+                <div>
+                  <div className={styles.metricNumber}>{Math.round(metrics?.student_metrics?.average_current_streak || 0)}</div>
+                  <div className={styles.metricDesc}>Avg Streak</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeView === 'performance' && (
+          <div className={styles.performanceContent}>
+            <div className={styles.subjectsList}>
+              {metrics?.student_metrics?.subject_scores && 
+                Object.entries(metrics.student_metrics.subject_scores)
+                  .sort(([,a], [,b]) => (b.average_score || 0) - (a.average_score || 0))
+                  .map(([subject, data]) => {
+                    const score = Math.round(data.average_score || 0);
+                    const marker = calcSuccessMarker(data.average_score, metrics.student_metrics.subject_scores);
+                    return (
+                      <div key={subject} className={styles.subjectItem}>
+                        <div>
+                          <div className={styles.subjectName}>
+                            {subject.charAt(0).toUpperCase() + subject.slice(1)}
+                          </div>
+                          <div className={styles.subjectMeta}>
+                            {calcMinutesPerPoint(data.average_score, metrics?.student_metrics?.total_engagement_minutes)} min/pt
+                          </div>
+                        </div>
+                        <div className={`${styles.subjectScore} ${styles[marker]}`}>
+                          {score}%
+                        </div>
+                      </div>
+                    );
+                  })
+              }
+            </div>
+          </div>
+        )}
+
+        {activeView === 'engagement' && (
+          <div className={styles.engagementContent}>
+            {loadingEngagement ? (
+              <div className={styles.loadingSpinner}>
+                <div className={styles.spinner}></div>
+                <p>Loading engagement data...</p>
+              </div>
+            ) : (
+              <div className={styles.studentsList}>
+                {Object.entries(engagementData)
+                  .sort(([,a], [,b]) => (b.active_minutes || 0) - (a.active_minutes || 0))
+                  .map(([email, data]) => (
+                    <div key={email} className={styles.studentItem}>
+                      <div className={styles.studentInfo}>
+                        <div className={styles.studentEmail}>{email}</div>
+                        <div className={styles.studentStats}>
+                          {data.active_minutes || 0}m • {data.current_streak_days || 0} day streak
+                        </div>
+                      </div>
+                      <div className={styles.studentBadges}>
+                        <div className={styles.minutesBadge}>{data.active_minutes || 0}m</div>
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

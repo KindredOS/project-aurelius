@@ -83,13 +83,11 @@ const LifestyleDash = () => {
 
   //Run game interactive element, common component built to use GameMenu handles everything internally now
   const runGame = () => (
-    <div className={styles.simulationCard}>
       <GameMenu
         subject="lifestyle"
         isPremium={isPremium}
         onLaunch={() => {}}
       />
-    </div>
   );
 
   if (loading) {
