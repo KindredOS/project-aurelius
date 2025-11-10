@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkmy_app=self.webpackChunkmy_app||[]).push([[928],{1928:(e,n,i)=>{i.r(n),i.d(n,{default:()=>a});const a={container:"EngineeringGame_container__O0p1+",title:"EngineeringGame_title__WXiSP",description:"EngineeringGame_description__WLjw0",simulationArea:"EngineeringGame_simulationArea__3xalJ"}}}]);
-//# sourceMappingURL=928.b5e0072f.chunk.js.map

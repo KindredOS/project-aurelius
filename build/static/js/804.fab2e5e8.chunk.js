@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmy_app=self.webpackChunkmy_app||[]).push([[804],{7804:(e,p,a)=>{e.exports=a.p+"static/media/algebradefenseforce.8710080fd2a6764806f1.jpeg"}}]);

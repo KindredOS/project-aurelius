@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmy_app=self.webpackChunkmy_app||[]).push([[57],{3057:(e,p,a)=>{e.exports=a.p+"static/media/lifestylegeneric.c5b51a280a913f470cb8.webp"}}]);

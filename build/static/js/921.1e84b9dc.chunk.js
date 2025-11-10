@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmy_app=self.webpackChunkmy_app||[]).push([[921],{8921:(e,p,s)=>{e.exports=s.p+"static/media/sciencegeneric.8071148217024adfb332.jpg"}}]);

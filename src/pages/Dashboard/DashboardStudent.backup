@@ -1,6 +1,7 @@
 // Path: src/components/pages/DashboardStudent.jsx
 // Focus: Main student dashboard with MBTI setup and subscription management
-// Version Update: Added subscription status checking and trial day calculations with debug logging
+// Version Update: Cleaned up debug logging, keeping simple trial/subscription status logs
+// Patch: Locked all sections except Math
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -25,44 +26,33 @@ function StudyBuddyDashboard() {
     useEffect(() => {
         const checkMBTIStatus = async () => {
             if (user && user.email) {
-                console.log("Checking MBTI for:", user.email);
                 try {
                     const data = await fetchUserMBTI(user.email);
-                    console.log("Fetched MBTI data:", data);
                     if (!data.mbti) {
-                        console.log("No MBTI found. Showing modal.");
                         setShowModal(true);
-                    } else {
-                        console.log("MBTI exists:", data.mbti);
                     }
                 } catch (error) {
                     console.error("Error fetching MBTI data:", error);
-                    console.log("Falling back to force modal open for debug.");
-                    setShowModal(true); // force open for debug
+                    setShowModal(true);
                 }
-            } else {
-                console.log("User or email is missing:", user);
             }
         };
 
         checkMBTIStatus();
-    }, [user]); // Now user won't change unless localStorage values actually change
+    }, [user]);
 
     useEffect(() => {
         const checkSubscription = async () => {
             if (user && user.email) {
                 try {
                     const profile = await getUserProfile(user.email);
-                    console.log("🔍 DEBUG: Full profile data:", profile);
-                    
                     const sub = profile.subscription || {};
-                    console.log("🔍 DEBUG: Subscription object:", sub);
-                    console.log("🔍 DEBUG: Subscription status:", sub.status);
-                    console.log("🔍 DEBUG: Is trial:", sub.is_trial);
-                    console.log("🔍 DEBUG: Trial end date:", sub.trial_end_date);
                     
                     setSubscriptionStatus(sub.status || 'none');
-                    console.log("🔍 DEBUG: Set subscription status to:", sub.status || 'none');
+                    
+                    // Update localStorage with premium status
+                    const isPremium = sub.status === 'active' || (sub.is_trial && sub.trial_end_date);
+                    localStorage.setItem('isPremium', isPremium ? 'true' : 'false');
                     
                     if (sub.is_trial && sub.trial_end_date) {
                         const now = new Date();
@@ -70,17 +60,10 @@ function StudyBuddyDashboard() {
                         const diff = Math.ceil((end - now) / (1000 * 60 * 60 * 24));
                         const daysLeft = Math.max(0, diff);
                         setTrialDaysLeft(daysLeft);
-                        console.log("🔍 DEBUG: Trial days calculated:", daysLeft);
                     }
                     
-                    // Sanity check for premium status
-                    if (sub.status === 'active') {
-                        console.log("✅ SUBSCRIPTION CHECK: User has PREMIUM (active subscription)");
-                    } else if (sub.is_trial && sub.trial_end_date) {
-                        console.log("🕒 SUBSCRIPTION CHECK: User is on TRIAL");
-                    } else {
-                        console.log("❌ SUBSCRIPTION CHECK: User has NO ACTIVE SUBSCRIPTION");
-                    }
+                    // Simple status logging
+                    console.log(`Trial: ${sub.is_trial || false}, Subscription: ${sub.status === 'active'}`);
                     
                 } catch (error) {
                     console.error("Failed to fetch subscription:", error);
@@ -129,6 +112,10 @@ function StudyBuddyDashboard() {
         }
     ];
 
+    const isLocked = (categoryHeader) => {
+        return categoryHeader !== "Math";
+    };
+
     return (
         <div className={styles.dashboardContainer}>
             {showModal && <MBTISetupModal user={user} onClose={() => setShowModal(false)} />}
@@ -149,23 +136,32 @@ function StudyBuddyDashboard() {
                 </button>
             )}
             <div className={styles.categoriesGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '20px' }}>
-                {categories.map((category) => (
-                    <div key={category.header}>
-                        <h2 className={styles.categoryHeader} style={{ textAlign: 'center' }}>{category.header}</h2>
-                        <div className={styles.tilesContainer} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                            {category.tiles.map((tile) => (
-                                <div key={tile.id} className={styles.tileWrapper}>
-                                    <img
-                                        src={require(`../../assets/images/${tile.image}`)}
-                                        alt={tile.name}
-                                        className={styles.tileImageButton}
-                                        onClick={() => navigate(tile.route)}
-                                    />
-                                </div>
-                            ))}
+                {categories.map((category) => {
+                    const locked = isLocked(category.header);
+                    return (
+                        <div key={category.header}>
+                            <h2 className={styles.categoryHeader} style={{ textAlign: 'center' }}>{category.header}</h2>
+                            <div className={styles.tilesContainer} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                                {category.tiles.map((tile) => (
+                                    <div key={tile.id} className={styles.tileWrapper}>
+                                        <div className={locked ? styles.lockedOverlay : ''}>
+                                            <img
+                                                src={require(`../../assets/images/${tile.image}`)}
+                                                alt={tile.name}
+                                                className={`${styles.tileImageButton} ${locked ? styles.lockedTile : ''}`}
+                                                onClick={() => !locked && navigate(tile.route)}
+                                                style={{ cursor: locked ? 'not-allowed' : 'pointer' }}
+                                            />
+                                            {locked && (
+                                                <div className={styles.lockIcon}>🔒</div>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );

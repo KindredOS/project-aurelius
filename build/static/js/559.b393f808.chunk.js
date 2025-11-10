@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmy_app=self.webpackChunkmy_app||[]).push([[559],{6559:(p,e,a)=>{p.exports=a.p+"static/media/artsgeneric.9bbc8d4b4f901a082419.png"}}]);
