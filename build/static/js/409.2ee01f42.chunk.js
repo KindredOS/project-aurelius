@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmy_app=self.webpackChunkmy_app||[]).push([[409],{4790:(t,e,a)=>{a.r(e),a.d(e,{default:()=>_});const _={artsGameContainer:"ArtsGame_artsGameContainer__u6B6k",title:"ArtsGame_title__Y+xZh",description:"ArtsGame_description__cW21M",canvasArea:"ArtsGame_canvasArea__qwo-o",placeholder:"ArtsGame_placeholder__9kBJs",controls:"ArtsGame_controls__xdJVO",toolButton:"ArtsGame_toolButton__eHPPU"}}}]);
+//# sourceMappingURL=409.2ee01f42.chunk.js.map

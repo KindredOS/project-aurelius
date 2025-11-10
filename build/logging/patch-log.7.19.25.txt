@@ -1,0 +1,30 @@
+Add quiz analytics tracking with time and score metadata
+Import logQuizAnalytics from ApiMaster for backend logging
+
+
+Details: *We updated the QuizAssessmentTool.jsx to include detailed analytics tracking by capturing the number of questions, user attempts, correct vs. incorrect answers, and total time spent on the quiz. This data is structured into a payload and sent to the backend using logQuizAnalytics, which is now correctly imported from the centralized ApiMaster.js router. We also added a useRef to track quiz start time without re-renders and ensured ESLint warnings were resolved by adjusting the import structure.*
+
+Commit: Cleaned unused imports in QuizAssessmentTool.jsx
+Removed unused lucide icons and API utility to resolve linting warnings
+
+Details: This commit removes several unused imports from QuizAssessmentTool.jsx, specifically Brain, CheckCircle, XCircle, RotateCcw from lucide-react, and getApiUrl from the API utility file. These components were previously included but never utilized within the component logic or render tree, leading to lint warnings. Cleaning them up ensures a leaner import footprint, resolves no-unused-vars ESLint violations, and improves overall code readability and maintainability.
+
+Commit: Refactored quiz loader to delay until user initiates generation.
+Reinstated settings panel before loading static or AI quiz.
+
+Details: This update restructures QuizAssessmentTool.jsx to defer quiz initialization until the learner explicitly clicks the “Generate Quiz” button. Previously, quizzes were automatically loaded as soon as the component mounted, skipping the settings interface. Now, users can customize difficulty and question count before loading begins. Upon clicking “Generate Quiz,” the component attempts to load a static JSON quiz file using the provided subject and sectionTitle. If the file does not exist or is malformed, it gracefully falls back to AI-generated content. This approach ensures intentional user flow, improves clarity around quiz origin (static vs AI), and supports pedagogical customization before assessment begins.
+
+Commit: Added finalized 25-question overview.json problem set  
+Questions cover foundational science concepts from all overview markdown topics  
+
+Details: We created and finalized a 25-question overview.json problem set designed to align with the Science Overview module. Each question is directly grounded in content from the associated markdown files (what_is_science.md, scientific_method.md, branches_of_science.md, etc.), ensuring concept coverage across the foundational elements of scientific thinking. The questions use a balanced mix of multiple-choice, true/false, short answer, and matching formats to reflect cognitive variety. Each item includes clear explanations for scoring and feedback purposes, and the format is fully compatible with the dynamic loading structure of QuizAssessmentTool.jsx and quizGenerator.js.
+
+Commit:  Fix QuizAssessmentTool to use dashboard topic data instead of hardcoded mappings
+Update ScienceDash to pass topicId, topicData, and userEmail to QuizAssessmentTool
+
+Details: QuizAssessmentTool Integration Fix: Refactored the QuizAssessmentTool component to properly integrate with dashboard data by removing hardcoded section-to-filename mappings and implementing a smart filename determination system. The component now receives topicId, topicData, and userEmail props from dashboard components, uses the actual topic ID as the primary method for determining quiz files, and includes fallback logic for module extraction and generic mappings. Updated ScienceDash to pass the correct topic context (selectedTopic as topicId, full topic object as topicData, and user email) to the QuizAssessmentTool, ensuring the component can reliably load the correct modular quiz files (module1.json, module2.json, etc.) across all subjects while maintaining backward compatibility with overview.json for default cases.
+
+Commit: Add /quiz/analytics endpoint for quiz session logging
+Preserved all original science API functionality in unified refactor
+
+Details: This update merges the original stable science.py with quiz functionality introduced in the science.alt.backup. It preserves all existing features for markdown handling, chat threads, and user progression, while adding a new /quiz/analytics POST route. This endpoint receives quiz session metadata from the frontend and logs it into timestamped JSON files inside the user's science/quiz/ directory. This refactor ensures that quiz data is persistently stored without disrupting the established API structure or user data flow.

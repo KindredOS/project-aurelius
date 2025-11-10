@@ -1,0 +1,41 @@
+{
+  "id": "module8",
+  "name": "Frontier Technologies & Future Challenges",
+  "icon": "Activity",
+  "description": "This module explores the leading edge of technological advancement and the responsibilities of future technologists. Students examine powerful innovations—from AI to biotech—and consider their role in solving existential challenges and designing an ethical future.",
+  "concepts": [
+    {
+      "title": "What is Emerging Technology?",
+      "markdown": "module%208/emerging_technology_intro.md"
+    },
+    {
+      "title": "Artificial Intelligence & Machine Learning",
+      "markdown": "module%208/ai_and_ml.md"
+    },
+    {
+      "title": "Quantum Computing & Advanced Materials",
+      "markdown": "module%208/quantum_and_materials.md"
+    },
+    {
+      "title": "Extended Reality (XR): AR, VR & Spatial Computing",
+      "markdown": "module%208/xr_and_spatial.md"
+    },
+    {
+      "title": "Biotech, Neurotech & Human Augmentation",
+      "markdown": "module%208/biotech_neurotech.md"
+    },
+    {
+      "title": "Space Technology & Exploration",
+      "markdown": "module%208/space_technology.md"
+    },
+    {
+      "title": "Global Challenges & Existential Risks",
+      "markdown": "module%208/global_challenges_risks.md"
+    },
+    {
+      "title": "Your Role in the Future",
+      "markdown": "module%208/your_role_future.md"
+    }
+  ],
+  "difficulty": 4
+}

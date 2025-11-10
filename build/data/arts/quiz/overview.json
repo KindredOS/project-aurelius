@@ -1,0 +1,253 @@
+{
+  "id": "overview",
+  "title": "Exploring the Arts: Creativity, Meaning, and Impact",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple-choice",
+      "question": "What is one way artists communicate a story without using words?",
+      "options": [
+        "Through written labels",
+        "By explaining their work",
+        "Using images, symbols, and composition",
+        "Using music only"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Artists use visual tools like images and symbols to tell stories without needing words."
+    },
+    {
+      "id": 2,
+      "type": "true-false",
+      "question": "Different people can understand the same piece of art in different ways.",
+      "correctAnswer": true,
+      "explanation": "Art interpretation varies based on personal experiences and perspectives."
+    },
+    {
+      "id": 3,
+      "type": "short-answer",
+      "question": "Describe how public art can affect a community.",
+      "sampleAnswer": "Public art can create shared experiences, start conversations, and help people feel more connected.",
+      "correctAnswer": "sample answer",
+      "explanation": "Public art builds community by reflecting culture and inviting interaction."
+    },
+    {
+      "id": 4,
+      "type": "multiple-choice",
+      "question": "Which branch of the arts includes dance, theater, and music?",
+      "options": [
+        "Visual arts",
+        "Performing arts",
+        "Media arts",
+        "Applied arts"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Performing arts involve live performance and expressive movement or sound."
+    },
+    {
+      "id": 5,
+      "type": "true-false",
+      "question": "Culinary arts are not considered a real form of art.",
+      "correctAnswer": false,
+      "explanation": "Culinary arts are a form of creative expression using food, presentation, and culture."
+    },
+    {
+      "id": 6,
+      "type": "multiple-choice",
+      "question": "What helps artists create visual hierarchy in their compositions?",
+      "options": [
+        "Using the same color throughout",
+        "Ignoring structure",
+        "Using size and placement",
+        "Repeating elements only"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Artists use size and placement to guide attention to important parts of the artwork."
+    },
+    {
+      "id": 7,
+      "type": "short-answer",
+      "question": "Why might an artist choose to repeat shapes or colors in a piece?",
+      "sampleAnswer": "To create rhythm, unity, and interest by balancing repetition and variation.",
+      "correctAnswer": "sample answer",
+      "explanation": "Repetition adds rhythm, while variation avoids monotony and adds depth."
+    },
+    {
+      "id": 8,
+      "type": "multiple-choice",
+      "question": "Which of the following is NOT an element of art?",
+      "options": [
+        "Line",
+        "Value",
+        "Perspective",
+        "Wordplay"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Wordplay is a literary tool, not an element of visual art."
+    },
+    {
+      "id": 9,
+      "type": "true-false",
+      "question": "Texture and space in art can create the illusion of depth or weight.",
+      "correctAnswer": true,
+      "explanation": "Artists use these elements to make flat images feel three-dimensional."
+    },
+    {
+      "id": 10,
+      "type": "multiple-choice",
+      "question": "What term describes a feeling created by color and design in a piece?",
+      "options": [
+        "Value",
+        "Rhythm",
+        "Tone",
+        "Perspective"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Tone sets the emotional attitude of the artwork."
+    },
+    {
+      "id": 11,
+      "type": "short-answer",
+      "question": "Give an example of how a symbol can have deeper meaning in art.",
+      "sampleAnswer": "A heart might represent love or emotion; a dove could stand for peace.",
+      "correctAnswer": "sample answer",
+      "explanation": "Symbols are often used to represent abstract ideas in visual form."
+    },
+    {
+      "id": 12,
+      "type": "true-false",
+      "question": "The way an artwork is structured can affect its meaning.",
+      "correctAnswer": true,
+      "explanation": "Structure helps communicate the message or emotion of a piece."
+    },
+    {
+      "id": 13,
+      "type": "multiple-choice",
+      "question": "What does intellectual property law protect?",
+      "options": [
+        "Public murals",
+        "The ideas and creations of artists",
+        "Art history textbooks",
+        "Performance spaces"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Intellectual property laws protect artists\u2019 rights over their creations."
+    },
+    {
+      "id": 14,
+      "type": "true-false",
+      "question": "Using elements from another culture without understanding them is appreciation.",
+      "correctAnswer": false,
+      "explanation": "That\u2019s cultural appropriation\u2014true appreciation involves learning and respect."
+    },
+    {
+      "id": 15,
+      "type": "multiple-choice",
+      "question": "Which tool can help prove who made a digital artwork?",
+      "options": [
+        "Social media",
+        "Metadata",
+        "Comments",
+        "Hashtags"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Metadata and digital signatures help verify digital art\u2019s authenticity."
+    },
+    {
+      "id": 16,
+      "type": "short-answer",
+      "question": "Why is it important for artists to think about the impact of their work?",
+      "sampleAnswer": "Because art can influence ideas, feelings, and actions, and should be made responsibly.",
+      "correctAnswer": "sample answer",
+      "explanation": "Art affects people and society\u2014it carries power and responsibility."
+    },
+    {
+      "id": 17,
+      "type": "multiple-choice",
+      "question": "What is one benefit of hands-on art activities?",
+      "options": [
+        "They require no thinking",
+        "They replace all other forms of learning",
+        "They build creativity and problem-solving skills",
+        "They only help with drawing"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Hands-on activities strengthen creativity, focus, and problem-solving."
+    },
+    {
+      "id": 18,
+      "type": "true-false",
+      "question": "Zines are handmade booklets that combine writing and visuals.",
+      "correctAnswer": true,
+      "explanation": "Zines are small creative magazines for personal expression."
+    },
+    {
+      "id": 19,
+      "type": "multiple-choice",
+      "question": "What is an example of wearable art?",
+      "options": [
+        "A photograph",
+        "A sculpture",
+        "A painted T-shirt",
+        "A short story"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Wearable art includes clothing or accessories designed as creative expressions."
+    },
+    {
+      "id": 20,
+      "type": "short-answer",
+      "question": "What might a community quilt represent?",
+      "sampleAnswer": "Stories and backgrounds of the people who made it, coming together as one.",
+      "correctAnswer": "sample answer",
+      "explanation": "Each square represents a personal story, forming a collective narrative."
+    },
+    {
+      "id": 21,
+      "type": "multiple-choice",
+      "question": "How does STEAM connect art with other subjects like science or math?",
+      "options": [
+        "By replacing them with art",
+        "By using artistic thinking to support problem-solving",
+        "By teaching only art",
+        "By focusing only on painting"
+      ],
+      "correctAnswer": 1,
+      "explanation": "STEAM shows how creativity and critical thinking support all disciplines."
+    },
+    {
+      "id": 22,
+      "type": "true-false",
+      "question": "Artists and scientists both rely on observation and experimentation.",
+      "correctAnswer": true,
+      "explanation": "Observation and trial-and-error are important in both fields."
+    },
+    {
+      "id": 23,
+      "type": "multiple-choice",
+      "question": "Which tool is often used to design art with balance and symmetry?",
+      "options": [
+        "Paint rollers",
+        "Spreadsheets",
+        "Grids and layout systems",
+        "Sticky notes"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Grids help organize design elements clearly and attractively."
+    },
+    {
+      "id": 24,
+      "type": "true-false",
+      "question": "Art can help explain complex data using visual tools.",
+      "correctAnswer": true,
+      "explanation": "Artists use charts and infographics to make data understandable and emotional."
+    },
+    {
+      "id": 25,
+      "type": "short-answer",
+      "question": "How has technology changed how artists make and share their work?",
+      "sampleAnswer": "Digital tools like drawing tablets and the internet let artists create and share work faster and more widely.",
+      "correctAnswer": "sample answer",
+      "explanation": "Technology expands creativity and access to audiences."
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_app=self.webpackChunkmy_app||[]).push([[593],{1593:(e,p,a)=>{e.exports=a.p+"static/media/artsgeneric.bbe282c5b6e0564a43f5.webp"}}]);

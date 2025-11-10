@@ -1,0 +1,41 @@
+{
+  "id": "module4",
+  "name": "Systems Engineering and Integration",
+  "icon": "Layers3",
+  "description": "This module introduces students to systems-level engineering. Students learn how subsystems from various disciplines are integrated, controlled, and managed over the entire product or infrastructure lifecycle.",
+  "concepts": [
+    {
+      "title": "What is a System?",
+      "markdown": "module%204/what_is_a_system.md"
+    },
+    {
+      "title": "Systems Engineering Fundamentals",
+      "markdown": "module%204/systems_engineering_fundamentals.md"
+    },
+    {
+      "title": "Multidisciplinary Integration",
+      "markdown": "module%204/multidisciplinary_integration.md"
+    },
+    {
+      "title": "Control Systems and Feedback",
+      "markdown": "module%204/control_systems_feedback.md"
+    },
+    {
+      "title": "System Architecture and Modeling",
+      "markdown": "module%204/system_architecture_modeling.md"
+    },
+    {
+      "title": "Prototyping and Testing Systems",
+      "markdown": "module%204/prototyping_testing_systems.md"
+    },
+    {
+      "title": "Project and Process Management",
+      "markdown": "module%204/project_process_management.md"
+    },
+    {
+      "title": "Lifecycle and Sustainability",
+      "markdown": "module%204/lifecycle_sustainability.md"
+    }
+  ],
+  "difficulty": 3
+}

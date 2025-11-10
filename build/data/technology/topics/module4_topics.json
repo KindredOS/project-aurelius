@@ -1,0 +1,41 @@
+{
+  "id": "module4",
+  "name": "Ethics & Responsible Tech Citizenship",
+  "icon": "ShieldCheck",
+  "description": "This module empowers students to explore the ethical dimensions of technology. From online behavior and surveillance to accessibility and social responsibility, students will understand how to engage with tech tools ethically and equitably.",
+  "concepts": [
+    {
+      "title": "Digital Footprint & Online Behavior",
+      "markdown": "module%204/digital_footprint_behavior.md"
+    },
+    {
+      "title": "Cyberbullying, Surveillance & Tech Bias",
+      "markdown": "module%204/cyberbullying_surveillance_bias.md"
+    },
+    {
+      "title": "Accessibility & Inclusive Design",
+      "markdown": "module%204/accessibility_inclusive_design.md"
+    },
+    {
+      "title": "Copyright, Licensing & IP",
+      "markdown": "module%204/copyright_licensing_ip.md"
+    },
+    {
+      "title": "Responsibility in the Tech Age",
+      "markdown": "module%204/responsibility_tech_age.md"
+    },
+    {
+      "title": "Technology & the Common Good",
+      "markdown": "module%204/technology_common_good.md"
+    },
+    {
+      "title": "Ethical Dilemmas & Decision Making",
+      "markdown": "module%204/ethical_dilemmas_decision.md"
+    },
+    {
+      "title": "Student Rights & Digital Citizenship Laws",
+      "markdown": "module%204/student_rights_digital_laws.md"
+    }
+  ],
+  "difficulty": 2
+}

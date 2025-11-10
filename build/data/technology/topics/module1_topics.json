@@ -1,0 +1,41 @@
+{
+  "id": "module1",
+  "name": "Foundations of Digital Learning",
+  "icon": "Cpu",
+  "description": "This module introduces students to the core concepts of digital learning: the structure of technology fields, the distinction between hardware and software, and the programming languages that power the digital world.",
+  "concepts": [
+    {
+      "title": "Branches of Technology Learning",
+      "markdown": "module%201/branches_of_technology_learning.md"
+    },
+    {
+      "title": "Information Technology vs Computer Science",
+      "markdown": "module%201/it_vs_computer_science.md"
+    },
+    {
+      "title": "Digital Literacy & Interdisciplinary Roles",
+      "markdown": "module%201/digital_literacy_and_roles.md"
+    },
+    {
+      "title": "Understanding Hardware",
+      "markdown": "module%201/understanding_hardware.md"
+    },
+    {
+      "title": "Understanding Software",
+      "markdown": "module%201/understanding_software.md"
+    },
+    {
+      "title": "Types of Software",
+      "markdown": "module%201/types_of_software.md"
+    },
+    {
+      "title": "Intro to Programming Languages",
+      "markdown": "module%201/intro_to_programming_languages.md"
+    },
+    {
+      "title": "Block vs. Text-Based Coding",
+      "markdown": "module%201/block_vs_text_coding.md"
+    }
+  ],
+  "difficulty": 1
+}

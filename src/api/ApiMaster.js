@@ -2,10 +2,10 @@
 import { useState } from "react";
 
 // ✅ Unified environment logic
-export const MODE = process.env.REACT_APP_MODE || 'LOCAL';
+export const MODE = import.meta.env.VITE_MODE || 'LOCAL';
 
 export const API_BASE =
-  process.env.REACT_APP_API_URL ||
+  import.meta.env.VITE_API_URL ||
   (MODE === 'LOCAL'
     ? 'http://localhost:8000/api'
     : 'https://eduos-worker.shepherdn.workers.dev/api');

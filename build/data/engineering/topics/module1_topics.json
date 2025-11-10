@@ -1,0 +1,41 @@
+{
+  "id": "module1",
+  "name": "Foundations of Engineering",
+  "icon": "Ruler",
+  "description": "This module introduces students to the mathematical and physical foundations of engineering, focusing on forces, motion, energy, measurement systems, and problem-solving strategies that underpin all fields of engineering.",
+  "concepts": [
+    {
+      "title": "Measurement & Precision",
+      "markdown": "module%201/measurement_precision.md"
+    },
+    {
+      "title": "Force, Motion, and Energy",
+      "markdown": "module%201/force_motion_energy.md"
+    },
+    {
+      "title": "Statics and Dynamics",
+      "markdown": "module%201/statics_dynamics.md"
+    },
+    {
+      "title": "Simple Machines",
+      "markdown": "module%201/simple_machines.md"
+    },
+    {
+      "title": "Mathematical Foundations",
+      "markdown": "module%201/mathematical_foundations.md"
+    },
+    {
+      "title": "Problem Solving in Engineering",
+      "markdown": "module%201/problem_solving.md"
+    },
+    {
+      "title": "Hands-On Challenges",
+      "markdown": "module%201/hands_on_challenges.md"
+    },
+    {
+      "title": "STEAM Integration",
+      "markdown": "module%201/steam_integration.md"
+    }
+  ],
+  "difficulty": 2
+}

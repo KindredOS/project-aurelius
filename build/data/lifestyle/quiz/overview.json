@@ -1,0 +1,238 @@
+{
+  "id": "overview",
+  "title": "Lifestyle and Personal Development",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple-choice",
+      "question": "Which of these best describes 'lifestyle'?",
+      "correctAnswer": 1,
+      "explanation": "Lifestyle includes habits, environments, and choices that shape how we live.",
+      "options": [
+        "A type of clothing",
+        "Your daily habits and routines",
+        "Only your diet",
+        "How much money you earn"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "true-false",
+      "question": "Healthy habits like sleep and hygiene contribute to a strong lifestyle.",
+      "correctAnswer": true,
+      "explanation": "These habits create structure and improve well-being."
+    },
+    {
+      "id": 3,
+      "type": "short-answer",
+      "question": "What are two lifestyle factors that can impact your mood?",
+      "correctAnswer": "Food and sleep",
+      "explanation": "Mood can be affected by habits like diet, exercise, and rest.",
+      "sampleAnswer": "Food and sleep"
+    },
+    {
+      "id": 4,
+      "type": "multiple-choice",
+      "question": "What does it mean to be personally responsible?",
+      "correctAnswer": 2,
+      "explanation": "Taking ownership of choices builds trust and character.",
+      "options": [
+        "Blaming others",
+        "Letting others decide",
+        "Owning your actions",
+        "Avoiding challenges"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "true-false",
+      "question": "Self-compassion helps you take better responsibility for your mistakes.",
+      "correctAnswer": true,
+      "explanation": "Being kind to yourself encourages growth and learning."
+    },
+    {
+      "id": 6,
+      "type": "short-answer",
+      "question": "How does responsibility affect your relationships?",
+      "correctAnswer": "It builds trust.",
+      "explanation": "Taking responsibility shows care and earns respect.",
+      "sampleAnswer": "It builds trust."
+    },
+    {
+      "id": 7,
+      "type": "multiple-choice",
+      "question": "Which of these is NOT a 21st century skill?",
+      "correctAnswer": 2,
+      "explanation": "21st century skills include communication, collaboration, creativity, and critical thinking.",
+      "options": [
+        "Adaptability",
+        "Digital literacy",
+        "Archery",
+        "Self-awareness"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "true-false",
+      "question": "Feedback is an important part of learning and improvement.",
+      "correctAnswer": true,
+      "explanation": "Using feedback with a positive attitude helps us grow."
+    },
+    {
+      "id": 9,
+      "type": "short-answer",
+      "question": "What does emotional intelligence help you do?",
+      "correctAnswer": "Understand and manage emotions.",
+      "explanation": "It helps with communication, empathy, and teamwork.",
+      "sampleAnswer": "Understand and manage emotions."
+    },
+    {
+      "id": 10,
+      "type": "multiple-choice",
+      "question": "What is 'lifestyle mapping' used for?",
+      "correctAnswer": 0,
+      "explanation": "It helps us see patterns and make better choices.",
+      "options": [
+        "To understand our habits and influences",
+        "To plan a trip",
+        "To make new friends",
+        "To build a house"
+      ]
+    },
+    {
+      "id": 11,
+      "type": "true-false",
+      "question": "Friends and media can influence your lifestyle choices.",
+      "correctAnswer": true,
+      "explanation": "These external systems can shape beliefs, habits, and values."
+    },
+    {
+      "id": 12,
+      "type": "short-answer",
+      "question": "Why is it helpful to reflect on how you spend your time?",
+      "correctAnswer": "To find balance and make changes.",
+      "explanation": "Reflection reveals priorities and helps guide improvement.",
+      "sampleAnswer": "To find balance and make changes."
+    },
+    {
+      "id": 13,
+      "type": "multiple-choice",
+      "question": "Which is a core element of a healthy lifestyle?",
+      "correctAnswer": 0,
+      "explanation": "Core elements include physical health, mindset, relationships, and purpose.",
+      "options": [
+        "Physical health",
+        "Owning a car",
+        "Getting perfect grades",
+        "Playing video games"
+      ]
+    },
+    {
+      "id": 14,
+      "type": "true-false",
+      "question": "Sleep and relaxation help us recharge and focus.",
+      "correctAnswer": true,
+      "explanation": "Rest supports brain and body recovery."
+    },
+    {
+      "id": 15,
+      "type": "short-answer",
+      "question": "How can a strong sense of purpose help your lifestyle?",
+      "correctAnswer": "It gives direction and motivation.",
+      "explanation": "Purpose guides choices and adds meaning.",
+      "sampleAnswer": "It gives direction and motivation."
+    },
+    {
+      "id": 16,
+      "type": "multiple-choice",
+      "question": "What does critical thinking help you do?",
+      "correctAnswer": 3,
+      "explanation": "It supports smarter decisions by questioning and analyzing.",
+      "options": [
+        "Act quickly",
+        "Avoid responsibility",
+        "Follow trends",
+        "Solve problems carefully"
+      ]
+    },
+    {
+      "id": 17,
+      "type": "true-false",
+      "question": "Emotions can influence how we make decisions.",
+      "correctAnswer": true,
+      "explanation": "Noticing emotions helps us make thoughtful choices."
+    },
+    {
+      "id": 18,
+      "type": "short-answer",
+      "question": "What is one way to become a wiser decision-maker?",
+      "correctAnswer": "Reflect on your choices.",
+      "explanation": "Thinking ahead and learning from past experiences builds wisdom.",
+      "sampleAnswer": "Reflect on your choices."
+    },
+    {
+      "id": 19,
+      "type": "multiple-choice",
+      "question": "What is a feedback loop in a lifestyle system?",
+      "correctAnswer": 0,
+      "explanation": "One good habit can encourage others, creating positive ripple effects.",
+      "options": [
+        "A cycle where one habit influences others",
+        "A sound system",
+        "A friend group",
+        "A type of phone call"
+      ]
+    },
+    {
+      "id": 20,
+      "type": "true-false",
+      "question": "Small changes in habits can create big improvements.",
+      "correctAnswer": true,
+      "explanation": "Systems thinking shows how even tiny shifts can lead to large results."
+    },
+    {
+      "id": 21,
+      "type": "short-answer",
+      "question": "What does 'systems thinking' help you do?",
+      "correctAnswer": "See how everything is connected.",
+      "explanation": "It helps identify patterns and plan better.",
+      "sampleAnswer": "See how everything is connected."
+    },
+    {
+      "id": 22,
+      "type": "multiple-choice",
+      "question": "What is the main idea of lifestyle design?",
+      "correctAnswer": 3,
+      "explanation": "It means shaping your life through intentional decisions.",
+      "options": [
+        "Letting life happen",
+        "Following others",
+        "Waiting for luck",
+        "Making choices that reflect your values"
+      ]
+    },
+    {
+      "id": 23,
+      "type": "true-false",
+      "question": "Setting goals is a part of designing a meaningful life.",
+      "correctAnswer": true,
+      "explanation": "Goals give direction and help us grow."
+    },
+    {
+      "id": 24,
+      "type": "short-answer",
+      "question": "Why is flexibility important in lifestyle design?",
+      "correctAnswer": "It helps us adjust when things don\u2019t work.",
+      "explanation": "Good design includes adapting over time.",
+      "sampleAnswer": "It helps us adjust when things don\u2019t work."
+    },
+    {
+      "id": 25,
+      "type": "short-answer",
+      "question": "What\u2019s one small change you could make to improve your lifestyle?",
+      "correctAnswer": "Answers will vary.",
+      "explanation": "Even one thoughtful change can lead to a healthier, more fulfilling life.",
+      "sampleAnswer": "Answers will vary."
+    }
+  ]
+}

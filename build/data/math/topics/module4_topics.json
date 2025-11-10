@@ -1,0 +1,41 @@
+{
+  "id": "module4",
+  "name": "Applied Mathematics and Data Literacy",
+  "icon": "BarChart3",
+  "description": "Apply mathematical reasoning in real-life contexts through rational expressions, geometric applications, and data analysis. Strengthens quantitative literacy with connections to statistics, measurement, and decision-making.",
+  "concepts": [
+    {
+      "title": "Introduction to Rational Expressions",
+      "markdown": "module%204/introduction_to_rational_expressions.md"
+    },
+    {
+      "title": "Operations with Rational Expressions",
+      "markdown": "module%204/operations_with_rational_expressions.md"
+    },
+    {
+      "title": "Analyzing and Summarizing Data",
+      "markdown": "module%204/analyzing_data_sets.md"
+    },
+    {
+      "title": "Visualizing Data with Graphs and Charts",
+      "markdown": "module%204/visualizing_data.md"
+    },
+    {
+      "title": "Geometric Applications: Volume and Surface Area",
+      "markdown": "module%204/geometric_volume_and_area.md"
+    },
+    {
+      "title": "Statistics in Action: Mean, Median, and Variability",
+      "markdown": "module%204/statistics_and_variability.md"
+    },
+    {
+      "title": "Line of Best Fit and Probability Models",
+      "markdown": "module%204/line_of_best_fit_and_probability.md"
+    },
+    {
+      "title": "Communicating and Applying Quantitative Findings",
+      "markdown": "module%204/communicating_findings.md"
+    }
+  ],
+  "difficulty": 4
+}

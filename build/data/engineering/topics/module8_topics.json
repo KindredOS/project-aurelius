@@ -1,0 +1,41 @@
+{
+  "id": "module8",
+  "name": "Frontier Engineering",
+  "icon": "Rocket",
+  "description": "This capstone module explores the cutting-edge frontiers of engineering across space, sea, and Earth. Students investigate speculative, ethical, and sustainable approaches to building the future.",
+  "concepts": [
+    {
+      "title": "Aerospace and Off-Planet Engineering",
+      "markdown": "module%208/aerospace_offplanet_engineering.md"
+    },
+    {
+      "title": "Ocean Engineering and Seasteading",
+      "markdown": "module%208/ocean_engineering_seasteading.md"
+    },
+    {
+      "title": "Earth Systems and Climate Engineering",
+      "markdown": "module%208/earth_systems_climate_engineering.md"
+    },
+    {
+      "title": "Ecological Conservation Through Design",
+      "markdown": "module%208/ecological_conservation_design.md"
+    },
+    {
+      "title": "Arcologies and Megastructures",
+      "markdown": "module%208/arcologies_megastructures.md"
+    },
+    {
+      "title": "Human-Centered Design in Extreme Environments",
+      "markdown": "module%208/human_centered_extreme_design.md"
+    },
+    {
+      "title": "Emerging Materials and Nanoengineering",
+      "markdown": "module%208/emerging_materials_nanoengineering.md"
+    },
+    {
+      "title": "Visionary Concepts and Ethical Futures",
+      "markdown": "module%208/visionary_ethics_futures.md"
+    }
+  ],
+  "difficulty": 4
+}

@@ -3,26 +3,25 @@ import { Gamepad2 } from "lucide-react";
 import { getThemeColors } from "../../utils/stylesBranding";
 import styles from "./GameMenu.module.css";
 
-// Helper to resolve thumbnail path based on subject
-const resolveThumb = async (thumbPath, subject) => {
+// Preload thumbnails for all subjects
+const thumbnailModules = import.meta.glob(
+  "../../components/student/*/games/thumbnails/*.{png,jpg,jpeg,svg,webp}",
+  { eager: true }
+);
+
+// Lazy-load game components
+const gameModules = import.meta.glob(
+  "../../components/student/*/games/*.jsx"
+);
+
+// Resolve thumbnail path
+const resolveThumb = (thumbPath, subject) => {
   if (!thumbPath) return null;
-
-  // Allow full URLs to work
   if (thumbPath.startsWith("http")) return thumbPath;
-
-  // If it starts with /, treat as absolute path from public root
   if (thumbPath.startsWith("/")) return thumbPath;
 
-  try {
-    // For relative paths, dynamically import from src folder
-    const imageModule = await import(
-      `../../components/student/${subject}/games/thumbnails/${thumbPath}`
-    );
-    return imageModule.default;
-  } catch (error) {
-    console.warn(`Failed to load thumbnail: ${thumbPath}`, error);
-    return null;
-  }
+  const key = `../../components/student/${subject}/games/thumbnails/${thumbPath}`;
+  return thumbnailModules[key]?.default ?? null;
 };
 
 export default function GameMenu({
@@ -49,18 +48,10 @@ export default function GameMenu({
         const gamesList = gamesModule.default;
         setGames(gamesList);
 
-        // Pre-load all thumbnails
-        const thumbPromises = gamesList.map(async (game) => {
-          if (game.thumbnail) {
-            const src = await resolveThumb(game.thumbnail, subject);
-            return { id: game.id, src };
-          }
-          return { id: game.id, src: null };
-        });
-
-        const results = await Promise.all(thumbPromises);
         const map = {};
-        results.forEach(({ id, src }) => (map[id] = src));
+        for (const game of gamesList) {
+          map[game.id] = resolveThumb(game.thumbnail, subject);
+        }
         setThumbnails(map);
         setFailedThumbs(new Set());
       } catch (error) {
@@ -77,13 +68,17 @@ export default function GameMenu({
   const handlePlayGame = async (game) => {
     if (game.premium && !isPremium) return;
 
-    try {
-      const componentPath = game.component || `${game.id}.jsx`;
-      const gameModule = await import(
-        `../../components/student/${subject}/games/${componentPath}`
-      );
-      const GameComponent = gameModule.default;
+    const componentPath = game.component || `${game.id}.jsx`;
+    const key = `../../components/student/${subject}/games/${componentPath}`;
 
+    if (!gameModules[key]) {
+      console.error("Game component not found:", key);
+      return;
+    }
+
+    try {
+      const module = await gameModules[key]();
+      const GameComponent = module.default;
       setSelectedGame({ ...game, GameComponent });
       onLaunch(game);
     } catch (error) {
@@ -98,16 +93,10 @@ export default function GameMenu({
     setSelectedGame(null);
   };
 
-  // Inline handler to track failed images (so we can show placeholder via conditional render)
   const markThumbFailed = (gameId) => {
-    setFailedThumbs((prev) => {
-      const next = new Set(prev);
-      next.add(gameId);
-      return next;
-    });
+    setFailedThumbs((prev) => new Set(prev).add(gameId));
   };
 
-  // Brand variables applied at wrapper level
   const brandVars = {
     "--brand-gradient": themeColors?.gradient,
     "--brand-primary": themeColors?.primary,
@@ -144,7 +133,6 @@ export default function GameMenu({
   if (selectedGame) {
     return (
       <div className={`${styles.centered} ${styles.selectedWrapper}`} style={brandVars}>
-        {/* Branded Header */}
         <div className={styles.selectedHeader}>
           <button onClick={handleBackToMenu} className={styles.backButton}>
             ← Back to Games
@@ -166,7 +154,6 @@ export default function GameMenu({
 
   return (
     <div className={`${styles.centered} ${styles.page}`} style={brandVars}>
-      {/* Subject-branded header band */}
       <div className={styles.headerBand}>
         <Gamepad2 size={28} />
         <h1 className={styles.headerTitle}>{themeColors.name} Games</h1>
@@ -182,11 +169,8 @@ export default function GameMenu({
               <div
                 key={game.id}
                 className={`${styles.gameCard} ${locked ? styles.disabled : ""}`}
-                onClick={() => {
-                  if (!locked) handlePlayGame(game);
-                }}
+                onClick={() => !locked && handlePlayGame(game)}
               >
-                {/* Thumbnail */}
                 <div className={styles.thumb}>
                   {thumbSrc && !failedThumbs.has(game.id) ? (
                     <img
@@ -202,7 +186,6 @@ export default function GameMenu({
                   )}
                 </div>
 
-                {/* Title + Badges */}
                 <div className={styles.cardHeaderRow}>
                   <h3 className={styles.cardTitle}>{game.title}</h3>
                   <div className={styles.badges}>
@@ -213,10 +196,8 @@ export default function GameMenu({
                   </div>
                 </div>
 
-                {/* Description */}
                 <p className={styles.cardDesc}>{game.shortDescription}</p>
 
-                {/* Play Button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();

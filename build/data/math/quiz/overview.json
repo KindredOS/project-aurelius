@@ -1,0 +1,307 @@
+{
+  "id": "overview",
+  "title": "Overview of Mathematical Thinking",
+  "metadata": {
+    "subject": "mathematics",
+    "totalQuestions": 25,
+    "difficultyDistribution": {
+      "easy": 8,
+      "medium": 12,
+      "hard": 5
+    },
+    "contentBlocks": ["expressions", "daily-math", "mathematical-mindset", "patterns", "representations"]
+  },
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "expressions",
+      "question": "What does it mean to evaluate an expression?",
+      "options": [
+        "To find the numerical value by performing the operations",
+        "To write it in a different form only",
+        "To memorize the expression",
+        "To ignore the variables"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Evaluating an expression means calculating its numerical value by following the order of operations and substituting values for variables when given."
+    },
+    {
+      "id": 2,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "expressions",
+      "question": "What is the difference between an expression and an equation?",
+      "correctAnswer": "An expression is a mathematical phrase that can contain numbers, variables, and operations but has no equals sign, while an equation is a mathematical statement showing that two expressions are equal.",
+      "explanation": "This distinction is fundamental - expressions represent values while equations make statements about equality between expressions."
+    },
+    {
+      "id": 3,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "expressions",
+      "question": "How would you write 'five more than a number' as an expression?",
+      "options": [
+        "x + 5",
+        "5x",
+        "5 - x",
+        "x - 5"
+      ],
+      "correctAnswer": 0,
+      "explanation": "'Five more than a number' means adding 5 to an unknown number, typically represented as x + 5."
+    },
+    {
+      "id": 4,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "daily-math",
+      "question": "Give one example of how math shows up in your daily routine.",
+      "options": [
+        "Calculating time for activities and schedules",
+        "Only in formal math class",
+        "Just in advanced careers",
+        "Only when using a calculator"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Math appears constantly in daily life through time management, budgeting, cooking measurements, and many other practical activities."
+    },
+    {
+      "id": 5,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "daily-math",
+      "question": "How does math help you manage money or create a budget?",
+      "correctAnswer": "Math helps with budgeting by calculating income, expenses, savings percentages, and tracking spending to ensure you don't overspend and can plan for future goals.",
+      "explanation": "Financial literacy relies heavily on mathematical concepts like percentages, ratios, and basic arithmetic operations."
+    },
+    {
+      "id": 6,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "daily-math",
+      "question": "How can math help plan a trip or figure out travel time?",
+      "options": [
+        "Calculate distance, speed, time relationships and costs",
+        "Only for booking flights online",
+        "Math isn't needed for travel planning",
+        "Just for converting currencies"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Trip planning involves calculating distances, travel times using rate formulas, budgeting costs, and time zone conversions."
+    },
+    {
+      "id": 7,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "mathematical-mindset",
+      "question": "Why is it important to stay curious in math?",
+      "correctAnswer": "Curiosity drives exploration of patterns, asking 'what if' questions, and discovering connections that deepen understanding and make math more engaging and meaningful.",
+      "explanation": "A curious mindset transforms math from memorization to exploration, leading to deeper understanding and enjoyment."
+    },
+    {
+      "id": 8,
+      "type": "short-answer",
+      "difficulty": "easy",
+      "contentBlock": "mathematical-mindset",
+      "question": "Why is practice important when learning math?",
+      "correctAnswer": "Practice builds fluency, strengthens neural pathways, helps identify patterns, and develops confidence through repeated application of concepts.",
+      "explanation": "Mathematical skills develop through repetition and application, similar to learning a musical instrument or sport."
+    },
+    {
+      "id": 9,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "mathematical-mindset",
+      "question": "What helps you feel more confident in math class?",
+      "options": [
+        "Regular practice, asking questions, and understanding concepts deeply",
+        "Only memorizing formulas",
+        "Avoiding challenging problems",
+        "Working alone without help"
+      ],
+      "correctAddress": 0,
+      "explanation": "Confidence comes from understanding, practice, and being willing to engage with the material actively."
+    },
+    {
+      "id": 10,
+      "type": "short-answer",
+      "difficulty": "hard",
+      "contentBlock": "patterns",
+      "question": "What patterns have you noticed in multiplication or square numbers?",
+      "correctAnswer": "Square numbers follow patterns like 1, 4, 9, 16, 25... with differences of 3, 5, 7, 9... (consecutive odd numbers). Multiplication patterns include the commutative property and digit patterns in multiples.",
+      "explanation": "Recognizing patterns in mathematics helps predict results and understand underlying structures."
+    },
+    {
+      "id": 11,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "patterns",
+      "question": "What happens when you add two even or two odd numbers?",
+      "options": [
+        "Two evens give an even; two odds give an even",
+        "Two evens give an odd; two odds give an odd",
+        "Results are always odd",
+        "Results are random"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Even + Even = Even (like 2+4=6), and Odd + Odd = Even (like 3+5=8). This follows from the properties of even and odd numbers."
+    },
+    {
+      "id": 12,
+      "type": "short-answer",
+      "difficulty": "hard",
+      "contentBlock": "patterns",
+      "question": "How are different number systems like binary or Roman numerals used?",
+      "correctAnswer": "Binary is used in computers (base-2), Roman numerals appear in formal documents and clocks, and different bases help understand place value concepts and counting systems.",
+      "explanation": "Different number systems demonstrate that our decimal system is just one way to represent quantities, each with specific applications."
+    },
+    {
+      "id": 13,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "representations",
+      "question": "What is a ratio table and how can it help you solve problems?",
+      "correctAnswer": "A ratio table shows equivalent ratios in columns, helping visualize proportional relationships and scale up or down to find unknown values in proportion problems.",
+      "explanation": "Ratio tables are powerful tools for organizing proportional thinking and solving real-world scaling problems."
+    },
+    {
+      "id": 14,
+      "type": "short-answer",
+      "difficulty": "hard",
+      "contentBlock": "representations",
+      "question": "What is the constant of proportionality?",
+      "correctAnswer": "The constant of proportionality is the constant ratio between two proportional quantities, often represented as k in y = kx, showing how much one quantity changes relative to another.",
+      "explanation": "This concept connects ratios, rates, and linear relationships, forming a foundation for understanding proportional reasoning."
+    },
+    {
+      "id": 15,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "representations",
+      "question": "What is a ratio and where have you seen one used?",
+      "options": [
+        "A comparison of two quantities, used in recipes, maps, and sports statistics",
+        "Only a fraction with specific numbers",
+        "Just a way to divide things equally",
+        "A complex mathematical concept with no real-world use"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Ratios compare quantities and appear everywhere: ingredient proportions, map scales, gear ratios, and statistical comparisons."
+    },
+    {
+      "id": 16,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "representations",
+      "question": "How do you choose the best type of representation to use?",
+      "correctAnswer": "Choose based on what you want to show: graphs for trends, tables for exact values, equations for relationships, and diagrams for spatial or structural information.",
+      "explanation": "Different representations highlight different aspects of mathematical relationships and should be chosen strategically."
+    },
+    {
+      "id": 17,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "representations",
+      "question": "Where do you see math representations in the real world?",
+      "options": [
+        "Graphs in news, charts in business, maps for navigation, and diagrams in instructions",
+        "Only in textbooks and classrooms",
+        "Just in scientific research",
+        "Only on computer screens"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Mathematical representations are ubiquitous in media, business, navigation, and communication, making complex information accessible."
+    },
+    {
+      "id": 18,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "representations",
+      "question": "What are some types of math representations?",
+      "options": [
+        "Graphs, tables, equations, diagrams, and verbal descriptions",
+        "Only numbers and symbols",
+        "Just written explanations",
+        "Only visual pictures"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Mathematics uses multiple representation types, each offering different insights into the same mathematical relationships."
+    },
+    {
+      "id": 19,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "daily-math",
+      "question": "What are some real-world uses of math?",
+      "correctAnswer": "Math is used in engineering, medicine, finance, sports analytics, cooking, construction, technology, weather prediction, and virtually every field that involves measurement, calculation, or pattern recognition.",
+      "explanation": "Mathematics is fundamental to most human endeavors, from basic daily tasks to advanced scientific research."
+    },
+    {
+      "id": 20,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "mathematical-mindset",
+      "question": "How can you start thinking like a mathematician?",
+      "correctAnswer": "Ask questions, look for patterns, make connections between ideas, test hypotheses, be persistent when solving problems, and communicate your reasoning clearly.",
+      "explanation": "Mathematical thinking involves curiosity, pattern recognition, logical reasoning, and clear communication of ideas."
+    },
+    {
+      "id": 21,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "mathematical-mindset",
+      "question": "How do mathematicians explore and solve problems?",
+      "options": [
+        "By asking questions, testing ideas, looking for patterns, and building on previous knowledge",
+        "By memorizing all possible solutions",
+        "By always using the same method",
+        "By working in isolation without collaboration"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Mathematical problem-solving is an iterative process involving exploration, hypothesis testing, and building understanding."
+    },
+    {
+      "id": 22,
+      "type": "true-false",
+      "difficulty": "easy",
+      "contentBlock": "patterns",
+      "question": "Math can help us see patterns in nature, art, and everyday situations.",
+      "correctAnswer": true,
+      "explanation": "Mathematics reveals patterns everywhere: from flower petals and spiral shells to music rhythms and architectural designs."
+    },
+    {
+      "id": 23,
+      "type": "short-answer",
+      "difficulty": "easy",
+      "contentBlock": "daily-math",
+      "question": "How does math show up in your daily life?",
+      "correctAnswer": "Math appears in calculating tips, measuring ingredients, managing time, budgeting money, comparing prices, calculating distances, and understanding statistics in news and sports.",
+      "explanation": "Daily life is full of mathematical thinking, even when we don't realize we're doing math."
+    },
+    {
+      "id": 24,
+      "type": "multiple-choice",
+      "difficulty": "hard",
+      "contentBlock": "daily-math",
+      "question": "How can math help solve big world problems?",
+      "options": [
+        "Through modeling climate change, optimizing resources, analyzing data, and designing solutions",
+        "Math only solves theoretical problems",
+        "Only through advanced computer calculations",
+        "Math isn't useful for real-world problems"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Mathematics is essential for understanding and addressing complex global challenges through modeling, analysis, and optimization."
+    },
+    {
+      "id": 25,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "mathematical-mindset",
+      "question": "What branch of math do you enjoy and why?",
+      "correctAnswer": "Answers will vary - could include geometry for visual patterns, algebra for problem-solving, statistics for real-world applications, or any area where students find personal connection and interest.",
+      "explanation": "Personal connections to mathematical topics enhance engagement and understanding, making learning more meaningful."
+    }
+  ]
+}

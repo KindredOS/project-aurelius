@@ -1,0 +1,7 @@
+Commit: refactor(api): remove inline markdown sanitization from all subject APIs  
+standardize all fetch/save logic to return raw content  
+frontend ContentManager now handles markdown cleanup centrally
+
+Details: This update cleans up and simplifies how our app handles educational content across all subjects (Science, Technology, Engineering, Arts, Math, and Lifestyle). Previously, each subject's API was manually cleaning up the lesson text before sending it to the frontend, which caused duplication and inconsistencies. Now, we've moved all the content cleaning into one place—on the frontend—so that all subjects follow the same rules and structure. This makes the system easier to maintain, reduces bugs, and sets us up to scale more efficiently going forward.
+
+Commit: 

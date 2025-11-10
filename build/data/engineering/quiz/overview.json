@@ -1,0 +1,270 @@
+{
+  "id": "overview",
+  "title": "Engineering Concepts Quiz",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple-choice",
+      "question": "What is the main difference between science and engineering?",
+      "options": [
+        "Science creates products, engineering tests them",
+        "Science understands the world, engineering solves problems",
+        "Engineering is a part of science",
+        "Science uses trial and error, engineering does not"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Science seeks to understand natural phenomena, while engineering applies that knowledge to design solutions."
+    },
+    {
+      "id": 2,
+      "type": "true-false",
+      "question": "Engineers often work alone and rarely collaborate with other professionals.",
+      "correctAnswer": false,
+      "explanation": "Engineers frequently collaborate with diverse teams to solve complex problems."
+    },
+    {
+      "id": 3,
+      "type": "multiple-choice",
+      "question": "Which of the following is a branch of engineering?",
+      "options": [
+        "Botany",
+        "Mechanical",
+        "Psychology",
+        "Literature"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Mechanical engineering is a major field focused on machines and movement."
+    },
+    {
+      "id": 4,
+      "type": "multiple-choice",
+      "question": "What type of engineer designs things like bridges, roads, and water systems?",
+      "options": [
+        "Civil Engineer",
+        "Software Engineer",
+        "Biomedical Engineer",
+        "Aerospace Engineer"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Civil engineers create infrastructure for communities."
+    },
+    {
+      "id": 5,
+      "type": "short-answer",
+      "question": "In your own words, explain why engineers use prototypes before building final products.",
+      "sampleAnswer": "Prototypes let engineers test their ideas and make improvements before creating the final version.",
+      "correctAnswer": "sample answer",
+      "explanation": "Prototypes help identify problems early and improve the final design."
+    },
+    {
+      "id": 6,
+      "type": "multiple-choice",
+      "question": "Which step is usually the first in the engineering design process?",
+      "options": [
+        "Build a prototype",
+        "Test the solution",
+        "Define the problem",
+        "Choose a final design"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Engineers must clearly understand the problem before developing solutions."
+    },
+    {
+      "id": 7,
+      "type": "true-false",
+      "question": "Design thinking puts users and their needs at the center of problem-solving.",
+      "correctAnswer": true,
+      "explanation": "User empathy is central to design thinking and helps create better solutions."
+    },
+    {
+      "id": 8,
+      "type": "multiple-choice",
+      "question": "Which engineering discipline focuses on circuits, power, and electronics?",
+      "options": [
+        "Civil Engineering",
+        "Electrical Engineering",
+        "Environmental Engineering",
+        "Mechanical Engineering"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Electrical engineers specialize in designing and maintaining systems powered by electricity."
+    },
+    {
+      "id": 9,
+      "type": "multiple-choice",
+      "question": "What is an important reason engineers communicate their work?",
+      "options": [
+        "To confuse others",
+        "To keep ideas secret",
+        "To get feedback and share results",
+        "To avoid responsibility"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Clear communication helps others understand, replicate, and improve ideas."
+    },
+    {
+      "id": 10,
+      "type": "short-answer",
+      "question": "Describe a way engineers use math in their work.",
+      "sampleAnswer": "Engineers use math to calculate dimensions, costs, and test results.",
+      "correctAnswer": "sample answer",
+      "explanation": "Math ensures accuracy in engineering designs and solutions."
+    },
+    {
+      "id": 11,
+      "type": "multiple-choice",
+      "question": "What is the main focus of biomedical engineering?",
+      "options": [
+        "Building roads",
+        "Creating medical devices",
+        "Designing video games",
+        "Managing power plants"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Biomedical engineers develop tools and technologies to improve healthcare."
+    },
+    {
+      "id": 12,
+      "type": "true-false",
+      "question": "Civil engineers are responsible for designing software applications.",
+      "correctAnswer": false,
+      "explanation": "Civil engineers focus on infrastructure like roads, bridges, and buildings."
+    },
+    {
+      "id": 13,
+      "type": "multiple-choice",
+      "question": "Which step comes after testing in the engineering design process?",
+      "options": [
+        "Build final product",
+        "Improve and redesign",
+        "Define the problem",
+        "Brainstorm ideas"
+      ],
+      "correctAnswer": 1,
+      "explanation": "After testing, engineers refine and improve their designs."
+    },
+    {
+      "id": 14,
+      "type": "short-answer",
+      "question": "Why is it important for engineers to be honest in their reports?",
+      "sampleAnswer": "So problems can be fixed and trust can be maintained.",
+      "correctAnswer": "sample answer",
+      "explanation": "Transparency is essential to safety and collaboration in engineering."
+    },
+    {
+      "id": 15,
+      "type": "multiple-choice",
+      "question": "What tool might an engineer use to visually explain a system?",
+      "options": [
+        "Essay",
+        "Blueprint",
+        "Novel",
+        "Poem"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Blueprints and diagrams help engineers communicate design details."
+    },
+    {
+      "id": 16,
+      "type": "true-false",
+      "question": "Environmental engineers help solve problems like pollution and waste.",
+      "correctAnswer": true,
+      "explanation": "Their work focuses on protecting natural resources and public health."
+    },
+    {
+      "id": 17,
+      "type": "multiple-choice",
+      "question": "Which part of STEAM connects artistic creativity with engineering design?",
+      "options": [
+        "Science",
+        "Technology",
+        "Engineering",
+        "Arts"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Art contributes to making designs more human-centered and creative."
+    },
+    {
+      "id": 18,
+      "type": "multiple-choice",
+      "question": "What is a system in engineering terms?",
+      "options": [
+        "A random group of parts",
+        "An artistic design",
+        "A group of connected parts working together",
+        "A software program only"
+      ],
+      "correctAnswer": 2,
+      "explanation": "A system is a group of parts that interact to perform a function."
+    },
+    {
+      "id": 19,
+      "type": "true-false",
+      "question": "Design thinking includes steps like Empathize and Ideate.",
+      "correctAnswer": true,
+      "explanation": "These steps help engineers understand user needs and generate creative ideas."
+    },
+    {
+      "id": 20,
+      "type": "short-answer",
+      "question": "What\u2019s one way engineers can make a product more inclusive?",
+      "sampleAnswer": "Design it so people with disabilities can use it.",
+      "correctAnswer": "sample answer",
+      "explanation": "Inclusive design considers different users' needs."
+    },
+    {
+      "id": 21,
+      "type": "multiple-choice",
+      "question": "What challenge teaches about working with limited resources?",
+      "options": [
+        "Bridge building challenge",
+        "Rube Goldberg machine",
+        "Budget constraints challenge",
+        "Environmental filter challenge"
+      ],
+      "correctAnswer": 2,
+      "explanation": "It simulates real-world situations where cost and materials are limited."
+    },
+    {
+      "id": 22,
+      "type": "multiple-choice",
+      "question": "Which engineer would most likely design a smartphone app?",
+      "options": [
+        "Civil engineer",
+        "Software engineer",
+        "Mechanical engineer",
+        "Electrical engineer"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Software engineers create apps and digital tools."
+    },
+    {
+      "id": 23,
+      "type": "true-false",
+      "question": "Modeling helps engineers test ideas before building real versions.",
+      "correctAnswer": true,
+      "explanation": "Models save time and resources by predicting how designs might work."
+    },
+    {
+      "id": 24,
+      "type": "short-answer",
+      "question": "Give an example of how engineers use feedback in their work.",
+      "sampleAnswer": "They change their designs based on test results or user input.",
+      "correctAnswer": "sample answer",
+      "explanation": "Feedback helps improve designs during the engineering process."
+    },
+    {
+      "id": 25,
+      "type": "multiple-choice",
+      "question": "What mindset helps engineers learn from failure?",
+      "options": [
+        "Defeat",
+        "Blame",
+        "Iteration",
+        "Perfectionism"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Iteration is the process of trying again and improving each time."
+    }
+  ]
+}

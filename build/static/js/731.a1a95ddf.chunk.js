@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_app=self.webpackChunkmy_app||[]).push([[731],{3731:(e,p,a)=>{e.exports=a.p+"static/media/chemistrygame.8710080fd2a6764806f1.jpeg"}}]);

@@ -17,7 +17,7 @@ import styles from './Login.module.css';
 
 // 🔒 Feature flag: Set to true to enable Google Login
 const GOOGLE_ENABLED = false;
-const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || '';
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -161,7 +161,7 @@ function Login() {
           <h1>Login</h1>
 
           <div style={{ fontSize: '10px', color: '#666', marginBottom: '10px', padding: '5px', backgroundColor: '#f0f0f0' }}>
-            Debug: API URL = {getApiUrl()}, Mode = {process.env.REACT_APP_MODE || 'EDGE'}
+            Debug: API URL = {getApiUrl()}, Mode = {import.meta.env.VITE_MODE || 'EDGE'}
           </div>
 
           <div style={{ marginBottom: '20px', textAlign: 'center' }}>
