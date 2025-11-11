@@ -75,14 +75,27 @@ const ChatWindow = ({
     }
   };
 
-  const loadChatThread = async (id) => {
+  const handleSelectThread = async (id) => {
+    // Set the thread we're switching to
+    setThreadId(id);
+    // Reset UI chat immediately (prevents bleed-through)
+    setChatHistory([]);
+    setSidebarOpen(false);
+    
     try {
+      // Pass the ID directly instead of relying on state update
       const threadData = await fetchChatThread(subject, user.email, id);
-      if (threadData) {
-        setChatHistory(threadData.history || []);
+      if (threadData && threadData.history && Array.isArray(threadData.history)) {
+        // Load history if thread exists
+        setChatHistory(threadData.history);
+      } else {
+        // New chat → start fresh
+        setChatHistory([]);
       }
     } catch (err) {
-      console.error('❌ Failed to load chat thread:', err);
+      console.error("❌ Failed to load thread:", err);
+      // Worst case, keep chat empty instead of crashing
+      setChatHistory([]);
     }
   };
 
@@ -113,7 +126,7 @@ const ChatWindow = ({
 
     if (screen.category === "abuse" && screen.confidence >= 0.6) {
       const msg = buildStudentMessage(screen) ||
-        "I’m really sorry you’re dealing with this. Please reach out to a trusted adult (teacher, counselor, or parent/guardian). If you feel in immediate danger, contact your local emergency number (U.S.: 911).";
+        "I'm really sorry you're dealing with this. Please reach out to a trusted adult (teacher, counselor, or parent/guardian). If you feel in immediate danger, contact your local emergency number (U.S.: 911).";
       const abuseHistory = [...newHistory, { role: 'assistant', content: msg }];
       setChatHistory(abuseHistory);
       setUserInput('');
@@ -124,7 +137,7 @@ const ChatWindow = ({
     if (screen.severity === "block") {
       const msg =
         buildStudentMessage(screen) ||
-        "I’m not equipped to answer that. Please speak with a trusted adult for guidance.";
+        "I'm not equipped to answer that. Please speak with a trusted adult for guidance.";
       const blockedHistory = [...newHistory, { role: 'assistant', content: msg }];
       setChatHistory(blockedHistory);
       setUserInput('');
@@ -153,14 +166,14 @@ const ChatWindow = ({
       let safeOut = aiResponse;
 
       if (outScreen.severity === "block") {
-        safeOut = "I can’t share that. Let’s switch to a safe, educational angle or try another question.";
+        safeOut = "I can't share that. Let's switch to a safe, educational angle or try another question.";
       } else if (outScreen.severity === "warn") {
         if (outScreen.flags.abuse) {
           safeOut =
-            "I’m really sorry you’re dealing with this. Your safety matters.\n\n" +
+            "I'm really sorry you're dealing with this. Your safety matters.\n\n" +
             "• Please reach out to a trusted adult right away (teacher, school counselor, or parent/guardian).\n" +
             "• If you feel in immediate danger, contact your local emergency number (U.S.: 911).\n" +
-            "You’re not alone—there are people who want to help.";
+            "You're not alone—there are people who want to help.";
         } else if (outScreen.flags.warning) {
           safeOut =
             "Thanks for sharing—your well-being is important.\n\n" +
@@ -201,12 +214,6 @@ const ChatWindow = ({
       e.preventDefault();
       sendMessage();
     }
-  };
-
-  const handleSelectThread = (id) => {
-    setThreadId(id);
-    loadChatThread(id);
-    setSidebarOpen(false);
   };
 
   const toggleSidebar = () => {
