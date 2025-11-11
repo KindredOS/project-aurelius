@@ -1,6 +1,6 @@
-//Path: src/components/student/ContentManager.jsx 
-//Focus:
-//Version Update: Handles 500 Failover to Template Markdown
+// Path: src/components/student/ContentManager.jsx 
+// Function: Inbound pulls from public or back end file systems, with a focus on first step sanitiztion. 
+// Version Update: Auditing file (9.18.25)
 
 import React, { useState, useEffect } from 'react';
 import AdaptiveTextbook from './AdaptiveTextbook';
@@ -10,19 +10,19 @@ import styles from './TopicHeader.module.css';
 const cleanMarkdownContent = (content) => {
   if (typeof content !== 'string') return content;
   return content
-    .replace(/^\"(#{1,6}\s+.*?)\"$/gm, '$1')
-    .replace(/^\"([^\"]*?)$/gm, '$1')
+    .replace(/^"(#{1,6}\s+.*?)"$/gm, '$1')
+    .replace(/^"([^"]*?)$/gm, '$1')
     .replace(/\\n/g, '\n')
     .replace(/\\r/g, '\r')
     .replace(/\\t/g, '\t')
-    .replace(/\"/g, '"')
+    .replace(/"/g, '"')
     .replace(/\\'/g, "'")
     .replace(/\\\\/g, '\\')
     .replace(/\n{3,}/g, '\n\n')
     .replace(/(#{1,6}\s+[^\n]+)\n([^\n#])/g, '$1\n\n$2');
 };
 
-const ContentManager = ({ selectedConcept, subject, userEmail }) => {
+const ContentManager = ({ selectedConcept, subject, userEmail, userMBTI }) => {
   const [markdownText, setMarkdownText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -106,7 +106,8 @@ const ContentManager = ({ selectedConcept, subject, userEmail }) => {
         <AdaptiveTextbook 
           content={markdownText} 
           onContentSave={handleContentSave} 
-          subject={subject} 
+          subject={subject}
+          userMBTI={userMBTI} 
         />
       );
     }
