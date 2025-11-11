@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Brain, Menu } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
+import ReactMarkdown from 'react-markdown';
 import {
   queryModel,
   saveChatThread,
@@ -277,7 +278,40 @@ const ChatWindow = ({
                     : {}
                 }
               >
-                {message.content}
+                {message.role === 'assistant' ? (
+                  <ReactMarkdown
+                    components={{
+                      p: ({ children }) => <p style={{ margin: '0.5em 0' }}>{children}</p>,
+                      ul: ({ children }) => <ul style={{ marginLeft: '1.5em', marginTop: '0.5em', marginBottom: '0.5em' }}>{children}</ul>,
+                      ol: ({ children }) => <ol style={{ marginLeft: '1.5em', marginTop: '0.5em', marginBottom: '0.5em' }}>{children}</ol>,
+                      li: ({ children }) => <li style={{ marginBottom: '0.25em' }}>{children}</li>,
+                      strong: ({ children }) => <strong style={{ fontWeight: '600' }}>{children}</strong>,
+                      code: ({ inline, children }) => 
+                        inline ? (
+                          <code style={{ 
+                            background: 'rgba(0,0,0,0.05)', 
+                            padding: '2px 6px', 
+                            borderRadius: '4px',
+                            fontSize: '0.9em'
+                          }}>{children}</code>
+                        ) : (
+                          <code style={{ 
+                            display: 'block',
+                            background: 'rgba(0,0,0,0.05)', 
+                            padding: '12px', 
+                            borderRadius: '6px',
+                            marginTop: '0.5em',
+                            marginBottom: '0.5em',
+                            overflowX: 'auto'
+                          }}>{children}</code>
+                        )
+                    }}
+                  >
+                    {message.content}
+                  </ReactMarkdown>
+                ) : (
+                  message.content
+                )}
               </div>
             </div>
           ))}
