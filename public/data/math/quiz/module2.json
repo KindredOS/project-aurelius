@@ -1,0 +1,313 @@
+{
+  "id": "module2",
+  "title": "Patterns, Relationships, and Functions",
+  "metadata": {
+    "subject": "mathematics",
+    "totalQuestions": 25,
+    "difficultyDistribution": {
+      "easy": 8,
+      "medium": 12,
+      "hard": 5
+    },
+    "contentBlocks": ["intro-patterns", "linear-functions", "function-notation", "inequalities", "multiple-representations", "real-world-interpretation", "steam-skills"]
+  },
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "intro-patterns",
+      "question": "What is a mathematical relationship?",
+      "options": [
+        "A connection between two or more quantities that change together",
+        "Any two random numbers",
+        "Only equations with variables",
+        "Numbers that are always the same"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Mathematical relationships describe how quantities are connected and how changes in one affect the other."
+    },
+    {
+      "id": 2,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "intro-patterns",
+      "question": "How can you identify a pattern in a sequence of numbers?",
+      "correctAnswer": "Look for consistent changes or rules between consecutive terms, such as adding the same number, multiplying by a constant, or following a more complex pattern like adding consecutive odd numbers.",
+      "explanation": "Pattern recognition involves finding the rule or operation that generates each term from previous ones."
+    },
+    {
+      "id": 3,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "intro-patterns",
+      "question": "In the sequence 3, 6, 9, 12, ..., what is the pattern?",
+      "options": [
+        "Add 3 to get the next term",
+        "Multiply by 2",
+        "Subtract 3",
+        "Divide by 3"
+      ],
+      "correctAnswer": 0,
+      "explanation": "This is an arithmetic sequence where each term increases by 3, representing multiples of 3."
+    },
+    {
+      "id": 4,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "linear-functions",
+      "question": "What makes a function linear?",
+      "correctAnswer": "A function is linear when it has a constant rate of change and can be written in the form y = mx + b, where m is the slope and b is the y-intercept. Its graph is always a straight line.",
+      "explanation": "Linearity means the relationship between variables changes at a constant rate, creating a straight-line graph."
+    },
+    {
+      "id": 5,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "linear-functions",
+      "question": "What does the slope of a linear function represent?",
+      "options": [
+        "The rate of change or steepness of the line",
+        "Where the line crosses the x-axis",
+        "The y-intercept",
+        "The area under the line"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Slope (m) represents how much y changes for each unit change in x, showing the rate of change of the relationship."
+    },
+    {
+      "id": 6,
+      "type": "short-answer",
+      "difficulty": "hard",
+      "contentBlock": "linear-functions",
+      "question": "How do you find the slope between two points (x₁, y₁) and (x₂, y₂)?",
+      "correctAnswer": "Use the slope formula: m = (y₂ - y₁)/(x₂ - x₁), which calculates the change in y divided by the change in x, or rise over run.",
+      "explanation": "The slope formula quantifies the rate of change between any two points on a line."
+    },
+    {
+      "id": 7,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "linear-functions",
+      "question": "What does the y-intercept represent in a linear function?",
+      "options": [
+        "The value of y when x equals zero",
+        "The value of x when y equals zero",
+        "The slope of the line",
+        "The maximum value"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The y-intercept (b in y = mx + b) is where the line crosses the y-axis, representing the starting value when x = 0."
+    },
+    {
+      "id": 8,
+      "type": "short-answer",
+      "difficulty": "easy",
+      "contentBlock": "function-notation",
+      "question": "What does f(x) mean in function notation?",
+      "correctAnswer": "f(x) represents the output value of function f for a given input x. It's read as 'f of x' and shows the dependent variable's value based on the independent variable x.",
+      "explanation": "Function notation provides a clear way to express the relationship between inputs and outputs."
+    },
+    {
+      "id": 9,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "function-notation",
+      "question": "If f(x) = 2x + 3, what is f(4)?",
+      "options": [
+        "11",
+        "8",
+        "7",
+        "5"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Substitute 4 for x: f(4) = 2(4) + 3 = 8 + 3 = 11. Function notation helps us evaluate outputs for specific inputs."
+    },
+    {
+      "id": 10,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "function-notation",
+      "question": "What is the difference between independent and dependent variables?",
+      "correctAnswer": "The independent variable is the input that you control or choose (usually x), while the dependent variable is the output that depends on the independent variable (usually y or f(x)).",
+      "explanation": "Understanding variable roles is crucial for interpreting functions and their real-world applications."
+    },
+    {
+      "id": 11,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "inequalities",
+      "question": "What does the symbol ≥ mean?",
+      "options": [
+        "Greater than or equal to",
+        "Less than",
+        "Not equal to",
+        "Approximately equal to"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The ≥ symbol means a value can be greater than or exactly equal to another value, representing a range of solutions."
+    },
+    {
+      "id": 12,
+      "type": "short-answer",
+      "difficulty": "hard",
+      "contentBlock": "inequalities",
+      "question": "How do you graph an inequality like x > 3 on a number line?",
+      "correctAnswer": "Use an open circle at 3 to show 3 is not included, then shade or draw an arrow to the right to show all numbers greater than 3 are solutions.",
+      "explanation": "Open circles indicate strict inequalities (> or <), while closed circles indicate inclusive inequalities (≥ or ≤)."
+    },
+    {
+      "id": 13,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "inequalities",
+      "question": "Which inequality represents 'at least 10'?",
+      "options": [
+        "x ≥ 10",
+        "x > 10",
+        "x ≤ 10",
+        "x < 10"
+      ],
+      "correctAnswer": 0,
+      "explanation": "'At least 10' means 10 or more, which is represented by x ≥ 10, including 10 itself."
+    },
+    {
+      "id": 14,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "inequalities",
+      "question": "What happens when you multiply or divide both sides of an inequality by a negative number?",
+      "correctAnswer": "You must reverse the inequality symbol. For example, if -2x > 6, dividing by -2 gives x < -3, flipping the > to <.",
+      "explanation": "This rule maintains the truth of the inequality and is essential for solving inequalities correctly."
+    },
+    {
+      "id": 15,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "multiple-representations",
+      "question": "What are different ways to represent a mathematical relationship?",
+      "options": [
+        "Tables, graphs, equations, and verbal descriptions",
+        "Only with numbers",
+        "Just equations",
+        "Only graphs"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Multiple representations provide different insights into the same relationship, each highlighting different aspects."
+    },
+    {
+      "id": 16,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "multiple-representations",
+      "question": "Why is it useful to represent the same relationship in multiple ways?",
+      "correctAnswer": "Different representations highlight different features: tables show specific values, graphs show visual patterns and trends, equations show the exact mathematical rule, and words explain the context and meaning.",
+      "explanation": "Using multiple representations deepens understanding and allows you to choose the best tool for each situation."
+    },
+    {
+      "id": 17,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "multiple-representations",
+      "question": "How can you tell if a table represents a linear relationship?",
+      "options": [
+        "The change in y-values is constant for equal changes in x-values",
+        "All the numbers are the same",
+        "The y-values always increase",
+        "The x-values are consecutive"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A constant rate of change (constant differences in y for equal x-intervals) indicates linearity."
+    },
+    {
+      "id": 18,
+      "type": "short-answer",
+      "difficulty": "hard",
+      "contentBlock": "real-world-interpretation",
+      "question": "What does the slope represent in a real-world distance-time graph?",
+      "correctAnswer": "The slope represents speed or velocity - how fast distance changes over time. A steeper slope means faster movement, while a horizontal line means no movement.",
+      "explanation": "In context, slope always represents a rate of change connecting the two quantities being graphed."
+    },
+    {
+      "id": 19,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "real-world-interpretation",
+      "question": "A phone plan costs $30 per month plus $0.10 per text. Which equation models the total cost?",
+      "options": [
+        "C = 30 + 0.10t",
+        "C = 30t + 0.10",
+        "C = 0.10 + 30t",
+        "C = 30 - 0.10t"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The fixed monthly cost is $30, and the variable cost is $0.10 per text (t), giving C = 30 + 0.10t."
+    },
+    {
+      "id": 20,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "real-world-interpretation",
+      "question": "How can you interpret the y-intercept in a real-world problem?",
+      "correctAnswer": "The y-intercept represents the starting value or initial amount before any changes occur - such as a flat fee, starting balance, or initial measurement when the independent variable is zero.",
+      "explanation": "Understanding the y-intercept in context helps make sense of what happens at the beginning of a situation."
+    },
+    {
+      "id": 21,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "real-world-interpretation",
+      "question": "What does a negative slope mean in a real-world context?",
+      "options": [
+        "The dependent variable decreases as the independent variable increases",
+        "The relationship is not linear",
+        "There is no relationship",
+        "The values are always negative"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A negative slope indicates an inverse relationship, such as decreasing temperature over time or decreasing balance as you spend money."
+    },
+    {
+      "id": 22,
+      "type": "true-false",
+      "difficulty": "easy",
+      "contentBlock": "steam-skills",
+      "question": "Mathematical patterns and relationships appear in science, technology, engineering, and art.",
+      "correctAnswer": true,
+      "explanation": "Mathematics is fundamental to STEAM fields, from coding algorithms to architectural design to scientific modeling."
+    },
+    {
+      "id": 23,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "steam-skills",
+      "question": "How do engineers use linear functions in their work?",
+      "correctAnswer": "Engineers use linear functions to model relationships like force and displacement, cost and materials, load and stress, or to make predictions and optimize designs based on constant rates of change.",
+      "explanation": "Linear modeling is essential in engineering for design, analysis, and optimization of systems."
+    },
+    {
+      "id": 24,
+      "type": "multiple-choice",
+      "difficulty": "hard",
+      "contentBlock": "steam-skills",
+      "question": "How can data analysis skills help you in the 21st century?",
+      "options": [
+        "By enabling informed decisions, identifying trends, solving problems, and communicating findings effectively",
+        "Only for math homework",
+        "Just for working with spreadsheets",
+        "They aren't important anymore"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Data literacy is a critical 21st-century skill used across all careers and in everyday decision-making."
+    },
+    {
+      "id": 25,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "steam-skills",
+      "question": "Give an example of how patterns and functions are used in technology or computer science.",
+      "correctAnswer": "Patterns and functions are used in algorithms, coding loops, data structures, machine learning models, graphics rendering, and game physics. For example, linear functions model screen coordinates or calculate game character movement.",
+      "explanation": "Computational thinking relies heavily on recognizing patterns and defining functional relationships in code."
+    }
+  ]
+}

@@ -1,0 +1,313 @@
+{
+  "id": "module1",
+  "title": "Foundations of Mathematical Thinking",
+  "metadata": {
+    "subject": "mathematics",
+    "totalQuestions": 25,
+    "difficultyDistribution": {
+      "easy": 8,
+      "medium": 12,
+      "hard": 5
+    },
+    "contentBlocks": ["patterns-structure", "base-10", "expressions-algebraic", "fractions", "shapes", "ratios-proportions", "equations", "real-world-algebra"]
+  },
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "patterns-structure",
+      "question": "What is a pattern in mathematics?",
+      "options": [
+        "A repeated or predictable arrangement of numbers, shapes, or ideas",
+        "A random collection of numbers",
+        "Only visual designs",
+        "Something that never changes"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Patterns are the foundation of mathematical thinking - they help us predict, organize, and understand mathematical relationships."
+    },
+    {
+      "id": 2,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "patterns-structure",
+      "question": "How does recognizing structure help you solve math problems?",
+      "correctAnswer": "Recognizing structure helps identify relationships between parts, apply strategies efficiently, and see connections to previously solved problems, making complex problems more manageable.",
+      "explanation": "Mathematical structure reveals underlying patterns that can be applied across different problem types."
+    },
+    {
+      "id": 3,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "base-10",
+      "question": "What does the position of a digit represent in our number system?",
+      "options": [
+        "Its place value - ones, tens, hundreds, etc.",
+        "Just the digit itself",
+        "A random value",
+        "Only its color or size"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Our base-10 system uses place value, where each position represents a power of 10, making it efficient for representing any number."
+    },
+    {
+      "id": 4,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "base-10",
+      "question": "Why is understanding place value important for multiplication and division?",
+      "correctAnswer": "Place value helps understand how digits shift when multiplying or dividing by powers of 10, and explains why algorithms work, such as carrying in multiplication or borrowing in division.",
+      "explanation": "Place value is fundamental to understanding multi-digit operations and computational fluency."
+    },
+    {
+      "id": 5,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "base-10",
+      "question": "What happens to a number when you multiply it by 10?",
+      "options": [
+        "Each digit shifts one place to the left",
+        "You add a zero randomly",
+        "The number stays the same",
+        "Each digit increases by 10"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Multiplying by 10 shifts all digits one place left in our base-10 system, which is why we appear to 'add a zero' to whole numbers."
+    },
+    {
+      "id": 6,
+      "type": "short-answer",
+      "difficulty": "easy",
+      "contentBlock": "expressions-algebraic",
+      "question": "What is a variable in mathematics?",
+      "correctAnswer": "A variable is a symbol (usually a letter) that represents an unknown number or a quantity that can change, allowing us to write general mathematical relationships.",
+      "explanation": "Variables are the foundation of algebraic thinking, enabling us to express general patterns and relationships."
+    },
+    {
+      "id": 7,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "expressions-algebraic",
+      "question": "How would you write 'three times a number minus seven'?",
+      "options": [
+        "3n - 7",
+        "3 - 7n",
+        "n - 7 × 3",
+        "7 - 3n"
+      ],
+      "correctAnswer": 0,
+      "explanation": "This expression captures the order: first multiply a number by 3, then subtract 7 from that result."
+    },
+    {
+      "id": 8,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "expressions-algebraic",
+      "question": "What does it mean to simplify an expression?",
+      "correctAnswer": "Simplifying means combining like terms and performing operations to write the expression in its most concise form without changing its value.",
+      "explanation": "Simplification makes expressions easier to work with while maintaining mathematical equivalence."
+    },
+    {
+      "id": 9,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "fractions",
+      "question": "What does the numerator of a fraction tell you?",
+      "options": [
+        "How many parts you have",
+        "How many equal parts the whole is divided into",
+        "The whole number",
+        "The decimal equivalent"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The numerator (top number) indicates the number of parts being considered, while the denominator shows the total equal parts."
+    },
+    {
+      "id": 10,
+      "type": "short-answer",
+      "difficulty": "hard",
+      "contentBlock": "fractions",
+      "question": "Why do you need a common denominator to add fractions?",
+      "correctAnswer": "You need a common denominator because you can only add or subtract parts that are the same size. A common denominator ensures all pieces are equal, making the addition meaningful.",
+      "explanation": "This concept emphasizes that fractions represent parts of a whole, and those parts must be uniform to combine them."
+    },
+    {
+      "id": 11,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "fractions",
+      "question": "Which fraction is equivalent to 1/2?",
+      "options": [
+        "2/4",
+        "1/3",
+        "3/5",
+        "1/4"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Equivalent fractions represent the same value. 2/4 equals 1/2 because both represent half of a whole."
+    },
+    {
+      "id": 12,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "shapes",
+      "question": "How do you classify triangles by their sides?",
+      "correctAnswer": "Triangles are classified as equilateral (all sides equal), isosceles (two sides equal), or scalene (all sides different lengths).",
+      "explanation": "Classifying shapes by attributes helps us understand their properties and relationships."
+    },
+    {
+      "id": 13,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "shapes",
+      "question": "What makes a shape a polygon?",
+      "options": [
+        "It's a closed figure made of straight line segments",
+        "It has curves",
+        "It must be a square",
+        "It only has three sides"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Polygons are closed two-dimensional shapes with straight sides, including triangles, quadrilaterals, pentagons, and more."
+    },
+    {
+      "id": 14,
+      "type": "short-answer",
+      "difficulty": "hard",
+      "contentBlock": "shapes",
+      "question": "What is the relationship between the angles in a triangle?",
+      "correctAnswer": "The sum of the interior angles in any triangle always equals 180 degrees, which is a fundamental property that applies to all triangles regardless of their type.",
+      "explanation": "This angle sum property is essential for solving geometric problems and understanding triangle relationships."
+    },
+    {
+      "id": 15,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "ratios-proportions",
+      "question": "What is a unit rate?",
+      "options": [
+        "A rate with a denominator of 1",
+        "Any fraction",
+        "A rate with equal numerator and denominator",
+        "Only speeds measured in mph"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Unit rates express a quantity per one unit of another quantity, like miles per hour or cost per item, making comparisons easier."
+    },
+    {
+      "id": 16,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "ratios-proportions",
+      "question": "How can you tell if two ratios form a proportion?",
+      "correctAnswer": "Two ratios form a proportion if they are equivalent, which can be verified by cross-multiplying (if a/b = c/d, then ad = bc) or by simplifying both ratios to see if they're equal.",
+      "explanation": "Proportions represent equal relationships and are fundamental to scaling and similarity problems."
+    },
+    {
+      "id": 17,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "ratios-proportions",
+      "question": "If a recipe calls for 2 cups of flour for 3 cups of sugar, what is the ratio of flour to sugar?",
+      "options": [
+        "2:3",
+        "3:2",
+        "2:5",
+        "5:2"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Ratios compare quantities in order. The flour-to-sugar ratio is 2:3, meaning for every 2 cups of flour, there are 3 cups of sugar."
+    },
+    {
+      "id": 18,
+      "type": "short-answer",
+      "difficulty": "hard",
+      "contentBlock": "equations",
+      "question": "What does it mean to solve an equation?",
+      "correctAnswer": "Solving an equation means finding the value(s) of the variable that make the equation true, creating a balance between both sides of the equals sign.",
+      "explanation": "Equation solving is about maintaining equality while isolating the variable through inverse operations."
+    },
+    {
+      "id": 19,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "equations",
+      "question": "What is the first step to solve: 2x + 5 = 13?",
+      "options": [
+        "Subtract 5 from both sides",
+        "Divide both sides by 2",
+        "Add 5 to both sides",
+        "Multiply both sides by 2"
+      ],
+      "correctAnswer": 0,
+      "explanation": "To isolate the variable term, we first undo the addition by subtracting 5 from both sides, maintaining the equation's balance."
+    },
+    {
+      "id": 20,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "equations",
+      "question": "Why do we perform the same operation on both sides of an equation?",
+      "correctAnswer": "Performing the same operation on both sides maintains the equality. Like a balanced scale, whatever you do to one side must be done to the other to keep the equation true.",
+      "explanation": "This balance principle is fundamental to understanding equation solving and algebraic manipulation."
+    },
+    {
+      "id": 21,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "real-world-algebra",
+      "question": "Which real-world situation could be modeled by the equation: c = 15h?",
+      "options": [
+        "Total cost equals $15 per hour worked",
+        "Working 15 hours costs c dollars",
+        "Hourly wage is h times 15",
+        "Cost decreases by 15 each hour"
+      ],
+      "correctAnswer": 0,
+      "explanation": "This linear equation models a proportional relationship where cost increases by $15 for each hour, a common pay structure."
+    },
+    {
+      "id": 22,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "real-world-algebra",
+      "question": "How can algebra help you compare phone plans or subscription services?",
+      "correctAnswer": "Algebra lets you create equations for each plan's cost based on usage, then compare them to find which is cheaper for your specific needs by finding break-even points.",
+      "explanation": "Real-world decision making often requires comparing multiple options with different rate structures."
+    },
+    {
+      "id": 23,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "real-world-algebra",
+      "question": "A store offers 20% off all items. How would you calculate the sale price of a $60 item?",
+      "options": [
+        "60 - (0.20 × 60) or 60 × 0.80",
+        "60 + (0.20 × 60)",
+        "60 ÷ 0.20",
+        "60 - 20"
+      ],
+      "correctAnswer": 0,
+      "explanation": "To find sale price, subtract the discount amount (20% of 60) from original price, or multiply by 0.80 (paying 80% of original)."
+    },
+    {
+      "id": 24,
+      "type": "short-answer",
+      "difficulty": "hard",
+      "contentBlock": "real-world-algebra",
+      "question": "How can you use algebra to plan savings goals?",
+      "correctAnswer": "Create an equation relating total savings to time and amount saved per period, like S = rt where S is total savings, r is rate per month, and t is time in months, allowing you to calculate when you'll reach your goal.",
+      "explanation": "Algebraic modeling helps translate financial goals into actionable plans with clear timelines."
+    },
+    {
+      "id": 25,
+      "type": "true-false",
+      "difficulty": "easy",
+      "contentBlock": "patterns-structure",
+      "question": "Recognizing patterns and structure helps you become a better problem solver.",
+      "correctAnswer": true,
+      "explanation": "Pattern recognition is a core mathematical skill that enables prediction, generalization, and efficient problem-solving across all areas of mathematics."
+    }
+  ]
+}

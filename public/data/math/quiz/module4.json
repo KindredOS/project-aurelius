@@ -1,0 +1,313 @@
+{
+  "id": "module4",
+  "title": "Applied Mathematics and Data Literacy",
+  "metadata": {
+    "subject": "mathematics",
+    "totalQuestions": 25,
+    "difficultyDistribution": {
+      "easy": 8,
+      "medium": 12,
+      "hard": 5
+    },
+    "contentBlocks": ["rational-expressions-intro", "rational-operations", "analyzing-data", "visualizing-data", "volume-surface-area", "statistics-variability", "best-fit-probability", "communicating-findings"]
+  },
+  "questions": [
+    {
+      "id": 1,
+      "type": "short-answer",
+      "difficulty": "easy",
+      "contentBlock": "rational-expressions-intro",
+      "question": "What is a rational expression?",
+      "correctAnswer": "A rational expression is a fraction where both the numerator and denominator are polynomials. It's the ratio of two algebraic expressions, like 3x/5 or (x²+2x)/(x-1).",
+      "explanation": "Rational expressions extend the concept of fractions to include variables, allowing us to represent complex relationships algebraically."
+    },
+    {
+      "id": 2,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "rational-expressions-intro",
+      "question": "When is a rational expression undefined?",
+      "options": [
+        "When the denominator equals zero",
+        "When the numerator equals zero",
+        "When both numerator and denominator are positive",
+        "Rational expressions are always defined"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Division by zero is undefined in mathematics, so rational expressions are undefined when their denominator equals zero."
+    },
+    {
+      "id": 3,
+      "type": "short-answer",
+      "difficulty": "hard",
+      "contentBlock": "rational-expressions-intro",
+      "question": "How do you simplify a rational expression?",
+      "correctAnswer": "Factor both the numerator and denominator completely, then cancel any common factors that appear in both. The result is the simplified form, noting any restrictions where the original denominator equals zero.",
+      "explanation": "Simplifying rational expressions follows the same principles as simplifying numerical fractions, but requires factoring polynomials."
+    },
+    {
+      "id": 4,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "rational-operations",
+      "question": "How do you add two rational expressions with the same denominator?",
+      "options": [
+        "Add the numerators and keep the common denominator",
+        "Add both numerators and denominators",
+        "Multiply the numerators",
+        "Find a new denominator first"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Just like adding fractions, when denominators are the same, add the numerators: a/c + b/c = (a+b)/c."
+    },
+    {
+      "id": 5,
+      "type": "short-answer",
+      "difficulty": "hard",
+      "contentBlock": "rational-operations",
+      "question": "What is the process for multiplying rational expressions?",
+      "correctAnswer": "Multiply the numerators together and multiply the denominators together. It's often helpful to factor first and cancel common factors before multiplying to simplify the work.",
+      "explanation": "Multiplication of rational expressions follows the same rule as multiplying fractions: (a/b) × (c/d) = (ac)/(bd)."
+    },
+    {
+      "id": 6,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "rational-operations",
+      "question": "How do you divide one rational expression by another?",
+      "options": [
+        "Multiply by the reciprocal of the second expression",
+        "Divide both numerators and denominators",
+        "Subtract the expressions",
+        "Find a common denominator first"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Division of rational expressions uses the same rule as dividing fractions: multiply by the reciprocal (flip the second fraction and multiply)."
+    },
+    {
+      "id": 7,
+      "type": "short-answer",
+      "difficulty": "easy",
+      "contentBlock": "analyzing-data",
+      "question": "What is the mean of a data set and how do you calculate it?",
+      "correctAnswer": "The mean is the average of all values in a data set. Calculate it by adding all values together and dividing by the number of values.",
+      "explanation": "The mean represents the central tendency of data and is one of the most commonly used statistical measures."
+    },
+    {
+      "id": 8,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "analyzing-data",
+      "question": "What is the median of the data set: 3, 7, 5, 9, 11?",
+      "options": [
+        "7",
+        "5",
+        "9",
+        "6"
+      ],
+      "correctAnswer": 0,
+      "explanation": "First arrange in order: 3, 5, 7, 9, 11. The median is the middle value, which is 7."
+    },
+    {
+      "id": 9,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "analyzing-data",
+      "question": "What does the range of a data set tell you?",
+      "correctAnswer": "The range measures the spread of data by showing the difference between the maximum and minimum values. It gives a simple measure of variability or how spread out the data is.",
+      "explanation": "Range is the simplest measure of spread, though it only considers the two extreme values."
+    },
+    {
+      "id": 10,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "analyzing-data",
+      "question": "What is an outlier in a data set?",
+      "options": [
+        "A value that is significantly different from other values",
+        "The middle value",
+        "The most common value",
+        "The average of all values"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Outliers are unusual values that lie far from the rest of the data and can significantly affect statistical measures like the mean."
+    },
+    {
+      "id": 11,
+      "type": "short-answer",
+      "difficulty": "easy",
+      "contentBlock": "visualizing-data",
+      "question": "What type of graph is best for showing how data changes over time?",
+      "correctAnswer": "A line graph or time series plot is best for showing changes over time because it clearly displays trends, patterns, and how values increase or decrease across time periods.",
+      "explanation": "Line graphs connect data points to show continuous change, making them ideal for temporal data."
+    },
+    {
+      "id": 12,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "visualizing-data",
+      "question": "What is the purpose of a bar graph?",
+      "options": [
+        "To compare quantities across different categories",
+        "To show changes over time only",
+        "To display relationships between two variables",
+        "To show percentages of a whole"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Bar graphs use rectangular bars to represent and compare discrete categories or groups, making comparisons easy to see."
+    },
+    {
+      "id": 13,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "visualizing-data",
+      "question": "When would you use a scatter plot?",
+      "correctAnswer": "Use a scatter plot to display the relationship between two quantitative variables and to see if there's a correlation or pattern between them. Each point represents one data observation.",
+      "explanation": "Scatter plots reveal relationships, correlations, and trends between two variables that other graphs cannot show as clearly."
+    },
+    {
+      "id": 14,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "visualizing-data",
+      "question": "What does a pie chart show?",
+      "options": [
+        "Parts of a whole as percentages or proportions",
+        "Changes over time",
+        "Comparison of many categories",
+        "The relationship between two variables"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Pie charts divide a circle into sectors that represent parts of a whole, useful for showing proportions and percentages."
+    },
+    {
+      "id": 15,
+      "type": "short-answer",
+      "difficulty": "easy",
+      "contentBlock": "volume-surface-area",
+      "question": "What is the formula for the volume of a rectangular prism?",
+      "correctAnswer": "V = length × width × height or V = lwh. Volume measures the space inside a three-dimensional object in cubic units.",
+      "explanation": "Volume of rectangular prisms is found by multiplying all three dimensions, representing how many unit cubes fit inside."
+    },
+    {
+      "id": 16,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "volume-surface-area",
+      "question": "What is the formula for the volume of a cylinder?",
+      "options": [
+        "V = πr²h",
+        "V = πrh",
+        "V = 2πr²h",
+        "V = πr³"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Cylinder volume equals the area of the circular base (πr²) times the height (h), giving V = πr²h."
+    },
+    {
+      "id": 17,
+      "type": "short-answer",
+      "difficulty": "hard",
+      "contentBlock": "volume-surface-area",
+      "question": "What is surface area and why is it important?",
+      "correctAnswer": "Surface area is the total area of all surfaces of a three-dimensional object. It's important for calculating materials needed for covering or painting objects, heat transfer, and packaging design.",
+      "explanation": "Surface area has practical applications in manufacturing, construction, and real-world problem-solving."
+    },
+    {
+      "id": 18,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "statistics-variability",
+      "question": "Which measure of center is most affected by outliers?",
+      "options": [
+        "Mean",
+        "Median",
+        "Mode",
+        "Range"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The mean is sensitive to extreme values because it uses all data values in its calculation, while the median only considers position."
+    },
+    {
+      "id": 19,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "statistics-variability",
+      "question": "What does standard deviation measure?",
+      "correctAnswer": "Standard deviation measures how spread out the data values are from the mean. A larger standard deviation indicates more variability or spread in the data, while a smaller one indicates values are clustered closer to the mean.",
+      "explanation": "Standard deviation is a key measure of variability that quantifies the typical distance of data points from the mean."
+    },
+    {
+      "id": 20,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "statistics-variability",
+      "question": "What is the mode of a data set?",
+      "options": [
+        "The value that appears most frequently",
+        "The middle value when ordered",
+        "The average of all values",
+        "The difference between max and min"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The mode is the most common value in a data set. A set can have one mode, multiple modes, or no mode."
+    },
+    {
+      "id": 21,
+      "type": "short-answer",
+      "difficulty": "hard",
+      "contentBlock": "best-fit-probability",
+      "question": "What is a line of best fit and what does it show?",
+      "correctAnswer": "A line of best fit (or trend line) is a straight line drawn through a scatter plot that best represents the relationship between two variables. It shows the general trend and can be used to make predictions.",
+      "explanation": "Lines of best fit help identify patterns in data and make predictions based on observed relationships."
+    },
+    {
+      "id": 22,
+      "type": "multiple-choice",
+      "difficulty": "medium",
+      "contentBlock": "best-fit-probability",
+      "question": "If you flip a fair coin, what is the probability of getting heads?",
+      "options": [
+        "1/2 or 0.5 or 50%",
+        "1/4 or 0.25 or 25%",
+        "1 or 100%",
+        "0 or 0%"
+      ],
+      "correctAnswer": 0,
+      "explanation": "A fair coin has two equally likely outcomes, so the probability of heads is 1 out of 2, or 50%."
+    },
+    {
+      "id": 23,
+      "type": "short-answer",
+      "difficulty": "medium",
+      "contentBlock": "best-fit-probability",
+      "question": "How do you calculate the probability of an event?",
+      "correctAnswer": "Probability = (number of favorable outcomes) / (total number of possible outcomes). Express as a fraction, decimal, or percentage between 0 and 1.",
+      "explanation": "This basic probability formula applies to situations where all outcomes are equally likely."
+    },
+    {
+      "id": 24,
+      "type": "multiple-choice",
+      "difficulty": "easy",
+      "contentBlock": "communicating-findings",
+      "question": "Why is it important to communicate mathematical findings clearly?",
+      "options": [
+        "So others can understand, verify, and use your results to make decisions",
+        "Only to get a good grade",
+        "Mathematics doesn't need communication",
+        "Only professional mathematicians need to communicate"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Clear communication ensures that mathematical analysis leads to understanding and informed decision-making across all fields."
+    },
+    {
+      "id": 25,
+      "type": "true-false",
+      "difficulty": "easy",
+      "contentBlock": "communicating-findings",
+      "question": "Data literacy skills help you make better decisions in everyday life and in your career.",
+      "correctAnswer": true,
+      "explanation": "Understanding data, statistics, and quantitative reasoning is essential for evaluating information, making informed choices, and succeeding in the modern world."
+    }
+  ]
+}

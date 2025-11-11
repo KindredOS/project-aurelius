@@ -1,42 +1,42 @@
 [
   {
     "id": "arts-sketch-studio",
-    "title": "Math Game",
+    "title": "Number Ninja",
     "component": "MathGame.jsx",
     "tags": ["visual", "creative", "drawing"],
     "difficulty": "easy",
-    "premium": false,
+    "premium": true,
     "thumbnail": "mathgeneric.webp",
-    "shortDescription": "Free-draw canvas with mini challenges to practice composition and shading."
+    "shortDescription": "Slice falling numbers that match a target equation"
   },
   {
     "id": "arts-rhythm-quest",
-    "title": "Rhythm Quest",
+    "title": "Pizza Fraction Factory",
     "component": "MathBalanceGame.jsx",
     "tags": ["music", "timing", "performance"],
     "difficulty": "medium",
     "premium": true,
     "thumbnail": "mathgeneric.webp",
-    "shortDescription": "Match beats and build patterns to learn tempo and meter."
+    "shortDescription": "Run a pizzeria where you must cut pizzas into correct fractional pieces for customer orders"
   },
   {
     "id": "arts-stage-director",
-    "title": "Stage Director",
+    "title": "Math Kart Racer",
     "component": "MathTowerDefense.jsx",
     "tags": ["theater", "blocking", "storytelling"],
     "difficulty": "medium",
     "premium": true,
     "thumbnail": "mathgeneric.webp",
-    "shortDescription": "Arrange actors and props to tell a story with effective stage pictures."
+    "shortDescription": "Answer quick math problems to get speed boosts while racing against opponents"
   },
   {
     "id": "state-capitals",
-    "title": "State Capitals",
+    "title": "Pattern Pet Shop",
     "component": "StateCapitals.jsx",
     "tags": ["geography", "memorization", "quiz"],
     "difficulty": "medium",
-    "premium": false,
+    "premium": true,
     "thumbnail": "mathgeneric.webp",
-    "shortDescription": "Test your knowledge of US state capitals in this interactive quiz game."
+    "shortDescription": "Match number patterns and sequences to unlock and care for virtual pets"
   }
 ]
